@@ -406,7 +406,7 @@
       "services": [
         {
           "id": "parish_003-mass-sat-1600",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "saturday",
           "time": "16:00",
           "end_time": null,
@@ -422,7 +422,7 @@
         },
         {
           "id": "parish_003-mass-sun-0800",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "08:00",
           "end_time": null,
@@ -438,7 +438,7 @@
         },
         {
           "id": "parish_003-mass-sun-1030",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "10:30",
           "end_time": null,
@@ -454,7 +454,7 @@
         },
         {
           "id": "parish_003-mass-mon-0800",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "monday",
           "time": "08:00",
           "end_time": null,
@@ -470,7 +470,7 @@
         },
         {
           "id": "parish_003-mass-tue-0800",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "tuesday",
           "time": "08:00",
           "end_time": null,
@@ -486,7 +486,7 @@
         },
         {
           "id": "parish_003-mass-wed-1800",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "wednesday",
           "time": "18:00",
           "end_time": null,
@@ -502,7 +502,7 @@
         },
         {
           "id": "parish_003-mass-thu-0800",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "thursday",
           "time": "08:00",
           "end_time": null,
@@ -518,7 +518,7 @@
         },
         {
           "id": "parish_003-mass-fri-0800",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "friday",
           "time": "08:00",
           "end_time": null,
@@ -534,13 +534,13 @@
         },
         {
           "id": "parish_003-mass-1stsat-0800",
-          "type": "mass",
-          "day": "first_saturday",
+          "type": "sunday_mass",
+          "day": "saturday",
           "time": "08:00",
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "First Saturday Monthly",
+          "notes": "1st Saturday of the month; First Saturday Monthly",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -674,7 +674,7 @@
       "services": [
         {
           "id": "parish_004-mass-mon-530",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "monday",
           "time": "17:30",
           "end_time": null,
@@ -683,14 +683,14 @@
           "notes": "Academic year",
           "seasonal": {
             "is_seasonal": true,
-            "season": "academic_year"
+            "season": "school_year"
           },
           "source": "manual_verification_2026-02",
           "validated": true
         },
         {
           "id": "parish_004-mass-tue-530",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "tuesday",
           "time": "17:30",
           "end_time": null,
@@ -699,14 +699,14 @@
           "notes": "Academic year",
           "seasonal": {
             "is_seasonal": true,
-            "season": "academic_year"
+            "season": "school_year"
           },
           "source": "manual_verification_2026-02",
           "validated": true
         },
         {
           "id": "parish_004-mass-wed-530",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "wednesday",
           "time": "17:30",
           "end_time": null,
@@ -715,14 +715,14 @@
           "notes": "Academic year",
           "seasonal": {
             "is_seasonal": true,
-            "season": "academic_year"
+            "season": "school_year"
           },
           "source": "manual_verification_2026-02",
           "validated": true
         },
         {
           "id": "parish_004-mass-thu-800",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "thursday",
           "time": "08:00",
           "end_time": null,
@@ -731,14 +731,14 @@
           "notes": "At St. Brigid Parish",
           "seasonal": {
             "is_seasonal": true,
-            "season": "academic_year"
+            "season": "school_year"
           },
           "source": "manual_verification_2026-02",
           "validated": true
         },
         {
           "id": "parish_004-mass-fri-1215",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "friday",
           "time": "12:15",
           "end_time": null,
@@ -747,14 +747,14 @@
           "notes": "Academic year",
           "seasonal": {
             "is_seasonal": true,
-            "season": "academic_year"
+            "season": "school_year"
           },
           "source": "manual_verification_2026-02",
           "validated": true
         },
         {
           "id": "parish_004-mass-sat-900",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "saturday",
           "time": "09:00",
           "end_time": null,
@@ -763,14 +763,14 @@
           "notes": "Academic year",
           "seasonal": {
             "is_seasonal": true,
-            "season": "academic_year"
+            "season": "school_year"
           },
           "source": "manual_verification_2026-02",
           "validated": true
         },
         {
           "id": "parish_004-mass-sun-1030",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "10:30",
           "end_time": null,
@@ -786,7 +786,7 @@
         },
         {
           "id": "parish_004-mass-sun-1900",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "19:00",
           "end_time": null,
@@ -801,34 +801,17 @@
           "validated": true
         },
         {
-          "id": "parish_004-conf-appt",
-          "type": "confession",
-          "day": "",
-          "time": null,
-          "end_time": null,
-          "location_id": null,
-          "language": "en",
-          "notes": "By appointment",
-          "seasonal": {
-            "is_seasonal": false,
-            "season": "year_round"
-          },
-          "source": "manual_verification_2026-02",
-          "validated": true,
-          "times_vary": true
-        },
-        {
           "id": "parish_004-ador-1stfri",
           "type": "adoration",
-          "day": "first_friday",
+          "day": "friday",
           "time": "12:45",
           "end_time": "09:00",
           "location_id": null,
           "language": "en",
-          "notes": "After 12:15 PM Mass through Saturday 9:00 AM Mass \u2014 academic year only",
+          "notes": "1st Friday of the month; After 12:15 PM Mass through Saturday 9:00 AM Mass \u2014 academic year only",
           "seasonal": {
             "is_seasonal": true,
-            "season": "academic_year"
+            "season": "school_year"
           },
           "source": "manual_verification_2026-02",
           "validated": true
@@ -910,7 +893,7 @@
       "services": [
         {
           "id": "parish_005-mass-mon-800",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "monday",
           "time": "08:00",
           "end_time": null,
@@ -926,7 +909,7 @@
         },
         {
           "id": "parish_005-mass-tue-800",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "tuesday",
           "time": "08:00",
           "end_time": null,
@@ -942,7 +925,7 @@
         },
         {
           "id": "parish_005-mass-wed-800",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "wednesday",
           "time": "08:00",
           "end_time": null,
@@ -958,7 +941,7 @@
         },
         {
           "id": "parish_005-mass-thu-800",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "thursday",
           "time": "08:00",
           "end_time": null,
@@ -974,7 +957,7 @@
         },
         {
           "id": "parish_005-mass-fri-1215",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "friday",
           "time": "12:15",
           "end_time": null,
@@ -990,7 +973,7 @@
         },
         {
           "id": "parish_005-mass-sat-1630",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "saturday",
           "time": "16:30",
           "end_time": null,
@@ -1006,7 +989,7 @@
         },
         {
           "id": "parish_005-mass-sun-800",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "08:00",
           "end_time": null,
@@ -1022,7 +1005,7 @@
         },
         {
           "id": "parish_005-mass-sun-1230",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "12:30",
           "end_time": null,
@@ -1038,13 +1021,13 @@
         },
         {
           "id": "parish_005-mass-1stsun-1630",
-          "type": "mass",
-          "day": "first_sunday",
+          "type": "sunday_mass",
+          "day": "sunday",
           "time": "16:30",
           "end_time": null,
           "location_id": "st-brigid-church-amherst",
           "language": "en",
-          "notes": "African Nights \u2014 1st Sunday of the Month",
+          "notes": "1st Sunday of the month; African Nights \u2014 1st Sunday of the Month",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -1217,7 +1200,7 @@
       "services": [
         {
           "id": "parish_006-mass-sat-1600",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "saturday",
           "time": "16:00",
           "end_time": null,
@@ -1233,7 +1216,7 @@
         },
         {
           "id": "parish_006-mass-sun-0800",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "08:00",
           "end_time": null,
@@ -1249,7 +1232,7 @@
         },
         {
           "id": "parish_006-mass-sun-1030",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "10:30",
           "end_time": null,
@@ -1265,7 +1248,7 @@
         },
         {
           "id": "parish_006-mass-mon-0800",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "monday",
           "time": "08:00",
           "end_time": null,
@@ -1281,7 +1264,7 @@
         },
         {
           "id": "parish_006-mass-tue-0800",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "tuesday",
           "time": "08:00",
           "end_time": null,
@@ -1297,7 +1280,7 @@
         },
         {
           "id": "parish_006-mass-wed-0800",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "wednesday",
           "time": "08:00",
           "end_time": null,
@@ -1313,7 +1296,7 @@
         },
         {
           "id": "parish_006-mass-thu-0800",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "thursday",
           "time": "08:00",
           "end_time": null,
@@ -1326,23 +1309,6 @@
           },
           "source": "manual_verification_2026-02",
           "validated": true
-        },
-        {
-          "id": "parish_006-conf-appt",
-          "type": "confession",
-          "day": "",
-          "time": null,
-          "end_time": null,
-          "location_id": null,
-          "language": "en",
-          "notes": "Consult weekly schedule or by appointment",
-          "seasonal": {
-            "is_seasonal": false,
-            "season": "year_round"
-          },
-          "source": "manual_verification_2026-02",
-          "validated": true,
-          "times_vary": true
         },
         {
           "id": "parish_006-ador-tue",
@@ -1395,12 +1361,12 @@
         {
           "id": "parish_006-anoint-1stsun",
           "type": "anointing",
-          "day": "first_sunday",
+          "day": "sunday",
           "time": "11:40",
           "end_time": null,
           "location_id": "st-francis-church-belchertown",
           "language": "en",
-          "notes": "Sacrament of the Sick \u2014 1st Sunday of the Month, or by appointment",
+          "notes": "1st Sunday of the month; Sacrament of the Sick \u2014 1st Sunday of the Month, or by appointment",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -1442,7 +1408,7 @@
         },
         {
           "id": "parish_006-mass-wed-lent-1830",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "wednesday",
           "time": "18:30",
           "end_time": null,
@@ -1573,7 +1539,7 @@
       "services": [
         {
           "id": "parish_007-mass-sat-1800",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "saturday",
           "time": "18:00",
           "end_time": null,
@@ -1589,7 +1555,7 @@
         },
         {
           "id": "parish_007-mass-sun-1030",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "10:30",
           "end_time": null,
@@ -1605,7 +1571,7 @@
         },
         {
           "id": "parish_007-mass-mon-0900",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "monday",
           "time": "09:00",
           "end_time": null,
@@ -1621,7 +1587,7 @@
         },
         {
           "id": "parish_007-mass-wed-0900",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "wednesday",
           "time": "09:00",
           "end_time": null,
@@ -1747,7 +1713,7 @@
       "services": [
         {
           "id": "parish_010-mass-sat-1600",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "saturday",
           "time": "16:00",
           "end_time": null,
@@ -1763,7 +1729,7 @@
         },
         {
           "id": "parish_010-mass-sun-0700",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "07:00",
           "end_time": null,
@@ -1779,7 +1745,7 @@
         },
         {
           "id": "parish_010-mass-sun-0900",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "09:00",
           "end_time": null,
@@ -1795,7 +1761,7 @@
         },
         {
           "id": "parish_010-mass-sun-1100",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "11:00",
           "end_time": null,
@@ -1811,7 +1777,7 @@
         },
         {
           "id": "parish_010-mass-mon-0900",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "monday",
           "time": "09:00",
           "end_time": null,
@@ -1827,7 +1793,7 @@
         },
         {
           "id": "parish_010-mass-tue-0900",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "tuesday",
           "time": "09:00",
           "end_time": null,
@@ -1843,7 +1809,7 @@
         },
         {
           "id": "parish_010-mass-wed-0900",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "wednesday",
           "time": "09:00",
           "end_time": null,
@@ -1859,7 +1825,7 @@
         },
         {
           "id": "parish_010-mass-thu-0900",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "thursday",
           "time": "09:00",
           "end_time": null,
@@ -1875,7 +1841,7 @@
         },
         {
           "id": "parish_010-mass-fri-0900",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "friday",
           "time": "09:00",
           "end_time": null,
@@ -1891,13 +1857,13 @@
         },
         {
           "id": "parish_010-mass-1stsat-0900",
-          "type": "mass",
-          "day": "first_saturday",
+          "type": "sunday_mass",
+          "day": "saturday",
           "time": "09:00",
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "First Saturday Monthly",
+          "notes": "1st Saturday of the month; First Saturday Monthly",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -2291,7 +2257,7 @@
       "services": [
         {
           "id": "parish_012-mass-sat-1600",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "saturday",
           "time": "16:00",
           "end_time": null,
@@ -2307,7 +2273,7 @@
         },
         {
           "id": "parish_012-mass-sun-0730",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "07:30",
           "end_time": null,
@@ -2323,7 +2289,7 @@
         },
         {
           "id": "parish_012-mass-sun-0900",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "09:00",
           "end_time": null,
@@ -2339,7 +2305,7 @@
         },
         {
           "id": "parish_012-mass-sun-1100",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "11:00",
           "end_time": null,
@@ -2355,7 +2321,7 @@
         },
         {
           "id": "parish_012-mass-sun-1600",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "16:00",
           "end_time": null,
@@ -2371,7 +2337,7 @@
         },
         {
           "id": "parish_012-mass-mon-0700",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "monday",
           "time": "07:00",
           "end_time": null,
@@ -2387,7 +2353,7 @@
         },
         {
           "id": "parish_012-mass-tue-0700",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "tuesday",
           "time": "07:00",
           "end_time": null,
@@ -2403,7 +2369,7 @@
         },
         {
           "id": "parish_012-mass-wed-0700",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "wednesday",
           "time": "07:00",
           "end_time": null,
@@ -2419,7 +2385,7 @@
         },
         {
           "id": "parish_012-mass-thu-0700",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "thursday",
           "time": "07:00",
           "end_time": null,
@@ -2435,7 +2401,7 @@
         },
         {
           "id": "parish_012-mass-fri-0700",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "friday",
           "time": "07:00",
           "end_time": null,
@@ -2451,13 +2417,13 @@
         },
         {
           "id": "parish_012-mass-1stfri-0900",
-          "type": "mass",
-          "day": "first_friday",
+          "type": "daily_mass",
+          "day": "friday",
           "time": "09:00",
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "During school year only",
+          "notes": "1st Friday of the month; During school year only",
           "seasonal": {
             "is_seasonal": true,
             "season": "school_year"
@@ -2467,7 +2433,7 @@
         },
         {
           "id": "parish_012-mass-holyday-vigil",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "holyday_eve",
           "time": "16:00",
           "end_time": null,
@@ -2483,7 +2449,7 @@
         },
         {
           "id": "parish_012-mass-holyday",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "holyday",
           "time": "18:30",
           "end_time": null,
@@ -2516,12 +2482,12 @@
         {
           "id": "parish_012-ador-1stfri",
           "type": "adoration",
-          "day": "first_friday",
+          "day": "friday",
           "time": "07:30",
           "end_time": "15:30",
           "location_id": null,
           "language": "en",
-          "notes": "Parish Center",
+          "notes": "1st Friday of the month; Parish Center",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -2532,12 +2498,12 @@
         {
           "id": "parish_012-ador-1sttue",
           "type": "adoration",
-          "day": "first_tuesday",
+          "day": "tuesday",
           "time": "18:30",
           "end_time": "20:00",
           "location_id": null,
           "language": "en",
-          "notes": "Parish Center",
+          "notes": "1st Tuesday of the month; Parish Center",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -2620,7 +2586,7 @@
       "services": [
         {
           "id": "parish_013-mass-sat-1600",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "saturday",
           "time": "16:00",
           "end_time": null,
@@ -2636,7 +2602,7 @@
         },
         {
           "id": "parish_013-mass-sun-0700",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "07:00",
           "end_time": null,
@@ -2652,7 +2618,7 @@
         },
         {
           "id": "parish_013-mass-sun-0900",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "09:00",
           "end_time": null,
@@ -2668,7 +2634,7 @@
         },
         {
           "id": "parish_013-mass-sun-1100",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "11:00",
           "end_time": null,
@@ -2684,7 +2650,7 @@
         },
         {
           "id": "parish_013-mass-mon-0630",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "monday",
           "time": "06:30",
           "end_time": null,
@@ -2700,7 +2666,7 @@
         },
         {
           "id": "parish_013-mass-mon-1200",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "monday",
           "time": "12:00",
           "end_time": null,
@@ -2716,7 +2682,7 @@
         },
         {
           "id": "parish_013-mass-tue-0630",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "tuesday",
           "time": "06:30",
           "end_time": null,
@@ -2732,7 +2698,7 @@
         },
         {
           "id": "parish_013-mass-tue-1200",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "tuesday",
           "time": "12:00",
           "end_time": null,
@@ -2748,7 +2714,7 @@
         },
         {
           "id": "parish_013-mass-wed-0630",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "wednesday",
           "time": "06:30",
           "end_time": null,
@@ -2764,7 +2730,7 @@
         },
         {
           "id": "parish_013-mass-wed-0845",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "wednesday",
           "time": "08:45",
           "end_time": null,
@@ -2780,7 +2746,7 @@
         },
         {
           "id": "parish_013-mass-wed-1200",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "wednesday",
           "time": "12:00",
           "end_time": null,
@@ -2796,7 +2762,7 @@
         },
         {
           "id": "parish_013-mass-thu-0630",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "thursday",
           "time": "06:30",
           "end_time": null,
@@ -2812,7 +2778,7 @@
         },
         {
           "id": "parish_013-mass-thu-1200",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "thursday",
           "time": "12:00",
           "end_time": null,
@@ -2828,7 +2794,7 @@
         },
         {
           "id": "parish_013-mass-fri-0630",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "friday",
           "time": "06:30",
           "end_time": null,
@@ -2844,7 +2810,7 @@
         },
         {
           "id": "parish_013-mass-fri-1200",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "friday",
           "time": "12:00",
           "end_time": null,
@@ -2860,7 +2826,7 @@
         },
         {
           "id": "parish_013-mass-sat-0700",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "saturday",
           "time": "07:00",
           "end_time": null,
@@ -2876,7 +2842,7 @@
         },
         {
           "id": "parish_013-mass-wed-1900",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "wednesday",
           "time": "19:00",
           "end_time": null,
@@ -2892,13 +2858,13 @@
         },
         {
           "id": "parish_013-mass-1stfri-1900",
-          "type": "mass",
-          "day": "first_friday",
+          "type": "daily_mass",
+          "day": "friday",
           "time": "19:00",
           "end_time": null,
           "location_id": null,
           "language": "pl",
-          "notes": "Polish Mass \u2014 1st Friday",
+          "notes": "1st Friday of the month; Polish Mass \u2014 1st Friday",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -2925,12 +2891,12 @@
         {
           "id": "parish_013-ador-1stfri",
           "type": "adoration",
-          "day": "first_friday",
+          "day": "friday",
           "time": "06:45",
           "end_time": "19:00",
           "location_id": null,
           "language": "en",
-          "notes": "After 6:30 AM Mass until 7:00 PM",
+          "notes": "1st Friday of the month; After 6:30 AM Mass until 7:00 PM",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -2941,12 +2907,12 @@
         {
           "id": "parish_013-ador-1stsat",
           "type": "adoration",
-          "day": "first_saturday",
+          "day": "saturday",
           "time": "07:30",
           "end_time": "11:00",
           "location_id": null,
           "language": "en",
-          "notes": null,
+          "notes": "1st Saturday of the month",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -3021,12 +2987,12 @@
         {
           "id": "parish_013-dev-divmercy-1stsun",
           "type": "devotion",
-          "day": "first_sunday",
+          "day": "sunday",
           "time": "12:00",
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Divine Mercy \u2014 after 11:00 AM Mass",
+          "notes": "1st Sunday of the month; Divine Mercy \u2014 after 11:00 AM Mass",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -3037,12 +3003,12 @@
         {
           "id": "parish_013-dev-czestochowa-2ndsun",
           "type": "devotion",
-          "day": "second_sunday",
+          "day": "sunday",
           "time": "15:00",
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Our Lady of Czestochowa \u2014 2nd Sunday 3:00 PM",
+          "notes": "2nd Sunday of the month; Our Lady of Czestochowa \u2014 2nd Sunday 3:00 PM",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -3053,12 +3019,12 @@
         {
           "id": "parish_013-anoint-4thsun",
           "type": "anointing",
-          "day": "fourth_sunday",
+          "day": "sunday",
           "time": null,
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "After Saturday Vigil and all Sunday Masses \u2014 4th Sunday of month",
+          "notes": "4th Sunday of the month; After Saturday Vigil and all Sunday Masses \u2014 4th Sunday of month",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -3332,7 +3298,7 @@
           "notes": "Life Teen Mass \u2014 Academic Year Only",
           "seasonal": {
             "is_seasonal": true,
-            "season": "academic_year"
+            "season": "school_year"
           },
           "source": "bulletin_2026-02",
           "validated": true
@@ -3477,7 +3443,7 @@
       "services": [
         {
           "id": "parish_017-mass-sat-1600",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "saturday",
           "time": "16:00",
           "end_time": null,
@@ -3493,7 +3459,7 @@
         },
         {
           "id": "parish_017-mass-sun-0800",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "08:00",
           "end_time": null,
@@ -3509,7 +3475,7 @@
         },
         {
           "id": "parish_017-mass-sun-1000",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "10:00",
           "end_time": null,
@@ -3525,7 +3491,7 @@
         },
         {
           "id": "parish_017-mass-sun-1130",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "11:30",
           "end_time": null,
@@ -3541,13 +3507,13 @@
         },
         {
           "id": "parish_017-mass-lastsun-0800",
-          "type": "mass",
-          "day": "last_sunday",
+          "type": "sunday_mass",
+          "day": "sunday",
           "time": "08:00",
           "end_time": null,
           "location_id": null,
           "language": "pl",
-          "notes": "Mass in Polish \u2014 last Sunday of the month",
+          "notes": "Last Sunday of the month; Mass in Polish \u2014 last Sunday of the month",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -3557,7 +3523,7 @@
         },
         {
           "id": "parish_017-mass-mon-0800",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "monday",
           "time": "08:00",
           "end_time": null,
@@ -3573,7 +3539,7 @@
         },
         {
           "id": "parish_017-mass-tue-0800",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "tuesday",
           "time": "08:00",
           "end_time": null,
@@ -3589,7 +3555,7 @@
         },
         {
           "id": "parish_017-mass-wed-1800",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "wednesday",
           "time": "18:00",
           "end_time": null,
@@ -3605,7 +3571,7 @@
         },
         {
           "id": "parish_017-mass-thu-0800",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "thursday",
           "time": "08:00",
           "end_time": null,
@@ -3621,7 +3587,7 @@
         },
         {
           "id": "parish_017-mass-fri-0800",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "friday",
           "time": "08:00",
           "end_time": null,
@@ -3637,7 +3603,7 @@
         },
         {
           "id": "parish_017-mass-sat-0900",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "saturday",
           "time": "09:00",
           "end_time": null,
@@ -3765,7 +3731,7 @@
         },
         {
           "id": "parish_017-mass-lent-tlm-mar06",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "friday",
           "time": "18:00",
           "end_time": null,
@@ -3781,7 +3747,7 @@
         },
         {
           "id": "parish_017-mass-lent-tlm-mar19",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "thursday",
           "time": "18:00",
           "end_time": null,
@@ -3867,7 +3833,7 @@
       "services": [
         {
           "id": "parish_018-mass-sat-1600",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "saturday",
           "time": "16:00",
           "end_time": null,
@@ -3883,7 +3849,7 @@
         },
         {
           "id": "parish_018-mass-sun-0800",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "08:00",
           "end_time": null,
@@ -3899,7 +3865,7 @@
         },
         {
           "id": "parish_018-mass-sun-1000",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "10:00",
           "end_time": null,
@@ -3915,7 +3881,7 @@
         },
         {
           "id": "parish_018-mass-sun-1130",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "11:30",
           "end_time": null,
@@ -3931,7 +3897,7 @@
         },
         {
           "id": "parish_018-mass-mon-0900",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "monday",
           "time": "09:00",
           "end_time": null,
@@ -3947,7 +3913,7 @@
         },
         {
           "id": "parish_018-mass-tue-0900",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "tuesday",
           "time": "09:00",
           "end_time": null,
@@ -3979,7 +3945,7 @@
         },
         {
           "id": "parish_018-mass-fri-0900",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "friday",
           "time": "09:00",
           "end_time": null,
@@ -4113,7 +4079,7 @@
       "services": [
         {
           "id": "parish_019-mass-sat-1600",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "saturday",
           "time": "16:00",
           "end_time": null,
@@ -4129,7 +4095,7 @@
         },
         {
           "id": "parish_019-mass-sun-0830",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "08:30",
           "end_time": null,
@@ -4145,7 +4111,7 @@
         },
         {
           "id": "parish_019-mass-sun-1100",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "11:00",
           "end_time": null,
@@ -4161,7 +4127,7 @@
         },
         {
           "id": "parish_019-mass-mon-0900",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "monday",
           "time": "09:00",
           "end_time": null,
@@ -4177,7 +4143,7 @@
         },
         {
           "id": "parish_019-mass-tue-0900",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "tuesday",
           "time": "09:00",
           "end_time": null,
@@ -4193,7 +4159,7 @@
         },
         {
           "id": "parish_019-mass-fri-0900",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "friday",
           "time": "09:00",
           "end_time": null,
@@ -4209,7 +4175,7 @@
         },
         {
           "id": "parish_019-mass-sat-0900",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "saturday",
           "time": "09:00",
           "end_time": null,
@@ -4226,12 +4192,12 @@
         {
           "id": "parish_019-conf-1stsat",
           "type": "confession",
-          "day": "first_saturday",
+          "day": "saturday",
           "time": "15:00",
           "end_time": "15:30",
           "location_id": "sacredheart-church-feedinghills",
           "language": "en",
-          "notes": "First Saturday of every month",
+          "notes": "1st Saturday of the month; First Saturday of every month",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -4333,7 +4299,7 @@
       "services": [
         {
           "id": "parish_020-mass-sat-1600",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "saturday",
           "time": "16:00",
           "end_time": null,
@@ -4349,7 +4315,7 @@
         },
         {
           "id": "parish_020-mass-sun-0800",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "08:00",
           "end_time": null,
@@ -4365,7 +4331,7 @@
         },
         {
           "id": "parish_020-mass-sun-1045",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "10:45",
           "end_time": null,
@@ -4381,7 +4347,7 @@
         },
         {
           "id": "parish_020-mass-mon-0830",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "monday",
           "time": "08:30",
           "end_time": null,
@@ -4397,7 +4363,7 @@
         },
         {
           "id": "parish_020-mass-tue-0830",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "tuesday",
           "time": "08:30",
           "end_time": null,
@@ -4413,7 +4379,7 @@
         },
         {
           "id": "parish_020-mass-wed-0830",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "wednesday",
           "time": "08:30",
           "end_time": null,
@@ -4429,7 +4395,7 @@
         },
         {
           "id": "parish_020-mass-thu-0830",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "thursday",
           "time": "08:30",
           "end_time": null,
@@ -4766,12 +4732,12 @@
         {
           "id": "parish_021-ador-001",
           "type": "adoration",
-          "day": "fourth_friday",
+          "day": "friday",
           "time": "07:30",
           "end_time": "12:00",
           "location_id": "st-peter-church-great-barrington",
           "language": "en",
-          "notes": "4th Friday of the month only",
+          "notes": "4th Friday of the month; 4th Friday of the month only",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -5044,12 +5010,12 @@
         {
           "id": "parish_022-dail-firstsat",
           "type": "daily_mass",
-          "day": "first_saturday",
+          "day": "saturday",
           "time": "08:00",
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Location not specified in bulletin",
+          "notes": "1st Saturday of the month; Location not specified in bulletin",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -5222,7 +5188,7 @@
       "services": [
         {
           "id": "parish_023-mass-sat-1600",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "saturday",
           "time": "16:00",
           "end_time": null,
@@ -5238,7 +5204,7 @@
         },
         {
           "id": "parish_023-mass-sun-0800",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "08:00",
           "end_time": null,
@@ -5254,7 +5220,7 @@
         },
         {
           "id": "parish_023-mass-sun-1100",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "11:00",
           "end_time": null,
@@ -5270,7 +5236,7 @@
         },
         {
           "id": "parish_023-mass-mon-0800",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "monday",
           "time": "08:00",
           "end_time": null,
@@ -5286,7 +5252,7 @@
         },
         {
           "id": "parish_023-mass-tue-0800",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "tuesday",
           "time": "08:00",
           "end_time": null,
@@ -5302,7 +5268,7 @@
         },
         {
           "id": "parish_023-mass-wed-0800",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "wednesday",
           "time": "08:00",
           "end_time": null,
@@ -5318,7 +5284,7 @@
         },
         {
           "id": "parish_023-mass-thu-0800",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "thursday",
           "time": "08:00",
           "end_time": null,
@@ -5334,7 +5300,7 @@
         },
         {
           "id": "parish_023-mass-fri-0800",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "friday",
           "time": "08:00",
           "end_time": null,
@@ -5350,13 +5316,13 @@
         },
         {
           "id": "parish_023-mass-1stfri-1300",
-          "type": "mass",
-          "day": "first_friday",
+          "type": "daily_mass",
+          "day": "friday",
           "time": "13:00",
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Additional 1st Friday Mass",
+          "notes": "1st Friday of the month; Additional 1st Friday Mass",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -5399,12 +5365,12 @@
         {
           "id": "parish_023-conf-1stfri-1230",
           "type": "confession",
-          "day": "first_friday",
+          "day": "friday",
           "time": "12:30",
           "end_time": "12:50",
           "location_id": null,
           "language": "en",
-          "notes": "Before 1:00 PM 1st Friday Mass",
+          "notes": "1st Friday of the month; Before 1:00 PM 1st Friday Mass",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -5431,12 +5397,12 @@
         {
           "id": "parish_023-ador-1stfri",
           "type": "adoration",
-          "day": "first_friday",
+          "day": "friday",
           "time": "13:30",
           "end_time": "15:00",
           "location_id": null,
           "language": "en",
-          "notes": "After 1:00 PM Mass until 3:00 PM",
+          "notes": "1st Friday of the month; After 1:00 PM Mass until 3:00 PM",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -5463,12 +5429,12 @@
         {
           "id": "parish_023-dev-rosary-2ndtue",
           "type": "rosary",
-          "day": "second_tuesday",
+          "day": "tuesday",
           "time": "18:00",
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Rosary \u2014 2nd Tuesday of the month",
+          "notes": "2nd Tuesday of the month; Rosary \u2014 2nd Tuesday of the month",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -5479,12 +5445,12 @@
         {
           "id": "parish_023-dev-rosary-4thtue",
           "type": "rosary",
-          "day": "fourth_tuesday",
+          "day": "tuesday",
           "time": "18:00",
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Rosary \u2014 4th Tuesday of the month",
+          "notes": "4th Tuesday of the month; Rosary \u2014 4th Tuesday of the month",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -5569,7 +5535,7 @@
       "services": [
         {
           "id": "parish_024-mass-sat-1600",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "saturday",
           "time": "16:00",
           "end_time": null,
@@ -5585,7 +5551,7 @@
         },
         {
           "id": "parish_024-mass-sun-0800",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "08:00",
           "end_time": null,
@@ -5601,7 +5567,7 @@
         },
         {
           "id": "parish_024-mass-sun-1100",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "11:00",
           "end_time": null,
@@ -5617,7 +5583,7 @@
         },
         {
           "id": "parish_024-mass-mon-0900",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "monday",
           "time": "09:00",
           "end_time": null,
@@ -5633,7 +5599,7 @@
         },
         {
           "id": "parish_024-mass-tue-0900",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "tuesday",
           "time": "09:00",
           "end_time": null,
@@ -5649,7 +5615,7 @@
         },
         {
           "id": "parish_024-mass-wed-0900",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "wednesday",
           "time": "09:00",
           "end_time": null,
@@ -5665,7 +5631,7 @@
         },
         {
           "id": "parish_024-mass-fri-0900",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "friday",
           "time": "09:00",
           "end_time": null,
@@ -5783,7 +5749,7 @@
       "services": [
         {
           "id": "parish_025-mass-sat-1730",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "saturday",
           "time": "17:30",
           "end_time": null,
@@ -5799,7 +5765,7 @@
         },
         {
           "id": "parish_025-mass-sun-0930",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "09:30",
           "end_time": null,
@@ -5815,7 +5781,7 @@
         },
         {
           "id": "parish_025-mass-tue-0815",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "tuesday",
           "time": "08:15",
           "end_time": null,
@@ -5831,7 +5797,7 @@
         },
         {
           "id": "parish_025-mass-thu-0815",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "thursday",
           "time": "08:15",
           "end_time": null,
@@ -5920,7 +5886,7 @@
       "services": [
         {
           "id": "parish_026-mass-sat-1600",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "saturday",
           "time": "16:00",
           "end_time": null,
@@ -5936,7 +5902,7 @@
         },
         {
           "id": "parish_026-mass-sun-0800",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "08:00",
           "end_time": null,
@@ -5952,7 +5918,7 @@
         },
         {
           "id": "parish_026-mass-sun-1030",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "10:30",
           "end_time": null,
@@ -5968,7 +5934,7 @@
         },
         {
           "id": "parish_026-mass-mon-0830",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "monday",
           "time": "08:30",
           "end_time": null,
@@ -5984,7 +5950,7 @@
         },
         {
           "id": "parish_026-mass-tue-0830",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "tuesday",
           "time": "08:30",
           "end_time": null,
@@ -6000,7 +5966,7 @@
         },
         {
           "id": "parish_026-mass-wed-0830",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "wednesday",
           "time": "08:30",
           "end_time": null,
@@ -6016,7 +5982,7 @@
         },
         {
           "id": "parish_026-mass-thu-0830",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "thursday",
           "time": "08:30",
           "end_time": null,
@@ -6105,7 +6071,7 @@
       "services": [
         {
           "id": "parish_027-mass-sat-1600",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "saturday",
           "time": "16:00",
           "end_time": null,
@@ -6121,7 +6087,7 @@
         },
         {
           "id": "parish_027-mass-sun-0830",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "08:30",
           "end_time": null,
@@ -6137,7 +6103,7 @@
         },
         {
           "id": "parish_027-mass-sun-1030",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "10:30",
           "end_time": null,
@@ -6153,7 +6119,7 @@
         },
         {
           "id": "parish_027-mass-mon-0645",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "monday",
           "time": "06:45",
           "end_time": null,
@@ -6169,7 +6135,7 @@
         },
         {
           "id": "parish_027-mass-tue-0645",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "tuesday",
           "time": "06:45",
           "end_time": null,
@@ -6185,7 +6151,7 @@
         },
         {
           "id": "parish_027-mass-wed-0645",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "wednesday",
           "time": "06:45",
           "end_time": null,
@@ -6201,7 +6167,7 @@
         },
         {
           "id": "parish_027-mass-thu-0645",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "thursday",
           "time": "06:45",
           "end_time": null,
@@ -6217,7 +6183,7 @@
         },
         {
           "id": "parish_027-mass-fri-0645",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "friday",
           "time": "06:45",
           "end_time": null,
@@ -6233,13 +6199,13 @@
         },
         {
           "id": "parish_027-mass-holiday-0800",
-          "type": "mass",
-          "day": "holyday",
+          "type": "daily_mass",
+          "day": "weekday",
           "time": "08:00",
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Legal Holidays",
+          "notes": "Legal holidays; Legal Holidays",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -6759,7 +6725,7 @@
           "day": "saturday",
           "time": "18:00",
           "end_time": null,
-          "location_id": "immaculate-conception-chapel-holyoke",
+          "location_id": null,
           "language": "es",
           "notes": "Vigil Mass \u2014 Spanish",
           "seasonal": {
@@ -6823,7 +6789,7 @@
           "day": "sunday",
           "time": "09:15",
           "end_time": null,
-          "location_id": "immaculate-conception-chapel-holyoke",
+          "location_id": null,
           "language": "en",
           "notes": null,
           "seasonal": {
@@ -6919,7 +6885,7 @@
           "day": "wednesday",
           "time": "08:30",
           "end_time": null,
-          "location_id": "immaculate-conception-chapel-holyoke",
+          "location_id": null,
           "language": "en",
           "notes": null,
           "seasonal": {
@@ -6948,12 +6914,12 @@
         {
           "id": "parish_029-con-001",
           "type": "confession",
-          "day": "first_friday",
+          "day": "friday",
           "time": "18:00",
           "end_time": "18:45",
           "location_id": "st-jerome-church-holyoke",
           "language": "en",
-          "notes": "1st Fridays only",
+          "notes": "1st Friday of the month; 1st Fridays only",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -6983,7 +6949,7 @@
           "day": "saturday",
           "time": "17:00",
           "end_time": "17:45",
-          "location_id": "immaculate-conception-chapel-holyoke",
+          "location_id": null,
           "language": "en",
           "notes": null,
           "seasonal": {
@@ -6996,12 +6962,12 @@
         {
           "id": "parish_029-ador-001",
           "type": "adoration",
-          "day": "first_friday",
+          "day": "friday",
           "time": "17:00",
           "end_time": "22:00",
           "location_id": "st-jerome-church-holyoke",
           "language": "en",
-          "notes": "1st Fridays only \u2014 St. Patrick's Chapel",
+          "notes": "1st Friday of the month; 1st Fridays only \u2014 St. Patrick's Chapel",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -7130,7 +7096,7 @@
           "time": "17:30",
           "end_time": null,
           "location_id": "st-teresa-of-calcutta-church-housatonic",
-          "language": null,
+          "language": "en",
           "notes": null,
           "seasonal": {
             "is_seasonal": false,
@@ -7609,12 +7575,12 @@
         {
           "id": "parish_032-ador-001",
           "type": "adoration",
-          "day": "first_monday",
+          "day": "monday",
           "time": "06:30",
           "end_time": "20:00",
           "location_id": "st-mary-mother-of-the-church-church-lee",
           "language": "en",
-          "notes": "1st Monday of each month",
+          "notes": "1st Monday of the month; 1st Monday of each month",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -7736,7 +7702,7 @@
           "day": "monday",
           "time": "07:00",
           "end_time": null,
-          "location_id": "st-ann-family-center-lenox",
+          "location_id": null,
           "language": "en",
           "notes": "St. Ann Family Center",
           "seasonal": {
@@ -7752,7 +7718,7 @@
           "day": "tuesday",
           "time": "07:00",
           "end_time": null,
-          "location_id": "st-ann-family-center-lenox",
+          "location_id": null,
           "language": "en",
           "notes": "St. Ann Family Center",
           "seasonal": {
@@ -7768,7 +7734,7 @@
           "day": "wednesday",
           "time": "07:00",
           "end_time": null,
-          "location_id": "st-ann-family-center-lenox",
+          "location_id": null,
           "language": "en",
           "notes": "St. Ann Family Center",
           "seasonal": {
@@ -7784,7 +7750,7 @@
           "day": "thursday",
           "time": "07:00",
           "end_time": null,
-          "location_id": "st-ann-family-center-lenox",
+          "location_id": null,
           "language": "en",
           "notes": "St. Ann Family Center",
           "seasonal": {
@@ -7800,7 +7766,7 @@
           "day": "friday",
           "time": "07:00",
           "end_time": null,
-          "location_id": "st-ann-family-center-lenox",
+          "location_id": null,
           "language": "en",
           "notes": "Communion Service \u2014 St. Ann Family Center",
           "seasonal": {
@@ -8207,12 +8173,12 @@
         {
           "id": "parish_035-dai-3fri",
           "type": "daily_mass",
-          "day": "third_friday",
+          "day": "friday",
           "time": "07:00",
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "3rd Friday replaces Communion Service",
+          "notes": "3rd Friday of the month; 3rd Friday replaces Communion Service",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -8351,12 +8317,12 @@
         {
           "id": "parish_035-ador-1fri",
           "type": "adoration",
-          "day": "first_friday",
+          "day": "friday",
           "time": "12:00",
           "end_time": "17:00",
           "location_id": null,
           "language": "en",
-          "notes": "1st Friday Adoration",
+          "notes": "1st Friday of the month; 1st Friday Adoration",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -8367,12 +8333,12 @@
         {
           "id": "parish_035-sun-1sat",
           "type": "sunday_mass",
-          "day": "first_saturday",
+          "day": "saturday",
           "time": "08:00",
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Respect for Life Mass; Rosary follows at ~8:30 AM",
+          "notes": "1st Saturday of the month; Respect for Life Mass; Rosary follows at ~8:30 AM",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -9417,7 +9383,7 @@
       "services": [
         {
           "id": "parish_039-mass-sat-1600",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "saturday",
           "time": "16:00",
           "end_time": null,
@@ -9433,7 +9399,7 @@
         },
         {
           "id": "parish_039-mass-sun-0830",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "08:30",
           "end_time": null,
@@ -9449,7 +9415,7 @@
         },
         {
           "id": "parish_039-mass-tue-0800",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "tuesday",
           "time": "08:00",
           "end_time": null,
@@ -9465,7 +9431,7 @@
         },
         {
           "id": "parish_039-mass-fri-1900",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "friday",
           "time": "19:00",
           "end_time": null,
@@ -9742,12 +9708,12 @@
         {
           "id": "parish_041-con-firstsat",
           "type": "confession",
-          "day": "first_saturday",
+          "day": "saturday",
           "time": "07:00",
           "end_time": null,
           "location_id": "st-elizabeth-of-hungary-church-north-adams",
           "language": "en",
-          "notes": "First Saturday \u2014 followed by Rosary at 7:30 AM and Mass at 8:00 AM",
+          "notes": "1st Saturday of the month; First Saturday \u2014 followed by Rosary at 7:30 AM and Mass at 8:00 AM",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -9758,12 +9724,12 @@
         {
           "id": "parish_041-rosa-firstsat",
           "type": "rosary",
-          "day": "first_saturday",
+          "day": "saturday",
           "time": "07:30",
           "end_time": null,
           "location_id": "st-elizabeth-of-hungary-church-north-adams",
           "language": "en",
-          "notes": "First Saturday Rosary \u2014 after 7:00 AM confession",
+          "notes": "1st Saturday of the month; First Saturday Rosary \u2014 after 7:00 AM confession",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -9774,12 +9740,12 @@
         {
           "id": "parish_041-dai-firstsat",
           "type": "daily_mass",
-          "day": "first_saturday",
+          "day": "saturday",
           "time": "08:00",
           "end_time": null,
           "location_id": "st-elizabeth-of-hungary-church-north-adams",
           "language": "en",
-          "notes": "First Saturday Mass",
+          "notes": "1st Saturday of the month; First Saturday Mass",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -9865,7 +9831,7 @@
       "services": [
         {
           "id": "parish_042-mass-sat-1600",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "saturday",
           "time": "16:00",
           "end_time": null,
@@ -9881,7 +9847,7 @@
         },
         {
           "id": "parish_042-mass-sun-0800",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "08:00",
           "end_time": null,
@@ -9897,7 +9863,7 @@
         },
         {
           "id": "parish_042-mass-sun-0930",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "09:30",
           "end_time": null,
@@ -9913,7 +9879,7 @@
         },
         {
           "id": "parish_042-mass-sun-1100",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "11:00",
           "end_time": null,
@@ -9929,7 +9895,7 @@
         },
         {
           "id": "parish_042-mass-sun-1230",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "12:30",
           "end_time": null,
@@ -9945,7 +9911,7 @@
         },
         {
           "id": "parish_042-mass-mon-0730",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "monday",
           "time": "07:30",
           "end_time": null,
@@ -9961,7 +9927,7 @@
         },
         {
           "id": "parish_042-mass-tue-0730",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "tuesday",
           "time": "07:30",
           "end_time": null,
@@ -9977,7 +9943,7 @@
         },
         {
           "id": "parish_042-mass-wed-0730",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "wednesday",
           "time": "07:30",
           "end_time": null,
@@ -9993,7 +9959,7 @@
         },
         {
           "id": "parish_042-mass-fri-1230",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "friday",
           "time": "12:30",
           "end_time": null,
@@ -10009,7 +9975,7 @@
         },
         {
           "id": "parish_042-mass-holyday-vigil",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "holyday_eve",
           "time": "17:30",
           "end_time": null,
@@ -10025,7 +9991,7 @@
         },
         {
           "id": "parish_042-mass-holyday",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "holyday",
           "time": "07:30",
           "end_time": null,
@@ -10281,7 +10247,7 @@
           "time": "15:15",
           "end_time": "15:50",
           "location_id": "st-patrick-church-northfield",
-          "language": null,
+          "language": "en",
           "notes": "also by appointment",
           "seasonal": {
             "is_seasonal": false,
@@ -11287,12 +11253,12 @@
         {
           "id": "parish_048-dai-1sat",
           "type": "daily_mass",
-          "day": "first_saturday",
+          "day": "saturday",
           "time": "09:00",
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "1st Saturday Mass \u2014 Parish Center Chapel",
+          "notes": "1st Saturday of the month; 1st Saturday Mass \u2014 Parish Center Chapel",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -11319,12 +11285,12 @@
         {
           "id": "parish_048-con-1fri",
           "type": "confession",
-          "day": "first_friday",
+          "day": "friday",
           "time": "08:00",
           "end_time": "08:30",
           "location_id": null,
           "language": "en",
-          "notes": "1st Friday only",
+          "notes": "1st Friday of the month; 1st Friday only",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -11335,12 +11301,12 @@
         {
           "id": "parish_048-con-1sat",
           "type": "confession",
-          "day": "first_saturday",
+          "day": "saturday",
           "time": "08:00",
           "end_time": "08:30",
           "location_id": null,
           "language": "en",
-          "notes": "1st Saturday only",
+          "notes": "1st Saturday of the month; 1st Saturday only",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -11351,12 +11317,12 @@
         {
           "id": "parish_048-ador-1fri",
           "type": "adoration",
-          "day": "first_friday",
+          "day": "friday",
           "time": "08:00",
           "end_time": "09:00",
           "location_id": null,
           "language": "en",
-          "notes": "1st Friday Holy Hour \u2014 Parish Center Chapel",
+          "notes": "1st Friday of the month; 1st Friday Holy Hour \u2014 Parish Center Chapel",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -11367,12 +11333,12 @@
         {
           "id": "parish_048-ador-1sat",
           "type": "adoration",
-          "day": "first_saturday",
+          "day": "saturday",
           "time": "08:00",
           "end_time": "09:00",
           "location_id": null,
           "language": "en",
-          "notes": "1st Saturday Holy Hour \u2014 Parish Center Chapel",
+          "notes": "1st Saturday of the month; 1st Saturday Holy Hour \u2014 Parish Center Chapel",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -11657,7 +11623,7 @@
           "time": "15:00",
           "end_time": "15:45",
           "location_id": "st-joseph-church-pittsfield",
-          "language": null,
+          "language": "en",
           "notes": null,
           "seasonal": {
             "is_seasonal": false,
@@ -12919,7 +12885,7 @@
       "services": [
         {
           "id": "parish_055-mass-sat-1600",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "saturday",
           "time": "16:00",
           "end_time": null,
@@ -12935,7 +12901,7 @@
         },
         {
           "id": "parish_055-mass-sun-0700",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "07:00",
           "end_time": null,
@@ -12951,7 +12917,7 @@
         },
         {
           "id": "parish_055-mass-sun-0900",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "09:00",
           "end_time": null,
@@ -12967,7 +12933,7 @@
         },
         {
           "id": "parish_055-mass-sun-1100",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "11:00",
           "end_time": null,
@@ -12983,7 +12949,7 @@
         },
         {
           "id": "parish_055-mass-mon-0700",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "monday",
           "time": "07:00",
           "end_time": null,
@@ -12999,7 +12965,7 @@
         },
         {
           "id": "parish_055-mass-tue-0700",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "tuesday",
           "time": "07:00",
           "end_time": null,
@@ -13031,7 +12997,7 @@
         },
         {
           "id": "parish_055-mass-thu-0700",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "thursday",
           "time": "07:00",
           "end_time": null,
@@ -13047,7 +13013,7 @@
         },
         {
           "id": "parish_055-mass-fri-0700",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "friday",
           "time": "07:00",
           "end_time": null,
@@ -13063,7 +13029,7 @@
         },
         {
           "id": "parish_055-mass-holyday-vigil",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "holyday_eve",
           "time": "17:30",
           "end_time": null,
@@ -13079,7 +13045,7 @@
         },
         {
           "id": "parish_055-mass-holyday-0700",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "holyday",
           "time": "07:00",
           "end_time": null,
@@ -13095,7 +13061,7 @@
         },
         {
           "id": "parish_055-mass-holyday-1730",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "holyday",
           "time": "17:30",
           "end_time": null,
@@ -13144,12 +13110,12 @@
         {
           "id": "parish_055-ador-1stfri",
           "type": "adoration",
-          "day": "first_friday",
+          "day": "friday",
           "time": "11:30",
           "end_time": "16:30",
           "location_id": null,
           "language": "en",
-          "notes": "First Friday Adoration",
+          "notes": "1st Friday of the month; First Friday Adoration",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -13236,7 +13202,7 @@
       "services": [
         {
           "id": "parish_056-mass-sat-1600",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "saturday",
           "time": "16:00",
           "end_time": null,
@@ -13252,7 +13218,7 @@
         },
         {
           "id": "parish_056-mass-sun-0800",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "08:00",
           "end_time": null,
@@ -13268,7 +13234,7 @@
         },
         {
           "id": "parish_056-mass-sun-1030",
-          "type": "mass",
+          "type": "sunday_mass",
           "day": "sunday",
           "time": "10:30",
           "end_time": null,
@@ -13284,7 +13250,7 @@
         },
         {
           "id": "parish_056-mass-mon-0800",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "monday",
           "time": "08:00",
           "end_time": null,
@@ -13300,7 +13266,7 @@
         },
         {
           "id": "parish_056-mass-tue-0800",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "tuesday",
           "time": "08:00",
           "end_time": null,
@@ -13316,7 +13282,7 @@
         },
         {
           "id": "parish_056-mass-wed-0800",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "wednesday",
           "time": "08:00",
           "end_time": null,
@@ -13332,7 +13298,7 @@
         },
         {
           "id": "parish_056-mass-thu-0800",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "thursday",
           "time": "08:00",
           "end_time": null,
@@ -13348,7 +13314,7 @@
         },
         {
           "id": "parish_056-mass-fri-0800",
-          "type": "mass",
+          "type": "daily_mass",
           "day": "friday",
           "time": "08:00",
           "end_time": null,
@@ -13364,13 +13330,13 @@
         },
         {
           "id": "parish_056-mass-1stsat-0800",
-          "type": "mass",
-          "day": "first_saturday",
+          "type": "sunday_mass",
+          "day": "saturday",
           "time": "08:00",
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "First Saturday Monthly",
+          "notes": "1st Saturday of the month; First Saturday Monthly",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -13657,7 +13623,7 @@
           "time": "15:00",
           "end_time": "15:45",
           "location_id": "our-lady-of-the-lake-church-southwick",
-          "language": null,
+          "language": "en",
           "notes": null,
           "seasonal": {
             "is_seasonal": false,
@@ -14168,7 +14134,7 @@
           "time": "15:00",
           "end_time": "15:30",
           "location_id": "holy-cross-church-springfield",
-          "language": null,
+          "language": "en",
           "notes": "also by appointment",
           "seasonal": {
             "is_seasonal": false,
@@ -14739,12 +14705,12 @@
         {
           "id": "parish_061-dev-1sat",
           "type": "devotion",
-          "day": "first_saturday",
+          "day": "saturday",
           "time": "09:00",
           "end_time": "10:30",
           "location_id": null,
           "language": "en",
-          "notes": "Blue Army: Rosary & meditation after 8:15 AM Mass; confession until ~10:30 AM",
+          "notes": "1st Saturday of the month; Blue Army: Rosary & meditation after 8:15 AM Mass; confession until ~10:30 AM",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -15194,7 +15160,7 @@
           "notes": "St. Anthony Novena \u2014 October through June",
           "seasonal": {
             "is_seasonal": true,
-            "season": "academic_year"
+            "season": "school_year"
           },
           "source": "bulletin_2026-02",
           "validated": true
@@ -15210,7 +15176,7 @@
           "notes": "August through June",
           "seasonal": {
             "is_seasonal": true,
-            "season": "academic_year"
+            "season": "school_year"
           },
           "source": "bulletin_2026-02",
           "validated": true
@@ -16713,7 +16679,7 @@
           "time": "16:00",
           "end_time": "16:20",
           "location_id": "st-paul-the-apostle-church-springfield",
-          "language": null,
+          "language": "en",
           "notes": null,
           "seasonal": {
             "is_seasonal": false,
@@ -16731,7 +16697,7 @@
           "time": "10:00",
           "end_time": "10:45",
           "location_id": "st-paul-the-apostle-church-springfield",
-          "language": null,
+          "language": "en",
           "notes": "also by appointment",
           "seasonal": {
             "is_seasonal": false,
@@ -17849,12 +17815,12 @@
         {
           "id": "parish_074-dail-bul-8410",
           "type": "daily_mass",
-          "day": "first_friday",
+          "day": "friday",
           "time": "18:00",
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "First Friday Mass",
+          "notes": "1st Friday of the month; First Friday Mass",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -17865,12 +17831,12 @@
         {
           "id": "parish_074-ador-bul-0797",
           "type": "adoration",
-          "day": "first_friday",
+          "day": "friday",
           "time": "15:00",
           "end_time": "17:50",
           "location_id": null,
           "language": "en",
-          "notes": "First Friday Adoration, 3-5:50pm",
+          "notes": "1st Friday of the month; First Friday Adoration, 3-5:50pm",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -18326,12 +18292,12 @@
         {
           "id": "parish_076-dail-man-5221",
           "type": "daily_mass",
-          "day": "first_friday",
+          "day": "friday",
           "time": "08:00",
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Mass on 1st Friday (holidays 9am)",
+          "notes": "1st Friday of the month; Mass on 1st Friday (holidays 9am)",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -18520,7 +18486,7 @@
           "time": "15:00",
           "end_time": "15:45",
           "location_id": "holy-trinity-church-westfield",
-          "language": null,
+          "language": "en",
           "notes": "St. Peters & St. Casimir Parish, 22 State Street, Westfield; also by appointment",
           "seasonal": {
             "is_seasonal": false,
@@ -18533,7 +18499,7 @@
         }
       ],
       "validation": {
-        "status": "manually_verified",
+        "status": "needs_verification",
         "last_checked": "2026-02-21",
         "pdf_version": "Jan 20, 2026",
         "discrepancies": [
@@ -18698,7 +18664,7 @@
           "time": "15:00",
           "end_time": "15:30",
           "location_id": "our-lady-of-the-blessed-sacrament-church-westfield",
-          "language": null,
+          "language": "en",
           "notes": null,
           "seasonal": {
             "is_seasonal": false,
@@ -18711,7 +18677,7 @@
         }
       ],
       "validation": {
-        "status": "manually_verified",
+        "status": "needs_verification",
         "last_checked": "2026-02-21",
         "pdf_version": "Jan 20, 2026",
         "discrepancies": [
@@ -18924,7 +18890,7 @@
         }
       ],
       "validation": {
-        "status": "manually_verified",
+        "status": "needs_verification",
         "last_checked": "2026-02-21",
         "discrepancies": [
           "FIXED Issue #1: Wed adoration 9 AM - 5 PM now included.",
@@ -19041,7 +19007,7 @@
           "time": "15:00",
           "end_time": "15:30",
           "location_id": "st-peter-and-st-casimir-church-westfield",
-          "language": null,
+          "language": "en",
           "notes": null,
           "seasonal": {
             "is_seasonal": false,
@@ -19172,12 +19138,12 @@
         {
           "id": "parish_082-ador-man-7519",
           "type": "adoration",
-          "day": "first_friday",
+          "day": "friday",
           "time": "09:00",
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "First Friday Holy Hour",
+          "notes": "1st Friday of the month; First Friday Holy Hour",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
