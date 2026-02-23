@@ -14381,7 +14381,7 @@
         }
       ],
       "validation": {
-        "status": "needs_verification",
+        "status": "manually_verified",
         "last_checked": "2026-02-20",
         "pdf_version": "Jan 20, 2026",
         "discrepancies": [
@@ -18499,7 +18499,7 @@
         }
       ],
       "validation": {
-        "status": "needs_verification",
+        "status": "manually_verified",
         "last_checked": "2026-02-21",
         "pdf_version": "Jan 20, 2026",
         "discrepancies": [
@@ -18677,7 +18677,7 @@
         }
       ],
       "validation": {
-        "status": "needs_verification",
+        "status": "manually_verified",
         "last_checked": "2026-02-21",
         "pdf_version": "Jan 20, 2026",
         "discrepancies": [
@@ -18890,7 +18890,7 @@
         }
       ],
       "validation": {
-        "status": "needs_verification",
+        "status": "manually_verified",
         "last_checked": "2026-02-21",
         "discrepancies": [
           "FIXED Issue #1: Wed adoration 9 AM - 5 PM now included.",
