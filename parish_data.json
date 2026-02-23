@@ -535,12 +535,12 @@
         {
           "id": "parish_003-mass-1stsat-0800",
           "type": "sunday_mass",
-          "day": "saturday",
+          "day": "first_saturday",
           "time": "08:00",
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "1st Saturday of the month; First Saturday Monthly",
+          "notes": "First Saturday Monthly",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -803,12 +803,12 @@
         {
           "id": "parish_004-ador-1stfri",
           "type": "adoration",
-          "day": "friday",
+          "day": "first_friday",
           "time": "12:45",
           "end_time": "09:00",
           "location_id": null,
           "language": "en",
-          "notes": "1st Friday of the month; After 12:15 PM Mass through Saturday 9:00 AM Mass \u2014 academic year only",
+          "notes": "After 12:15 PM Mass through Saturday 9:00 AM Mass \u2014 academic year only",
           "seasonal": {
             "is_seasonal": true,
             "season": "school_year"
@@ -1858,12 +1858,12 @@
         {
           "id": "parish_010-mass-1stsat-0900",
           "type": "sunday_mass",
-          "day": "saturday",
+          "day": "first_saturday",
           "time": "09:00",
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "1st Saturday of the month; First Saturday Monthly",
+          "notes": "First Saturday Monthly",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -2418,12 +2418,12 @@
         {
           "id": "parish_012-mass-1stfri-0900",
           "type": "daily_mass",
-          "day": "friday",
+          "day": "first_friday",
           "time": "09:00",
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "1st Friday of the month; During school year only",
+          "notes": "During school year only",
           "seasonal": {
             "is_seasonal": true,
             "season": "school_year"
@@ -2482,12 +2482,12 @@
         {
           "id": "parish_012-ador-1stfri",
           "type": "adoration",
-          "day": "friday",
+          "day": "first_friday",
           "time": "07:30",
           "end_time": "15:30",
           "location_id": null,
           "language": "en",
-          "notes": "1st Friday of the month; Parish Center",
+          "notes": "Parish Center",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -2859,12 +2859,12 @@
         {
           "id": "parish_013-mass-1stfri-1900",
           "type": "daily_mass",
-          "day": "friday",
+          "day": "first_friday",
           "time": "19:00",
           "end_time": null,
           "location_id": null,
           "language": "pl",
-          "notes": "1st Friday of the month; Polish Mass \u2014 1st Friday",
+          "notes": "Polish Mass \u2014 1st Friday",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -2891,12 +2891,12 @@
         {
           "id": "parish_013-ador-1stfri",
           "type": "adoration",
-          "day": "friday",
+          "day": "first_friday",
           "time": "06:45",
           "end_time": "19:00",
           "location_id": null,
           "language": "en",
-          "notes": "1st Friday of the month; After 6:30 AM Mass until 7:00 PM",
+          "notes": "After 6:30 AM Mass until 7:00 PM",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -2907,12 +2907,12 @@
         {
           "id": "parish_013-ador-1stsat",
           "type": "adoration",
-          "day": "saturday",
+          "day": "first_saturday",
           "time": "07:30",
           "end_time": "11:00",
           "location_id": null,
           "language": "en",
-          "notes": "1st Saturday of the month",
+          "notes": null,
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -4192,12 +4192,12 @@
         {
           "id": "parish_019-conf-1stsat",
           "type": "confession",
-          "day": "saturday",
+          "day": "first_saturday",
           "time": "15:00",
           "end_time": "15:30",
           "location_id": "sacredheart-church-feedinghills",
           "language": "en",
-          "notes": "1st Saturday of the month; First Saturday of every month",
+          "notes": "First Saturday of every month",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -5010,12 +5010,12 @@
         {
           "id": "parish_022-dail-firstsat",
           "type": "daily_mass",
-          "day": "saturday",
+          "day": "first_saturday",
           "time": "08:00",
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "1st Saturday of the month; Location not specified in bulletin",
+          "notes": "Location not specified in bulletin",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -5317,12 +5317,12 @@
         {
           "id": "parish_023-mass-1stfri-1300",
           "type": "daily_mass",
-          "day": "friday",
+          "day": "first_friday",
           "time": "13:00",
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "1st Friday of the month; Additional 1st Friday Mass",
+          "notes": "Additional 1st Friday Mass",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -5365,12 +5365,12 @@
         {
           "id": "parish_023-conf-1stfri-1230",
           "type": "confession",
-          "day": "friday",
+          "day": "first_friday",
           "time": "12:30",
           "end_time": "12:50",
           "location_id": null,
           "language": "en",
-          "notes": "1st Friday of the month; Before 1:00 PM 1st Friday Mass",
+          "notes": "Before 1:00 PM 1st Friday Mass",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -5397,12 +5397,12 @@
         {
           "id": "parish_023-ador-1stfri",
           "type": "adoration",
-          "day": "friday",
+          "day": "first_friday",
           "time": "13:30",
           "end_time": "15:00",
           "location_id": null,
           "language": "en",
-          "notes": "1st Friday of the month; After 1:00 PM Mass until 3:00 PM",
+          "notes": "After 1:00 PM Mass until 3:00 PM",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -6914,12 +6914,12 @@
         {
           "id": "parish_029-con-001",
           "type": "confession",
-          "day": "friday",
+          "day": "first_friday",
           "time": "18:00",
           "end_time": "18:45",
           "location_id": "st-jerome-church-holyoke",
           "language": "en",
-          "notes": "1st Friday of the month; 1st Fridays only",
+          "notes": "1st Fridays only",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -6962,12 +6962,12 @@
         {
           "id": "parish_029-ador-001",
           "type": "adoration",
-          "day": "friday",
+          "day": "first_friday",
           "time": "17:00",
           "end_time": "22:00",
           "location_id": "st-jerome-church-holyoke",
           "language": "en",
-          "notes": "1st Friday of the month; 1st Fridays only \u2014 St. Patrick's Chapel",
+          "notes": "1st Fridays only \u2014 St. Patrick's Chapel",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -8317,12 +8317,12 @@
         {
           "id": "parish_035-ador-1fri",
           "type": "adoration",
-          "day": "friday",
+          "day": "first_friday",
           "time": "12:00",
           "end_time": "17:00",
           "location_id": null,
           "language": "en",
-          "notes": "1st Friday of the month; 1st Friday Adoration",
+          "notes": "1st Friday Adoration",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -8333,12 +8333,12 @@
         {
           "id": "parish_035-sun-1sat",
           "type": "sunday_mass",
-          "day": "saturday",
+          "day": "first_saturday",
           "time": "08:00",
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "1st Saturday of the month; Respect for Life Mass; Rosary follows at ~8:30 AM",
+          "notes": "Respect for Life Mass; Rosary follows at ~8:30 AM",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -9708,12 +9708,12 @@
         {
           "id": "parish_041-con-firstsat",
           "type": "confession",
-          "day": "saturday",
+          "day": "first_saturday",
           "time": "07:00",
           "end_time": null,
           "location_id": "st-elizabeth-of-hungary-church-north-adams",
           "language": "en",
-          "notes": "1st Saturday of the month; First Saturday \u2014 followed by Rosary at 7:30 AM and Mass at 8:00 AM",
+          "notes": "First Saturday \u2014 followed by Rosary at 7:30 AM and Mass at 8:00 AM",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -9724,12 +9724,12 @@
         {
           "id": "parish_041-rosa-firstsat",
           "type": "rosary",
-          "day": "saturday",
+          "day": "first_saturday",
           "time": "07:30",
           "end_time": null,
           "location_id": "st-elizabeth-of-hungary-church-north-adams",
           "language": "en",
-          "notes": "1st Saturday of the month; First Saturday Rosary \u2014 after 7:00 AM confession",
+          "notes": "First Saturday Rosary \u2014 after 7:00 AM confession",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -9740,12 +9740,12 @@
         {
           "id": "parish_041-dai-firstsat",
           "type": "daily_mass",
-          "day": "saturday",
+          "day": "first_saturday",
           "time": "08:00",
           "end_time": null,
           "location_id": "st-elizabeth-of-hungary-church-north-adams",
           "language": "en",
-          "notes": "1st Saturday of the month; First Saturday Mass",
+          "notes": "First Saturday Mass",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -11253,12 +11253,12 @@
         {
           "id": "parish_048-dai-1sat",
           "type": "daily_mass",
-          "day": "saturday",
+          "day": "first_saturday",
           "time": "09:00",
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "1st Saturday of the month; 1st Saturday Mass \u2014 Parish Center Chapel",
+          "notes": "1st Saturday Mass \u2014 Parish Center Chapel",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -11285,12 +11285,12 @@
         {
           "id": "parish_048-con-1fri",
           "type": "confession",
-          "day": "friday",
+          "day": "first_friday",
           "time": "08:00",
           "end_time": "08:30",
           "location_id": null,
           "language": "en",
-          "notes": "1st Friday of the month; 1st Friday only",
+          "notes": "1st Friday only",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -11301,12 +11301,12 @@
         {
           "id": "parish_048-con-1sat",
           "type": "confession",
-          "day": "saturday",
+          "day": "first_saturday",
           "time": "08:00",
           "end_time": "08:30",
           "location_id": null,
           "language": "en",
-          "notes": "1st Saturday of the month; 1st Saturday only",
+          "notes": "1st Saturday only",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -11317,12 +11317,12 @@
         {
           "id": "parish_048-ador-1fri",
           "type": "adoration",
-          "day": "friday",
+          "day": "first_friday",
           "time": "08:00",
           "end_time": "09:00",
           "location_id": null,
           "language": "en",
-          "notes": "1st Friday of the month; 1st Friday Holy Hour \u2014 Parish Center Chapel",
+          "notes": "1st Friday Holy Hour \u2014 Parish Center Chapel",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -11333,12 +11333,12 @@
         {
           "id": "parish_048-ador-1sat",
           "type": "adoration",
-          "day": "saturday",
+          "day": "first_saturday",
           "time": "08:00",
           "end_time": "09:00",
           "location_id": null,
           "language": "en",
-          "notes": "1st Saturday of the month; 1st Saturday Holy Hour \u2014 Parish Center Chapel",
+          "notes": "1st Saturday Holy Hour \u2014 Parish Center Chapel",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -13110,12 +13110,12 @@
         {
           "id": "parish_055-ador-1stfri",
           "type": "adoration",
-          "day": "friday",
+          "day": "first_friday",
           "time": "11:30",
           "end_time": "16:30",
           "location_id": null,
           "language": "en",
-          "notes": "1st Friday of the month; First Friday Adoration",
+          "notes": "First Friday Adoration",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -13331,12 +13331,12 @@
         {
           "id": "parish_056-mass-1stsat-0800",
           "type": "sunday_mass",
-          "day": "saturday",
+          "day": "first_saturday",
           "time": "08:00",
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "1st Saturday of the month; First Saturday Monthly",
+          "notes": "First Saturday Monthly",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -14705,12 +14705,12 @@
         {
           "id": "parish_061-dev-1sat",
           "type": "devotion",
-          "day": "saturday",
+          "day": "first_saturday",
           "time": "09:00",
           "end_time": "10:30",
           "location_id": null,
           "language": "en",
-          "notes": "1st Saturday of the month; Blue Army: Rosary & meditation after 8:15 AM Mass; confession until ~10:30 AM",
+          "notes": "Blue Army: Rosary & meditation after 8:15 AM Mass; confession until ~10:30 AM",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -17815,12 +17815,12 @@
         {
           "id": "parish_074-dail-bul-8410",
           "type": "daily_mass",
-          "day": "friday",
+          "day": "first_friday",
           "time": "18:00",
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "1st Friday of the month; First Friday Mass",
+          "notes": "First Friday Mass",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -17831,12 +17831,12 @@
         {
           "id": "parish_074-ador-bul-0797",
           "type": "adoration",
-          "day": "friday",
+          "day": "first_friday",
           "time": "15:00",
           "end_time": "17:50",
           "location_id": null,
           "language": "en",
-          "notes": "1st Friday of the month; First Friday Adoration, 3-5:50pm",
+          "notes": "First Friday Adoration, 3-5:50pm",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -18292,12 +18292,12 @@
         {
           "id": "parish_076-dail-man-5221",
           "type": "daily_mass",
-          "day": "friday",
+          "day": "first_friday",
           "time": "08:00",
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "1st Friday of the month; Mass on 1st Friday (holidays 9am)",
+          "notes": "Mass on 1st Friday (holidays 9am)",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -19138,12 +19138,12 @@
         {
           "id": "parish_082-ador-man-7519",
           "type": "adoration",
-          "day": "friday",
+          "day": "first_friday",
           "time": "09:00",
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "1st Friday of the month; First Friday Holy Hour",
+          "notes": "First Friday Holy Hour",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
