@@ -45,32 +45,39 @@
   .header-inner {
     max-width: 1280px;
     margin: 0 auto;
-    padding: 14px 24px;
+    padding: 8px 20px;
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 12px;
   }
   .header-cross {
     color: var(--gold);
-    font-size: 28px;
+    font-size: 22px;
     line-height: 1;
     flex-shrink: 0;
   }
+  .header-title {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
   .header-title h1 {
     font-family: 'Playfair Display', serif;
-    font-size: 1.35rem;
+    font-size: 1.1rem;
     font-weight: 700;
     color: #fff;
     letter-spacing: 0.01em;
-    line-height: 1.2;
+    line-height: 1;
+    white-space: nowrap;
   }
   .header-title p {
-    font-size: 0.78rem;
+    font-size: 0.7rem;
     color: var(--gold-light);
     font-weight: 400;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.07em;
     text-transform: uppercase;
-    margin-top: 1px;
+    white-space: nowrap;
   }
   .header-badge {
     margin-left: auto;
@@ -430,16 +437,16 @@
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    padding: 6px 14px;
+    padding: 5px 13px;
     border-radius: 20px;
     border: 2px solid #a8d5b5;
     background: #fff;
     color: var(--green);
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     font-weight: 600;
     cursor: pointer;
     white-space: nowrap;
-    transition: background 0.15s, color 0.15s;
+    transition: all 0.15s;
     font-family: inherit;
     animation: lent-pulse 2.5s ease-in-out infinite;
   }
@@ -453,6 +460,11 @@
     border-color: #2e7d52;
     color: #fff;
     animation: none;
+    box-shadow: 0 0 0 3px rgba(46,125,82,0.25);
+  }
+  .lent-toggle.active::before {
+    content: "✓ ";
+    font-size: 0.75rem;
   }
 
   /* CARD FOOTER */
@@ -478,6 +490,146 @@
   .verified-badge.low { color: #e8a020; }
   .verified-badge.needs-review { color: #b07d00; }
   .verified-badge.low-confidence { color: #c0550a; }
+
+  /* SORT TOGGLE */
+  .sort-toggle {
+    display: inline-flex;
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .sort-btn {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 4px 9px;
+    background: #fff;
+    border: none;
+    border-right: 1px solid var(--border);
+    color: var(--text-light);
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.12s, color 0.12s;
+    white-space: nowrap;
+  }
+  .sort-btn:last-child { border-right: none; }
+  .sort-btn:hover { background: var(--warm-gray); color: var(--navy); }
+  .sort-btn.active { background: var(--navy); color: #fff; }
+  /* Hide sort toggle until location is available — shown by JS */
+  .sort-toggle { display: none; }
+  .sort-toggle.location-ready { display: inline-flex; }
+
+  /* STATUS DOT — compact verification badge */
+  .status-dot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    font-size: 0.65rem;
+    font-weight: 800;
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+    transition: transform 0.1s;
+    font-family: 'Source Sans 3', sans-serif;
+  }
+  .status-dot:hover { transform: scale(1.15); }
+  .status-green  { background: rgba(46,125,82,0.2);  color: #2e7d52; border: 1.5px solid #2e7d52; }
+  .status-yellow { background: rgba(180,140,0,0.15); color: #9a7800; border: 1.5px solid #b09000; }
+  .status-orange { background: rgba(192,85,10,0.15); color: #c0550a; border: 1.5px solid #c0550a; }
+  .status-red    { background: rgba(192,57,43,0.12); color: #c0392b; border: 1.5px solid #c0392b; }
+  /* Tooltip */
+  .status-dot::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: calc(100% + 5px);
+    right: 0;
+    background: rgba(20,30,50,0.95);
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 400;
+    white-space: nowrap;
+    padding: 4px 8px;
+    border-radius: 4px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s;
+    z-index: 50;
+    max-width: 220px;
+    white-space: normal;
+    text-align: left;
+    line-height: 1.3;
+  }
+  .status-dot:hover::after,
+  .status-dot.tip-open::after { opacity: 1; }
+
+  /* BULLETIN LINK */
+  .bulletin-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--navy);
+    background: var(--gold-light);
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    padding: 3px 8px;
+    text-decoration: none;
+    margin: 0 0 8px 0;
+    transition: background 0.15s;
+  }
+  .bulletin-link:hover { background: var(--gold); color: var(--navy); }
+
+  /* CONTACT DRAWER */
+  .contact-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--navy);
+    background: transparent;
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 10px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .contact-toggle-btn:hover { border-color: var(--navy); background: var(--warm-gray); }
+  .contact-toggle-btn.open { border-color: var(--navy); background: var(--navy); color: #fff; }
+  .contact-drawer {
+    display: none;
+    background: var(--warm-gray);
+    border-top: 1px solid var(--border);
+    padding: 10px 16px;
+    font-size: 0.78rem;
+    color: var(--text);
+    gap: 6px;
+    flex-direction: column;
+  }
+  .contact-drawer.open { display: flex; }
+  .contact-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.4;
+  }
+  .contact-row-label {
+    font-weight: 700;
+    color: var(--text-light);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    min-width: 80px;
+    flex-shrink: 0;
+    padding-top: 1px;
+  }
+  .contact-row-val { color: var(--text); }
+  .contact-row-val a { color: var(--navy); font-weight: 600; }
 
   /* CLEAR FILTERS BUTTON */
   .clear-filters-btn {
@@ -1217,51 +1369,6 @@
     }
   }
 
-  /* ── QUICK ACTION BAR ── */
-  .quick-bar {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 8px 16px;
-    display: flex;
-    gap: 8px;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    align-items: center;
-  }
-  .quick-bar::-webkit-scrollbar { display: none; }
-  .quick-btn {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    padding: 6px 14px;
-    border-radius: 20px;
-    border: 1.5px solid var(--gold-light);
-    background: var(--gold-pale);
-    color: #6b4f00;
-    font-size: 0.78rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.15s, border-color 0.15s;
-    white-space: nowrap;
-  }
-  .quick-btn:hover, .quick-btn.active {
-    background: var(--gold-light);
-    border-color: var(--gold);
-    color: var(--navy);
-  }
-  #btnLentNearMe {
-    border-color: #c9a0e0;
-    background: #f5eeff;
-    color: #7c4fa0;
-  }
-  #btnLentNearMe:hover, #btnLentNearMe.active {
-    background: #7c4fa0;
-    border-color: #7c4fa0;
-    color: #fff;
-  }
-  .quick-btn-icon { font-size: 0.9rem; }
 
   /* ── LANGUAGE BAR ── */
   .lang-bar {
@@ -1333,16 +1440,7 @@
     align-items: center;
     gap: 6px;
   }
-  .proximity-bar {
-    background: #eef7f0;
-    border-bottom: 1px solid #a8d5b5;
-    padding: 8px 24px;
-    font-size: 0.8rem;
-    color: var(--green);
-    display: none;
-  }
-  .proximity-bar.active { display: flex; align-items: center; gap: 8px; }
-  .proximity-bar a { color: var(--green); font-weight: 600; cursor: pointer; text-decoration: underline; font-size: 0.78rem; margin-left: auto; }
+
 
 </style>
 </head>
@@ -1353,8 +1451,8 @@
   <div class="header-inner">
     <div class="header-cross">✝</div>
     <div class="header-title">
-      <h1>Young &amp; Catholic WMass</h1>
-      <p>Catholic Parish &amp; Services Finder</p>
+      <h1>WMass Catholic</h1>
+      <p>Parish &amp; Services Finder</p>
     </div>
     <div class="header-badge" id="headerBadge">Loading…</div>
   </div>
@@ -1372,7 +1470,7 @@
       <div class="soon-mode-tabs" id="soonModeTabs">
         <button class="soon-mode-tab active" data-mode="mass">Mass</button>
         <button class="soon-mode-tab" data-mode="confession">Confession</button>
-        <button class="soon-mode-tab lenten" data-mode="lenten">✦ Lenten</button>
+        <button class="soon-mode-tab lenten" data-mode="lenten">✦ Lent</button>
       </div>
       <!-- Controls: inline on desktop, separate row on mobile -->
       <div class="soon-controls" id="soonControls">
@@ -1388,23 +1486,7 @@
 
 
 
-<div class="quick-bar" id="quickBar">
-  <button class="quick-btn" id="btnThisWeekend" onclick="quickThisWeekend()">
-    <span class="quick-btn-icon">🗓</span> This Weekend
-  </button>
-  <button class="quick-btn" id="btnLentNearMe" onclick="quickLentNearMe()">
-    <span class="quick-btn-icon">✦</span> Lenten Near Me
-  </button>
-  <button class="quick-btn" id="btnConfession" onclick="quickConfession()">
-    <span class="quick-btn-icon">🙏</span> Find Confession
-  </button>
-  <button class="quick-btn" id="btnNearMe" onclick="quickNearMe()">
-    <span class="quick-btn-icon">📍</span> Near Me
-  </button>
-  <button class="quick-btn" id="btnClearQuick" onclick="clearQuick()" style="display:none; border-color:var(--border); background:#fff; color:var(--text-light)">
-    ✕ Clear
-  </button>
-</div>
+
 
 <div class="controls-bar">
   <div class="controls-inner">
@@ -1446,7 +1528,11 @@
       <button class="chip" data-cat="adoration">Adoration</button>
       <button class="chip" data-cat="devotion">Devotions</button>
     </div>
-    <button class="lent-toggle" id="lentToggle" title="Show only Lenten seasonal services">&#9899; Lent</button>
+    <button class="lent-toggle" id="lentToggle" title="Show only Lenten seasonal services">✦ Lent</button>
+    <div class="sort-toggle" id="sortToggle">
+      <button class="sort-btn active" data-sort="proximity" id="sortProximity" title="Sort by distance" onclick="setSortMode('proximity')">📍</button>
+      <button class="sort-btn" data-sort="alpha" id="sortAlpha" title="Sort A→Z" onclick="setSortMode('alpha')">A→Z</button>
+    </div>
     <button class="clear-filters-btn" id="clearFiltersBtn" style="display:none;" onclick="clearAllFilters()">&#10005; Clear Filters</button>
     <span class="results-count" id="resultsCount"></span>
   </div>
@@ -1466,10 +1552,7 @@
   <button class="add-parish-btn" id="addParishBtn" style="display:none;" onclick="openNewParish()">➕ Add My Parish</button>
 </div>
 
-<div class="proximity-bar" id="proximityBar">
-  &#128205; Sorted by distance from your location
-  <a onclick="clearLocationSort()">✕ Stop sorting by distance</a>
-</div>
+
 
 <main>
   <div class="parish-grid" id="parishGrid">
@@ -1867,9 +1950,8 @@ function renderLentenSection(allServices, dayFilter, categoryFilter, subtypeFilt
 
 function getVerifiedBadge(p) {
   const val = p.validation;
-  if (!val) return `<span class="verified-badge low">&#9888; Unverified</span>`;
+  if (!val) return `<span class="status-dot status-red" data-tooltip="Not yet verified" onclick="this.classList.toggle('tip-open')">?</span>`;
 
-  // Date-decay: how many months since last_checked?
   let monthsOld = Infinity;
   if (val.last_checked) {
     const checked = new Date(val.last_checked);
@@ -1877,28 +1959,24 @@ function getVerifiedBadge(p) {
     monthsOld = (now.getFullYear() - checked.getFullYear()) * 12 + (now.getMonth() - checked.getMonth());
   }
 
-  // Format the bulletin month for display (e.g. "2026-02" → "Feb 2026")
   let dateLabel = '';
   if (val.bulletin_date) {
     const [yr, mo] = val.bulletin_date.split('-');
     const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    dateLabel = ` · ${months[parseInt(mo,10)-1]} ${yr}`;
+    dateLabel = ` (${months[parseInt(mo,10)-1]} ${yr})`;
   } else if (val.last_checked) {
     const d = new Date(val.last_checked);
     const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    dateLabel = ` · ${months[d.getMonth()]} ${d.getFullYear()}`;
+    dateLabel = ` (${months[d.getMonth()]} ${d.getFullYear()})`;
   }
 
   const status = val.status;
-
-  // Base tier from status
-  let tier; // 'green' | 'yellow' | 'orange' | 'red'
+  let tier;
   if (status === 'verified' || status === 'manually_verified') tier = 'green';
   else if (status === 'needs_verification' || status === 'deferred') tier = 'yellow';
   else if (status === 'low_confidence') tier = 'orange';
-  else tier = 'red'; // excluded or unknown
+  else tier = 'red';
 
-  // Date-decay: downgrade one step per threshold
   if (tier === 'green') {
     if (monthsOld >= 6) tier = 'orange';
     else if (monthsOld >= 3) tier = 'yellow';
@@ -1906,15 +1984,14 @@ function getVerifiedBadge(p) {
     if (monthsOld >= 6) tier = 'orange';
   }
 
-  if (tier === 'green') {
-    return `<span class="verified-badge verified" title="Verified against parish bulletin${dateLabel}">&#10003; Verified${dateLabel}</span>`;
-  } else if (tier === 'yellow') {
-    return `<span class="verified-badge needs-review" title="Data present but pending re-verification${dateLabel}">&#9888; Needs review${dateLabel}</span>`;
-  } else if (tier === 'orange') {
-    return `<span class="verified-badge low-confidence" title="Low confidence — verify times with parish directly${dateLabel}">&#9888; Low confidence${dateLabel}</span>`;
-  } else {
-    return `<span class="verified-badge low" title="Not yet verified">&#9888; Unverified</span>`;
-  }
+  const configs = {
+    green:  { icon: '✓', cls: 'status-green', tip: `Verified${dateLabel}` },
+    yellow: { icon: '–', cls: 'status-yellow', tip: `Needs review${dateLabel} — confirm times with parish` },
+    orange: { icon: '!', cls: 'status-orange', tip: `Low confidence${dateLabel} — verify times directly with parish` },
+    red:    { icon: '?', cls: 'status-red',    tip: 'Not yet verified' },
+  };
+  const { icon, cls, tip } = configs[tier];
+  return `<span class="status-dot ${cls}" data-tooltip="${tip}" onclick="this.classList.toggle('tip-open')">${icon}</span>`;
 }
 
 function renderParishCard(p, dayFilter, categoryFilter, subtypeFilter, langFilter, lentOnly, distMiles) {
@@ -1938,15 +2015,6 @@ function renderParishCard(p, dayFilter, categoryFilter, subtypeFilter, langFilte
   // Lenten section: only show when NOT in lentOnly filter mode (that already filters all sections)
   const lentSect  = lentOnly ? '' : renderLentenSection(p.services || [], dayFilter, categoryFilter, subtypeFilter, langFilter);
 
-  const phone = p.contact && p.contact.phone
-    ? `<span class="meta-item">&#128222; <a href="tel:${p.contact.phone.replace(/\D/g,'')}" class="phone-link" title="Tap to call ${p.contact.phone}">${p.contact.phone}</a></span>`
-    : '';
-  const website = p.contact && p.contact.website
-    ? `<span class="meta-item">&#127760; <a href="${p.contact.website}" target="_blank" rel="noopener">Website</a></span>` : '';
-  const multiSite = p.locations && p.locations.filter(l => l.type === 'church').length > 1
-    ? `<span class="meta-item">&#127963; ${p.locations.filter(l=>l.type==='church').length} church locations</span>` : '';
-
-  // Directions button
   const loc = p.locations && p.locations[0];
   const addr = loc && loc.address ? loc.address : `${p.name}, ${p.town}, MA`;
   const mapsUrl = /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent) && !window.MSStream
@@ -1954,17 +2022,46 @@ function renderParishCard(p, dayFilter, categoryFilter, subtypeFilter, langFilte
     : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addr)}`;
   const directionsBtn = `<a class="directions-btn" href="${mapsUrl}" target="_blank" rel="noopener">&#128205; Directions</a>`;
 
-  // Distance badge
   const distHtml = (distMiles !== undefined && distMiles !== null)
     ? `<span class="dist-badge${distMiles <= 5 ? ' near' : ''}">&#128205; ${distMiles.toFixed(1)} mi</span>`
     : '';
 
-  // Office hours — separate from service times, clearly labelled
-  const officeHours = p.contact && p.contact.office_hours
-    ? `<div class="office-hours-bar">&#127970; <strong>Parish Office Hours:</strong> ${p.contact.office_hours}</div>` : '';
+  const multiSite = p.locations && p.locations.filter(l => l.type === 'church').length > 1
+    ? `<span class="meta-item">&#127963; ${p.locations.filter(l=>l.type==='church').length} locations</span>` : '';
 
-  const pastor  = p.staff && p.staff.pastor && p.staff.pastor !== 'Not assigned'
-    ? `<span class="pastor-name">${p.staff.pastor}</span>` : `<span></span>`;
+  // Bulletin link — top of card if available
+  const bulletinLink = p.bulletin_url
+    ? `<a class="bulletin-link" href="${p.bulletin_url}" target="_blank" rel="noopener">&#128196; Parish Bulletin</a>` : '';
+
+  // Build contact drawer rows
+  const c = p.contact || {};
+  const st = p.staff || {};
+  const contactRows = [];
+  if (c.phone) contactRows.push(`<div class="contact-row"><span class="contact-row-label">Phone</span><span class="contact-row-val"><a href="tel:${c.phone.replace(/\D/g,'')}" class="phone-link">${c.phone}</a></span></div>`);
+  if (c.fax)   contactRows.push(`<div class="contact-row"><span class="contact-row-label">Fax</span><span class="contact-row-val">${c.fax}</span></div>`);
+  if (c.emails && c.emails.length) {
+    const emailList = c.emails.map(e => `<a href="mailto:${e}">${e}</a>`).join(', ');
+    contactRows.push(`<div class="contact-row"><span class="contact-row-label">Email</span><span class="contact-row-val">${emailList}</span></div>`);
+  }
+  if (c.website) contactRows.push(`<div class="contact-row"><span class="contact-row-label">Website</span><span class="contact-row-val"><a href="${c.website}" target="_blank" rel="noopener">${c.website.replace(/^https?:\/\//,'')}</a></span></div>`);
+  if (c.office_hours) contactRows.push(`<div class="contact-row"><span class="contact-row-label">Office hrs</span><span class="contact-row-val">${c.office_hours}</span></div>`);
+  if (loc && loc.address) contactRows.push(`<div class="contact-row"><span class="contact-row-label">Address</span><span class="contact-row-val">${loc.address}</span></div>`);
+  if (c.office_address) contactRows.push(`<div class="contact-row"><span class="contact-row-label">Mailing</span><span class="contact-row-val">${c.office_address}</span></div>`);
+  if (st.pastor && st.pastor !== 'Not assigned') contactRows.push(`<div class="contact-row"><span class="contact-row-label">Pastor</span><span class="contact-row-val">${st.pastor}</span></div>`);
+  if (st.deacon) contactRows.push(`<div class="contact-row"><span class="contact-row-label">Deacon</span><span class="contact-row-val">${st.deacon}</span></div>`);
+  if (st.additional && st.additional.length) {
+    st.additional.forEach(s => {
+      if (s.name) contactRows.push(`<div class="contact-row"><span class="contact-row-label">${s.role||'Staff'}</span><span class="contact-row-val">${s.name}</span></div>`);
+    });
+  }
+  if (c.notes) contactRows.push(`<div class="contact-row"><span class="contact-row-label">Notes</span><span class="contact-row-val">${c.notes}</span></div>`);
+
+  const contactDrawer = contactRows.length
+    ? `<button class="contact-toggle-btn" onclick="toggleContact(this)">&#9742; Contact</button>
+       <div class="contact-drawer">${contactRows.join('')}</div>` : '';
+
+  const pastor = st.pastor && st.pastor !== 'Not assigned'
+    ? `<span class="pastor-name">${st.pastor}</span>` : `<span></span>`;
 
   const confBadge = getVerifiedBadge(p);
 
@@ -1978,8 +2075,8 @@ function renderParishCard(p, dayFilter, categoryFilter, subtypeFilter, langFilte
       <span class="county-badge">${confBadge}</span>
       ${confWarn}
     </div>
-    ${officeHours}
-    <div class="card-meta">${phone}${website}${directionsBtn}${distHtml}${multiSite}</div>
+    ${bulletinLink ? `<div style="padding:8px 16px 0;">${bulletinLink}</div>` : ''}
+    <div class="card-meta">${directionsBtn}${distHtml}${multiSite}${contactDrawer}</div>
     <div class="card-body">
       ${massSect}${lentSect}${confSect}${adorSect}${devotSect}${otherSect}
     </div>
@@ -2077,8 +2174,8 @@ function render() {
     return true;
   });
 
-  // Sort by proximity if location known
-  if (userLat !== null) {
+  // Sort based on sortMode
+  if (sortMode === 'proximity' && userLat !== null) {
     filtered.sort((a, b) => {
       const da = getDistMiles(a);
       const db = getDistMiles(b);
@@ -2087,6 +2184,9 @@ function render() {
       if (db === null) return -1;
       return da - db;
     });
+  } else {
+    // Alphabetical (default)
+    filtered.sort((a, b) => a.name.localeCompare(b.name));
   }
   var html = filtered.map(function(p) {
     return renderParishCard(p, day, cat, subtype, lang, lentOnly, getDistMiles(p));
@@ -2167,7 +2267,7 @@ function haversine(lat1, lng1, lat2, lng2) {
   if (p.get('county')) countyFilter.value = p.get('county');
   if (p.get('day'))    dayFilterEl.value = p.get('day');
   if (p.get('lang'))   langFilterEl.value = p.get('lang');
-  if (p.get('lent'))   { lentOnly = true; lentToggleEl.classList.add('active'); lentToggleEl.textContent = '✦ Lent (on)'; }
+  if (p.get('lent'))   { lentOnly = true; lentToggleEl.classList.add('active'); lentToggleEl.textContent = 'Lent'; }
   if (p.get('cat')) {
     activeCategory = p.get('cat');
     categoryChips.querySelectorAll('[data-cat]').forEach(c => c.classList.toggle('active', c.dataset.cat === activeCategory));
@@ -2191,6 +2291,7 @@ var locationStatus = 'unknown';
 var soonRadiusMiles = 10;
 var soonRadiusExpanded = false;
 var soonMode = 'mass'; // 'mass' | 'confession' | 'lenten'
+var sortMode = 'alpha'; // 'proximity' | 'alpha'  — proximity only when location known
 
 function requestLocation() {
   if (!navigator.geolocation) {
@@ -2204,7 +2305,9 @@ function requestLocation() {
       userLng = pos.coords.longitude;
       locationStatus = 'granted';
       document.getElementById('soonLocationLabel').textContent = 'Location active ✓';
-      document.getElementById('proximityBar').classList.add('active');
+      sortMode = 'proximity';
+      document.getElementById('sortToggle').classList.add('location-ready');
+      document.querySelectorAll('.sort-btn').forEach(b => b.classList.toggle('active', b.dataset.sort === 'proximity'));
       refreshSoon();
       render();
     },
@@ -2441,7 +2544,7 @@ function clearQuick() {
   activeSubtype = '';
   lentOnly = false;
   lentToggleEl.classList.remove('active');
-  lentToggleEl.textContent = '⦿ Lent';
+  lentToggleEl.textContent = '✦ Lent';
   subfilterBar.style.display = 'none';
   setQuickActive(null);
   render();
@@ -2513,7 +2616,7 @@ function quickLentNearMe() {
   // Activate lent mode
   lentOnly = true;
   lentToggleEl.classList.add('active');
-  lentToggleEl.textContent = '✦ Lent (on)';
+  lentToggleEl.textContent = 'Lent';
   // Request location if not yet available
   if (userLat === null) requestLocation();
   setQuickActive('btnLentNearMe');
@@ -2530,17 +2633,34 @@ function clearAllFilters() {
   activeSubtype = '';
   lentOnly = false;
   lentToggleEl.classList.remove('active');
-  lentToggleEl.textContent = '⦿ Lent';
+  lentToggleEl.textContent = '✦ Lent';
   subfilterBar.style.display = 'none';
   setQuickActive(null);
   render();
+}
+
+function setSortMode(mode) {
+  sortMode = mode;
+  document.querySelectorAll('.sort-btn').forEach(b => b.classList.toggle('active', b.dataset.sort === mode));
+  // If switching to proximity and no location yet, request it
+  if (mode === 'proximity' && userLat === null) requestLocation();
+  render();
+}
+
+function toggleContact(btn) {
+  btn.classList.toggle('open');
+  const drawer = btn.nextElementSibling;
+  if (drawer) drawer.classList.toggle('open');
 }
 
 function clearLocationSort() {
   userLat = null;
   userLng = null;
   locationStatus = 'unknown';
-  document.getElementById('proximityBar').classList.remove('active');
+  sortMode = 'alpha';
+  const st = document.getElementById('sortToggle');
+  if (st) { st.classList.remove('location-ready'); }
+  document.querySelectorAll('.sort-btn').forEach(b => b.classList.toggle('active', b.dataset.sort === 'alpha'));
   document.getElementById('soonLocationLabel').textContent = 'Tap to enable location →';
   render();
 }
@@ -2548,13 +2668,15 @@ function clearLocationSort() {
 // Expose all interactive functions to global scope
 // (they're defined inside an async IIFE — inline onclick attributes require global scope)
 window.requestLocation  = requestLocation;
-window.quickThisWeekend = quickThisWeekend;
-window.quickConfession  = quickConfession;
-window.quickNearMe      = quickNearMe;
-window.quickLentNearMe  = quickLentNearMe;
-window.clearQuick       = clearQuick;
+// window.quickThisWeekend (quick bar removed) = quickThisWeekend;
+// window.quickConfession (quick bar removed)  = quickConfession;
+// window.quickNearMe (quick bar removed)      = quickNearMe;
+// window.quickLentNearMe (quick bar removed)  = quickLentNearMe;
+// window.clearQuick (quick bar removed)       = clearQuick;
 window.clearAllFilters  = clearAllFilters;
 window.clearLocationSort = clearLocationSort;
+window.setSortMode       = setSortMode;
+window.toggleContact     = toggleContact;
 window.toggleAddParish  = toggleAddParish;
 
 })();
