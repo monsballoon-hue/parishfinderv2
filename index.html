@@ -404,7 +404,7 @@
   .svc-collapse--lent .svc-collapse-chevron { color: #7c4fa0; }
   .svc-collapse--lent .svc-collapse-summary { color: #7c4fa0; }
   .svc-collapse--lent.open {
-    background: rgba(124,79,160,0.06);
+    background: rgba(124,79,160,0.12);
     border-left: 3px solid #7c4fa0;
     padding-left: 10px;
     margin-left: -10px;
@@ -1604,10 +1604,10 @@
     </select>
     <select id="timeFilter">
       <option value="">Any Time</option>
-      <option value="early">Before 8 AM</option>
-      <option value="morning">8 AM – Noon</option>
-      <option value="afternoon">Noon – 4 PM</option>
-      <option value="evening">4 PM +</option>
+      <option value="early">Early · before 8a</option>
+      <option value="morning">Morning · 8a–12p</option>
+      <option value="afternoon">Afternoon · 12–4p</option>
+      <option value="evening">Evening · 4p+</option>
     </select>
     <select id="langFilter">
       <option value="">Any Language</option>
@@ -1630,7 +1630,7 @@
       <button class="sort-btn active" data-sort="proximity" id="sortProximity" title="Sort by distance" onclick="setSortMode('proximity')">📍</button>
       <button class="sort-btn" data-sort="alpha" id="sortAlpha" title="Sort A→Z" onclick="setSortMode('alpha')">A→Z</button>
     </div>
-    <button class="clear-filters-btn" id="clearFiltersBtn" style="display:none;" onclick="clearAllFilters()">&#10005; Clear Filters</button>
+    <button class="clear-filters-btn" id="clearFiltersBtn" style="display:none;">&#10005; Clear Filters</button>
     <span class="results-count" id="resultsCount"></span>
   </div>
   <div class="subfilter-bar" id="subfilterBar" style="display:none">
@@ -2467,6 +2467,10 @@ countyFilter.addEventListener('change', render);
 dayFilterEl.addEventListener('change', render);
 timeFilterEl.addEventListener('change', render);
 langFilterEl.addEventListener('change', render);
+document.getElementById('clearFiltersBtn').addEventListener('click', function(e) {
+  e.stopPropagation();
+  clearAllFilters();
+});
 
 // Lent toggle
 lentToggleEl.addEventListener('click', () => {
