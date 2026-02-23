@@ -306,6 +306,14 @@
   .card-meta a { color: var(--navy); text-decoration: none; font-weight: 500; }
   .card-meta a:hover { color: var(--gold); text-decoration: underline; }
   .meta-item { display: flex; align-items: center; gap: 4px; }
+  .phone-link {
+    color: var(--navy);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: rgba(26,54,93,0.3);
+    text-underline-offset: 2px;
+  }
+  .phone-link:hover { color: var(--gold); text-decoration-color: var(--gold); }
 
   .card-body { padding: 10px 16px 12px; flex: 1; }
 
@@ -433,12 +441,18 @@
     white-space: nowrap;
     transition: background 0.15s, color 0.15s;
     font-family: inherit;
+    animation: lent-pulse 2.5s ease-in-out infinite;
   }
-  .lent-toggle:hover { background: #eef7f0; }
+  @keyframes lent-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(46,125,82,0); }
+    50% { box-shadow: 0 0 0 4px rgba(46,125,82,0.18); }
+  }
+  .lent-toggle:hover { background: #eef7f0; animation: none; }
   .lent-toggle.active {
     background: #2e7d52;
     border-color: #2e7d52;
     color: #fff;
+    animation: none;
   }
 
   /* CARD FOOTER */
@@ -467,18 +481,19 @@
 
   /* CLEAR FILTERS BUTTON */
   .clear-filters-btn {
-    padding: 5px 12px;
+    padding: 5px 14px;
     border-radius: 20px;
-    border: 1px solid rgba(255,100,100,0.4);
-    background: rgba(255,80,80,0.12);
-    color: rgba(255,180,180,0.9);
+    border: 1.5px solid #c0392b;
+    background: #fff0ee;
+    color: #c0392b;
     font-family: 'Source Sans 3', sans-serif;
     font-size: 0.8rem;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.15s;
     white-space: nowrap;
   }
-  .clear-filters-btn:hover { background: rgba(255,80,80,0.25); color: #fff; border-color: rgba(255,100,100,0.7); }
+  .clear-filters-btn:hover { background: #c0392b; color: #fff; }
 
   /* LOCATION DENIED NOTICE */
   .location-denied-notice {
@@ -1145,6 +1160,16 @@
     border-color: var(--gold);
     color: var(--navy);
   }
+  #btnLentNearMe {
+    border-color: #c9a0e0;
+    background: #f5eeff;
+    color: #7c4fa0;
+  }
+  #btnLentNearMe:hover, #btnLentNearMe.active {
+    background: #7c4fa0;
+    border-color: #7c4fa0;
+    color: #fff;
+  }
   .quick-btn-icon { font-size: 0.9rem; }
 
   /* ── LANGUAGE BAR ── */
@@ -1265,6 +1290,9 @@
 <div class="quick-bar" id="quickBar">
   <button class="quick-btn" id="btnThisWeekend" onclick="quickThisWeekend()">
     <span class="quick-btn-icon">🗓</span> This Weekend
+  </button>
+  <button class="quick-btn" id="btnLentNearMe" onclick="quickLentNearMe()">
+    <span class="quick-btn-icon">✦</span> Lenten Near Me
   </button>
   <button class="quick-btn" id="btnConfession" onclick="quickConfession()">
     <span class="quick-btn-icon">🙏</span> Find Confession
@@ -1505,7 +1533,8 @@ function serviceMatchesType(svc, categoryFilter, subtypeFilter) {
 
 function parishMatchesSearch(p, q) {
   if (!q) return true;
-  const s = `${p.name} ${p.town} ${p.county}`.toLowerCase();
+  const svcNotes = (p.services || []).map(s => s.notes || '').join(' ');
+  const s = `${p.name} ${p.town} ${p.county} ${svcNotes}`.toLowerCase();
   return q.toLowerCase().split(' ').every(w => s.includes(w));
 }
 
@@ -1526,6 +1555,40 @@ function dayRank(day) {
   return i === -1 ? 99 : i;
 }
 
+// Regular days eligible for collapsing (special/nth days stay separate)
+const COLLAPSIBLE_DAYS = new Set([
+  'monday','tuesday','wednesday','thursday','friday','saturday','sunday'
+]);
+
+// Collapse services that share the same time+type+language+notes into combined day rows.
+// e.g. Mon 8AM + Tue 8AM + Thu 8AM → [Mon,Tue,Thu] 8AM as a single entry.
+function collapseServiceDays(services) {
+  const collapsible = services.filter(s => {
+    const days = getDays(s);
+    return days.length === 1 && COLLAPSIBLE_DAYS.has(days[0]);
+  });
+  const fixed = services.filter(s => {
+    const days = getDays(s);
+    return !(days.length === 1 && COLLAPSIBLE_DAYS.has(days[0]));
+  });
+
+  // Group collapsible by signature: type|time|end_time|language|notes
+  const buckets = new Map();
+  for (const svc of collapsible) {
+    const sig = `${svc.type}|${svc.time||''}|${svc.end_time||''}|${svc.language||'en'}|${svc.notes||''}|${(svc.seasonal&&svc.seasonal.season)||''}`;
+    if (!buckets.has(sig)) buckets.set(sig, { proto: svc, days: [] });
+    buckets.get(sig).days.push(getDays(svc)[0]);
+  }
+
+  const collapsed = [...buckets.values()].map(({ proto, days }) => {
+    if (days.length === 1) return proto; // no change needed
+    // Return a synthetic entry with a `days` array (plural)
+    return { ...proto, day: undefined, days: days.sort((a,b) => dayRank(a)-dayRank(b)) };
+  });
+
+  return [...fixed, ...collapsed];
+}
+
 function groupServices(services) {
   const groups = { mass:[], confession:[], adoration:[], devotion:[], other:[] };
   for (const svc of services) {
@@ -1538,6 +1601,7 @@ function groupServices(services) {
   return groups;
 }
 
+
 function renderServiceSection(title, icon, services, dayFilter, categoryFilter, subtypeFilter, langFilter, lentOnly) {
   const filtered = services.filter(s =>
     serviceMatchesDay(s, dayFilter) &&
@@ -1547,9 +1611,12 @@ function renderServiceSection(title, icon, services, dayFilter, categoryFilter, 
   );
   if (!filtered.length) return '';
 
+  // Collapse Mon/Tue/Wed etc. entries that share time+type into single multi-day rows
+  const collapsed = collapseServiceDays(filtered);
+
   // Group by day key
   const byDay = new Map();
-  for (const svc of filtered) {
+  for (const svc of collapsed) {
     const days = getDays(svc);
     const key  = days.sort((a,b) => dayRank(a)-dayRank(b)).join(',') || 'varies';
     if (!byDay.has(key)) byDay.set(key, { days, svcs: [] });
@@ -1771,7 +1838,7 @@ function renderParishCard(p, dayFilter, categoryFilter, subtypeFilter, langFilte
   const lentSect  = lentOnly ? '' : renderLentenSection(p.services || [], dayFilter, categoryFilter, subtypeFilter, langFilter);
 
   const phone = p.contact && p.contact.phone
-    ? `<span class="meta-item">&#128222; <a href="tel:${p.contact.phone.replace(/\D/g,'')}" style="color:var(--navy);text-decoration:none;font-weight:500;" title="Call ${p.contact.phone}">${p.contact.phone}</a></span>`
+    ? `<span class="meta-item">&#128222; <a href="tel:${p.contact.phone.replace(/\D/g,'')}" class="phone-link" title="Tap to call ${p.contact.phone}">${p.contact.phone}</a></span>`
     : '';
   const website = p.contact && p.contact.website
     ? `<span class="meta-item">&#127760; <a href="${p.contact.website}" target="_blank" rel="noopener">Website</a></span>` : '';
@@ -2214,7 +2281,7 @@ function toggleAddParish(e) {
 let quickActive = null;
 
 function setQuickActive(id) {
-  ['btnThisWeekend','btnConfession','btnNearMe'].forEach(b => {
+  ['btnThisWeekend','btnLentNearMe','btnConfession','btnNearMe'].forEach(b => {
     document.getElementById(b).classList.toggle('active', b === id);
   });
   document.getElementById('btnClearQuick').style.display = id ? '' : 'none';
@@ -2291,6 +2358,27 @@ function quickNearMe() {
   render();
 }
 
+function quickLentNearMe() {
+  if (quickActive === 'btnLentNearMe') { clearQuick(); return; }
+  // Clear other filters
+  searchInput.value = '';
+  countyFilter.value = '';
+  dayFilterEl.value = '';
+  langFilterEl.value = '';
+  categoryChips.querySelectorAll('[data-cat]').forEach(c => c.classList.toggle('active', c.dataset.cat === ''));
+  activeCategory = '';
+  activeSubtype = '';
+  subfilterBar.style.display = 'none';
+  // Activate lent mode
+  lentOnly = true;
+  lentToggleEl.classList.add('active');
+  lentToggleEl.textContent = '✦ Lent (on)';
+  // Request location if not yet available
+  if (userLat === null) requestLocation();
+  setQuickActive('btnLentNearMe');
+  render();
+}
+
 function clearAllFilters() {
   searchInput.value = '';
   countyFilter.value = '';
@@ -2322,6 +2410,7 @@ window.requestLocation  = requestLocation;
 window.quickThisWeekend = quickThisWeekend;
 window.quickConfession  = quickConfession;
 window.quickNearMe      = quickNearMe;
+window.quickLentNearMe  = quickLentNearMe;
 window.clearQuick       = clearQuick;
 window.clearAllFilters  = clearAllFilters;
 window.clearLocationSort = clearLocationSort;
