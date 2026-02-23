@@ -342,6 +342,67 @@
     align-items: center;
     gap: 6px;
   }
+
+  /* COLLAPSIBLE SERVICE SECTIONS */
+  .svc-collapse { margin-bottom: 10px; }
+  .svc-collapse:last-child { margin-bottom: 0; }
+  .svc-collapse-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .svc-collapse-header:hover { border-bottom-color: var(--gold-light); }
+  .svc-collapse-chevron {
+    font-size: 0.6rem;
+    color: var(--mid-gray);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+    width: 10px;
+    text-align: center;
+  }
+  .svc-collapse.open .svc-collapse-chevron { transform: rotate(90deg); }
+  .svc-collapse-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--mid-gray);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .svc-collapse-summary {
+    margin-left: auto;
+    font-size: 0.68rem;
+    color: var(--mid-gray);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 55%;
+    opacity: 0.7;
+  }
+  .svc-collapse.open .svc-collapse-summary { display: none; }
+  .svc-collapse-body {
+    display: none;
+    padding-top: 4px;
+  }
+  .svc-collapse.open .svc-collapse-body { display: block; }
+  /* Remove redundant title inside collapsible body */
+  .svc-collapse-body .service-section { margin-bottom: 0; }
+  .svc-collapse-body .service-section-title { display: none; }
+  /* Lent section purple accent */
+  .svc-collapse--lent .svc-collapse-header { border-bottom-color: #d4b8e8; }
+  .svc-collapse--lent .svc-collapse-label { color: #7c4fa0; }
+  .svc-collapse--lent .svc-collapse-chevron { color: #7c4fa0; }
+  .svc-collapse--lent .svc-collapse-summary { color: #7c4fa0; }
   .service-list { list-style: none; margin: 0; padding: 0; }
   .service-row {
     display: grid;
@@ -1793,6 +1854,86 @@ function groupServices(services) {
   return groups;
 }
 
+// ─── COLLAPSIBLE SECTION HELPERS ──────────────────────────────────────────────
+
+function toggleSection(el) {
+  const wrapper = el.closest('.svc-collapse');
+  if (wrapper) wrapper.classList.toggle('open');
+}
+
+function buildSectionSummary(sectionKey, filteredServices) {
+  if (!filteredServices.length) return '';
+  const n = filteredServices.length;
+
+  if (sectionKey === 'mass') {
+    const daySet = new Set();
+    filteredServices.forEach(s => getDays(s).forEach(d => daySet.add(d)));
+    const dayStr = fmtDays([...daySet].sort((a,b) => dayRank(a) - dayRank(b)));
+    return `${n} service${n!==1?'s':''} · ${dayStr}`;
+  }
+
+  if (sectionKey === 'confession') {
+    // Show up to 3 actual day+time combos
+    const combos = filteredServices
+      .filter(s => s.time)
+      .sort((a,b) => dayRank(getDays(a)[0]||'') - dayRank(getDays(b)[0]||''))
+      .slice(0, 3)
+      .map(s => {
+        const d = fmtDays(getDays(s));
+        return `${d} ${fmtTimeRange(s)}`;
+      });
+    if (combos.length) return combos.join(', ');
+    return `${n} time${n!==1?'s':''}`;
+  }
+
+  if (sectionKey === 'adoration') {
+    const daySet = new Set();
+    filteredServices.forEach(s => getDays(s).forEach(d => daySet.add(d)));
+    const dayStr = fmtDays([...daySet].sort((a,b) => dayRank(a) - dayRank(b)));
+    return `${n} service${n!==1?'s':''}` + (dayStr ? ` · ${dayStr}` : '');
+  }
+
+  if (sectionKey === 'devotion') {
+    // List distinct service type labels
+    const typeSet = new Set();
+    filteredServices.forEach(s => {
+      const label = SERVICE_LABELS[s.type] || s.type.replace(/_/g,' ');
+      typeSet.add(label);
+    });
+    const types = [...typeSet].slice(0, 4);
+    return types.join(', ') + (typeSet.size > 4 ? ` +${typeSet.size - 4}` : '');
+  }
+
+  if (sectionKey === 'lent') {
+    const typeSet = new Set();
+    filteredServices.forEach(s => {
+      const label = SERVICE_LABELS[s.type] || s.type.replace(/_/g,' ');
+      typeSet.add(label);
+    });
+    const daySet = new Set();
+    filteredServices.forEach(s => getDays(s).forEach(d => daySet.add(d)));
+    const dayStr = fmtDays([...daySet].sort((a,b) => dayRank(a) - dayRank(b)));
+    const types = [...typeSet].slice(0, 3).join(', ');
+    return types + (dayStr ? ` · ${dayStr}` : '');
+  }
+
+  return `${n} service${n!==1?'s':''}`;
+}
+
+function wrapCollapsible(sectionKey, title, icon, innerHtml, filteredServices, collapsed) {
+  if (!innerHtml) return '';
+  const summary = buildSectionSummary(sectionKey, filteredServices);
+  const openClass = collapsed ? '' : ' open';
+  return `<div class="svc-collapse svc-collapse--${sectionKey}${openClass}">
+    <div class="svc-collapse-header" onclick="toggleSection(this)">
+      <span class="svc-collapse-chevron">▶</span>
+      <span class="svc-collapse-label"><span class="icon-${icon}"></span>${title}</span>
+      <span class="svc-collapse-summary">${summary}</span>
+    </div>
+    <div class="svc-collapse-body">${innerHtml}</div>
+  </div>`;
+}
+
 
 function renderServiceSection(title, icon, services, dayFilter, categoryFilter, subtypeFilter, langFilter, lentOnly) {
   const filtered = services.filter(s =>
@@ -2024,6 +2165,38 @@ function renderParishCard(p, dayFilter, categoryFilter, subtypeFilter, langFilte
   // Lenten section: only show when NOT in lentOnly filter mode (that already filters all sections)
   const lentSect  = lentOnly ? '' : renderLentenSection(p.services || [], dayFilter, categoryFilter, subtypeFilter, langFilter);
 
+  // Pre-filter services for summaries (mirrors renderServiceSection's internal filter)
+  const svcFilter = (s) =>
+    serviceMatchesDay(s, dayFilter) &&
+    serviceMatchesType(s, categoryFilter, subtypeFilter) &&
+    (!langFilter || s.language === langFilter) &&
+    (!lentOnly || (s.seasonal && s.seasonal.is_seasonal && s.seasonal.season === 'lent'));
+  const massFiltered  = groups.mass.filter(svcFilter);
+  const confFiltered  = groups.confession.filter(svcFilter);
+  const adorFiltered  = groups.adoration.filter(svcFilter);
+  const devotFiltered = groups.devotion.filter(svcFilter);
+  const otherFiltered = groups.other.filter(svcFilter);
+  const lentFiltered  = (p.services || []).filter(s => s.seasonal && s.seasonal.season === 'lent' && serviceMatchesDay(s, dayFilter) && serviceMatchesType(s, categoryFilter, subtypeFilter) && (!langFilter || s.language === langFilter));
+
+  // Determine collapse state: expanded (false) vs collapsed (true)
+  // Defaults: Mass + Confession expanded; rest collapsed
+  // Auto-expand: if a category filter targets this section, or search/lent is active
+  const hasSearch = !!(document.getElementById('searchInput') && document.getElementById('searchInput').value.trim());
+  const massCollapsed  = false; // always open
+  const confCollapsed  = false; // always open
+  const adorCollapsed  = !(categoryFilter === 'devotion' || hasSearch);
+  const devotCollapsed = !(categoryFilter === 'devotion' || hasSearch);
+  const lentCollapsed  = !lentOnly;
+  const otherCollapsed = !hasSearch;
+
+  // Wrap each in collapsible
+  const massWrapped  = wrapCollapsible('mass',      'Mass',              'mass',       massSect,  massFiltered,  massCollapsed);
+  const confWrapped  = wrapCollapsible('confession', 'Confession',       'confession', confSect,  confFiltered,  confCollapsed);
+  const adorWrapped  = wrapCollapsible('adoration',  'Adoration & Prayer','adoration', adorSect,  adorFiltered,  adorCollapsed);
+  const devotWrapped = wrapCollapsible('devotion',   'Devotions',        'devotion',   devotSect, devotFiltered, devotCollapsed);
+  const lentWrapped  = wrapCollapsible('lent',       'Lenten Services',  'lent',       lentSect,  lentFiltered,  lentCollapsed);
+  const otherWrapped = wrapCollapsible('other',      'Other Services',   'other',      otherSect, otherFiltered, otherCollapsed);
+
   const loc = p.locations && p.locations[0];
   const addr = loc && loc.address ? loc.address : `${p.name}, ${p.town}, MA`;
   const mapsUrl = /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent) && !window.MSStream
@@ -2086,7 +2259,7 @@ function renderParishCard(p, dayFilter, categoryFilter, subtypeFilter, langFilte
     </div>
     <div class="card-meta">${contactDrawer}${bulletinLink}${distHtml}${directionsBtn}${multiSite}</div>
     <div class="card-body">
-      ${massSect}${lentSect}${confSect}${adorSect}${devotSect}${otherSect}
+      ${massWrapped}${confWrapped}${lentWrapped}${adorWrapped}${devotWrapped}${otherWrapped}
     </div>
     <div class="card-footer">
       ${pastor}
