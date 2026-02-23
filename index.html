@@ -1246,7 +1246,7 @@
       <span class="search-icon">🔍</span>
       <input type="text" id="searchInput" placeholder="Search parish or town…" autocomplete="off">
     </div>
-    <select id="countyFilter">
+    <select id="countyFilter" style="display:none">
       <option value="">All Counties</option>
       <option value="Berkshire">Berkshire</option>
       <option value="Franklin">Franklin</option>
@@ -1335,8 +1335,6 @@ const SUBTYPES = {
   adoration: [
     { key: 'eucharistic',   label: 'Eucharistic Adoration', types: ['adoration'] },
     { key: 'holy_hour',     label: 'Holy Hour',             types: ['holy_hour'] },
-    { key: 'perpetual',     label: 'Perpetual Adoration',   types: ['perpetual_adoration'] },
-    { key: 'benediction',   label: 'Benediction',           types: ['benediction'] },
     { key: 'first_friday_ador', label: 'First Friday',      types: ['adoration'], days: ['first_friday'] },
   ],
   devotion: [
@@ -1345,7 +1343,7 @@ const SUBTYPES = {
     { key: 'miraculous',    label: 'Miraculous Medal',     types: ['miraculous_medal'] },
     { key: 'stations',      label: 'Stations of the Cross', types: ['stations_of_cross','stations_of_the_cross'] },
     { key: 'novena',        label: 'Novena',               types: ['novena'] },
-    { key: 'anointing',     label: 'Anointing of the Sick', types: ['anointing_of_sick'] },
+    { key: 'anointing',     label: 'Anointing of the Sick', types: ['anointing_of_sick','anointing'] },
     { key: 'communion_svc', label: 'Communion Service',    types: ['communion_service'] },
   ],
 };
@@ -2391,14 +2389,12 @@ window.toggleAddParish  = toggleAddParish;
             </optgroup>
             <optgroup label="Sacraments">
               <option value="confession">Confession / Reconciliation</option>
-              <option value="anointing_of_sick">Anointing of the Sick</option>
+              <option value="anointing">Anointing of the Sick</option>
               <option value="communion_service">Communion Service (no priest)</option>
             </optgroup>
             <optgroup label="Adoration">
               <option value="adoration">Eucharistic Adoration</option>
               <option value="holy_hour">Holy Hour</option>
-              <option value="perpetual_adoration">Perpetual Adoration (24 hr)</option>
-              <option value="benediction">Benediction</option>
             </optgroup>
             <optgroup label="Devotions">
               <option value="rosary">Rosary</option>
