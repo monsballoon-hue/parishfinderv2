@@ -99,12 +99,14 @@
   .controls-inner {
     max-width: 1280px;
     margin: 0 auto;
-    padding: 14px 24px;
+    padding: 10px 24px;
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 8px;
     align-items: center;
   }
+  .controls-row-1 { padding-bottom: 4px; }
+  .controls-row-2 { padding-top: 4px; }
   .search-wrap {
     position: relative;
     flex: 1;
@@ -578,7 +580,6 @@
     border-radius: 4px;
     padding: 3px 8px;
     text-decoration: none;
-    margin: 0 0 8px 0;
     transition: background 0.15s;
   }
   .bulletin-link:hover { background: var(--gold); color: var(--navy); }
@@ -727,7 +728,10 @@
   @media (max-width: 768px) {
     .parish-grid { grid-template-columns: 1fr; }
     .header-badge { display: none; }
-    .controls-inner { padding: 10px 14px; }
+    .controls-inner { padding: 8px 14px; }
+    .controls-row-1 { padding-bottom: 2px; }
+    .controls-row-2 { padding-top: 2px; }
+    .search-wrap { min-width: 140px; }
     main { padding: 16px 14px 40px; }
   }
 
@@ -1406,12 +1410,12 @@
   .directions-btn {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
+    gap: 5px;
     padding: 4px 10px;
     border-radius: 6px;
-    border: 1px solid var(--gold-light);
-    background: var(--gold-pale);
-    color: #6b4f00;
+    border: 1.5px solid #34A853;
+    background: #e8f5e9;
+    color: #1a6b2a;
     font-size: 0.72rem;
     font-weight: 600;
     cursor: pointer;
@@ -1419,7 +1423,8 @@
     transition: background 0.15s;
     white-space: nowrap;
   }
-  .directions-btn:hover { background: var(--gold-light); }
+  .directions-btn:hover { background: #c8e6c9; }
+  .directions-btn svg { flex-shrink: 0; }
 
   /* ── DISTANCE BADGE ON CARD ── */
   .dist-badge {
@@ -1489,7 +1494,7 @@
 
 
 <div class="controls-bar">
-  <div class="controls-inner">
+  <div class="controls-inner controls-row-1">
     <div class="search-wrap">
       <span class="search-icon">🔍</span>
       <input type="text" id="searchInput" placeholder="Search parish or town…" autocomplete="off">
@@ -1519,11 +1524,12 @@
       <option value="vi">🇻🇳 Vietnamese</option>
       <option value="asl">🤟 ASL</option>
     </select>
+  </div>
+  <div class="controls-inner controls-row-2">
     <div class="filter-chips" id="categoryChips">
       <button class="chip active" data-cat="">All</button>
       <button class="chip" data-cat="mass">Mass</button>
       <button class="chip" data-cat="confession">Confession</button>
-      <button class="chip" data-cat="adoration">Adoration</button>
       <button class="chip" data-cat="devotion">Devotions</button>
     </div>
     <button class="lent-toggle" id="lentToggle" title="Show only Lenten seasonal services">✦ Lent</button>
@@ -1567,6 +1573,8 @@ const SUBTYPES = {
   mass: [
     { key: 'weekend_mass',  label: 'Weekend Mass',    types: ['sunday_mass'],  days: ['saturday','sunday'] },
     { key: 'weekday_mass',  label: 'Weekday Mass',    types: ['daily_mass'],   days: ['monday','tuesday','wednesday','thursday','friday','weekday'] },
+    { key: 'first_friday_mass', label: '1st Friday', types: ['daily_mass','sunday_mass'],  days: ['first_friday'] },
+    { key: 'first_saturday_mass', label: '1st Saturday', types: ['daily_mass','sunday_mass'], days: ['first_saturday'] },
     { key: 'holyday_mass',  label: 'Holy Days',       types: ['daily_mass'],   days: ['holyday','holyday_eve'] },
     { key: 'latin_mass',    label: 'Latin Mass',      types: ['sunday_mass','daily_mass'], language: 'la' },
     { key: 'spanish_mass',  label: 'Spanish Mass',    types: ['sunday_mass','daily_mass'], language: 'es' },
@@ -1577,11 +1585,9 @@ const SUBTYPES = {
     { key: 'conf_weekday',  label: 'Weekday',         types: ['confession'], days: ['monday','tuesday','wednesday','thursday','friday','weekday'] },
     { key: 'conf_lent',     label: 'Lenten',          types: ['confession'], season: 'lent' },
   ],
-  adoration: [
-    { key: 'eucharistic',   label: 'Eucharistic Adoration', types: ['adoration'] },
-    { key: 'holy_hour',     label: 'Holy Hour',             types: ['holy_hour'] },
-  ],
   devotion: [
+    { key: 'eucharistic',   label: 'Adoration',            types: ['adoration'] },
+    { key: 'holy_hour',     label: 'Holy Hour',             types: ['holy_hour'] },
     { key: 'rosary',        label: 'Rosary',               types: ['rosary'] },
     { key: 'divine_mercy',  label: 'Divine Mercy',         types: ['divine_mercy'] },
     { key: 'miraculous',    label: 'Miraculous Medal',     types: ['miraculous_medal'] },
@@ -1628,6 +1634,7 @@ const SERVICE_LABELS = {
 const DAY_LABELS = {
   monday:'Mon', tuesday:'Tue', wednesday:'Wed', thursday:'Thu',
   friday:'Fri', saturday:'Sat', sunday:'Sun',
+  first_friday:'1st Fri', first_saturday:'1st Sat',
   holyday:'Holy Day', holyday_eve:'Holy Day Eve',
   weekday:'Weekday', daily:'Daily',
   '':'Varies',
@@ -1646,10 +1653,10 @@ const LANG_LABELS = {
 };
 
 const SERVICE_TYPE_GROUPS = {
-  mass:       ['mass','sunday_mass','daily_mass','communion_service'],
+  mass:       ['sunday_mass','daily_mass','communion_service'],
   confession: ['confession'],
-  adoration:  ['adoration','holy_hour','perpetual_adoration','benediction'],
-  devotion:   ['rosary','divine_mercy','miraculous_medal','novena',
+  devotion:   ['adoration','holy_hour','perpetual_adoration','benediction',
+               'rosary','divine_mercy','miraculous_medal','novena',
                'stations_of_cross','stations_of_the_cross','anointing_of_sick',
                'anointing','devotion','vespers','prayer_group'],
 };
@@ -1721,7 +1728,8 @@ function parishMatchesSearch(p, q) {
 // Canonical day sort order
 const DAY_ORDER = [
   'sunday','saturday','monday','tuesday','wednesday','thursday','friday',
-  'weekday','daily','holyday','holyday_eve',
+  'weekday','daily','first_friday','first_saturday',
+  'holyday','holyday_eve',
 ];
 
 function dayRank(day) {
@@ -1763,11 +1771,21 @@ function collapseServiceDays(services) {
   return [...fixed, ...collapsed];
 }
 
+// Card-level grouping: keeps adoration separate from devotion for display
+const CARD_TYPE_GROUPS = {
+  mass:       ['sunday_mass','daily_mass','communion_service'],
+  confession: ['confession'],
+  adoration:  ['adoration','holy_hour','perpetual_adoration','benediction'],
+  devotion:   ['rosary','divine_mercy','miraculous_medal','novena',
+               'stations_of_cross','stations_of_the_cross','anointing_of_sick',
+               'anointing','devotion','vespers','prayer_group'],
+};
+
 function groupServices(services) {
   const groups = { mass:[], confession:[], adoration:[], devotion:[], other:[] };
   for (const svc of services) {
     let placed = false;
-    for (const [key, types] of Object.entries(SERVICE_TYPE_GROUPS)) {
+    for (const [key, types] of Object.entries(CARD_TYPE_GROUPS)) {
       if (types.includes(svc.type)) { groups[key].push(svc); placed = true; break; }
     }
     if (!placed) groups.other.push(svc);
@@ -2011,18 +2029,18 @@ function renderParishCard(p, dayFilter, categoryFilter, subtypeFilter, langFilte
   const mapsUrl = /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent) && !window.MSStream
     ? `https://maps.apple.com/?q=${encodeURIComponent(addr)}`
     : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addr)}`;
-  const directionsBtn = `<a class="directions-btn" href="${mapsUrl}" target="_blank" rel="noopener">&#128205; Directions</a>`;
+  const appleMapsIcon = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C7.58 2 4 5.58 4 10c0 5.25 8 12 8 12s8-6.75 8-12c0-4.42-3.58-8-8-8z" fill="#34A853"/><path d="M12 2C7.58 2 4 5.58 4 10c0 5.25 8 12 8 12s8-6.75 8-12c0-4.42-3.58-8-8-8zm0 2c3.31 0 6 2.69 6 6 0 1.01-.31 2.15-.82 3.32L12 17.5l-5.18-4.18C6.31 12.15 6 11.01 6 10c0-3.31 2.69-6 6-6z" fill="#2E7D32"/><circle cx="12" cy="10" r="2.5" fill="white"/></svg>`;
+  const directionsBtn = `<a class="directions-btn" href="${mapsUrl}" target="_blank" rel="noopener">${appleMapsIcon} Directions</a>`;
 
   const distHtml = (distMiles !== undefined && distMiles !== null)
-    ? `<span class="dist-badge${distMiles <= 5 ? ' near' : ''}">&#128205; ${distMiles.toFixed(1)} mi</span>`
+    ? `<span class="dist-badge${distMiles <= 5 ? ' near' : ''}">📍 ${distMiles.toFixed(1)} mi</span>`
     : '';
 
   const multiSite = p.locations && p.locations.filter(l => l.type === 'church').length > 1
-    ? `<span class="meta-item">&#127963; ${p.locations.filter(l=>l.type==='church').length} locations</span>` : '';
+    ? `<span class="meta-item">🏛 ${p.locations.filter(l=>l.type==='church').length} locations</span>` : '';
 
-  // Bulletin link — top of card if available
   const bulletinLink = p.bulletin_url
-    ? `<a class="bulletin-link" href="${p.bulletin_url}" target="_blank" rel="noopener">&#128196; Parish Bulletin</a>` : '';
+    ? `<a class="bulletin-link" href="${p.bulletin_url}" target="_blank" rel="noopener">📄 Bulletin</a>` : '';
 
   // Build contact drawer rows
   const c = p.contact || {};
@@ -2048,7 +2066,7 @@ function renderParishCard(p, dayFilter, categoryFilter, subtypeFilter, langFilte
   if (c.notes) contactRows.push(`<div class="contact-row"><span class="contact-row-label">Notes</span><span class="contact-row-val">${c.notes}</span></div>`);
 
   const contactDrawer = contactRows.length
-    ? `<button class="contact-toggle-btn" onclick="toggleContact(this)">&#9742; Contact</button>
+    ? `<button class="contact-toggle-btn" onclick="toggleContact(this)">☎ Contact</button>
        <div class="contact-drawer">${contactRows.join('')}</div>` : '';
 
   const pastor = st.pastor && st.pastor !== 'Not assigned'
@@ -2057,7 +2075,7 @@ function renderParishCard(p, dayFilter, categoryFilter, subtypeFilter, langFilte
   const confBadge = getVerifiedBadge(p);
 
   const confWarn = isLowConf
-    ? `<div class="confidence-warn">&#9888; Schedule unverified &#8212; confirm times with parish</div>` : '';
+    ? `<div class="confidence-warn">⚠ Schedule unverified — confirm times with parish</div>` : '';
 
   return `<article class="parish-card${isLowConf ? ' low-confidence' : ''}">
     <div class="card-header">
@@ -2066,14 +2084,13 @@ function renderParishCard(p, dayFilter, categoryFilter, subtypeFilter, langFilte
       <span class="county-badge">${confBadge}</span>
       ${confWarn}
     </div>
-    ${bulletinLink ? `<div style="padding:8px 16px 0;">${bulletinLink}</div>` : ''}
-    <div class="card-meta">${directionsBtn}${distHtml}${multiSite}${contactDrawer}</div>
+    <div class="card-meta">${contactDrawer}${bulletinLink}${distHtml}${directionsBtn}${multiSite}</div>
     <div class="card-body">
       ${massSect}${lentSect}${confSect}${adorSect}${devotSect}${otherSect}
     </div>
     <div class="card-footer">
       ${pastor}
-      <button class="reconcile-btn" onclick="openReconcile('${p.id}')" title="Report an update or correction">&#9999; Reconcile</button>
+      <button class="reconcile-btn" onclick="openReconcile('${p.id}')" title="Report an update or correction">✏ Reconcile</button>
     </div>
   </article>`;
 }
