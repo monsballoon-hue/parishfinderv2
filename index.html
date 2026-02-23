@@ -1510,8 +1510,6 @@
       <option value="friday">Friday</option>
       <option value="saturday">Saturday</option>
       <option value="sunday">Sunday</option>
-      <option value="first_friday">✶ First Friday</option>
-      <option value="first_saturday">✶ First Saturday</option>
     </select>
     <select id="langFilter">
       <option value="">Any Language</option>
@@ -1569,22 +1567,19 @@ const SUBTYPES = {
   mass: [
     { key: 'weekend_mass',  label: 'Weekend Mass',    types: ['sunday_mass'],  days: ['saturday','sunday'] },
     { key: 'weekday_mass',  label: 'Weekday Mass',    types: ['daily_mass'],   days: ['monday','tuesday','wednesday','thursday','friday','weekday'] },
-    { key: 'first_friday_mass', label: 'First Friday', types: ['daily_mass'],  days: ['first_friday'] },
-    { key: 'first_saturday_mass', label: 'First Saturday', types: ['daily_mass'], days: ['first_saturday'] },
-    { key: 'holyday_mass',  label: 'Holy Days',       types: ['mass','daily_mass'],   days: ['holyday','holyday_eve'] },
-    { key: 'latin_mass',    label: 'Latin Mass',      types: ['mass','sunday_mass','daily_mass'], language: 'la' },
+    { key: 'holyday_mass',  label: 'Holy Days',       types: ['daily_mass'],   days: ['holyday','holyday_eve'] },
+    { key: 'latin_mass',    label: 'Latin Mass',      types: ['sunday_mass','daily_mass'], language: 'la' },
     { key: 'spanish_mass',  label: 'Spanish Mass',    types: ['sunday_mass','daily_mass'], language: 'es' },
     { key: 'polish_mass',   label: 'Polish Mass',     types: ['sunday_mass','daily_mass'], language: 'pl' },
   ],
   confession: [
-    { key: 'conf_saturday', label: 'Saturday',        types: ['confession'], days: ['saturday','first_saturday'] },
+    { key: 'conf_saturday', label: 'Saturday',        types: ['confession'], days: ['saturday'] },
     { key: 'conf_weekday',  label: 'Weekday',         types: ['confession'], days: ['monday','tuesday','wednesday','thursday','friday','weekday'] },
     { key: 'conf_lent',     label: 'Lenten',          types: ['confession'], season: 'lent' },
   ],
   adoration: [
     { key: 'eucharistic',   label: 'Eucharistic Adoration', types: ['adoration'] },
     { key: 'holy_hour',     label: 'Holy Hour',             types: ['holy_hour'] },
-    { key: 'first_friday_ador', label: 'First Friday',      types: ['adoration'], days: ['first_friday'] },
   ],
   devotion: [
     { key: 'rosary',        label: 'Rosary',               types: ['rosary'] },
@@ -1633,19 +1628,13 @@ const SERVICE_LABELS = {
 const DAY_LABELS = {
   monday:'Mon', tuesday:'Tue', wednesday:'Wed', thursday:'Thu',
   friday:'Fri', saturday:'Sat', sunday:'Sun',
-  first_friday:'1st Fri', first_saturday:'1st Sat', first_sunday:'1st Sun',
-  first_tuesday:'1st Tue', first_monday:'1st Mon',
-  second_sunday:'2nd Sun', second_tuesday:'2nd Tue',
-  third_friday:'3rd Fri',
-  fourth_friday:'4th Fri', fourth_sunday:'4th Sun', fourth_tuesday:'4th Tue',
-  last_sunday:'Last Sun', holyday:'Holy Day',
-  holyday_eve:'Holy Day Eve', weekday:'Weekday', daily:'Daily',
+  holyday:'Holy Day', holyday_eve:'Holy Day Eve',
+  weekday:'Weekday', daily:'Daily',
   '':'Varies',
 };
 
 const SEASON_LABELS = {
-  lent:'Lent', advent:'Advent', school_year:'School Year',
-  academic_year:'Academic Year', summer:'Summer',
+  lent:'Lent', advent:'Advent', school_year:'School Year', summer:'Summer',
 };
 
 const LANG_NAMES = {
@@ -1703,7 +1692,12 @@ function serviceMatchesDay(svc, dayFilter) {
   if (!dayFilter) return true;
   const days = getDays(svc);
   if (days.includes(dayFilter)) return true;
-  if (days.includes('daily') || days.includes('weekday')) return true;
+  // 'weekday' services match Mon-Fri only
+  const WEEKDAYS = ['monday','tuesday','wednesday','thursday','friday'];
+  if (days.includes('weekday') && WEEKDAYS.includes(dayFilter)) return true;
+  // 'daily' services match Mon-Sat (not Sunday in Catholic parish context)
+  const DAILY_DAYS = ['monday','tuesday','wednesday','thursday','friday','saturday'];
+  if (days.includes('daily') && DAILY_DAYS.includes(dayFilter)) return true;
   return false;
 }
 
@@ -1727,11 +1721,7 @@ function parishMatchesSearch(p, q) {
 // Canonical day sort order
 const DAY_ORDER = [
   'sunday','saturday','monday','tuesday','wednesday','thursday','friday',
-  'weekday','daily',
-  'first_sunday','second_sunday','third_sunday','fourth_sunday','last_sunday',
-  'first_monday','first_tuesday','first_friday','first_saturday',
-  'fourth_friday','fourth_thursday','third_friday',
-  'holyday','holyday_eve',
+  'weekday','daily','holyday','holyday_eve',
 ];
 
 function dayRank(day) {
@@ -1872,8 +1862,9 @@ function renderServiceSection(title, icon, services, dayFilter, categoryFilter, 
 function renderMassSectionWithHolyDays(services, dayFilter, categoryFilter, subtypeFilter, langFilter, lentOnly) {
   const HOLYDAY_DAYS = ['holyday', 'holyday_eve'];
 
-  // Split into regular and holy day services (exclude lenten from main render — those go in lenten section)
-  const regular  = services.filter(s => !HOLYDAY_DAYS.includes(s.day) && !(s.seasonal && s.seasonal.season === 'lent'));
+  // Split into regular and holy day services
+  // When lentOnly is active, keep lent masses in regular so they render (otherwise they vanish from both sections)
+  const regular  = services.filter(s => !HOLYDAY_DAYS.includes(s.day) && (lentOnly || !(s.seasonal && s.seasonal.season === 'lent')));
   const holydays = services.filter(s => HOLYDAY_DAYS.includes(s.day));
 
   const regularSect  = renderServiceSection('Mass', 'mass', regular,   dayFilter, categoryFilter, subtypeFilter, langFilter, lentOnly);
@@ -2450,11 +2441,11 @@ function refreshSoon() {
       if (svcMin === null) continue;
 
       const svcDay = svc.day;
+      const isWeekday = todayIdx >= 1 && todayIdx <= 5; // Mon-Fri
+      const isDailyDay = todayIdx >= 1 && todayIdx <= 6; // Mon-Sat
       const matchesToday = svcDay === todayName
-        || (svcDay === 'saturday' && todayIdx === 6)
-        || (svcDay === 'sunday'   && todayIdx === 0)
-        || svcDay === 'daily'
-        || svcDay === 'weekday';
+        || (svcDay === 'daily' && isDailyDay)
+        || (svcDay === 'weekday' && isWeekday);
 
       if (!matchesToday) continue;
 
