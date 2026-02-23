@@ -518,6 +518,43 @@
   .icon-adoration::before { content: "☀"; }
   .icon-devotion::before { content: "📿"; }
   .icon-other::before { content: "◆"; }
+  .icon-lent::before { content: "✦"; }
+
+  /* Lenten services section */
+  .service-section.lenten {
+    border-left: 3px solid #7c4fa0;
+    padding-left: 10px;
+    margin-left: -10px;
+  }
+  .service-section.lenten .service-section-title {
+    color: #7c4fa0;
+    border-bottom-color: #d4b8e8;
+  }
+  .service-section.lenten .service-section-title span.icon-lent {
+    color: #7c4fa0;
+  }
+  /* Lenten tag override — purple instead of green */
+  .service-section.lenten .seasonal-tag {
+    background: #f5eeff;
+    border-color: #c9a0e0;
+    color: #7c4fa0;
+  }
+
+  /* Holy Day sub-divider within Mass section */
+  .holyday-divider {
+    border: none;
+    border-top: 1px dashed var(--border);
+    margin: 6px 0 4px;
+  }
+  .holyday-sub-label {
+    font-size: 0.63rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #9b8040;
+    margin-bottom: 2px;
+    display: block;
+  }
 
   /* RESPONSIVE */
   @media (max-width: 768px) {
@@ -1580,7 +1617,86 @@ function renderServiceSection(title, icon, services, dayFilter, categoryFilter, 
   </div>`;
 }
 
-function getVerifiedBadge(p) {
+// Renders Mass section with holy day entries pinned at bottom behind a sub-divider
+function renderMassSectionWithHolyDays(services, dayFilter, categoryFilter, subtypeFilter, langFilter, lentOnly) {
+  const HOLYDAY_DAYS = ['holyday', 'holyday_eve'];
+
+  // Split into regular and holy day services (exclude lenten from main render — those go in lenten section)
+  const regular  = services.filter(s => !HOLYDAY_DAYS.includes(s.day) && !(s.seasonal && s.seasonal.season === 'lent'));
+  const holydays = services.filter(s => HOLYDAY_DAYS.includes(s.day));
+
+  const regularSect  = renderServiceSection('Mass', 'mass', regular,   dayFilter, categoryFilter, subtypeFilter, langFilter, lentOnly);
+  const holydaySect  = renderServiceSection('Mass', 'mass', holydays,  dayFilter, categoryFilter, subtypeFilter, langFilter, false);
+
+  if (!regularSect && !holydaySect) return '';
+
+  if (regularSect && holydaySect) {
+    // Inject holy days at the bottom of the same section with a sub-divider
+    const holyRows = holydaySect.match(/<ul class="service-list">([\s\S]*?)<\/ul>/)?.[1] || '';
+    return regularSect.replace(/<\/ul>\s*<\/div>$/,
+      `<hr class="holyday-divider"><span class="holyday-sub-label">Holy Days of Obligation</span>${holyRows}</ul></div>`);
+  }
+
+  // Only one of the two has content — render whichever exists, adding holy day label if needed
+  if (holydaySect && !regularSect) {
+    return holydaySect.replace(/<ul class="service-list">/,
+      `<ul class="service-list"><span class="holyday-sub-label">Holy Days of Obligation</span>`);
+  }
+  return regularSect;
+}
+
+// Renders a dedicated Lenten Services section aggregating all seasonal=lent services
+function renderLentenSection(allServices, dayFilter, categoryFilter, subtypeFilter, langFilter) {
+  const lentSvcs = allServices.filter(s => s.seasonal && s.seasonal.season === 'lent');
+  if (!lentSvcs.length) return '';
+
+  // Apply active filters but never filter by lentOnly (this IS the lent section)
+  const filtered = lentSvcs.filter(s =>
+    serviceMatchesDay(s, dayFilter) &&
+    serviceMatchesType(s, categoryFilter, subtypeFilter) &&
+    (!langFilter || s.language === langFilter)
+  );
+  if (!filtered.length) return '';
+
+  // Group by day
+  const byDay = new Map();
+  for (const svc of filtered) {
+    const days = getDays(svc);
+    const key  = days.sort((a,b) => dayRank(a)-dayRank(b)).join(',') || 'varies';
+    if (!byDay.has(key)) byDay.set(key, { days, svcs: [] });
+    byDay.get(key).svcs.push(svc);
+  }
+
+  const sorted = [...byDay.values()].sort((a, b) =>
+    Math.min(...a.days.map(dayRank)) - Math.min(...b.days.map(dayRank))
+  );
+
+  const rows = sorted.map(({ days, svcs }) => {
+    const dayStr = fmtDays(days);
+    svcs.sort((a, b) => (a.time || '99:99').localeCompare(b.time || '99:99'));
+
+    const entryHtml = svc => {
+      const timeStr = fmtTimeRange(svc);
+      const label   = SERVICE_LABELS[svc.type] || svc.type.replace(/_/g,' ');
+      const typeTag = `<span class="svc-type-tag">${label}</span>`;
+      const lang    = svc.language && svc.language !== 'en'
+        ? `<span class="lang-tag">${LANG_LABELS[svc.language]||svc.language}</span>` : '';
+      return `<span class="svc-stack-row"><span class="svc-t">${timeStr}</span>${typeTag}${lang}${svc.notes ? `<span class="svc-note-line">${svc.notes}</span>` : ''}</span>`;
+    };
+
+    return `<li class="service-row">
+      <span class="svc-day">${dayStr || 'Varies'}</span>
+      <span class="svc-times"><span class="svc-stack">${svcs.map(entryHtml).join('')}</span></span>
+    </li>`;
+  }).join('');
+
+  return `<div class="service-section lenten">
+    <div class="service-section-title"><span class="icon-lent"></span>Lenten Services</div>
+    <ul class="service-list">${rows}</ul>
+  </div>`;
+}
+
+
   const val = p.validation;
   if (!val) return `<span class="verified-badge low">&#9888; Unverified</span>`;
 
@@ -1645,11 +1761,13 @@ function renderParishCard(p, dayFilter, categoryFilter, subtypeFilter, langFilte
 
   const isLowConf = p.validation && (p.validation.status === 'low_confidence');
 
-  const massSect  = renderServiceSection('Mass', 'mass', groups.mass, dayFilter, categoryFilter, subtypeFilter, langFilter, lentOnly);
+  const massSect  = renderMassSectionWithHolyDays(groups.mass, dayFilter, categoryFilter, subtypeFilter, langFilter, lentOnly);
   const confSect  = renderServiceSection('Confession', 'confession', groups.confession, dayFilter, categoryFilter, subtypeFilter, langFilter, lentOnly);
   const adorSect  = renderServiceSection('Adoration & Prayer', 'adoration', groups.adoration, dayFilter, categoryFilter, subtypeFilter, langFilter, lentOnly);
   const devotSect = renderServiceSection('Devotions', 'devotion', groups.devotion, dayFilter, categoryFilter, subtypeFilter, langFilter, lentOnly);
   const otherSect = renderServiceSection('Other Services', 'other', groups.other, dayFilter, categoryFilter, subtypeFilter, langFilter, lentOnly);
+  // Lenten section: only show when NOT in lentOnly filter mode (that already filters all sections)
+  const lentSect  = lentOnly ? '' : renderLentenSection(p.services || [], dayFilter, categoryFilter, subtypeFilter, langFilter);
 
   const phone = p.contact && p.contact.phone
     ? `<span class="meta-item">&#128222; <a href="tel:${p.contact.phone.replace(/\D/g,'')}" style="color:var(--navy);text-decoration:none;font-weight:500;" title="Call ${p.contact.phone}">${p.contact.phone}</a></span>`
@@ -1694,7 +1812,7 @@ function renderParishCard(p, dayFilter, categoryFilter, subtypeFilter, langFilte
     ${officeHours}
     <div class="card-meta">${phone}${website}${directionsBtn}${distHtml}${multiSite}</div>
     <div class="card-body">
-      ${massSect}${confSect}${adorSect}${devotSect}${otherSect}
+      ${massSect}${lentSect}${confSect}${adorSect}${devotSect}${otherSect}
     </div>
     <div class="card-footer">
       ${pastor}
