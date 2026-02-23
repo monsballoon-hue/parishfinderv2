@@ -1,0 +1,3052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='40' y='5' width='20' height='90' rx='4' fill='%23c9a84c'/%3E%3Crect x='10' y='25' width='80' height='20' rx='4' fill='%23c9a84c'/%3E%3C/svg%3E">
+<title>Young &amp; Catholic Western MA — Parish &amp; Services Finder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1a2744;
+    --navy-light: #243260;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --gold-pale: #fdf6e3;
+    --cream: #faf8f4;
+    --warm-gray: #f0ece4;
+    --mid-gray: #8a8278;
+    --text: #2c2820;
+    --text-light: #5c5650;
+    --border: #ddd8ce;
+    --red-warn: #9b2335;
+    --green: #2d6a4f;
+    --shadow: 0 2px 12px rgba(26,39,68,0.10);
+    --shadow-lg: 0 8px 32px rgba(26,39,68,0.15);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--navy);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+  }
+  .header-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .header-cross {
+    color: var(--gold);
+    font-size: 28px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .header-title h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.01em;
+    line-height: 1.2;
+  }
+  .header-title p {
+    font-size: 0.78rem;
+    color: var(--gold-light);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 1px;
+  }
+  .header-badge {
+    margin-left: auto;
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 0.75rem;
+    color: var(--gold-light);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  /* CONTROLS */
+  .controls-bar {
+    background: var(--navy-light);
+    border-bottom: 2px solid var(--gold);
+  }
+  .controls-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 14px 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+  }
+  .search-wrap {
+    position: relative;
+    flex: 1;
+    min-width: 220px;
+    max-width: 340px;
+  }
+  .search-wrap input {
+    width: 100%;
+    padding: 9px 14px 9px 38px;
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: all 0.2s;
+  }
+  .search-wrap input::placeholder { color: rgba(255,255,255,0.45); }
+  .search-wrap input:focus { background: rgba(255,255,255,0.18); border-color: var(--gold); }
+  .search-icon {
+    position: absolute;
+    left: 11px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255,255,255,0.45);
+    font-size: 1rem;
+    pointer-events: none;
+  }
+  select {
+    padding: 9px 28px 9px 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.88rem;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(255,255,255,0.5)'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    transition: all 0.2s;
+  }
+  select option { background: var(--navy); color: #fff; }
+  select:focus { border-color: var(--gold); }
+  .filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .chip {
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: transparent;
+    color: rgba(255,255,255,0.7);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .chip:hover { background: rgba(255,255,255,0.1); color: #fff; }
+  .chip.active { background: var(--gold); border-color: var(--gold); color: var(--navy); font-weight: 600; }
+  .results-count {
+    margin-left: auto;
+    color: rgba(255,255,255,0.5);
+    font-size: 0.82rem;
+    white-space: nowrap;
+  }
+
+  /* SUBFILTER BAR */
+  .subfilter-bar {
+    background: rgba(0,0,0,0.18);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    animation: slideDown 0.18s ease;
+  }
+  @keyframes slideDown {
+    from { opacity:0; transform:translateY(-6px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  .subfilter-label {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.45);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+    font-weight: 500;
+    margin-right: 4px;
+  }
+  .subchip {
+    padding: 4px 11px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: transparent;
+    color: rgba(255,255,255,0.6);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.76rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .subchip:hover { background: rgba(255,255,255,0.1); color: #fff; }
+  .subchip.active { background: var(--gold-light); border-color: var(--gold-light); color: var(--navy); font-weight: 600; }
+
+  /* MAIN */
+  main {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 28px 24px 60px;
+  }
+
+  /* NO RESULTS */
+  .no-results {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--mid-gray);
+  }
+  .no-results .cross { font-size: 3rem; margin-bottom: 16px; opacity: 0.3; }
+  .no-results p { font-size: 1.1rem; }
+
+  /* PARISH GRID */
+  .parish-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 20px;
+  }
+
+  /* PARISH CARD */
+  .parish-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: box-shadow 0.2s, transform 0.15s;
+    display: flex;
+    flex-direction: column;
+  }
+  .parish-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-1px);
+  }
+  .parish-card.low-confidence {
+    border-left: 3px solid #e8a020;
+  }
+
+  .card-header {
+    padding: 12px 16px 10px;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    position: relative;
+  }
+  .card-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.0rem;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.25;
+    margin-bottom: 2px;
+    padding-right: 70px;
+  }
+  .card-location {
+    font-size: 0.8rem;
+    color: var(--gold-light);
+    font-weight: 400;
+    letter-spacing: 0.04em;
+  }
+  .county-badge {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    line-height: 1;
+  }
+  /* Override verified-badge when it lives inside .county-badge (card header) */
+  .county-badge .verified-badge {
+    font-size: 0.72rem;
+    background: transparent;
+    border: none;
+    padding: 0;
+  }
+  .confidence-warn {
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.72rem;
+    color: #e8a020;
+    font-weight: 500;
+  }
+
+  .card-meta {
+    padding: 6px 16px;
+    background: var(--warm-gray);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    font-size: 0.78rem;
+    color: var(--text-light);
+  }
+  .card-meta a { color: var(--navy); text-decoration: none; font-weight: 500; }
+  .card-meta a:hover { color: var(--gold); text-decoration: underline; }
+  .meta-item { display: flex; align-items: center; gap: 4px; }
+
+  .card-body { padding: 10px 16px 12px; flex: 1; }
+
+  /* SERVICE SECTIONS */
+  .service-section { margin-bottom: 10px; }
+  .service-section:last-child { margin-bottom: 0; }
+  .service-section-title {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--mid-gray);
+    margin-bottom: 6px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .service-list { list-style: none; margin: 0; padding: 0; }
+  .service-row {
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    gap: 0 6px;
+    padding: 3px 0;
+    font-size: 0.82rem;
+    line-height: 1.45;
+    color: var(--text);
+    align-items: start;
+  }
+  .svc-day {
+    font-weight: 600;
+    color: var(--navy);
+    font-size: 0.78rem;
+    word-break: break-word;
+    hyphens: none;
+    padding-top: 1px;
+    line-height: 1.3;
+  }
+  .svc-times {
+    color: var(--text);
+    min-width: 0;
+  }
+  /* Inline layout: times only, no notes — e.g. "8 AM · 10 AM · 12 PM" */
+  .svc-inline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0;
+  }
+  .svc-t { white-space: nowrap; }
+  .svc-sep { color: #ccc; padding: 0 5px; }
+  /* Stacked layout: entries with notes — one per line, note inline if it fits */
+  .svc-stack { display: flex; flex-direction: column; gap: 2px; }
+  .svc-stack-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 6px;
+    row-gap: 0;
+  }
+  .svc-stack-main { display: contents; }
+  .svc-type-tag {
+    font-size: 0.7rem;
+    color: var(--text-light);
+    margin-left: 2px;
+  }
+  .svc-note-line {
+    font-size: 0.73rem;
+    color: var(--mid-gray);
+    font-style: italic;
+    line-height: 1.3;
+    /* stays inline with time, wraps to next line only if needed */
+    display: inline;
+  }
+  .service-detail { color: var(--text-light); font-size: 0.78rem; }
+  .lang-tag {
+    display: inline-block;
+    background: var(--gold-pale);
+    border: 1px solid var(--gold-light);
+    border-radius: 3px;
+    padding: 0 4px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #8a6a00;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-left: 3px;
+    vertical-align: middle;
+  }
+  .seasonal-tag {
+    display: inline-block;
+    background: #eef7f0;
+    border: 1px solid #a8d5b5;
+    border-radius: 3px;
+    padding: 0 4px;
+    font-size: 0.65rem;
+    font-weight: 500;
+    color: var(--green);
+    margin-left: 3px;
+    vertical-align: middle;
+  }
+  .service-note { font-size: 0.74rem; color: var(--mid-gray); font-style: italic; }
+  .office-hours-bar {
+    background: #f5f3ee;
+    border-bottom: 1px solid var(--border);
+    padding: 5px 16px;
+    font-size: 0.76rem;
+    color: #666;
+  }
+  .office-note { color: #aaa; font-style: italic; font-size: 0.72rem; }
+  /* Lent season toggle */
+  .lent-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 2px solid #a8d5b5;
+    background: #fff;
+    color: var(--green);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s, color 0.15s;
+    font-family: inherit;
+  }
+  .lent-toggle:hover { background: #eef7f0; }
+  .lent-toggle.active {
+    background: #2e7d52;
+    border-color: #2e7d52;
+    color: #fff;
+  }
+
+  /* CARD FOOTER */
+  .card-footer {
+    padding: 6px 16px;
+    background: var(--warm-gray);
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.74rem;
+    color: var(--mid-gray);
+  }
+  .pastor-name { font-style: italic; }
+  .verified-badge {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.72rem;
+    font-weight: 500;
+  }
+  .verified-badge.verified { color: var(--green); }
+  .verified-badge.low { color: #e8a020; }
+  .verified-badge.needs-review { color: #b07d00; }
+  .verified-badge.low-confidence { color: #c0550a; }
+
+  /* CLEAR FILTERS BUTTON */
+  .clear-filters-btn {
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,100,100,0.4);
+    background: rgba(255,80,80,0.12);
+    color: rgba(255,180,180,0.9);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .clear-filters-btn:hover { background: rgba(255,80,80,0.25); color: #fff; border-color: rgba(255,100,100,0.7); }
+
+  /* LOCATION DENIED NOTICE */
+  .location-denied-notice {
+    background: #fff8ee;
+    border: 1px solid #f0c060;
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-size: 0.82rem;
+    color: #7a5200;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  /* STATS BAR */
+  .stats-bar {
+    background: var(--gold-pale);
+    border-bottom: 1px solid var(--gold-light);
+    padding: 10px 24px;
+  }
+  .stats-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .stat { font-size: 0.82rem; color: var(--text-light); }
+  .stat strong { color: var(--navy); font-weight: 700; font-size: 1rem; }
+  .stat-divider { width: 1px; height: 20px; background: var(--border); }
+
+  /* SECTION TYPE ICONS */
+  .icon-mass::before { content: "✝"; }
+  .icon-confession::before { content: "🙏"; }
+  .icon-adoration::before { content: "☀"; }
+  .icon-devotion::before { content: "📿"; }
+  .icon-other::before { content: "◆"; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .parish-grid { grid-template-columns: 1fr; }
+    .header-badge { display: none; }
+    .controls-inner { padding: 10px 14px; }
+    main { padding: 16px 14px 40px; }
+  }
+
+  /* EMPTY STATE HELPERS */
+  .loading { text-align: center; padding: 60px; color: var(--mid-gray); font-size: 1.1rem; }
+
+  /* FADE IN */
+  .parish-card { animation: fadeUp 0.25s ease both; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── RECONCILE BUTTON ─────────────────────────────────────── */
+  .reconcile-btn {
+    padding: 3px 10px;
+    font-size: 0.71rem;
+    font-family: 'Source Sans 3', sans-serif;
+    background: transparent;
+    border: 1px solid rgba(201,168,76,0.5);
+    color: var(--gold);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .reconcile-btn:hover {
+    background: var(--gold);
+    color: var(--navy);
+    border-color: var(--gold);
+  }
+
+  /* ─── RECONCILIATION MODAL ─────────────────────────────────── */
+  .modal-backdrop {
+    display: none;
+    position: fixed; inset: 0; z-index: 2000;
+    background: rgba(8,18,40,0.78);
+    backdrop-filter: blur(4px);
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+  }
+  .modal-backdrop.open { display: flex; }
+
+  .modal-box {
+    background: #fff;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 780px;
+    max-height: 92dvh;
+    max-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.45);
+    animation: mIn 0.2s ease;
+    overflow: hidden;
+  }
+  @keyframes mIn {
+    from { opacity:0; transform: translateY(-18px) scale(0.98); }
+    to   { opacity:1; transform: none; }
+  }
+
+  /* Modal header */
+  .mhdr {
+    background: var(--navy);
+    color: #fff;
+    padding: 18px 24px 14px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    flex-shrink: 0;
+  }
+  .mhdr-left h2 { margin: 0; font-size: 1.05rem; font-weight: 700; }
+  .mhdr-left .mhdr-parish {
+    font-size: 0.8rem;
+    color: var(--gold);
+    font-style: italic;
+    margin-top: 3px;
+  }
+  .mhdr-close {
+    background: transparent; border: none;
+    color: rgba(255,255,255,0.55); font-size: 1.6rem;
+    cursor: pointer; line-height: 1; padding: 0;
+    transition: color 0.15s; flex-shrink: 0;
+  }
+  .mhdr-close:hover { color: #fff; }
+
+  /* Mode tabs */
+  .mode-tabs {
+    display: flex;
+    border-bottom: 2px solid #e4e8f0;
+    background: #f9fafc;
+    flex-shrink: 0;
+  }
+  .mode-tab {
+    flex: 1;
+    padding: 12px 8px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: #777;
+    transition: all 0.15s;
+    margin-bottom: -2px;
+  }
+  .mode-tab:hover { color: var(--navy); }
+  .mode-tab.active { color: var(--navy); border-bottom-color: var(--gold); background: #fff; }
+
+  /* Modal body */
+  .mbody { padding: 22px 24px; overflow-y: auto; flex: 1 1 auto; }
+
+  /* ─── Tabs panels */
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ─── Existing service list (Flag mode) */
+  .svc-list {
+    max-height: 220px;
+    overflow-y: auto;
+    border: 1px solid #d8dce8;
+    border-radius: 7px;
+    background: #fafbfd;
+    margin-bottom: 14px;
+  }
+  .svc-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 14px;
+    border-bottom: 1px solid #edf0f7;
+    cursor: pointer;
+    transition: background 0.12s;
+  }
+  .svc-item:last-child { border-bottom: none; }
+  .svc-item:hover { background: #eef2ff; }
+  .svc-item input[type=radio] { margin-top: 3px; accent-color: var(--navy); flex-shrink: 0; }
+  .svc-item-main { flex: 1; }
+  .svc-item-type { font-weight: 600; font-size: 0.88rem; color: #1a2244; }
+  .svc-item-meta { font-size: 0.76rem; color: #777; margin-top: 1px; }
+  .svc-item-note { font-size: 0.74rem; color: #999; font-style: italic; }
+
+  /* Selected service detail (editable fields) */
+  .selected-svc-detail {
+    display: none;
+    background: #f0f4ff;
+    border: 1px solid #c4cef0;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 4px;
+  }
+  .selected-svc-detail.visible { display: block; }
+  .selected-svc-detail .detail-label {
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: var(--navy);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 10px;
+  }
+
+  /* ─── Form grid */
+  .fgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+  .fgrid.cols1 { grid-template-columns: 1fr; }
+  .fgrid.cols3 { grid-template-columns: 1fr 1fr 1fr; }
+  .fg { display: flex; flex-direction: column; gap: 4px; }
+  .fg.span2 { grid-column: 1 / -1; }
+  .fg label {
+    font-size: 0.73rem;
+    font-weight: 700;
+    color: #444;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .fg label .req { color: #c0392b; }
+  .fg input, .fg select, .fg textarea {
+    padding: 8px 10px;
+    border: 1px solid #c8d0e0;
+    border-radius: 5px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.9rem;
+    color: #1a2244;
+    background: #fff;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .fg input:focus, .fg select:focus, .fg textarea:focus {
+    outline: none;
+    border-color: var(--navy);
+    box-shadow: 0 0 0 3px rgba(10,22,75,0.1);
+  }
+  .fg textarea { resize: vertical; min-height: 72px; }
+  .fg .hint { font-size: 0.71rem; color: #999; font-style: italic; }
+
+  /* Inline checkbox row */
+  .check-row { flex-direction: row !important; align-items: center; gap: 8px; }
+  .check-row label { text-transform: none !important; font-weight: 400 !important; font-size: 0.88rem !important; letter-spacing: 0 !important; }
+  .check-row input[type=checkbox] { width: 16px; height: 16px; padding: 0; accent-color: var(--navy); cursor: pointer; flex-shrink: 0; }
+
+  /* Day-of-week toggle chips */
+  .day-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .dc {
+    padding: 4px 11px;
+    border: 1px solid #c8d0e0;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.13s;
+    background: #fff;
+    color: #555;
+  }
+  .dc.on { background: var(--navy); border-color: var(--navy); color: #fff; font-weight: 600; }
+
+  /* Section dividers within the form */
+  .fsection {
+    margin-bottom: 20px;
+    border: 1px solid #e4e8f0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .fsection-title {
+    background: #f3f5fb;
+    border-bottom: 1px solid #e4e8f0;
+    padding: 8px 14px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--navy);
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+  }
+  .fsection-body { padding: 15px 14px; }
+
+  /* Modal footer */
+  .mftr {
+    background: #f5f7fb;
+    border-top: 1px solid #e4e8f0;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  .mftr .mftr-note { font-size: 0.74rem; color: #999; font-style: italic; flex: 1; }
+
+  .mbtn-cancel {
+    padding: 9px 18px;
+    background: transparent;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.88rem;
+    color: #555;
+    cursor: pointer;
+    transition: all 0.13s;
+  }
+  .mbtn-cancel:hover { border-color: #555; color: #222; }
+  .mbtn-submit {
+    padding: 9px 22px;
+    background: var(--navy);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.13s;
+  }
+  .mbtn-submit:hover { background: #162a70; }
+  .mbtn-submit.danger { background: #c0392b; }
+
+  /* Success screen */
+  .msuccess {
+    display: none;
+    text-align: center;
+    padding: 48px 32px;
+  }
+  .msuccess .sicon { font-size: 3.2rem; }
+  .msuccess h3 { color: var(--navy); font-size: 1.2rem; margin: 14px 0 8px; }
+  .msuccess p { color: #555; font-size: 0.92rem; line-height: 1.6; }
+  .msuccess .ref-id { font-size: 0.78rem; color: #aaa; margin-top: 12px; font-family: monospace; }
+
+
+  /* ─── ADD PARISH CTA STRIP ─────────────────────────────────── */
+  .add-parish-strip {
+    background: linear-gradient(135deg, #0d1e4a 0%, #162a70 100%);
+    border-bottom: 3px solid var(--gold);
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .add-parish-strip .strip-text {
+    color: rgba(255,255,255,0.85);
+    font-size: 0.82rem;
+  }
+  .add-parish-strip .strip-text strong {
+    color: #fff;
+    font-weight: 700;
+  }
+  .add-parish-btn {
+    padding: 8px 20px;
+    background: var(--gold);
+    color: var(--navy);
+    border: none;
+    border-radius: 6px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .add-parish-btn:hover { background: #e8c84a; transform: translateY(-1px); }
+
+  /* ─── NEW PARISH MODAL ──────────────────────────────────────── */
+  .np-backdrop {
+    display: none;
+    position: fixed; inset: 0; z-index: 3000;
+    background: rgba(8,18,40,0.82);
+    backdrop-filter: blur(4px);
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+  }
+  .np-backdrop.open { display: flex; }
+
+  .np-box {
+    background: #fff;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 860px;
+    max-height: 92dvh;
+    max-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+    animation: mIn 0.2s ease;
+    overflow: hidden;
+  }
+
+  /* reuse mhdr, mbody, mftr, fg, fgrid, fsection from reconcile modal */
+
+  .np-intro {
+    background: #f5f7fb;
+    border-bottom: 1px solid #e4e8f0;
+    padding: 14px 24px;
+    font-size: 0.84rem;
+    color: #555;
+    line-height: 1.55;
+    flex-shrink: 0;
+  }
+  .np-intro strong { color: var(--navy); }
+
+  /* progress stepper */
+  .np-stepper {
+    display: flex;
+    background: #f9fafc;
+    border-bottom: 2px solid #e4e8f0;
+    overflow-x: auto;
+    flex-shrink: 0;
+  }
+  .np-step {
+    flex: 1;
+    min-width: 80px;
+    text-align: center;
+    padding: 10px 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 3px solid transparent;
+    cursor: default;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .np-step.active { color: var(--navy); border-bottom-color: var(--gold); background: #fff; }
+  .np-step.done   { color: #4caf50; border-bottom-color: #4caf50; }
+
+  /* service builder */
+  .svc-builder { }
+  .svc-entry {
+    background: #f5f7fb;
+    border: 1px solid #e0e4f0;
+    border-radius: 7px;
+    padding: 14px;
+    margin-bottom: 10px;
+    position: relative;
+  }
+  .svc-entry-num {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--navy);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 10px;
+  }
+  .svc-remove {
+    position: absolute; top: 10px; right: 12px;
+    background: transparent; border: none;
+    color: #bbb; font-size: 1.1rem; cursor: pointer;
+    transition: color 0.13s;
+  }
+  .svc-remove:hover { color: #c0392b; }
+  .add-svc-btn {
+    width: 100%;
+    padding: 9px;
+    background: transparent;
+    border: 2px dashed #c8d0e0;
+    border-radius: 7px;
+    color: #888;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.13s;
+    margin-top: 4px;
+  }
+  .add-svc-btn:hover { border-color: var(--navy); color: var(--navy); background: #f0f4ff; }
+
+
+  @media (max-width: 600px) {
+    .modal-backdrop, .np-backdrop { padding: 10px; align-items: flex-end; }
+    .modal-box, .np-box {
+      max-height: 96dvh; max-height: 96vh;
+      border-bottom-left-radius: 0; border-bottom-right-radius: 0;
+    }
+    .mbody { padding: 16px; }
+    .fgrid { grid-template-columns: 1fr !important; }
+    .fgrid.cols3 { grid-template-columns: 1fr !important; }
+    .fg.span2 { grid-column: 1 !important; }
+    .mftr { padding: 12px 16px; flex-wrap: wrap; }
+    .mftr-note { display: none; }
+    .mode-tab { font-size: 0.72rem; padding: 10px 4px; }
+    .mhdr { padding: 14px 16px 12px; }
+    .mhdr-left h2 { font-size: 0.95rem; }
+    .fsection-body { padding: 12px 10px; }
+  }
+
+
+  /* ── HAPPENING SOON BANNER ── */
+  #happeningSoon {
+    background: var(--navy);
+    color: #fff;
+    padding: 0;
+    border-bottom: 2px solid var(--gold);
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s;
+  }
+  .soon-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 10px 16px;
+  }
+  .soon-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .soon-title {
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--gold-light);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .soon-location {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.55);
+    cursor: pointer;
+    text-decoration: underline dotted;
+  }
+  .soon-cards {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  .soon-cards::-webkit-scrollbar { display: none; }
+  .soon-card {
+    flex-shrink: 0;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    padding: 7px 11px;
+    min-width: 140px;
+    max-width: 200px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .soon-card:hover { background: rgba(255,255,255,0.15); }
+  .soon-card-time {
+    font-size: 1.0rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    line-height: 1;
+    margin-bottom: 3px;
+  }
+  .soon-card-starts {
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+  .soon-card-parish {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 2px;
+  }
+  .soon-card-town {
+    font-size: 0.68rem;
+    color: rgba(255,255,255,0.55);
+  }
+  .soon-card-dist {
+    font-size: 0.65rem;
+    color: var(--gold-light);
+    margin-top: 3px;
+  }
+  .soon-none {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.5);
+    padding: 4px 0;
+  }
+  .soon-radius-toggle {
+    font-size: 0.68rem;
+    background: none;
+    border: 1px solid rgba(255,255,255,0.3);
+    color: rgba(255,255,255,0.7);
+    border-radius: 4px;
+    padding: 2px 7px;
+    cursor: pointer;
+  }
+  .soon-radius-toggle:hover { background: rgba(255,255,255,0.1); }
+
+  /* ── QUICK ACTION BAR ── */
+  .quick-bar {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 8px 16px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    align-items: center;
+  }
+  .quick-bar::-webkit-scrollbar { display: none; }
+  .quick-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1.5px solid var(--gold-light);
+    background: var(--gold-pale);
+    color: #6b4f00;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    white-space: nowrap;
+  }
+  .quick-btn:hover, .quick-btn.active {
+    background: var(--gold-light);
+    border-color: var(--gold);
+    color: var(--navy);
+  }
+  .quick-btn-icon { font-size: 0.9rem; }
+
+  /* ── LANGUAGE BAR ── */
+  .lang-bar {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 6px 16px 0;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .lang-bar-label {
+    font-size: 0.72rem;
+    color: var(--mid-gray);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-right: 2px;
+  }
+  .lang-btn {
+    padding: 4px 10px;
+    border-radius: 14px;
+    border: 1.5px solid var(--border);
+    background: #fff;
+    color: var(--text);
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .lang-btn:hover { border-color: var(--gold); background: var(--gold-pale); }
+  .lang-btn.active { background: var(--navy); border-color: var(--navy); color: #fff; }
+
+  /* ── DIRECTIONS BUTTON ON CARD ── */
+  .directions-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--gold-light);
+    background: var(--gold-pale);
+    color: #6b4f00;
+    font-size: 0.72rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.15s;
+    white-space: nowrap;
+  }
+  .directions-btn:hover { background: var(--gold-light); }
+
+  /* ── DISTANCE BADGE ON CARD ── */
+  .dist-badge {
+    font-size: 0.68rem;
+    color: var(--mid-gray);
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+  }
+  .dist-badge.near { color: var(--green); font-weight: 600; }
+
+  /* ── PROXIMITY SORT INDICATOR ── */
+  .sort-indicator {
+    font-size: 0.72rem;
+    color: var(--mid-gray);
+    padding: 4px 0 0 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .proximity-bar {
+    background: #eef7f0;
+    border-bottom: 1px solid #a8d5b5;
+    padding: 8px 24px;
+    font-size: 0.8rem;
+    color: var(--green);
+    display: none;
+  }
+  .proximity-bar.active { display: flex; align-items: center; gap: 8px; }
+  .proximity-bar a { color: var(--green); font-weight: 600; cursor: pointer; text-decoration: underline; font-size: 0.78rem; margin-left: auto; }
+
+</style>
+</head>
+<body>
+
+
+<header>
+  <div class="header-inner">
+    <div class="header-cross">✝</div>
+    <div class="header-title">
+      <h1>Young &amp; Catholic WMass</h1>
+      <p>Catholic Parish &amp; Services Finder</p>
+    </div>
+    <div class="header-badge" id="headerBadge">Loading…</div>
+  </div>
+</header>
+
+<div id="happeningSoon" style="display:none">
+  <div class="soon-inner">
+    <div class="soon-header">
+      <span class="soon-title">⛪ Masses Starting Soon</span>
+      <span style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+        <button class="soon-radius-toggle" id="soonWindowBtn">Next 90 min</button>
+        <button class="soon-radius-toggle" id="soonRadiusBtn">Within 10 mi</button>
+        <span class="soon-location" id="soonLocationLabel" onclick="requestLocation()"></span>
+      </span>
+    </div>
+    <div class="soon-cards" id="soonCards"></div>
+  </div>
+</div>
+
+
+
+
+
+<div class="quick-bar" id="quickBar">
+  <button class="quick-btn" id="btnThisWeekend" onclick="quickThisWeekend()">
+    <span class="quick-btn-icon">🗓</span> This Weekend
+  </button>
+  <button class="quick-btn" id="btnConfession" onclick="quickConfession()">
+    <span class="quick-btn-icon">🙏</span> Find Confession
+  </button>
+  <button class="quick-btn" id="btnNearMe" onclick="quickNearMe()">
+    <span class="quick-btn-icon">📍</span> Near Me
+  </button>
+  <button class="quick-btn" id="btnClearQuick" onclick="clearQuick()" style="display:none; border-color:var(--border); background:#fff; color:var(--text-light)">
+    ✕ Clear
+  </button>
+</div>
+
+<div class="controls-bar">
+  <div class="controls-inner">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Search parish or town…" autocomplete="off">
+    </div>
+    <select id="countyFilter">
+      <option value="">All Counties</option>
+      <option value="Berkshire">Berkshire</option>
+      <option value="Franklin">Franklin</option>
+      <option value="Hampshire">Hampshire</option>
+      <option value="Hampden">Hampden</option>
+    </select>
+    <select id="dayFilter">
+      <option value="">Any Day</option>
+      <option value="monday">Monday</option>
+      <option value="tuesday">Tuesday</option>
+      <option value="wednesday">Wednesday</option>
+      <option value="thursday">Thursday</option>
+      <option value="friday">Friday</option>
+      <option value="saturday">Saturday</option>
+      <option value="sunday">Sunday</option>
+      <option value="first_friday">✶ First Friday</option>
+      <option value="first_saturday">✶ First Saturday</option>
+    </select>
+    <select id="langFilter">
+      <option value="">Any Language</option>
+      <option value="es">🇪🇸 Spanish</option>
+      <option value="pl">🇵🇱 Polish</option>
+      <option value="pt">🇧🇷 Portuguese</option>
+      <option value="vi">🇻🇳 Vietnamese</option>
+      <option value="asl">🤟 ASL</option>
+    </select>
+    <div class="filter-chips" id="categoryChips">
+      <button class="chip active" data-cat="">All</button>
+      <button class="chip" data-cat="mass">Mass</button>
+      <button class="chip" data-cat="confession">Confession</button>
+      <button class="chip" data-cat="adoration">Adoration</button>
+      <button class="chip" data-cat="devotion">Devotions</button>
+    </div>
+    <button class="lent-toggle" id="lentToggle" title="Show only Lenten seasonal services">&#9899; Lent</button>
+    <button class="clear-filters-btn" id="clearFiltersBtn" style="display:none;" onclick="clearAllFilters()">&#10005; Clear Filters</button>
+    <span class="results-count" id="resultsCount"></span>
+  </div>
+  <div class="subfilter-bar" id="subfilterBar" style="display:none">
+    <div class="controls-inner" style="padding-top:8px;padding-bottom:8px;">
+      <span class="subfilter-label" id="subfilterLabel"></span>
+      <div class="filter-chips" id="subtypeChips"></div>
+    </div>
+  </div>
+</div>
+
+<div class="add-parish-strip" id="addParishStrip" style="cursor:pointer;" onclick="toggleAddParish(event)">
+  <div class="strip-text">
+    <strong>Don't see your parish?</strong> <span id="addParishHint" style="color:rgba(255,255,255,0.6);font-size:0.8rem;">Tap to expand</span>
+    <div id="addParishBody" style="display:none;margin-top:6px;">Submit a request to have it added to the directory — include as much detail as you have and the data team will verify and publish it.</div>
+  </div>
+  <button class="add-parish-btn" id="addParishBtn" style="display:none;" onclick="openNewParish()">➕ Add My Parish</button>
+</div>
+
+<div class="proximity-bar" id="proximityBar">
+  &#128205; Sorted by distance from your location
+  <a onclick="clearLocationSort()">✕ Stop sorting by distance</a>
+</div>
+
+<main>
+  <div class="parish-grid" id="parishGrid">
+    <div class="loading">Loading parishes…</div>
+  </div>
+</main>
+
+<script>
+const PARISH_DATA_URL = './parish_data.json';
+let PARISH_DATA; // set async on load
+
+// Sub-type definitions per category
+const SUBTYPES = {
+  mass: [
+    { key: 'weekend_mass',  label: 'Weekend Mass',    types: ['sunday_mass'],  days: ['saturday','sunday'] },
+    { key: 'weekday_mass',  label: 'Weekday Mass',    types: ['daily_mass'],   days: ['monday','tuesday','wednesday','thursday','friday','weekday'] },
+    { key: 'first_friday_mass', label: 'First Friday', types: ['daily_mass'],  days: ['first_friday'] },
+    { key: 'first_saturday_mass', label: 'First Saturday', types: ['daily_mass'], days: ['first_saturday'] },
+    { key: 'holyday_mass',  label: 'Holy Days',       types: ['mass','daily_mass'],   days: ['holyday','holyday_eve'] },
+    { key: 'latin_mass',    label: 'Latin Mass',      types: ['mass','sunday_mass','daily_mass'], language: 'la' },
+    { key: 'spanish_mass',  label: 'Spanish Mass',    types: ['sunday_mass','daily_mass'], language: 'es' },
+    { key: 'polish_mass',   label: 'Polish Mass',     types: ['sunday_mass','daily_mass'], language: 'pl' },
+  ],
+  confession: [
+    { key: 'conf_saturday', label: 'Saturday',        types: ['confession'], days: ['saturday','first_saturday'] },
+    { key: 'conf_weekday',  label: 'Weekday',         types: ['confession'], days: ['monday','tuesday','wednesday','thursday','friday','weekday'] },
+    { key: 'conf_lent',     label: 'Lenten',          types: ['confession'], season: 'lent' },
+  ],
+  adoration: [
+    { key: 'eucharistic',   label: 'Eucharistic Adoration', types: ['adoration'] },
+    { key: 'holy_hour',     label: 'Holy Hour',             types: ['holy_hour'] },
+    { key: 'perpetual',     label: 'Perpetual Adoration',   types: ['perpetual_adoration'] },
+    { key: 'benediction',   label: 'Benediction',           types: ['benediction'] },
+    { key: 'first_friday_ador', label: 'First Friday',      types: ['adoration'], days: ['first_friday'] },
+  ],
+  devotion: [
+    { key: 'rosary',        label: 'Rosary',               types: ['rosary'] },
+    { key: 'divine_mercy',  label: 'Divine Mercy',         types: ['divine_mercy'] },
+    { key: 'miraculous',    label: 'Miraculous Medal',     types: ['miraculous_medal'] },
+    { key: 'stations',      label: 'Stations of the Cross', types: ['stations_of_cross','stations_of_the_cross'] },
+    { key: 'novena',        label: 'Novena',               types: ['novena'] },
+    { key: 'anointing',     label: 'Anointing of the Sick', types: ['anointing_of_sick'] },
+    { key: 'communion_svc', label: 'Communion Service',    types: ['communion_service'] },
+  ],
+};
+
+function serviceMatchesSubtype(svc, subtype) {
+  if (!subtype) return true;
+  // Find the subtype def
+  for (const cat of Object.values(SUBTYPES)) {
+    const def = cat.find(s => s.key === subtype);
+    if (!def) continue;
+    // Must match type
+    if (!def.types.includes(svc.type)) return false;
+    // Language filter
+    if (def.language && svc.language !== def.language) return false;
+    // Season filter
+    if (def.season && (!svc.seasonal || svc.seasonal.season !== def.season)) return false;
+    // Day filter
+    if (def.days) {
+      const svcDays = svc.days || (svc.day ? [svc.day] : []);
+      const overlap = def.days.some(d => svcDays.includes(d));
+      if (!overlap) return false;
+    }
+    return true;
+  }
+  return false;
+}
+
+const SERVICE_LABELS = {
+  sunday_mass:'Mass', daily_mass:'Mass', confession:'Confession',
+  adoration:'Adoration', holy_hour:'Holy Hour', perpetual_adoration:'Perp. Adoration',
+  benediction:'Benediction', rosary:'Rosary', divine_mercy:'Divine Mercy',
+  miraculous_medal:'Miraculous Medal', novena:'Novena',
+  stations_of_cross:'Stations of the Cross', stations_of_the_cross:'Stations of the Cross',
+  anointing_of_sick:'Anointing of the Sick', communion_service:'Communion Service',
+  devotion:'Devotion',
+};
+
+const DAY_LABELS = {
+  monday:'Mon', tuesday:'Tue', wednesday:'Wed', thursday:'Thu',
+  friday:'Fri', saturday:'Sat', sunday:'Sun',
+  first_friday:'1st Fri', first_saturday:'1st Sat', first_sunday:'1st Sun',
+  first_tuesday:'1st Tue', first_monday:'1st Mon',
+  second_sunday:'2nd Sun', second_tuesday:'2nd Tue',
+  third_friday:'3rd Fri',
+  fourth_friday:'4th Fri', fourth_sunday:'4th Sun', fourth_tuesday:'4th Tue',
+  last_sunday:'Last Sun', holyday:'Holy Day',
+  holyday_eve:'Holy Day Eve', weekday:'Weekday', daily:'Daily',
+  '':'Varies',
+};
+
+const SEASON_LABELS = {
+  lent:'Lent', advent:'Advent', school_year:'School Year',
+  academic_year:'Academic Year', summer:'Summer',
+};
+
+const LANG_NAMES = {
+  en:'English', es:'Spanish', pl:'Polish', pt:'Portuguese',
+  vi:'Vietnamese', asl:'ASL', fr:'French', it:'Italian',
+};
+const LANG_LABELS = {
+  en:'EN', es:'ES', pl:'PL', pt:'PT', vi:'VI', asl:'ASL', fr:'FR', it:'IT',
+};
+
+const SERVICE_TYPE_GROUPS = {
+  mass:       ['mass','sunday_mass','daily_mass','communion_service'],
+  confession: ['confession'],
+  adoration:  ['adoration','holy_hour','perpetual_adoration','benediction'],
+  devotion:   ['rosary','divine_mercy','miraculous_medal','novena',
+               'stations_of_cross','stations_of_the_cross','anointing_of_sick',
+               'anointing','devotion','vespers','prayer_group'],
+};
+
+function fmt12(t) {
+  if (!t) return 'Varies';
+  const [h, m] = t.split(':').map(Number);
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const h12  = h % 12 || 12;
+  return m === 0 ? `${h12} ${ampm}` : `${h12}:${String(m).padStart(2,'0')} ${ampm}`;
+}
+
+function fmtTimeRange(s) {
+  if (s.times_vary && !s.time) return 'Varies';
+  let t = fmt12(s.time);
+  if (s.end_time) t += `–${fmt12(s.end_time)}`;
+  return t;
+}
+
+function getDays(s) {
+  if (s.days && s.days.length) return s.days;
+  if (s.day) return [s.day];
+  return [];
+}
+
+function fmtDays(days) {
+  if (!days.length) return '';
+  const labels = days.map(d => DAY_LABELS[d] || d);
+  // Collapse Mon-Fri
+  const wkdaySet = ['Mon','Tue','Wed','Thu','Fri'];
+  const allWkday = wkdaySet.every(d => labels.includes(d)) && labels.length === 5;
+  if (allWkday) return 'Mon–Fri';
+  // Mon-Thu
+  const monThu = ['Mon','Tue','Wed','Thu'];
+  if (monThu.every(d => labels.includes(d)) && labels.length === 4 && !labels.includes('Fri')) return 'Mon–Thu';
+  return labels.join(', ');
+}
+
+function serviceMatchesDay(svc, dayFilter) {
+  if (!dayFilter) return true;
+  const days = getDays(svc);
+  if (days.includes(dayFilter)) return true;
+  if (days.includes('daily') || days.includes('weekday')) return true;
+  return false;
+}
+
+function serviceMatchesType(svc, categoryFilter, subtypeFilter) {
+  // If subtype active, use subtype matching (more specific)
+  if (subtypeFilter) return serviceMatchesSubtype(svc, subtypeFilter);
+  if (!categoryFilter) return true;
+  const group = SERVICE_TYPE_GROUPS[categoryFilter];
+  return group ? group.includes(svc.type) : true;
+}
+
+function parishMatchesSearch(p, q) {
+  if (!q) return true;
+  const s = `${p.name} ${p.town} ${p.county}`.toLowerCase();
+  return q.toLowerCase().split(' ').every(w => s.includes(w));
+}
+
+// ─── RENDERING ───────────────────────────────────────────────────────────────
+
+// Canonical day sort order
+const DAY_ORDER = [
+  'sunday','saturday','monday','tuesday','wednesday','thursday','friday',
+  'weekday','daily',
+  'first_sunday','second_sunday','third_sunday','fourth_sunday','last_sunday',
+  'first_monday','first_tuesday','first_friday','first_saturday',
+  'fourth_friday','fourth_thursday','third_friday',
+  'holyday','holyday_eve',
+];
+
+function dayRank(day) {
+  const i = DAY_ORDER.indexOf(day);
+  return i === -1 ? 99 : i;
+}
+
+function groupServices(services) {
+  const groups = { mass:[], confession:[], adoration:[], devotion:[], other:[] };
+  for (const svc of services) {
+    let placed = false;
+    for (const [key, types] of Object.entries(SERVICE_TYPE_GROUPS)) {
+      if (types.includes(svc.type)) { groups[key].push(svc); placed = true; break; }
+    }
+    if (!placed) groups.other.push(svc);
+  }
+  return groups;
+}
+
+function renderServiceSection(title, icon, services, dayFilter, categoryFilter, subtypeFilter, langFilter, lentOnly) {
+  const filtered = services.filter(s =>
+    serviceMatchesDay(s, dayFilter) &&
+    serviceMatchesType(s, categoryFilter, subtypeFilter) &&
+    (!langFilter || s.language === langFilter) &&
+    (!lentOnly || (s.seasonal && s.seasonal.is_seasonal && s.seasonal.season === 'lent'))
+  );
+  if (!filtered.length) return '';
+
+  // Group by day key
+  const byDay = new Map();
+  for (const svc of filtered) {
+    const days = getDays(svc);
+    const key  = days.sort((a,b) => dayRank(a)-dayRank(b)).join(',') || 'varies';
+    if (!byDay.has(key)) byDay.set(key, { days, svcs: [] });
+    byDay.get(key).svcs.push(svc);
+  }
+
+  // Sort day-groups by canonical day order
+  const sorted = [...byDay.values()].sort((a, b) => {
+    const ra = Math.min(...a.days.map(dayRank));
+    const rb = Math.min(...b.days.map(dayRank));
+    return ra - rb;
+  });
+
+  const rows = sorted.map(({ days, svcs }) => {
+    const dayStr = fmtDays(days);
+
+    // Sort services within day by time
+    svcs.sort((a, b) => (a.time || '99:99').localeCompare(b.time || '99:99'));
+
+    // Decide layout: stack if any entry has a note; inline otherwise
+    const anyNote = svcs.some(s => s.notes);
+
+    const entryHtml = svc => {
+      const timeStr = fmtTimeRange(svc);
+      const lang    = svc.language && svc.language !== 'en'
+        ? `<span class="lang-tag" title="${LANG_NAMES[svc.language]||svc.language}">${LANG_LABELS[svc.language]||svc.language}</span>` : '';
+      const season  = svc.seasonal && svc.seasonal.is_seasonal && SEASON_LABELS[svc.seasonal.season]
+        ? `<span class="seasonal-tag">${SEASON_LABELS[svc.seasonal.season]}</span>` : '';
+      const label   = SERVICE_LABELS[svc.type] || svc.type.replace(/_/g,' ');
+      const showLabel = label.toLowerCase() !== title.toLowerCase();
+      const typeTag = showLabel ? `<span class="svc-type-tag">${label}</span>` : '';
+      const note    = svc.notes;
+      return { timeStr, lang, season, typeTag, note };
+    };
+
+    let timesHtml;
+    if (!anyNote) {
+      // Inline: "8 AM · 10:30 AM · Noon"
+      timesHtml = `<span class="svc-inline">${
+        svcs.map(svc => {
+          const e = entryHtml(svc);
+          return `<span class="svc-t">${e.timeStr}${e.typeTag}${e.lang}${e.season}</span>`;
+        }).join('<span class="svc-sep">·</span>')
+      }</span>`;
+    } else {
+      // Stacked: one entry per line, note beneath
+      timesHtml = `<span class="svc-stack">${
+        svcs.map(svc => {
+          const e = entryHtml(svc);
+          const noteHtml = e.note ? `<span class="svc-note-line">${e.note}</span>` : '';
+          return `<span class="svc-stack-row"><span class="svc-t">${e.timeStr}</span>${e.typeTag}${e.lang}${e.season}${noteHtml}</span>`;
+        }).join('')
+      }</span>`;
+    }
+
+    return `<li class="service-row">
+      <span class="svc-day">${dayStr || 'Varies'}</span>
+      <span class="svc-times">${timesHtml}</span>
+    </li>`;
+  }).join('');
+
+  return `<div class="service-section">
+    <div class="service-section-title"><span class="icon-${icon}"></span>${title}</div>
+    <ul class="service-list">${rows}</ul>
+  </div>`;
+}
+
+function getVerifiedBadge(p) {
+  const val = p.validation;
+  if (!val) return `<span class="verified-badge low">&#9888; Unverified</span>`;
+
+  // Date-decay: how many months since last_checked?
+  let monthsOld = Infinity;
+  if (val.last_checked) {
+    const checked = new Date(val.last_checked);
+    const now = new Date();
+    monthsOld = (now.getFullYear() - checked.getFullYear()) * 12 + (now.getMonth() - checked.getMonth());
+  }
+
+  // Format the bulletin month for display (e.g. "2026-02" → "Feb 2026")
+  let dateLabel = '';
+  if (val.bulletin_date) {
+    const [yr, mo] = val.bulletin_date.split('-');
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    dateLabel = ` · ${months[parseInt(mo,10)-1]} ${yr}`;
+  } else if (val.last_checked) {
+    const d = new Date(val.last_checked);
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    dateLabel = ` · ${months[d.getMonth()]} ${d.getFullYear()}`;
+  }
+
+  const status = val.status;
+
+  // Base tier from status
+  let tier; // 'green' | 'yellow' | 'orange' | 'red'
+  if (status === 'verified' || status === 'manually_verified') tier = 'green';
+  else if (status === 'needs_verification' || status === 'deferred') tier = 'yellow';
+  else if (status === 'low_confidence') tier = 'orange';
+  else tier = 'red'; // excluded or unknown
+
+  // Date-decay: downgrade one step per threshold
+  if (tier === 'green') {
+    if (monthsOld >= 6) tier = 'orange';
+    else if (monthsOld >= 3) tier = 'yellow';
+  } else if (tier === 'yellow') {
+    if (monthsOld >= 6) tier = 'orange';
+  }
+
+  if (tier === 'green') {
+    return `<span class="verified-badge verified" title="Verified against parish bulletin${dateLabel}">&#10003; Verified${dateLabel}</span>`;
+  } else if (tier === 'yellow') {
+    return `<span class="verified-badge needs-review" title="Data present but pending re-verification${dateLabel}">&#9888; Needs review${dateLabel}</span>`;
+  } else if (tier === 'orange') {
+    return `<span class="verified-badge low-confidence" title="Low confidence — verify times with parish directly${dateLabel}">&#9888; Low confidence${dateLabel}</span>`;
+  } else {
+    return `<span class="verified-badge low" title="Not yet verified">&#9888; Unverified</span>`;
+  }
+}
+
+function renderParishCard(p, dayFilter, categoryFilter, subtypeFilter, langFilter, lentOnly, distMiles) {
+  const groups = groupServices(p.services || []);
+
+  const hasAny = Object.values(groups).flat().some(s =>
+    serviceMatchesDay(s, dayFilter) &&
+    serviceMatchesType(s, categoryFilter, subtypeFilter) &&
+    (!langFilter || s.language === langFilter) &&
+    (!lentOnly || (s.seasonal && s.seasonal.is_seasonal && s.seasonal.season === 'lent'))
+  );
+  if (!hasAny && (dayFilter || categoryFilter || subtypeFilter || langFilter || lentOnly)) return '';
+
+  const isLowConf = p.validation && (p.validation.status === 'low_confidence');
+
+  const massSect  = renderServiceSection('Mass', 'mass', groups.mass, dayFilter, categoryFilter, subtypeFilter, langFilter, lentOnly);
+  const confSect  = renderServiceSection('Confession', 'confession', groups.confession, dayFilter, categoryFilter, subtypeFilter, langFilter, lentOnly);
+  const adorSect  = renderServiceSection('Adoration & Prayer', 'adoration', groups.adoration, dayFilter, categoryFilter, subtypeFilter, langFilter, lentOnly);
+  const devotSect = renderServiceSection('Devotions', 'devotion', groups.devotion, dayFilter, categoryFilter, subtypeFilter, langFilter, lentOnly);
+  const otherSect = renderServiceSection('Other Services', 'other', groups.other, dayFilter, categoryFilter, subtypeFilter, langFilter, lentOnly);
+
+  const phone = p.contact && p.contact.phone
+    ? `<span class="meta-item">&#128222; <a href="tel:${p.contact.phone.replace(/\D/g,'')}" style="color:var(--navy);text-decoration:none;font-weight:500;" title="Call ${p.contact.phone}">${p.contact.phone}</a></span>`
+    : '';
+  const website = p.contact && p.contact.website
+    ? `<span class="meta-item">&#127760; <a href="${p.contact.website}" target="_blank" rel="noopener">Website</a></span>` : '';
+  const multiSite = p.locations && p.locations.filter(l => l.type === 'church').length > 1
+    ? `<span class="meta-item">&#127963; ${p.locations.filter(l=>l.type==='church').length} church locations</span>` : '';
+
+  // Directions button
+  const loc = p.locations && p.locations[0];
+  const addr = loc && loc.address ? loc.address : `${p.name}, ${p.town}, MA`;
+  const mapsUrl = /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent) && !window.MSStream
+    ? `https://maps.apple.com/?q=${encodeURIComponent(addr)}`
+    : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addr)}`;
+  const directionsBtn = `<a class="directions-btn" href="${mapsUrl}" target="_blank" rel="noopener">&#128205; Directions</a>`;
+
+  // Distance badge
+  const distHtml = (distMiles !== undefined && distMiles !== null)
+    ? `<span class="dist-badge${distMiles <= 5 ? ' near' : ''}">&#128205; ${distMiles.toFixed(1)} mi</span>`
+    : '';
+
+  // Office hours — separate from service times, clearly labelled
+  const officeHours = p.contact && p.contact.office_hours
+    ? `<div class="office-hours-bar">&#127970; <strong>Parish Office Hours:</strong> ${p.contact.office_hours}</div>` : '';
+
+  const pastor  = p.staff && p.staff.pastor && p.staff.pastor !== 'Not assigned'
+    ? `<span class="pastor-name">${p.staff.pastor}</span>` : `<span></span>`;
+
+  const confBadge = getVerifiedBadge(p);
+
+  const confWarn = isLowConf
+    ? `<div class="confidence-warn">&#9888; Schedule unverified &#8212; confirm times with parish</div>` : '';
+
+  return `<article class="parish-card${isLowConf ? ' low-confidence' : ''}">
+    <div class="card-header">
+      <h2>${p.name}</h2>
+      <div class="card-location">${p.town}, MA &middot; ${p.county} County</div>
+      <span class="county-badge">${confBadge}</span>
+      ${confWarn}
+    </div>
+    ${officeHours}
+    <div class="card-meta">${phone}${website}${directionsBtn}${distHtml}${multiSite}</div>
+    <div class="card-body">
+      ${massSect}${confSect}${adorSect}${devotSect}${otherSect}
+    </div>
+    <div class="card-footer">
+      ${pastor}
+      <button class="reconcile-btn" onclick="openReconcile('${p.id}')" title="Report an update or correction">&#9999; Reconcile</button>
+    </div>
+  </article>`;
+}
+
+(async function() {
+  try {
+    const resp = await fetch(PARISH_DATA_URL);
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    PARISH_DATA = await resp.json();
+  } catch(e) {
+    document.body.innerHTML = '<div style="padding:2rem;text-align:center;color:red;font-size:1.2rem;">Error loading parish data. Please refresh the page.<br><small>' + e.message + '</small></div>';
+    return;
+  }
+
+const parishes      = PARISH_DATA.parishes;
+const grid          = document.getElementById('parishGrid');
+const searchInput   = document.getElementById('searchInput');
+const countyFilter  = document.getElementById('countyFilter');
+const dayFilterEl   = document.getElementById('dayFilter');
+const langFilterEl  = document.getElementById('langFilter');
+const lentToggleEl  = document.getElementById('lentToggle');
+const categoryChips = document.getElementById('categoryChips');
+const subfilterBar  = document.getElementById('subfilterBar');
+const subtypeChips  = document.getElementById('subtypeChips');
+const subfilterLabel= document.getElementById('subfilterLabel');
+const resultsCount  = document.getElementById('resultsCount');
+
+let activeCategory = '';
+let activeSubtype  = '';
+let lentOnly       = false;
+
+// Stats
+const totalSvc = parishes.reduce((n,p) => n + (p.services||[]).length, 0);
+document.getElementById('headerBadge').textContent   = `${parishes.length} Parishes · ${totalSvc} Services`;
+
+const CAT_LABELS = { mass: 'Mass type', confession: 'When', adoration: 'Type', devotion: 'Devotion' };
+
+function buildSubChips(category) {
+  const defs = SUBTYPES[category] || [];
+  subtypeChips.innerHTML =
+    `<button class="subchip active" data-sub="">All ${CAT_LABELS[category] || ''}</button>` +
+    defs.map(d => `<button class="subchip" data-sub="${d.key}">${d.label}</button>`).join('');
+  subfilterLabel.textContent = CAT_LABELS[category] || '';
+}
+
+function isAnyFilterActive() {
+  return !!(searchInput.value.trim() || countyFilter.value || dayFilterEl.value ||
+            langFilterEl.value || activeCategory || lentOnly);
+}
+
+function updateClearFiltersBtn() {
+  const btn = document.getElementById('clearFiltersBtn');
+  if (btn) btn.style.display = isAnyFilterActive() ? '' : 'none';
+}
+
+function syncUrlParams() {
+  const params = new URLSearchParams();
+  if (searchInput.value.trim()) params.set('q', searchInput.value.trim());
+  if (countyFilter.value)       params.set('county', countyFilter.value);
+  if (dayFilterEl.value)        params.set('day', dayFilterEl.value);
+  if (langFilterEl.value)       params.set('lang', langFilterEl.value);
+  if (activeCategory)           params.set('cat', activeCategory);
+  if (activeSubtype)            params.set('sub', activeSubtype);
+  if (lentOnly)                 params.set('lent', '1');
+  const str = params.toString();
+  history.replaceState(null, '', str ? '?' + str : location.pathname);
+}
+
+function render() {
+  const q        = searchInput.value.trim();
+  const county   = countyFilter.value;
+  const day      = dayFilterEl.value;
+  const lang     = langFilterEl.value;
+  const cat      = activeCategory;
+  const subtype  = activeSubtype;
+
+  const filtered = parishes.filter(p => {
+    if (!parishMatchesSearch(p, q)) return false;
+    if (county && p.county !== county) return false;
+    if (day || cat || subtype || lang || lentOnly) {
+      const hasMatch = (p.services||[]).some(s =>
+        serviceMatchesDay(s, day) &&
+        serviceMatchesType(s, cat, subtype) &&
+        (!lang || s.language === lang) &&
+        (!lentOnly || (s.seasonal && s.seasonal.is_seasonal && s.seasonal.season === 'lent'))
+      );
+      if (!hasMatch) return false;
+    }
+    return true;
+  });
+
+  // Sort by proximity if location known
+  if (userLat !== null) {
+    filtered.sort((a, b) => {
+      const da = getDistMiles(a);
+      const db = getDistMiles(b);
+      if (da === null && db === null) return 0;
+      if (da === null) return 1;
+      if (db === null) return -1;
+      return da - db;
+    });
+  }
+  var html = filtered.map(function(p) {
+    return renderParishCard(p, day, cat, subtype, lang, lentOnly, getDistMiles(p));
+  }).join('');
+  grid.innerHTML = html || '<div class="no-results"><div class="cross">✝</div><p>No parishes found matching your filters.</p></div>';
+
+  const shown = filtered.length;
+  resultsCount.textContent = shown === parishes.length ? '' : shown + ' of ' + parishes.length + ' shown';
+
+  updateClearFiltersBtn();
+  syncUrlParams();
+}
+
+// Category chips
+categoryChips.addEventListener('click', e => {
+  const chip = e.target.closest('[data-cat]');
+  if (!chip) return;
+  categoryChips.querySelectorAll('[data-cat]').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  activeCategory = chip.dataset.cat;
+  activeSubtype  = '';
+
+  if (activeCategory && SUBTYPES[activeCategory]) {
+    buildSubChips(activeCategory);
+    subfilterBar.style.display = '';
+  } else {
+    subfilterBar.style.display = 'none';
+    subtypeChips.innerHTML = '';
+  }
+  render();
+});
+
+// Subtype chips (event delegation)
+subtypeChips.addEventListener('click', e => {
+  const chip = e.target.closest('[data-sub]');
+  if (!chip) return;
+  subtypeChips.querySelectorAll('[data-sub]').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  activeSubtype = chip.dataset.sub;
+  render();
+});
+
+// Other controls
+searchInput.addEventListener('input', render);
+countyFilter.addEventListener('change', render);
+dayFilterEl.addEventListener('change', render);
+langFilterEl.addEventListener('change', render);
+
+// Lent toggle
+lentToggleEl.addEventListener('click', () => {
+  lentOnly = !lentOnly;
+  lentToggleEl.classList.toggle('active', lentOnly);
+  lentToggleEl.textContent = lentOnly ? '✦ Lent (on)' : '⦿ Lent';
+  render();
+});
+
+// Proximity stubs — real implementation in location block below
+var userLat = null;
+var userLng = null;
+function getDistMiles(p) {
+  if (userLat === null) return null;
+  var loc = p.locations && p.locations[0];
+  if (!loc || !loc.lat || !loc.lng) return null;
+  return haversine(userLat, userLng, loc.lat, loc.lng);
+}
+function haversine(lat1, lng1, lat2, lng2) {
+  var R = 3958.8;
+  var dLat = (lat2 - lat1) * Math.PI / 180;
+  var dLng = (lng2 - lng1) * Math.PI / 180;
+  var a = Math.pow(Math.sin(dLat/2),2) + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.pow(Math.sin(dLng/2),2);
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+// Apply URL params if present (before initial render)
+(function applyUrlParams() {
+  const p = new URLSearchParams(location.search);
+  if (p.get('q'))      searchInput.value = p.get('q');
+  if (p.get('county')) countyFilter.value = p.get('county');
+  if (p.get('day'))    dayFilterEl.value = p.get('day');
+  if (p.get('lang'))   langFilterEl.value = p.get('lang');
+  if (p.get('lent'))   { lentOnly = true; lentToggleEl.classList.add('active'); lentToggleEl.textContent = '✦ Lent (on)'; }
+  if (p.get('cat')) {
+    activeCategory = p.get('cat');
+    categoryChips.querySelectorAll('[data-cat]').forEach(c => c.classList.toggle('active', c.dataset.cat === activeCategory));
+    if (SUBTYPES[activeCategory]) { buildSubChips(activeCategory); subfilterBar.style.display = ''; }
+    if (p.get('sub')) {
+      activeSubtype = p.get('sub');
+      subtypeChips.querySelectorAll('[data-sub]').forEach(c => c.classList.toggle('active', c.dataset.sub === activeSubtype));
+    }
+  }
+})();
+
+// Initial render
+render();
+
+// ═══════════════════════════════════════════════════
+// LOCATION & PROXIMITY
+// ═══════════════════════════════════════════════════
+
+// userLat, userLng, haversine, getDistMiles declared in main block above
+var locationStatus = 'unknown';
+var soonRadiusMiles = 10;
+var soonRadiusExpanded = false;
+
+function requestLocation() {
+  if (!navigator.geolocation) {
+    document.getElementById('soonLocationLabel').textContent = 'Geolocation not supported by your browser';
+    return;
+  }
+  document.getElementById('soonLocationLabel').textContent = 'Locating…';
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      userLat = pos.coords.latitude;
+      userLng = pos.coords.longitude;
+      locationStatus = 'granted';
+      document.getElementById('soonLocationLabel').textContent = 'Location active ✓';
+      document.getElementById('proximityBar').classList.add('active');
+      refreshSoon();
+      render();
+    },
+    () => {
+      locationStatus = 'denied';
+      document.getElementById('soonLocationLabel').textContent = 'Location unavailable — tap to retry';
+      // If Near Me quick action was triggered, show denied notice in grid
+      if (quickActive === 'btnNearMe') {
+        const grid = document.getElementById('parishGrid');
+        grid.innerHTML = `<div class="location-denied-notice">
+          &#128274; Location access was denied. To use "Near Me", enable location for this site in your browser settings, then tap <strong>Near Me</strong> again.
+        </div>` + grid.innerHTML;
+      }
+    },
+    { timeout: 8000 }
+  );
+}
+
+// Passive location attempt on load (no prompt shown if permission not already granted)
+function initLocationBanner() {
+  document.getElementById('happeningSoon').style.display = '';
+  document.getElementById('soonCards').innerHTML = '<span class="soon-none">Enable location to see Masses starting soon near you.</span>';
+  document.getElementById('soonLocationLabel').textContent = 'Tap to enable location →';
+}
+try {
+  if (navigator.permissions) {
+    navigator.permissions.query({ name: 'geolocation' }).then(function(result) {
+      if (result.state === 'granted') {
+        requestLocation();
+      } else {
+        initLocationBanner();
+      }
+    }).catch(function() { initLocationBanner(); });
+  } else {
+    initLocationBanner();
+  }
+} catch(e) {
+  initLocationBanner();
+}
+
+// Radius toggle
+var soonRadiusBtnEl = document.getElementById('soonRadiusBtn');
+if (soonRadiusBtnEl) {
+  soonRadiusBtnEl.addEventListener('click', function() {
+    soonRadiusExpanded = !soonRadiusExpanded;
+    soonRadiusMiles = soonRadiusExpanded ? 20 : 10;
+    soonRadiusBtnEl.textContent = 'Within ' + soonRadiusMiles + ' mi';
+    refreshSoon();
+  });
+}
+
+// Time window toggle: 30 / 60 / 90 min
+var soonWindowMins = 90;
+var soonWindowOptions = [30, 60, 90];
+var soonWindowIdx = 2;
+var soonWindowBtnEl = document.getElementById('soonWindowBtn');
+if (soonWindowBtnEl) {
+  soonWindowBtnEl.addEventListener('click', function(e) {
+    e.stopPropagation();
+    soonWindowIdx = (soonWindowIdx + 1) % soonWindowOptions.length;
+    soonWindowMins = soonWindowOptions[soonWindowIdx];
+    soonWindowBtnEl.textContent = 'Next ' + soonWindowMins + ' min';
+    refreshSoon();
+  });
+}
+
+// ═══════════════════════════════════════════════════
+// HAPPENING SOON
+// ═══════════════════════════════════════════════════
+
+const DAY_NAMES = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
+
+function timeToMinutes(t) {
+  if (!t) return null;
+  const [h, m] = t.split(':').map(Number);
+  return h * 60 + m;
+}
+
+function fmt12(t) {
+  if (!t) return '—';
+  let [h, m] = t.split(':').map(Number);
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  if (h > 12) h -= 12;
+  if (h === 0) h = 12;
+  return m === 0 ? `${h} ${ampm}` : `${h}:${m.toString().padStart(2,'0')} ${ampm}`;
+}
+
+function refreshSoon() {
+  if (userLat === null) return;
+  document.getElementById('happeningSoon').style.display = '';
+
+  const now = new Date();
+  const todayIdx = now.getDay(); // 0=Sun
+  const todayName = DAY_NAMES[todayIdx];
+  const nowMin = now.getHours() * 60 + now.getMinutes();
+  var windowMin = soonWindowMins;
+
+  const results = [];
+
+  for (const p of parishes) {
+    const loc = p.locations && p.locations[0];
+    if (!loc || !loc.lat) continue;
+    const dist = haversine(userLat, userLng, loc.lat, loc.lng);
+    if (dist > soonRadiusMiles) continue;
+
+    for (const svc of (p.services || [])) {
+      if (svc.type !== 'sunday_mass' && svc.type !== 'daily_mass') continue;
+      const svcMin = timeToMinutes(svc.time);
+      if (svcMin === null) continue;
+
+      // Check day match
+      const svcDay = svc.day;
+      const matchesToday = svcDay === todayName
+        || (svcDay === 'saturday' && todayIdx === 6)
+        || (svcDay === 'sunday' && todayIdx === 0)
+        || (svcDay === 'daily');
+
+      if (!matchesToday) continue;
+
+      const minsAway = svcMin - nowMin;
+      if (minsAway >= 0 && minsAway <= windowMin) {
+        results.push({ p, svc, dist, minsAway, svcMin });
+      }
+    }
+  }
+
+  results.sort((a, b) => a.minsAway - b.minsAway || a.dist - b.dist);
+
+  const container = document.getElementById('soonCards');
+  if (results.length === 0) {
+    container.innerHTML = `<span class="soon-none">No Masses starting in the next 90 minutes within ${soonRadiusMiles} miles.</span>`;
+    return;
+  }
+
+  container.innerHTML = results.slice(0, 10).map(({ p, svc, dist, minsAway }) => {
+    const minsLabel = minsAway === 0 ? 'Starting now'
+      : minsAway <= 5 ? 'In a few minutes'
+      : `In ${minsAway} min`;
+    const loc = p.locations[0];
+    const mapsUrl = /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent) && !window.MSStream
+      ? `https://maps.apple.com/?q=${encodeURIComponent(loc.address || p.name + ', ' + p.town + ', MA')}`
+      : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(loc.address || p.name + ', ' + p.town + ', MA')}`;
+    return `<a class="soon-card" href="${mapsUrl}" target="_blank" rel="noopener">
+      <div class="soon-card-time">${fmt12(svc.time)}</div>
+      <div class="soon-card-starts">${minsLabel}</div>
+      <div class="soon-card-parish">${p.name}</div>
+      <div class="soon-card-town">${p.town}</div>
+      <div class="soon-card-dist">&#128205; ${dist.toFixed(1)} mi away</div>
+    </a>`;
+  }).join('');
+}
+
+// Refresh soon every minute
+setInterval(() => { if (userLat !== null) refreshSoon(); }, 60000);
+
+// ═══════════════════════════════════════════════════
+// LANGUAGE BAR
+// ═══════════════════════════════════════════════════
+
+// langBar removed from DOM — language filtering via langFilterEl select only
+
+// Add parish strip collapse
+var addParishExpanded = false;
+function toggleAddParish(e) {
+  if (e.target.classList.contains('add-parish-btn')) return; // let button click through
+  addParishExpanded = !addParishExpanded;
+  document.getElementById('addParishBody').style.display = addParishExpanded ? 'block' : 'none';
+  document.getElementById('addParishBtn').style.display  = addParishExpanded ? 'inline-flex' : 'none';
+  document.getElementById('addParishHint').textContent   = addParishExpanded ? '' : 'Tap to expand';
+}
+
+// ═══════════════════════════════════════════════════
+// QUICK ACTIONS
+// ═══════════════════════════════════════════════════
+
+let quickActive = null;
+
+function setQuickActive(id) {
+  ['btnThisWeekend','btnConfession','btnNearMe'].forEach(b => {
+    document.getElementById(b).classList.toggle('active', b === id);
+  });
+  document.getElementById('btnClearQuick').style.display = id ? '' : 'none';
+  quickActive = id;
+}
+
+function clearQuick() {
+  // Reset all filters
+  searchInput.value = '';
+  countyFilter.value = '';
+  dayFilterEl.value = '';
+  langFilterEl.value = '';
+  // langBar removed
+  categoryChips.querySelectorAll('[data-cat]').forEach(c => c.classList.toggle('active', c.dataset.cat === ''));
+  activeCategory = '';
+  activeSubtype = '';
+  lentOnly = false;
+  lentToggleEl.classList.remove('active');
+  lentToggleEl.textContent = '⦿ Lent';
+  subfilterBar.style.display = 'none';
+  setQuickActive(null);
+  render();
+}
+
+function quickThisWeekend() {
+  if (quickActive === 'btnThisWeekend') { clearQuick(); return; }
+  searchInput.value = '';
+  countyFilter.value = '';
+  // Saturday + Sunday = set day to sunday and also let saturday vigils show
+  // Best approach: set category to mass, clear day (both days show)
+  dayFilterEl.value = '';
+  categoryChips.querySelectorAll('[data-cat]').forEach(c => c.classList.toggle('active', c.dataset.cat === 'mass'));
+  activeCategory = 'mass';
+  activeSubtype = '';
+  // Build subchips for mass
+  if (SUBTYPES['mass']) {
+    buildSubChips('mass');
+    // Auto-select weekend subtype if available
+    const wkndChip = [...subtypeChips.querySelectorAll('[data-sub]')].find(c => c.dataset.sub === 'weekend_mass');
+    if (wkndChip) {
+      subtypeChips.querySelectorAll('[data-sub]').forEach(c => c.classList.remove('active'));
+      wkndChip.classList.add('active');
+      activeSubtype = 'weekend_mass';
+    }
+    subfilterBar.style.display = '';
+  }
+  setQuickActive('btnThisWeekend');
+  render();
+}
+
+function quickConfession() {
+  if (quickActive === 'btnConfession') { clearQuick(); return; }
+  searchInput.value = '';
+  countyFilter.value = '';
+  dayFilterEl.value = '';
+  categoryChips.querySelectorAll('[data-cat]').forEach(c => c.classList.toggle('active', c.dataset.cat === 'confession'));
+  activeCategory = 'confession';
+  activeSubtype = '';
+  if (SUBTYPES['confession']) {
+    buildSubChips('confession');
+    subfilterBar.style.display = '';
+  }
+  setQuickActive('btnConfession');
+  render();
+}
+
+function quickNearMe() {
+  if (quickActive === 'btnNearMe') { clearQuick(); return; }
+  if (userLat === null) {
+    requestLocation();
+    // Will re-render after location granted
+  }
+  setQuickActive('btnNearMe');
+  render();
+}
+
+function clearAllFilters() {
+  searchInput.value = '';
+  countyFilter.value = '';
+  dayFilterEl.value = '';
+  langFilterEl.value = '';
+  categoryChips.querySelectorAll('[data-cat]').forEach(c => c.classList.toggle('active', c.dataset.cat === ''));
+  activeCategory = '';
+  activeSubtype = '';
+  lentOnly = false;
+  lentToggleEl.classList.remove('active');
+  lentToggleEl.textContent = '⦿ Lent';
+  subfilterBar.style.display = 'none';
+  setQuickActive(null);
+  render();
+}
+
+function clearLocationSort() {
+  userLat = null;
+  userLng = null;
+  locationStatus = 'unknown';
+  document.getElementById('proximityBar').classList.remove('active');
+  document.getElementById('soonLocationLabel').textContent = 'Tap to enable location →';
+  render();
+}
+
+// Expose all interactive functions to global scope
+// (they're defined inside an async IIFE — inline onclick attributes require global scope)
+window.requestLocation  = requestLocation;
+window.quickThisWeekend = quickThisWeekend;
+window.quickConfession  = quickConfession;
+window.quickNearMe      = quickNearMe;
+window.clearQuick       = clearQuick;
+window.clearAllFilters  = clearAllFilters;
+window.clearLocationSort = clearLocationSort;
+window.toggleAddParish  = toggleAddParish;
+
+})();
+</script>
+
+<!-- ══════════════════════════════════════════════════
+     RECONCILIATION MODAL
+══════════════════════════════════════════════════ -->
+<div class="modal-backdrop" id="reconcileBackdrop">
+<div class="modal-box">
+
+  <!-- HEADER -->
+  <div class="mhdr">
+    <div class="mhdr-left">
+      <h2>Reconcile Parish Listing</h2>
+      <div class="mhdr-parish" id="mParishName"></div>
+    </div>
+    <button class="mhdr-close" onclick="closeReconcile()">×</button>
+  </div>
+
+  <!-- MODE TABS -->
+  <div class="mode-tabs">
+    <button class="mode-tab active" id="tab-flag"    onclick="switchTab('flag')">🔍 Correct Existing Service</button>
+    <button class="mode-tab"        id="tab-add"     onclick="switchTab('add')">➕ Report Missing Service</button>
+    <button class="mode-tab"        id="tab-general" onclick="switchTab('general')">📋 General Note</button>
+  </div>
+
+  <!-- ── TAB: FLAG EXISTING ── -->
+  <div class="tab-panel active mbody" id="panel-flag">
+
+    <div class="fsection">
+      <div class="fsection-title">① Select the service that needs updating</div>
+      <div class="fsection-body">
+        <div class="svc-list" id="svcList">
+          <div style="padding:14px;color:#aaa;font-size:0.85rem">Loading…</div>
+        </div>
+        <div class="selected-svc-detail" id="svcDetail">
+          <div class="detail-label">Current recorded data (prefilled below — edit what's wrong)</div>
+          <div class="fgrid cols3" style="margin-top:10px">
+            <div class="fg">
+              <label>Type</label>
+              <select id="fd_type"></select>
+            </div>
+            <div class="fg">
+              <label>Day(s)</label>
+              <div class="day-chips" id="fd_days"></div>
+            </div>
+            <div class="fg">
+              <label>Special recurrence</label>
+              <select id="fd_special">
+                <option value="">None (regular weekly)</option>
+                <option value="first_friday">First Friday</option>
+                <option value="first_saturday">First Saturday</option>
+                <option value="first_sunday">First Sunday</option>
+                <option value="first_tuesday">First Tuesday</option>
+                <option value="second_sunday">2nd Sunday</option>
+                <option value="third_sunday">3rd Sunday</option>
+                <option value="fourth_friday">4th Friday</option>
+                <option value="fourth_sunday">4th Sunday</option>
+                <option value="last_sunday">Last Sunday</option>
+                <option value="holyday">Holy Day of Obligation</option>
+                <option value="holyday_eve">Holy Day Eve</option>
+                <option value="daily">Every day</option>
+                <option value="weekday">Any weekday</option>
+              </select>
+            </div>
+            <div class="fg">
+              <label>Start time</label>
+              <input type="time" id="fd_time">
+            </div>
+            <div class="fg">
+              <label>End time</label>
+              <input type="time" id="fd_endtime">
+            </div>
+            <div class="fg">
+              <label>Language</label>
+              <select id="fd_language">
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+                <option value="pl">Polish</option>
+                <option value="pt">Portuguese</option>
+                <option value="vi">Vietnamese</option>
+                <option value="la">Latin (Traditional)</option>
+                <option value="asl">ASL</option>
+              </select>
+            </div>
+            <div class="fg check-row">
+              <input type="checkbox" id="fd_times_vary">
+              <label for="fd_times_vary">Times vary / by appointment</label>
+            </div>
+            <div class="fg check-row">
+              <input type="checkbox" id="fd_seasonal" onchange="document.getElementById('fd_season_row').style.display=this.checked?'':'none'">
+              <label for="fd_seasonal">Seasonal service</label>
+            </div>
+            <div class="fg" id="fd_season_row" style="display:none">
+              <label>Season</label>
+              <select id="fd_season">
+                <option value="lent">Lent</option>
+                <option value="advent">Advent</option>
+                <option value="summer">Summer</option>
+                <option value="school_year">School Year</option>
+                <option value="academic_year">Academic Year</option>
+              </select>
+            </div>
+            <div class="fg span2">
+              <label>Location / church building</label>
+              <select id="fd_location"></select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fsection">
+      <div class="fsection-title">② Describe what's wrong and what it should say</div>
+      <div class="fsection-body fgrid cols1">
+        <div class="fg">
+          <label>What is incorrect or outdated? <span class="req">*</span></label>
+          <textarea id="fd_wrong" rows="3"
+            placeholder="e.g. Adoration is listed as Wednesday 9 AM–noon but it moved to Friday 9 AM–noon starting February 2026."></textarea>
+        </div>
+        <div class="fg">
+          <label>What should it say? (corrected version)</label>
+          <textarea id="fd_correct" rows="2"
+            placeholder="e.g. Adoration: Friday 9:00 AM – 12:00 PM, following the 8 AM Mass."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="fsection">
+      <div class="fsection-title">③ How do you know this?</div>
+      <div class="fsection-body fgrid cols3">
+        <div class="fg">
+          <label>Source <span class="req">*</span></label>
+          <select id="fd_source">
+            <option value="bulletin">Parish bulletin</option>
+            <option value="website">Parish website</option>
+            <option value="attended">I attended this service</option>
+            <option value="phone">Called the parish office</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label>Date / bulletin month</label>
+          <input type="month" id="fd_source_date">
+        </div>
+        <div class="fg">
+          <label>Confidence</label>
+          <select id="fd_confidence">
+            <option value="certain">Certain — confirmed from primary source</option>
+            <option value="likely">Likely — strong indication</option>
+            <option value="uncertain">Uncertain — needs verification</option>
+          </select>
+        </div>
+        <div class="fg span2">
+          <label>Source URL (bulletin link, website page, etc.)</label>
+          <input type="url" id="fd_source_url" placeholder="https://www.parishname.org/bulletin">
+        </div>
+        <div class="fg">
+          <label>Your name (optional)</label>
+          <input type="text" id="fd_name" placeholder="Parishioner name">
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /panel-flag -->
+
+
+  <!-- ── TAB: ADD MISSING SERVICE ── -->
+  <div class="tab-panel mbody" id="panel-add">
+
+    <div class="fsection">
+      <div class="fsection-title">① Describe the missing service</div>
+      <div class="fsection-body fgrid">
+        <div class="fg">
+          <label>Service type <span class="req">*</span></label>
+          <select id="fa_type">
+            <optgroup label="Mass">
+              <option value="sunday_mass">Sunday / Vigil Mass</option>
+              <option value="daily_mass">Daily Mass</option>
+            </optgroup>
+            <optgroup label="Sacraments">
+              <option value="confession">Confession / Reconciliation</option>
+              <option value="anointing_of_sick">Anointing of the Sick</option>
+              <option value="communion_service">Communion Service (no priest)</option>
+            </optgroup>
+            <optgroup label="Adoration">
+              <option value="adoration">Eucharistic Adoration</option>
+              <option value="holy_hour">Holy Hour</option>
+              <option value="perpetual_adoration">Perpetual Adoration (24 hr)</option>
+              <option value="benediction">Benediction</option>
+            </optgroup>
+            <optgroup label="Devotions">
+              <option value="rosary">Rosary</option>
+              <option value="divine_mercy">Divine Mercy Chaplet</option>
+              <option value="miraculous_medal">Miraculous Medal Novena</option>
+              <option value="stations_of_cross">Stations of the Cross</option>
+              <option value="novena">Novena (other)</option>
+              <option value="devotion">Other Devotion</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="fg">
+          <label>Language</label>
+          <select id="fa_language">
+            <option value="en">English</option>
+            <option value="es">Spanish</option>
+            <option value="pl">Polish</option>
+            <option value="pt">Portuguese</option>
+            <option value="vi">Vietnamese</option>
+            <option value="la">Latin (Traditional)</option>
+            <option value="asl">ASL</option>
+          </select>
+        </div>
+
+        <div class="fg span2">
+          <label>Day(s) of the week</label>
+          <div class="day-chips" id="fa_days"></div>
+          <div class="hint">Click to toggle. Select all that apply.</div>
+        </div>
+
+        <div class="fg">
+          <label>Special recurrence</label>
+          <select id="fa_special">
+            <option value="">None (regular weekly)</option>
+            <option value="first_friday">First Friday</option>
+            <option value="first_saturday">First Saturday</option>
+            <option value="first_sunday">First Sunday</option>
+            <option value="first_tuesday">First Tuesday</option>
+            <option value="second_sunday">2nd Sunday</option>
+            <option value="third_sunday">3rd Sunday</option>
+            <option value="fourth_friday">4th Friday</option>
+            <option value="fourth_sunday">4th Sunday</option>
+            <option value="last_sunday">Last Sunday</option>
+            <option value="holyday">Holy Day of Obligation</option>
+            <option value="holyday_eve">Holy Day Eve</option>
+            <option value="daily">Every day</option>
+            <option value="weekday">Any weekday</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label>Start time</label>
+          <input type="time" id="fa_time">
+        </div>
+        <div class="fg">
+          <label>End time (if known)</label>
+          <input type="time" id="fa_endtime">
+        </div>
+        <div class="fg check-row">
+          <input type="checkbox" id="fa_times_vary">
+          <label for="fa_times_vary">Times vary / by appointment</label>
+        </div>
+        <div class="fg check-row">
+          <input type="checkbox" id="fa_seasonal" onchange="document.getElementById('fa_season_row').style.display=this.checked?'':'none'">
+          <label for="fa_seasonal">This is a seasonal service</label>
+        </div>
+        <div class="fg" id="fa_season_row" style="display:none">
+          <label>Season</label>
+          <select id="fa_season">
+            <option value="lent">Lent</option>
+            <option value="advent">Advent</option>
+            <option value="summer">Summer</option>
+            <option value="school_year">School Year</option>
+            <option value="academic_year">Academic Year</option>
+          </select>
+        </div>
+        <div class="fg span2">
+          <label>Location / church building (if multi-site parish)</label>
+          <select id="fa_location"></select>
+        </div>
+        <div class="fg span2">
+          <label>Additional notes</label>
+          <textarea id="fa_notes" rows="2"
+            placeholder="e.g. Follows the 9 AM daily Mass. Begins with Exposition and closes with Benediction."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="fsection">
+      <div class="fsection-title">② How do you know this service exists?</div>
+      <div class="fsection-body fgrid cols3">
+        <div class="fg">
+          <label>Source <span class="req">*</span></label>
+          <select id="fa_source">
+            <option value="bulletin">Parish bulletin</option>
+            <option value="website">Parish website</option>
+            <option value="attended">I attended this service</option>
+            <option value="phone">Called the parish office</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label>Date / bulletin month</label>
+          <input type="month" id="fa_source_date">
+        </div>
+        <div class="fg">
+          <label>Confidence</label>
+          <select id="fa_confidence">
+            <option value="certain">Certain</option>
+            <option value="likely">Likely</option>
+            <option value="uncertain">Uncertain</option>
+          </select>
+        </div>
+        <div class="fg span2">
+          <label>Source URL</label>
+          <input type="url" id="fa_source_url" placeholder="https://www.parishname.org/bulletin">
+        </div>
+        <div class="fg">
+          <label>Your name (optional)</label>
+          <input type="text" id="fa_name" placeholder="Parishioner name">
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /panel-add -->
+
+
+  <!-- ── TAB: GENERAL NOTE ── -->
+  <div class="tab-panel mbody" id="panel-general">
+
+    <div class="fsection">
+      <div class="fsection-title">General feedback or note about this parish</div>
+      <div class="fsection-body fgrid cols1">
+        <div class="fg">
+          <label>What would you like to report? <span class="req">*</span></label>
+          <textarea id="fg_notes" rows="5"
+            placeholder="e.g. This parish has permanently closed. / The pastor listed is no longer assigned here. / The phone number is wrong. / There is a second location not listed."></textarea>
+        </div>
+        <div class="fg">
+          <label>Source / how you know</label>
+          <input type="text" id="fg_source" placeholder="e.g. Parish website, phone call, bulletin, personal attendance…">
+        </div>
+        <div class="fg">
+          <label>Source URL (if applicable)</label>
+          <input type="url" id="fg_url" placeholder="https://…">
+        </div>
+        <div class="fg">
+          <label>Your name (optional)</label>
+          <input type="text" id="fg_name" placeholder="Parishioner name">
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /panel-general -->
+
+
+  <!-- SUCCESS SCREEN (hidden until submit) -->
+  <div class="msuccess" id="mSuccess">
+    <div class="sicon">✅</div>
+    <h3>Submission received — thank you!</h3>
+    <p>Your report has been logged for review by the diocese data team.<br>
+       No change is made to the directory until the update is verified.</p>
+    <div class="ref-id" id="mRefId"></div>
+    <br>
+    <button class="mbtn-submit" onclick="closeReconcile()">Close</button>
+  </div>
+
+
+  <!-- MODAL FOOTER -->
+  <div class="mftr" id="mFtr">
+    <div class="mftr-note">Submissions are reviewed before any data is updated. Thank you for helping keep this directory accurate.</div>
+    <button class="mbtn-cancel" onclick="closeReconcile()">Cancel</button>
+    <button class="mbtn-submit" onclick="submitReconcile()">Submit Report →</button>
+  </div>
+
+</div><!-- /modal-box -->
+</div><!-- /modal-backdrop -->
+
+
+<script>
+// ════════════════════════════════════════════════════════════
+//  RECONCILIATION MODAL  — full logic
+// ════════════════════════════════════════════════════════════
+
+const SVC_TYPE_LABELS = {
+  sunday_mass:'Sunday / Vigil Mass', daily_mass:'Daily Mass',
+  confession:'Confession', anointing_of_sick:'Anointing of the Sick',
+  communion_service:'Communion Service',
+  adoration:'Eucharistic Adoration', holy_hour:'Holy Hour',
+  perpetual_adoration:'Perpetual Adoration', benediction:'Benediction',
+  rosary:'Rosary', divine_mercy:'Divine Mercy Chaplet',
+  miraculous_medal:'Miraculous Medal Novena',
+  stations_of_cross:'Stations of the Cross',
+  stations_of_the_cross:'Stations of the Cross',
+  novena:'Novena', devotion:'Devotion',
+};
+const SVC_TYPE_OPTIONS = Object.entries(SVC_TYPE_LABELS);
+
+const DAY_FULL = {
+  monday:'Monday', tuesday:'Tuesday', wednesday:'Wednesday',
+  thursday:'Thursday', friday:'Friday', saturday:'Saturday', sunday:'Sunday',
+  first_friday:'1st Fri', first_saturday:'1st Sat', first_sunday:'1st Sun',
+  first_tuesday:'1st Tue', first_monday:'1st Mon',
+  second_sunday:'2nd Sun', second_tuesday:'2nd Tue',
+  third_friday:'3rd Fri',
+  fourth_friday:'4th Fri', fourth_sunday:'4th Sun', fourth_tuesday:'4th Tue',
+  holyday:'Holy Day', holyday_eve:'Holy Day Eve',
+  daily:'Daily', weekday:'Weekday', last_sunday:'Last Sun', '':'Varies',
+};
+
+const WEEKDAYS = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
+
+let _currentParish = null;
+let _activeTab     = 'flag';
+let _selectedSvcId = null;
+let _flagDays      = new Set();
+let _addDays       = new Set();
+
+// ── helpers ─────────────────────────────────────────────────
+
+function fmtT(t) {
+  if (!t) return '';
+  const [h,m] = t.split(':');
+  const hr = parseInt(h);
+  return `${hr > 12 ? hr-12 : hr||12}:${m} ${hr>=12?'PM':'AM'}`;
+}
+
+function svcMeta(s) {
+  const days = (s.days||[s.day]).filter(Boolean);
+  const dayStr = days.map(d=>DAY_FULL[d]||d).join('/');
+  const timeStr = s.time ? fmtT(s.time) : (s.times_vary ? 'time varies' : '');
+  const endStr = s.end_time ? `–${fmtT(s.end_time)}` : '';
+  const langStr = s.language && s.language!=='en' ? s.language.toUpperCase() : '';
+  return [dayStr, timeStr+endStr, langStr].filter(Boolean).join(' · ');
+}
+
+// ── day chip builders ────────────────────────────────────────
+
+function buildDayChips(containerId, stateSet) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = WEEKDAYS.map(d =>
+    `<span class="dc${stateSet.has(d)?' on':''}" onclick="toggleDayChip('${containerId}','${d}')">${DAY_FULL[d].slice(0,3)}</span>`
+  ).join('');
+}
+
+function toggleDayChip(containerId, day) {
+  const stateSet = containerId.startsWith('fd_') ? _flagDays : _addDays;
+  stateSet.has(day) ? stateSet.delete(day) : stateSet.add(day);
+  buildDayChips(containerId, stateSet);
+}
+
+// ── populate type select (shared) ───────────────────────────
+
+function populateTypeSelect(elId) {
+  const el = document.getElementById(elId);
+  el.innerHTML = SVC_TYPE_OPTIONS.map(([v,l])=>`<option value="${v}">${l}</option>`).join('');
+}
+
+// ── open / close ─────────────────────────────────────────────
+
+function openReconcile(parishId) {
+  _currentParish  = PARISH_DATA.parishes.find(p=>p.id===parishId);
+  if (!_currentParish) return;
+  _selectedSvcId  = null;
+  _flagDays       = new Set();
+  _addDays        = new Set();
+
+  document.getElementById('mParishName').textContent =
+    _currentParish.name + ' — ' + _currentParish.town + ', MA';
+
+  // reset tabs
+  switchTab('flag');
+
+  // populate type selects
+  populateTypeSelect('fd_type');
+  populateTypeSelect('fa_type');
+
+  // build day chips
+  buildDayChips('fd_days', _flagDays);
+  buildDayChips('fa_days', _addDays);
+
+  // service list
+  buildSvcList();
+
+  // location selects
+  const locs = (_currentParish.locations||[]);
+  const locOpts = '<option value="">— Main church —</option>' +
+    locs.map(l=>`<option value="${l.id}">${l.name}</option>`).join('');
+  document.getElementById('fd_location').innerHTML = locOpts;
+  document.getElementById('fa_location').innerHTML = locOpts;
+
+  // hide selected detail
+  document.getElementById('svcDetail').classList.remove('visible');
+
+  // clear description fields
+  ['fd_wrong','fd_correct','fa_notes','fg_notes','fg_source','fg_url'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.value='';
+  });
+
+  // default source dates
+  const ym = new Date().toISOString().slice(0,7);
+  ['fd_source_date','fa_source_date'].forEach(id=>{
+    document.getElementById(id).value = ym;
+  });
+
+  // hide success, show footer
+  document.getElementById('mSuccess').style.display = 'none';
+  document.getElementById('mFtr').style.display = 'flex';
+  document.querySelectorAll('.tab-panel').forEach(p=>p.style.display='');
+  document.querySelectorAll('.mode-tab').forEach(t=>t.style.display='');
+
+  document.getElementById('reconcileBackdrop').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeReconcile() {
+  document.getElementById('reconcileBackdrop').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// close on backdrop click
+document.getElementById('reconcileBackdrop').addEventListener('click', function(e) {
+  if (e.target === this) closeReconcile();
+});
+
+// ── tab switching ────────────────────────────────────────────
+
+function switchTab(tab) {
+  _activeTab = tab;
+  document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  document.getElementById('panel-'+tab).classList.add('active');
+}
+
+// ── service list ─────────────────────────────────────────────
+
+function buildSvcList() {
+  const el = document.getElementById('svcList');
+  const svcs = _currentParish.services || [];
+  if (!svcs.length) {
+    el.innerHTML = '<div style="padding:14px;color:#aaa;font-size:0.85rem">No services recorded yet — use "Report Missing Service" to add one.</div>';
+    return;
+  }
+  el.innerHTML = svcs.map((s,i) => {
+    const typeLbl = SVC_TYPE_LABELS[s.type] || s.type;
+    const meta    = svcMeta(s);
+    const note    = s.notes ? `<div class="svc-item-note">${s.notes}</div>` : '';
+    return `<label class="svc-item">
+      <input type="radio" name="svcRadio" value="${s.id}" onchange="selectService('${s.id}')">
+      <div class="svc-item-main">
+        <div class="svc-item-type">${typeLbl}</div>
+        <div class="svc-item-meta">${meta}</div>
+        ${note}
+      </div>
+    </label>`;
+  }).join('');
+}
+
+// ── prefill fields when a service is selected ─────────────────
+
+function selectService(svcId) {
+  _selectedSvcId = svcId;
+  const s = (_currentParish.services||[]).find(x=>x.id===svcId);
+  if (!s) return;
+
+  // show detail panel
+  document.getElementById('svcDetail').classList.add('visible');
+
+  // prefill type
+  document.getElementById('fd_type').value = s.type || '';
+
+  // prefill days
+  _flagDays = new Set();
+  const SPECIAL = ['first_friday','first_saturday','first_sunday','first_tuesday',
+    'second_sunday','third_sunday','fourth_friday','fourth_sunday','last_sunday',
+    'holyday','holyday_eve','daily','weekday'];
+  const isSpecialDay = SPECIAL.includes(s.day);
+  const dayList = s.days ? [...s.days] : (!isSpecialDay && s.day ? [s.day] : []);
+  dayList.forEach(d => _flagDays.add(d));
+  buildDayChips('fd_days', _flagDays);
+
+  // prefill special recurrence
+  document.getElementById('fd_special').value = (isSpecialDay ? s.day : '') || '';
+
+  // prefill time
+  document.getElementById('fd_time').value    = s.time     || '';
+  document.getElementById('fd_endtime').value = s.end_time || '';
+
+  // prefill times_vary
+  document.getElementById('fd_times_vary').checked = !!s.times_vary;
+
+  // prefill language
+  document.getElementById('fd_language').value = s.language || 'en';
+
+  // prefill location
+  document.getElementById('fd_location').value = s.location_id || '';
+
+  // prefill seasonal
+  const isSeasonal = s.seasonal?.is_seasonal;
+  document.getElementById('fd_seasonal').checked = !!isSeasonal;
+  document.getElementById('fd_season_row').style.display = isSeasonal ? '' : 'none';
+  if (isSeasonal) document.getElementById('fd_season').value = s.seasonal.season || 'lent';
+
+  // helpful placeholder for the "what's wrong" field
+  document.getElementById('fd_wrong').placeholder =
+    `Currently listed as: ${SVC_TYPE_LABELS[s.type]||s.type}, ${svcMeta(s)} — describe what's incorrect.`;
+}
+
+// ── submit ───────────────────────────────────────────────────
+
+function submitReconcile() {
+  // Validate required field per tab
+  let valid = true;
+  if (_activeTab === 'flag') {
+    const wrongEl = document.getElementById('fd_wrong');
+    if (!wrongEl.value.trim()) {
+      wrongEl.style.borderColor = '#c0392b';
+      wrongEl.focus();
+      wrongEl.placeholder = '⚠ Please describe what is incorrect before submitting.';
+      valid = false;
+    } else wrongEl.style.borderColor = '';
+  } else if (_activeTab === 'add') {
+    // nothing mandatory beyond type (already defaulted)
+  } else if (_activeTab === 'general') {
+    const notesEl = document.getElementById('fg_notes');
+    if (!notesEl.value.trim()) {
+      notesEl.style.borderColor = '#c0392b';
+      notesEl.focus();
+      valid = false;
+    } else notesEl.style.borderColor = '';
+  }
+  if (!valid) return;
+
+  // Collect payload
+  const now  = new Date();
+  const refId = 'REC-' + now.getFullYear() + String(now.getMonth()+1).padStart(2,'0') +
+                String(now.getDate()).padStart(2,'0') + '-' +
+                Math.random().toString(36).slice(2,7).toUpperCase();
+
+  const payload = {
+    ref_id:       refId,
+    submitted_at: now.toISOString(),
+    parish_id:    _currentParish.id,
+    parish_name:  _currentParish.name,
+    mode:         _activeTab,
+  };
+
+  if (_activeTab === 'flag') {
+    payload.service_id     = _selectedSvcId;
+    payload.proposed_fields = {
+      type:        document.getElementById('fd_type').value,
+      days:        [..._flagDays],
+      special_day: document.getElementById('fd_special').value,
+      time:        document.getElementById('fd_time').value,
+      end_time:    document.getElementById('fd_endtime').value,
+      times_vary:  document.getElementById('fd_times_vary').checked,
+      language:    document.getElementById('fd_language').value,
+      location_id: document.getElementById('fd_location').value,
+      is_seasonal: document.getElementById('fd_seasonal').checked,
+      season:      document.getElementById('fd_season').value,
+    };
+    payload.report = {
+      what_is_wrong:  document.getElementById('fd_wrong').value,
+      what_it_should_say: document.getElementById('fd_correct').value,
+    };
+    payload.source = {
+      type:       document.getElementById('fd_source').value,
+      date:       document.getElementById('fd_source_date').value,
+      confidence: document.getElementById('fd_confidence').value,
+      url:        document.getElementById('fd_source_url').value,
+    };
+    payload.submitter = { name: document.getElementById('fd_name').value };
+
+  } else if (_activeTab === 'add') {
+    payload.new_service = {
+      type:        document.getElementById('fa_type').value,
+      language:    document.getElementById('fa_language').value,
+      days:        [..._addDays],
+      special_day: document.getElementById('fa_special').value,
+      time:        document.getElementById('fa_time').value,
+      end_time:    document.getElementById('fa_endtime').value,
+      times_vary:  document.getElementById('fa_times_vary').checked,
+      is_seasonal: document.getElementById('fa_seasonal').checked,
+      season:      document.getElementById('fa_season').value,
+      location_id: document.getElementById('fa_location').value,
+      notes:       document.getElementById('fa_notes').value,
+    };
+    payload.source = {
+      type:       document.getElementById('fa_source').value,
+      date:       document.getElementById('fa_source_date').value,
+      confidence: document.getElementById('fa_confidence').value,
+      url:        document.getElementById('fa_source_url').value,
+    };
+    payload.submitter = { name: document.getElementById('fa_name').value };
+
+  } else {
+    payload.notes  = document.getElementById('fg_notes').value;
+    payload.source = document.getElementById('fg_source').value;
+    payload.source_url = document.getElementById('fg_url').value;
+    payload.submitter  = { name: document.getElementById('fg_name').value };
+  }
+
+  // Log to console (in a real deployment, POST to an endpoint)
+
+  // Show success screen
+  document.querySelectorAll('.tab-panel').forEach(p => p.style.display='none');
+  document.querySelectorAll('.mode-tab').forEach(t => t.style.display='none');
+  document.getElementById('mFtr').style.display = 'none';
+  document.getElementById('mSuccess').style.display = 'block';
+  document.getElementById('mRefId').textContent = 'Reference ID: ' + refId;
+}
+</script>
+
+
+<!-- ══════════════════════════════════════════════════
+     NEW PARISH REQUEST MODAL  (simplified)
+══════════════════════════════════════════════════ -->
+<div class="np-backdrop" id="npBackdrop">
+<div class="np-box" style="max-width:560px">
+
+  <div class="mhdr">
+    <div class="mhdr-left">
+      <h2>➕ Request a Parish Listing</h2>
+      <div class="mhdr-parish">Diocese of Springfield, Massachusetts</div>
+    </div>
+    <button class="mhdr-close" onclick="closeNewParish()">×</button>
+  </div>
+
+  <div class="np-intro">
+    Know of a parish that's missing? Share what you have — even just a name and a bulletin link is enough. The data team handles the rest.
+  </div>
+
+  <div class="mbody" id="npFormBody">
+
+    <div class="fsection">
+      <div class="fsection-title">Parish info</div>
+      <div class="fsection-body fgrid cols1">
+        <div class="fg">
+          <label>Parish name <span class="req">*</span></label>
+          <input type="text" id="np_name" placeholder="e.g. Our Lady of the Rosary Parish, Springfield">
+        </div>
+        <div class="fg">
+          <label>Parish website</label>
+          <input type="url" id="np_website" placeholder="https://www.parishname.org">
+        </div>
+        <div class="fg">
+          <label>Bulletin link <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:0.78rem;color:#888">(parishesonline.com, church-bulletin.org, or parish site — most helpful)</span></label>
+          <input type="url" id="np_bulletin_url" placeholder="https://church-bulletin.org/?id=XXXX">
+        </div>
+        <div class="fg">
+          <label>Anything else you know <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:0.78rem;color:#888">(services, schedule notes, location — whatever you have)</span></label>
+          <textarea id="np_notes" rows="4"
+            placeholder="e.g. They have confession every Saturday at 3 PM and adoration on Fridays. Located on Main St in Westfield."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="fsection">
+      <div class="fsection-title">Your info (optional)</div>
+      <div class="fsection-body fgrid">
+        <div class="fg">
+          <label>Your name</label>
+          <input type="text" id="np_sub_name" placeholder="Optional">
+        </div>
+        <div class="fg">
+          <label>Email (for follow-up)</label>
+          <input type="email" id="np_sub_email" placeholder="Optional">
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="msuccess" id="npSuccess" style="display:none">
+    <div class="sicon">🏛️</div>
+    <h3>Got it — thank you!</h3>
+    <p>The data team will look this up, verify it against the bulletin, and add it to the directory if confirmed.</p>
+    <div class="ref-id" id="npRefId"></div>
+    <br>
+    <button class="mbtn-submit" onclick="closeNewParish()">Close</button>
+  </div>
+
+  <div class="mftr" id="npFtr">
+    <div class="mftr-note">Reviewed before anything goes live.</div>
+    <button class="mbtn-cancel" onclick="closeNewParish()">Cancel</button>
+    <button class="mbtn-submit" onclick="submitNewParish()">Submit →</button>
+  </div>
+
+</div>
+</div>
+
+<script>
+function openNewParish() {
+  ['np_name','np_website','np_bulletin_url','np_notes','np_sub_name','np_sub_email']
+    .forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+  document.getElementById('npFormBody').style.display = 'block';
+  document.getElementById('npSuccess').style.display  = 'none';
+  document.getElementById('npFtr').style.display      = 'flex';
+  document.getElementById('npBackdrop').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeNewParish() {
+  document.getElementById('npBackdrop').classList.remove('open');
+  document.body.style.overflow = '';
+}
+// close on backdrop click
+document.getElementById('npBackdrop').addEventListener('click', function(e) {
+  if (e.target === this) closeNewParish();
+});
+
+
+function submitNewParish() {
+  const nameEl = document.getElementById('np_name');
+  if (!nameEl.value.trim()) {
+    nameEl.style.borderColor = '#c0392b';
+    nameEl.focus();
+    return;
+  }
+  nameEl.style.borderColor = '';
+
+  const now = new Date();
+  const refId = 'NP-' + now.getFullYear() +
+    String(now.getMonth()+1).padStart(2,'0') +
+    String(now.getDate()).padStart(2,'0') + '-' +
+    Math.random().toString(36).slice(2,7).toUpperCase();
+
+  const payload = {
+    ref_id:       refId,
+    submitted_at: now.toISOString(),
+    type:         'new_parish_request',
+    name:         document.getElementById('np_name').value,
+    website:      document.getElementById('np_website').value,
+    bulletin_url: document.getElementById('np_bulletin_url').value,
+    notes:        document.getElementById('np_notes').value,
+    submitter: {
+      name:  document.getElementById('np_sub_name').value,
+      email: document.getElementById('np_sub_email').value,
+    },
+  };
+
+
+  document.getElementById('npFormBody').style.display = 'none';
+  document.getElementById('npFtr').style.display      = 'none';
+  document.getElementById('npSuccess').style.display  = 'block';
+  document.getElementById('npRefId').textContent      = 'Reference ID: ' + refId;
+}
+</script>
+
+</body>
+</html>
