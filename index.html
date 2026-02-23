@@ -1037,12 +1037,27 @@
     margin: 0 auto;
     padding: 10px 16px;
   }
-  .soon-header {
+  /* Row 1: title + location */
+  .soon-row {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: 8px;
-    margin-bottom: 6px;
+  }
+  .soon-row-title {
+    justify-content: space-between;
+    margin-bottom: 7px;
+  }
+  /* Row 2: tabs + controls */
+  .soon-row-tabs {
+    justify-content: space-between;
+    margin-bottom: 8px;
+    flex-wrap: nowrap;
+  }
+  .soon-controls {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    flex-shrink: 0;
   }
   .soon-title {
     font-size: 0.78rem;
@@ -1053,12 +1068,14 @@
     display: flex;
     align-items: center;
     gap: 6px;
+    white-space: nowrap;
   }
   .soon-location {
     font-size: 0.72rem;
     color: rgba(255,255,255,0.55);
     cursor: pointer;
     text-decoration: underline dotted;
+    flex-shrink: 0;
   }
   .soon-cards {
     display: flex;
@@ -1078,6 +1095,8 @@
     max-width: 200px;
     cursor: pointer;
     transition: background 0.15s;
+    text-decoration: none;
+    display: block;
   }
   .soon-card:hover { background: rgba(255,255,255,0.15); }
   .soon-card-time {
@@ -1137,15 +1156,18 @@
     border-radius: 4px;
     padding: 2px 7px;
     cursor: pointer;
+    white-space: nowrap;
+    font-family: inherit;
   }
   .soon-radius-toggle:hover { background: rgba(255,255,255,0.1); }
 
-  /* Mode toggle tabs inside soon section */
+  /* Mode toggle tabs */
   .soon-mode-tabs {
     display: flex;
     border: 1px solid rgba(255,255,255,0.25);
     border-radius: 5px;
     overflow: hidden;
+    flex-shrink: 0;
   }
   .soon-mode-tab {
     font-size: 0.68rem;
@@ -1154,7 +1176,7 @@
     border: none;
     border-right: 1px solid rgba(255,255,255,0.2);
     color: rgba(255,255,255,0.55);
-    padding: 3px 8px;
+    padding: 4px 10px;
     cursor: pointer;
     transition: background 0.15s, color 0.15s;
     font-family: inherit;
@@ -1164,7 +1186,36 @@
   .soon-mode-tab:hover { background: rgba(255,255,255,0.1); color: #fff; }
   .soon-mode-tab.active { background: rgba(255,255,255,0.18); color: #fff; }
   .soon-mode-tab.lenten { color: #d4b8e8; }
-  .soon-mode-tab.lenten.active { background: #7c4fa0; color: #fff; border-color: #7c4fa0; }
+  .soon-mode-tab.lenten.active { background: #7c4fa0; color: #fff; }
+
+  /* ── MOBILE: soon section ── */
+  @media (max-width: 520px) {
+    .soon-row-tabs {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 6px;
+    }
+    .soon-mode-tabs {
+      width: 100%;
+    }
+    .soon-mode-tab {
+      flex: 1;
+      text-align: center;
+      padding: 6px 4px;
+      font-size: 0.72rem;
+    }
+    .soon-controls {
+      justify-content: flex-start;
+      gap: 6px;
+    }
+    .soon-radius-toggle {
+      font-size: 0.65rem;
+      padding: 2px 8px;
+    }
+    .soon-title {
+      font-size: 0.72rem;
+    }
+  }
 
   /* ── QUICK ACTION BAR ── */
   .quick-bar {
@@ -1311,18 +1362,23 @@
 
 <div id="happeningSoon" style="display:none">
   <div class="soon-inner">
-    <div class="soon-header">
+    <!-- Row 1: title + location -->
+    <div class="soon-row soon-row-title">
       <span class="soon-title" id="soonTitle">⛪ Masses Starting Soon</span>
-      <span style="display:flex;align-items:center;gap:5px;flex-wrap:nowrap;">
-        <div class="soon-mode-tabs" id="soonModeTabs">
-          <button class="soon-mode-tab active" data-mode="mass">Mass</button>
-          <button class="soon-mode-tab" data-mode="confession">Confession</button>
-          <button class="soon-mode-tab lenten" data-mode="lenten">✦ Lenten</button>
-        </div>
+      <span class="soon-location" id="soonLocationLabel" onclick="requestLocation()"></span>
+    </div>
+    <!-- Row 2: mode tabs (full width on mobile) -->
+    <div class="soon-row soon-row-tabs">
+      <div class="soon-mode-tabs" id="soonModeTabs">
+        <button class="soon-mode-tab active" data-mode="mass">Mass</button>
+        <button class="soon-mode-tab" data-mode="confession">Confession</button>
+        <button class="soon-mode-tab lenten" data-mode="lenten">✦ Lenten</button>
+      </div>
+      <!-- Controls: inline on desktop, separate row on mobile -->
+      <div class="soon-controls" id="soonControls">
         <button class="soon-radius-toggle" id="soonWindowBtn">Next 90 min</button>
         <button class="soon-radius-toggle" id="soonRadiusBtn">Within 10 mi</button>
-        <span class="soon-location" id="soonLocationLabel" onclick="requestLocation()"></span>
-      </span>
+      </div>
     </div>
     <div class="soon-cards" id="soonCards"></div>
   </div>
