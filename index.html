@@ -403,6 +403,19 @@
   .svc-collapse--lent .svc-collapse-label { color: #7c4fa0; }
   .svc-collapse--lent .svc-collapse-chevron { color: #7c4fa0; }
   .svc-collapse--lent .svc-collapse-summary { color: #7c4fa0; }
+  .svc-collapse--lent.open {
+    background: rgba(124,79,160,0.06);
+    border-left: 3px solid #7c4fa0;
+    padding-left: 10px;
+    margin-left: -10px;
+    border-radius: 0 6px 6px 0;
+  }
+  .svc-collapse--lent.open .svc-collapse-header { border-bottom-color: rgba(124,79,160,0.2); }
+  .svc-collapse--lent.open .svc-collapse-body .service-section.lenten {
+    border-left: none;
+    padding-left: 0;
+    margin-left: 0;
+  }
   .service-list { list-style: none; margin: 0; padding: 0; }
   .service-row {
     display: grid;
@@ -495,39 +508,49 @@
     color: #666;
   }
   .office-note { color: #aaa; font-style: italic; font-size: 0.72rem; }
-  /* Lent season toggle */
+  /* Lent season toggle switch */
   .lent-toggle {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
-    padding: 5px 13px;
-    border-radius: 20px;
-    border: 2px solid #a8d5b5;
-    background: #fff;
-    color: var(--green);
-    font-size: 0.78rem;
-    font-weight: 600;
+    gap: 7px;
     cursor: pointer;
     white-space: nowrap;
-    transition: all 0.15s;
     font-family: inherit;
-    animation: lent-pulse 2.5s ease-in-out infinite;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.5);
+    background: none;
+    border: none;
+    padding: 4px 0;
+    transition: color 0.2s;
   }
-  @keyframes lent-pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(46,125,82,0); }
-    50% { box-shadow: 0 0 0 4px rgba(46,125,82,0.18); }
+  .lent-toggle:hover { color: rgba(255,255,255,0.8); }
+  .lent-toggle-track {
+    position: relative;
+    width: 34px;
+    height: 18px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 9px;
+    transition: background 0.2s;
+    flex-shrink: 0;
   }
-  .lent-toggle:hover { background: #eef7f0; animation: none; }
-  .lent-toggle.active {
-    background: #2e7d52;
-    border-color: #2e7d52;
-    color: #fff;
-    animation: none;
-    box-shadow: 0 0 0 3px rgba(46,125,82,0.25);
+  .lent-toggle-knob {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 14px;
+    height: 14px;
+    background: rgba(255,255,255,0.6);
+    border-radius: 50%;
+    transition: left 0.2s, background 0.2s;
   }
-  .lent-toggle.active::before {
-    content: "✓ ";
-    font-size: 0.75rem;
+  .lent-toggle.active { color: #fff; }
+  .lent-toggle.active .lent-toggle-track {
+    background: #7c4fa0;
+  }
+  .lent-toggle.active .lent-toggle-knob {
+    left: 18px;
+    background: #fff;
   }
 
   /* CARD FOOTER */
@@ -695,7 +718,7 @@
 
   /* CLEAR FILTERS BUTTON */
   .clear-filters-btn {
-    padding: 5px 14px;
+    padding: 6px 16px;
     border-radius: 20px;
     border: 1.5px solid #c0392b;
     background: #fff0ee;
@@ -706,8 +729,10 @@
     cursor: pointer;
     transition: all 0.15s;
     white-space: nowrap;
+    min-height: 34px;
+    -webkit-tap-highlight-color: rgba(192,57,43,0.2);
   }
-  .clear-filters-btn:hover { background: #c0392b; color: #fff; }
+  .clear-filters-btn:hover, .clear-filters-btn:active { background: #c0392b; color: #fff; }
 
   /* LOCATION DENIED NOTICE */
   .location-denied-notice {
@@ -1577,6 +1602,13 @@
       <option value="saturday">Saturday</option>
       <option value="sunday">Sunday</option>
     </select>
+    <select id="timeFilter">
+      <option value="">Any Time</option>
+      <option value="early">Before 8 AM</option>
+      <option value="morning">8 AM – Noon</option>
+      <option value="afternoon">Noon – 4 PM</option>
+      <option value="evening">4 PM +</option>
+    </select>
     <select id="langFilter">
       <option value="">Any Language</option>
       <option value="es">🇪🇸 Spanish</option>
@@ -1593,7 +1625,7 @@
       <button class="chip" data-cat="confession">Confession</button>
       <button class="chip" data-cat="devotion">Devotions</button>
     </div>
-    <button class="lent-toggle" id="lentToggle" title="Show only Lenten seasonal services">✦ Lent</button>
+    <button class="lent-toggle" id="lentToggle" title="Show only Lenten seasonal services"><span class="lent-toggle-track"><span class="lent-toggle-knob"></span></span>✦ Lent</button>
     <div class="sort-toggle" id="sortToggle">
       <button class="sort-btn active" data-sort="proximity" id="sortProximity" title="Sort by distance" onclick="setSortMode('proximity')">📍</button>
       <button class="sort-btn" data-sort="alpha" id="sortAlpha" title="Sort A→Z" onclick="setSortMode('alpha')">A→Z</button>
@@ -1769,6 +1801,17 @@ function serviceMatchesDay(svc, dayFilter) {
   return false;
 }
 
+function serviceMatchesTime(svc, timeFilter) {
+  if (!timeFilter) return true;
+  if (!svc.time) return false; // no time = can't match a time filter
+  const [h] = svc.time.split(':').map(Number);
+  if (timeFilter === 'early')     return h < 8;
+  if (timeFilter === 'morning')   return h >= 8 && h < 12;
+  if (timeFilter === 'afternoon') return h >= 12 && h < 16;
+  if (timeFilter === 'evening')   return h >= 16;
+  return true;
+}
+
 function serviceMatchesType(svc, categoryFilter, subtypeFilter) {
   // If subtype active, use subtype matching (more specific)
   if (subtypeFilter) return serviceMatchesSubtype(svc, subtypeFilter);
@@ -1935,9 +1978,10 @@ function wrapCollapsible(sectionKey, title, icon, innerHtml, filteredServices, c
 }
 
 
-function renderServiceSection(title, icon, services, dayFilter, categoryFilter, subtypeFilter, langFilter, lentOnly) {
+function renderServiceSection(title, icon, services, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, lentOnly) {
   const filtered = services.filter(s =>
     serviceMatchesDay(s, dayFilter) &&
+    serviceMatchesTime(s, timeFilter) &&
     serviceMatchesType(s, categoryFilter, subtypeFilter) &&
     (!langFilter || s.language === langFilter) &&
     (!lentOnly || (s.seasonal && s.seasonal.is_seasonal && s.seasonal.season === 'lent'))
@@ -2018,7 +2062,7 @@ function renderServiceSection(title, icon, services, dayFilter, categoryFilter, 
 }
 
 // Renders Mass section with holy day entries pinned at bottom behind a sub-divider
-function renderMassSectionWithHolyDays(services, dayFilter, categoryFilter, subtypeFilter, langFilter, lentOnly) {
+function renderMassSectionWithHolyDays(services, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, lentOnly) {
   const HOLYDAY_DAYS = ['holyday', 'holyday_eve'];
 
   // Split into regular and holy day services
@@ -2026,8 +2070,8 @@ function renderMassSectionWithHolyDays(services, dayFilter, categoryFilter, subt
   const regular  = services.filter(s => !HOLYDAY_DAYS.includes(s.day) && (lentOnly || !(s.seasonal && s.seasonal.season === 'lent')));
   const holydays = services.filter(s => HOLYDAY_DAYS.includes(s.day));
 
-  const regularSect  = renderServiceSection('Mass', 'mass', regular,   dayFilter, categoryFilter, subtypeFilter, langFilter, lentOnly);
-  const holydaySect  = renderServiceSection('Mass', 'mass', holydays,  dayFilter, categoryFilter, subtypeFilter, langFilter, false);
+  const regularSect  = renderServiceSection('Mass', 'mass', regular,   dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, lentOnly);
+  const holydaySect  = renderServiceSection('Mass', 'mass', holydays,  dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, false);
 
   if (!regularSect && !holydaySect) return '';
 
@@ -2047,13 +2091,14 @@ function renderMassSectionWithHolyDays(services, dayFilter, categoryFilter, subt
 }
 
 // Renders a dedicated Lenten Services section aggregating all seasonal=lent services
-function renderLentenSection(allServices, dayFilter, categoryFilter, subtypeFilter, langFilter) {
+function renderLentenSection(allServices, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter) {
   const lentSvcs = allServices.filter(s => s.seasonal && s.seasonal.season === 'lent');
   if (!lentSvcs.length) return '';
 
   // Apply active filters but never filter by lentOnly (this IS the lent section)
   const filtered = lentSvcs.filter(s =>
     serviceMatchesDay(s, dayFilter) &&
+    serviceMatchesTime(s, timeFilter) &&
     serviceMatchesType(s, categoryFilter, subtypeFilter) &&
     (!langFilter || s.language === langFilter)
   );
@@ -2144,30 +2189,32 @@ function getVerifiedBadge(p) {
   return `<span class="status-dot ${cls}" data-tooltip="${tip}" onclick="this.classList.toggle('tip-open')">${icon}</span>`;
 }
 
-function renderParishCard(p, dayFilter, categoryFilter, subtypeFilter, langFilter, lentOnly, distMiles) {
+function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, lentOnly, distMiles) {
   const groups = groupServices(p.services || []);
 
   const hasAny = Object.values(groups).flat().some(s =>
     serviceMatchesDay(s, dayFilter) &&
+    serviceMatchesTime(s, timeFilter) &&
     serviceMatchesType(s, categoryFilter, subtypeFilter) &&
     (!langFilter || s.language === langFilter) &&
     (!lentOnly || (s.seasonal && s.seasonal.is_seasonal && s.seasonal.season === 'lent'))
   );
-  if (!hasAny && (dayFilter || categoryFilter || subtypeFilter || langFilter || lentOnly)) return '';
+  if (!hasAny && (dayFilter || timeFilter || categoryFilter || subtypeFilter || langFilter || lentOnly)) return '';
 
   const isLowConf = p.validation && (p.validation.status === 'low_confidence');
 
-  const massSect  = renderMassSectionWithHolyDays(groups.mass, dayFilter, categoryFilter, subtypeFilter, langFilter, lentOnly);
-  const confSect  = renderServiceSection('Confession', 'confession', groups.confession, dayFilter, categoryFilter, subtypeFilter, langFilter, lentOnly);
-  const adorSect  = renderServiceSection('Adoration & Prayer', 'adoration', groups.adoration, dayFilter, categoryFilter, subtypeFilter, langFilter, lentOnly);
-  const devotSect = renderServiceSection('Devotions', 'devotion', groups.devotion, dayFilter, categoryFilter, subtypeFilter, langFilter, lentOnly);
-  const otherSect = renderServiceSection('Other Services', 'other', groups.other, dayFilter, categoryFilter, subtypeFilter, langFilter, lentOnly);
+  const massSect  = renderMassSectionWithHolyDays(groups.mass, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, lentOnly);
+  const confSect  = renderServiceSection('Confession', 'confession', groups.confession, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, lentOnly);
+  const adorSect  = renderServiceSection('Adoration & Prayer', 'adoration', groups.adoration, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, lentOnly);
+  const devotSect = renderServiceSection('Devotions', 'devotion', groups.devotion, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, lentOnly);
+  const otherSect = renderServiceSection('Other Services', 'other', groups.other, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, lentOnly);
   // Lenten section: only show when NOT in lentOnly filter mode (that already filters all sections)
-  const lentSect  = lentOnly ? '' : renderLentenSection(p.services || [], dayFilter, categoryFilter, subtypeFilter, langFilter);
+  const lentSect  = lentOnly ? '' : renderLentenSection(p.services || [], dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter);
 
   // Pre-filter services for summaries (mirrors renderServiceSection's internal filter)
   const svcFilter = (s) =>
     serviceMatchesDay(s, dayFilter) &&
+    serviceMatchesTime(s, timeFilter) &&
     serviceMatchesType(s, categoryFilter, subtypeFilter) &&
     (!langFilter || s.language === langFilter) &&
     (!lentOnly || (s.seasonal && s.seasonal.is_seasonal && s.seasonal.season === 'lent'));
@@ -2176,7 +2223,7 @@ function renderParishCard(p, dayFilter, categoryFilter, subtypeFilter, langFilte
   const adorFiltered  = groups.adoration.filter(svcFilter);
   const devotFiltered = groups.devotion.filter(svcFilter);
   const otherFiltered = groups.other.filter(svcFilter);
-  const lentFiltered  = (p.services || []).filter(s => s.seasonal && s.seasonal.season === 'lent' && serviceMatchesDay(s, dayFilter) && serviceMatchesType(s, categoryFilter, subtypeFilter) && (!langFilter || s.language === langFilter));
+  const lentFiltered  = (p.services || []).filter(s => s.seasonal && s.seasonal.season === 'lent' && serviceMatchesDay(s, dayFilter) && serviceMatchesTime(s, timeFilter) && serviceMatchesType(s, categoryFilter, subtypeFilter) && (!langFilter || s.language === langFilter));
 
   // Determine collapse state: expanded (false) vs collapsed (true)
   // Defaults: Mass + Confession expanded; rest collapsed
@@ -2283,6 +2330,7 @@ const grid          = document.getElementById('parishGrid');
 const searchInput   = document.getElementById('searchInput');
 const countyFilter  = document.getElementById('countyFilter');
 const dayFilterEl   = document.getElementById('dayFilter');
+const timeFilterEl  = document.getElementById('timeFilter');
 const langFilterEl  = document.getElementById('langFilter');
 const lentToggleEl  = document.getElementById('lentToggle');
 const categoryChips = document.getElementById('categoryChips');
@@ -2311,7 +2359,7 @@ function buildSubChips(category) {
 
 function isAnyFilterActive() {
   return !!(searchInput.value.trim() || countyFilter.value || dayFilterEl.value ||
-            langFilterEl.value || activeCategory || lentOnly);
+            timeFilterEl.value || langFilterEl.value || activeCategory || lentOnly);
 }
 
 function updateClearFiltersBtn() {
@@ -2324,6 +2372,7 @@ function syncUrlParams() {
   if (searchInput.value.trim()) params.set('q', searchInput.value.trim());
   if (countyFilter.value)       params.set('county', countyFilter.value);
   if (dayFilterEl.value)        params.set('day', dayFilterEl.value);
+  if (timeFilterEl.value)       params.set('time', timeFilterEl.value);
   if (langFilterEl.value)       params.set('lang', langFilterEl.value);
   if (activeCategory)           params.set('cat', activeCategory);
   if (activeSubtype)            params.set('sub', activeSubtype);
@@ -2336,6 +2385,7 @@ function render() {
   const q        = searchInput.value.trim();
   const county   = countyFilter.value;
   const day      = dayFilterEl.value;
+  const time     = timeFilterEl.value;
   const lang     = langFilterEl.value;
   const cat      = activeCategory;
   const subtype  = activeSubtype;
@@ -2343,9 +2393,10 @@ function render() {
   const filtered = parishes.filter(p => {
     if (!parishMatchesSearch(p, q)) return false;
     if (county && p.county !== county) return false;
-    if (day || cat || subtype || lang || lentOnly) {
+    if (day || time || cat || subtype || lang || lentOnly) {
       const hasMatch = (p.services||[]).some(s =>
         serviceMatchesDay(s, day) &&
+        serviceMatchesTime(s, time) &&
         serviceMatchesType(s, cat, subtype) &&
         (!lang || s.language === lang) &&
         (!lentOnly || (s.seasonal && s.seasonal.is_seasonal && s.seasonal.season === 'lent'))
@@ -2370,7 +2421,7 @@ function render() {
     filtered.sort((a, b) => a.name.localeCompare(b.name));
   }
   var html = filtered.map(function(p) {
-    return renderParishCard(p, day, cat, subtype, lang, lentOnly, getDistMiles(p));
+    return renderParishCard(p, day, time, cat, subtype, lang, lentOnly, getDistMiles(p));
   }).join('');
   grid.innerHTML = html || '<div class="no-results"><div class="cross">✝</div><p>No parishes found matching your filters.</p></div>';
 
@@ -2414,13 +2465,13 @@ subtypeChips.addEventListener('click', e => {
 searchInput.addEventListener('input', render);
 countyFilter.addEventListener('change', render);
 dayFilterEl.addEventListener('change', render);
+timeFilterEl.addEventListener('change', render);
 langFilterEl.addEventListener('change', render);
 
 // Lent toggle
 lentToggleEl.addEventListener('click', () => {
   lentOnly = !lentOnly;
   lentToggleEl.classList.toggle('active', lentOnly);
-  lentToggleEl.textContent = lentOnly ? '✦ Lent (on)' : '⦿ Lent';
   render();
 });
 
@@ -2447,8 +2498,9 @@ function haversine(lat1, lng1, lat2, lng2) {
   if (p.get('q'))      searchInput.value = p.get('q');
   if (p.get('county')) countyFilter.value = p.get('county');
   if (p.get('day'))    dayFilterEl.value = p.get('day');
+  if (p.get('time'))   timeFilterEl.value = p.get('time');
   if (p.get('lang'))   langFilterEl.value = p.get('lang');
-  if (p.get('lent'))   { lentOnly = true; lentToggleEl.classList.add('active'); lentToggleEl.textContent = 'Lent'; }
+  if (p.get('lent'))   { lentOnly = true; lentToggleEl.classList.add('active'); }
   if (p.get('cat')) {
     activeCategory = p.get('cat');
     categoryChips.querySelectorAll('[data-cat]').forEach(c => c.classList.toggle('active', c.dataset.cat === activeCategory));
@@ -2718,6 +2770,7 @@ function clearQuick() {
   searchInput.value = '';
   countyFilter.value = '';
   dayFilterEl.value = '';
+  if (timeFilterEl) timeFilterEl.value = '';
   langFilterEl.value = '';
   // langBar removed
   categoryChips.querySelectorAll('[data-cat]').forEach(c => c.classList.toggle('active', c.dataset.cat === ''));
@@ -2725,7 +2778,6 @@ function clearQuick() {
   activeSubtype = '';
   lentOnly = false;
   lentToggleEl.classList.remove('active');
-  lentToggleEl.textContent = '✦ Lent';
   subfilterBar.style.display = 'none';
   setQuickActive(null);
   render();
@@ -2797,7 +2849,6 @@ function quickLentNearMe() {
   // Activate lent mode
   lentOnly = true;
   lentToggleEl.classList.add('active');
-  lentToggleEl.textContent = 'Lent';
   // Request location if not yet available
   if (userLat === null) requestLocation();
   setQuickActive('btnLentNearMe');
@@ -2809,13 +2860,14 @@ function clearAllFilters() {
   countyFilter.value = '';
   dayFilterEl.value = '';
   langFilterEl.value = '';
+  if (timeFilterEl) timeFilterEl.value = '';
   categoryChips.querySelectorAll('[data-cat]').forEach(c => c.classList.toggle('active', c.dataset.cat === ''));
   activeCategory = '';
   activeSubtype = '';
   lentOnly = false;
   lentToggleEl.classList.remove('active');
-  lentToggleEl.textContent = '✦ Lent';
   subfilterBar.style.display = 'none';
+  subtypeChips.innerHTML = '';
   setQuickActive(null);
   render();
 }
