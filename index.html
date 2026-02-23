@@ -1697,6 +1697,7 @@ function renderLentenSection(allServices, dayFilter, categoryFilter, subtypeFilt
 }
 
 
+function getVerifiedBadge(p) {
   const val = p.validation;
   if (!val) return `<span class="verified-badge low">&#9888; Unverified</span>`;
 
