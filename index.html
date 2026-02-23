@@ -1110,6 +1110,20 @@
     color: var(--gold-light);
     margin-top: 3px;
   }
+  .soon-card-type {
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 2px;
+  }
+  .soon-card.lenten {
+    border-color: rgba(196,160,224,0.35);
+    background: rgba(124,79,160,0.2);
+  }
+  .soon-card.lenten .soon-card-time { color: #d4b8e8; }
+  .soon-card.lenten .soon-card-dist { color: #d4b8e8; }
   .soon-none {
     font-size: 0.8rem;
     color: rgba(255,255,255,0.5);
@@ -1125,6 +1139,32 @@
     cursor: pointer;
   }
   .soon-radius-toggle:hover { background: rgba(255,255,255,0.1); }
+
+  /* Mode toggle tabs inside soon section */
+  .soon-mode-tabs {
+    display: flex;
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  .soon-mode-tab {
+    font-size: 0.68rem;
+    font-weight: 600;
+    background: none;
+    border: none;
+    border-right: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.55);
+    padding: 3px 8px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    font-family: inherit;
+    white-space: nowrap;
+  }
+  .soon-mode-tab:last-child { border-right: none; }
+  .soon-mode-tab:hover { background: rgba(255,255,255,0.1); color: #fff; }
+  .soon-mode-tab.active { background: rgba(255,255,255,0.18); color: #fff; }
+  .soon-mode-tab.lenten { color: #d4b8e8; }
+  .soon-mode-tab.lenten.active { background: #7c4fa0; color: #fff; border-color: #7c4fa0; }
 
   /* ── QUICK ACTION BAR ── */
   .quick-bar {
@@ -1272,8 +1312,13 @@
 <div id="happeningSoon" style="display:none">
   <div class="soon-inner">
     <div class="soon-header">
-      <span class="soon-title">⛪ Masses Starting Soon</span>
-      <span style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+      <span class="soon-title" id="soonTitle">⛪ Masses Starting Soon</span>
+      <span style="display:flex;align-items:center;gap:5px;flex-wrap:nowrap;">
+        <div class="soon-mode-tabs" id="soonModeTabs">
+          <button class="soon-mode-tab active" data-mode="mass">Mass</button>
+          <button class="soon-mode-tab" data-mode="confession">Confession</button>
+          <button class="soon-mode-tab lenten" data-mode="lenten">✦ Lenten</button>
+        </div>
         <button class="soon-radius-toggle" id="soonWindowBtn">Next 90 min</button>
         <button class="soon-radius-toggle" id="soonRadiusBtn">Within 10 mi</button>
         <span class="soon-location" id="soonLocationLabel" onclick="requestLocation()"></span>
@@ -2089,6 +2134,7 @@ render();
 var locationStatus = 'unknown';
 var soonRadiusMiles = 10;
 var soonRadiusExpanded = false;
+var soonMode = 'mass'; // 'mass' | 'confession' | 'lenten'
 
 function requestLocation() {
   if (!navigator.geolocation) {
@@ -2169,6 +2215,18 @@ if (soonWindowBtnEl) {
   });
 }
 
+// Mode tab switching
+var soonModeTabsEl = document.getElementById('soonModeTabs');
+if (soonModeTabsEl) {
+  soonModeTabsEl.addEventListener('click', function(e) {
+    const tab = e.target.closest('[data-mode]');
+    if (!tab) return;
+    soonMode = tab.dataset.mode;
+    soonModeTabsEl.querySelectorAll('.soon-mode-tab').forEach(t => t.classList.toggle('active', t === tab));
+    refreshSoon();
+  });
+}
+
 // ═══════════════════════════════════════════════════
 // HAPPENING SOON
 // ═══════════════════════════════════════════════════
@@ -2200,6 +2258,25 @@ function refreshSoon() {
   const nowMin = now.getHours() * 60 + now.getMinutes();
   var windowMin = soonWindowMins;
 
+  // Update title based on mode
+  const titleEl = document.getElementById('soonTitle');
+  const titles = { mass: '⛪ Masses Starting Soon', confession: '🙏 Confession Starting Soon', lenten: '✦ Lenten Services Starting Soon' };
+  if (titleEl) titleEl.textContent = titles[soonMode] || titles.mass;
+
+  // Determine which services qualify for this mode
+  function svcMatchesMode(svc) {
+    if (soonMode === 'mass') {
+      return svc.type === 'sunday_mass' || svc.type === 'daily_mass' || svc.type === 'mass';
+    }
+    if (soonMode === 'confession') {
+      return svc.type === 'confession';
+    }
+    if (soonMode === 'lenten') {
+      return svc.seasonal && svc.seasonal.season === 'lent';
+    }
+    return false;
+  }
+
   const results = [];
 
   for (const p of parishes) {
@@ -2209,16 +2286,16 @@ function refreshSoon() {
     if (dist > soonRadiusMiles) continue;
 
     for (const svc of (p.services || [])) {
-      if (svc.type !== 'sunday_mass' && svc.type !== 'daily_mass') continue;
+      if (!svcMatchesMode(svc)) continue;
       const svcMin = timeToMinutes(svc.time);
       if (svcMin === null) continue;
 
-      // Check day match
       const svcDay = svc.day;
       const matchesToday = svcDay === todayName
         || (svcDay === 'saturday' && todayIdx === 6)
-        || (svcDay === 'sunday' && todayIdx === 0)
-        || (svcDay === 'daily');
+        || (svcDay === 'sunday'   && todayIdx === 0)
+        || svcDay === 'daily'
+        || svcDay === 'weekday';
 
       if (!matchesToday) continue;
 
@@ -2233,9 +2310,13 @@ function refreshSoon() {
 
   const container = document.getElementById('soonCards');
   if (results.length === 0) {
-    container.innerHTML = `<span class="soon-none">No Masses starting in the next 90 minutes within ${soonRadiusMiles} miles.</span>`;
+    const modeLabel = soonMode === 'confession' ? 'Confession' : soonMode === 'lenten' ? 'Lenten services' : 'Masses';
+    container.innerHTML = `<span class="soon-none">No ${modeLabel} starting in the next ${soonWindowMins} minutes within ${soonRadiusMiles} miles.</span>`;
     return;
   }
+
+  const SVCTYPE_SHORT = { confession:'Confession', mass:'Mass', sunday_mass:'Mass', daily_mass:'Mass',
+    stations_of_cross:'Stations', adoration:'Adoration', rosary:'Rosary', divine_mercy:'Divine Mercy', devotion:'Devotion' };
 
   container.innerHTML = results.slice(0, 10).map(({ p, svc, dist, minsAway }) => {
     const minsLabel = minsAway === 0 ? 'Starting now'
@@ -2245,9 +2326,13 @@ function refreshSoon() {
     const mapsUrl = /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent) && !window.MSStream
       ? `https://maps.apple.com/?q=${encodeURIComponent(loc.address || p.name + ', ' + p.town + ', MA')}`
       : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(loc.address || p.name + ', ' + p.town + ', MA')}`;
-    return `<a class="soon-card" href="${mapsUrl}" target="_blank" rel="noopener">
-      <div class="soon-card-time">${fmt12(svc.time)}</div>
+    // Show service type label on confession/lenten cards
+    const typeLabel = (soonMode !== 'mass')
+      ? `<div class="soon-card-type">${SVCTYPE_SHORT[svc.type] || svc.type.replace(/_/g,' ')}</div>` : '';
+    return `<a class="soon-card${soonMode === 'lenten' ? ' lenten' : ''}" href="${mapsUrl}" target="_blank" rel="noopener">
+      <div class="soon-card-time">${svc.time ? fmt12(svc.time) : 'Soon'}</div>
       <div class="soon-card-starts">${minsLabel}</div>
+      ${typeLabel}
       <div class="soon-card-parish">${p.name}</div>
       <div class="soon-card-town">${p.town}</div>
       <div class="soon-card-dist">&#128205; ${dist.toFixed(1)} mi away</div>
