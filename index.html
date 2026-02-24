@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='40' y='5' width='20' height='90' rx='4' fill='%23c9a84c'/%3E%3Crect x='10' y='25' width='80' height='20' rx='4' fill='%23c9a84c'/%3E%3C/svg%3E">
-<title>Young &amp; Catholic Western MA — Parish &amp; Services Finder</title>
+<title>Mass Finder — Catholic Services Directory</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -115,7 +115,7 @@
   }
   .search-wrap input {
     width: 100%;
-    padding: 9px 14px 9px 38px;
+    padding: 9px 14px;
     border-radius: 6px;
     border: 1px solid rgba(255,255,255,0.15);
     background: rgba(255,255,255,0.1);
@@ -127,15 +127,6 @@
   }
   .search-wrap input::placeholder { color: rgba(255,255,255,0.45); }
   .search-wrap input:focus { background: rgba(255,255,255,0.18); border-color: var(--gold); }
-  .search-icon {
-    position: absolute;
-    left: 11px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: rgba(255,255,255,0.45);
-    font-size: 1rem;
-    pointer-events: none;
-  }
   select {
     padding: 9px 28px 9px 12px;
     border-radius: 6px;
@@ -508,51 +499,6 @@
     color: #666;
   }
   .office-note { color: #aaa; font-style: italic; font-size: 0.72rem; }
-  /* Lent season toggle switch */
-  .lent-toggle {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    cursor: pointer;
-    white-space: nowrap;
-    font-family: inherit;
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: rgba(255,255,255,0.5);
-    background: none;
-    border: none;
-    padding: 4px 0;
-    transition: color 0.2s;
-  }
-  .lent-toggle:hover { color: rgba(255,255,255,0.8); }
-  .lent-toggle-track {
-    position: relative;
-    width: 34px;
-    height: 18px;
-    background: rgba(255,255,255,0.2);
-    border-radius: 9px;
-    transition: background 0.2s;
-    flex-shrink: 0;
-  }
-  .lent-toggle-knob {
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    width: 14px;
-    height: 14px;
-    background: rgba(255,255,255,0.6);
-    border-radius: 50%;
-    transition: left 0.2s, background 0.2s;
-  }
-  .lent-toggle.active { color: #fff; }
-  .lent-toggle.active .lent-toggle-track {
-    background: #7c4fa0;
-  }
-  .lent-toggle.active .lent-toggle-knob {
-    left: 18px;
-    background: #fff;
-  }
-
   /* CARD FOOTER */
   .card-footer {
     padding: 6px 16px;
@@ -765,14 +711,6 @@
   .stat { font-size: 0.82rem; color: var(--text-light); }
   .stat strong { color: var(--navy); font-weight: 700; font-size: 1rem; }
   .stat-divider { width: 1px; height: 20px; background: var(--border); }
-
-  /* SECTION TYPE ICONS */
-  .icon-mass::before { content: "✝"; }
-  .icon-confession::before { content: "🙏"; }
-  .icon-adoration::before { content: "☀"; }
-  .icon-devotion::before { content: "📿"; }
-  .icon-other::before { content: "◆"; }
-  .icon-lent::before { content: "✦"; }
 
   /* Lenten services section */
   .service-section.lenten {
@@ -1277,9 +1215,8 @@
   .soon-inner {
     max-width: 1280px;
     margin: 0 auto;
-    padding: 10px 16px;
+    padding: 8px 16px;
   }
-  /* Row 1: title + location */
   .soon-row {
     display: flex;
     align-items: center;
@@ -1287,19 +1224,7 @@
   }
   .soon-row-title {
     justify-content: space-between;
-    margin-bottom: 7px;
-  }
-  /* Row 2: tabs + controls */
-  .soon-row-tabs {
-    justify-content: space-between;
-    margin-bottom: 8px;
-    flex-wrap: nowrap;
-  }
-  .soon-controls {
-    display: flex;
-    gap: 5px;
-    align-items: center;
-    flex-shrink: 0;
+    margin-bottom: 6px;
   }
   .soon-title {
     font-size: 0.78rem;
@@ -1390,18 +1315,6 @@
     color: rgba(255,255,255,0.5);
     padding: 4px 0;
   }
-  .soon-radius-toggle {
-    font-size: 0.68rem;
-    background: none;
-    border: 1px solid rgba(255,255,255,0.3);
-    color: rgba(255,255,255,0.7);
-    border-radius: 4px;
-    padding: 2px 7px;
-    cursor: pointer;
-    white-space: nowrap;
-    font-family: inherit;
-  }
-  .soon-radius-toggle:hover { background: rgba(255,255,255,0.1); }
 
   /* Mode toggle tabs */
   .soon-mode-tabs {
@@ -1427,16 +1340,9 @@
   .soon-mode-tab:last-child { border-right: none; }
   .soon-mode-tab:hover { background: rgba(255,255,255,0.1); color: #fff; }
   .soon-mode-tab.active { background: rgba(255,255,255,0.18); color: #fff; }
-  .soon-mode-tab.lenten { color: #d4b8e8; }
-  .soon-mode-tab.lenten.active { background: #7c4fa0; color: #fff; }
 
   /* ── MOBILE: soon section ── */
   @media (max-width: 520px) {
-    .soon-row-tabs {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 6px;
-    }
     .soon-mode-tabs {
       width: 100%;
     }
@@ -1445,14 +1351,6 @@
       text-align: center;
       padding: 6px 4px;
       font-size: 0.72rem;
-    }
-    .soon-controls {
-      justify-content: flex-start;
-      gap: 6px;
-    }
-    .soon-radius-toggle {
-      font-size: 0.65rem;
-      padding: 2px 8px;
     }
     .soon-title {
       font-size: 0.72rem;
@@ -1542,8 +1440,8 @@
   <div class="header-inner">
     <div class="header-cross">✝</div>
     <div class="header-title">
-      <h1>WMass Catholic</h1>
-      <p>Parish &amp; Services Finder</p>
+      <h1>Mass Finder</h1>
+      <p>Catholic Services Directory</p>
     </div>
     <div class="header-badge" id="headerBadge">Loading…</div>
   </div>
@@ -1551,23 +1449,13 @@
 
 <div id="happeningSoon" style="display:none">
   <div class="soon-inner">
-    <!-- Row 1: title + location -->
     <div class="soon-row soon-row-title">
-      <span class="soon-title" id="soonTitle">⛪ Masses Starting Soon</span>
-      <span class="soon-location" id="soonLocationLabel" onclick="requestLocation()"></span>
-    </div>
-    <!-- Row 2: mode tabs (full width on mobile) -->
-    <div class="soon-row soon-row-tabs">
+      <span class="soon-title" id="soonTitle">Happening Now</span>
       <div class="soon-mode-tabs" id="soonModeTabs">
         <button class="soon-mode-tab active" data-mode="mass">Mass</button>
         <button class="soon-mode-tab" data-mode="confession">Confession</button>
-        <button class="soon-mode-tab lenten" data-mode="lenten">✦ Lent</button>
       </div>
-      <!-- Controls: inline on desktop, separate row on mobile -->
-      <div class="soon-controls" id="soonControls">
-        <button class="soon-radius-toggle" id="soonWindowBtn">Next 90 min</button>
-        <button class="soon-radius-toggle" id="soonRadiusBtn">Within 10 mi</button>
-      </div>
+      <span class="soon-location" id="soonLocationLabel" onclick="requestLocation()"></span>
     </div>
     <div class="soon-cards" id="soonCards"></div>
   </div>
@@ -1582,7 +1470,6 @@
 <div class="controls-bar">
   <div class="controls-inner controls-row-1">
     <div class="search-wrap">
-      <span class="search-icon">🔍</span>
       <input type="text" id="searchInput" placeholder="Search parish or town…" autocomplete="off">
     </div>
     <select id="countyFilter" style="display:none">
@@ -1611,11 +1498,11 @@
     </select>
     <select id="langFilter">
       <option value="">Any Language</option>
-      <option value="es">🇪🇸 Spanish</option>
-      <option value="pl">🇵🇱 Polish</option>
-      <option value="pt">🇧🇷 Portuguese</option>
-      <option value="vi">🇻🇳 Vietnamese</option>
-      <option value="asl">🤟 ASL</option>
+      <option value="es">Spanish</option>
+      <option value="pl">Polish</option>
+      <option value="pt">Portuguese</option>
+      <option value="vi">Vietnamese</option>
+      <option value="asl">ASL</option>
     </select>
   </div>
   <div class="controls-inner controls-row-2">
@@ -1625,9 +1512,8 @@
       <button class="chip" data-cat="confession">Confession</button>
       <button class="chip" data-cat="devotion">Devotions</button>
     </div>
-    <button class="lent-toggle" id="lentToggle" title="Show only Lenten seasonal services"><span class="lent-toggle-track"><span class="lent-toggle-knob"></span></span>✦ Lent</button>
     <div class="sort-toggle" id="sortToggle">
-      <button class="sort-btn active" data-sort="proximity" id="sortProximity" title="Sort by distance" onclick="setSortMode('proximity')">📍</button>
+      <button class="sort-btn active" data-sort="proximity" id="sortProximity" title="Sort by distance" onclick="setSortMode('proximity')">Near</button>
       <button class="sort-btn" data-sort="alpha" id="sortAlpha" title="Sort A→Z" onclick="setSortMode('alpha')">A→Z</button>
     </div>
     <button class="clear-filters-btn" id="clearFiltersBtn" style="display:none;">&#10005; Clear Filters</button>
@@ -1646,7 +1532,7 @@
     <strong>Don't see your parish?</strong> <span id="addParishHint" style="color:rgba(255,255,255,0.6);font-size:0.8rem;">Tap to expand</span>
     <div id="addParishBody" style="display:none;margin-top:6px;">Submit a request to have it added to the directory — include as much detail as you have and the data team will verify and publish it.</div>
   </div>
-  <button class="add-parish-btn" id="addParishBtn" style="display:none;" onclick="openNewParish()">➕ Add My Parish</button>
+  <button class="add-parish-btn" id="addParishBtn" style="display:none;" onclick="openNewParish()">+ Add My Parish</button>
 </div>
 
 
@@ -1672,11 +1558,6 @@ const SUBTYPES = {
     { key: 'latin_mass',    label: 'Latin Mass',      types: ['sunday_mass','daily_mass'], language: 'la' },
     { key: 'spanish_mass',  label: 'Spanish Mass',    types: ['sunday_mass','daily_mass'], language: 'es' },
     { key: 'polish_mass',   label: 'Polish Mass',     types: ['sunday_mass','daily_mass'], language: 'pl' },
-  ],
-  confession: [
-    { key: 'conf_saturday', label: 'Saturday',        types: ['confession'], days: ['saturday'] },
-    { key: 'conf_weekday',  label: 'Weekday',         types: ['confession'], days: ['monday','tuesday','wednesday','thursday','friday','weekday'] },
-    { key: 'conf_lent',     label: 'Lenten',          types: ['confession'], season: 'lent' },
   ],
   devotion: [
     { key: 'eucharistic',   label: 'Adoration',            types: ['adoration'] },
@@ -1970,7 +1851,7 @@ function wrapCollapsible(sectionKey, title, icon, innerHtml, filteredServices, c
   return `<div class="svc-collapse svc-collapse--${sectionKey}${openClass}">
     <div class="svc-collapse-header" onclick="toggleSection(this)">
       <span class="svc-collapse-chevron">▶</span>
-      <span class="svc-collapse-label"><span class="icon-${icon}"></span>${title}</span>
+      <span class="svc-collapse-label">${title}</span>
       <span class="svc-collapse-summary">${summary}</span>
     </div>
     <div class="svc-collapse-body">${innerHtml}</div>
@@ -1978,13 +1859,12 @@ function wrapCollapsible(sectionKey, title, icon, innerHtml, filteredServices, c
 }
 
 
-function renderServiceSection(title, icon, services, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, lentOnly) {
+function renderServiceSection(title, icon, services, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter) {
   const filtered = services.filter(s =>
     serviceMatchesDay(s, dayFilter) &&
     serviceMatchesTime(s, timeFilter) &&
     serviceMatchesType(s, categoryFilter, subtypeFilter) &&
-    (!langFilter || s.language === langFilter) &&
-    (!lentOnly || (s.seasonal && s.seasonal.is_seasonal && s.seasonal.season === 'lent'))
+    (!langFilter || s.language === langFilter)
   );
   if (!filtered.length) return '';
 
@@ -2056,22 +1936,21 @@ function renderServiceSection(title, icon, services, dayFilter, timeFilter, cate
   }).join('');
 
   return `<div class="service-section">
-    <div class="service-section-title"><span class="icon-${icon}"></span>${title}</div>
+    <div class="service-section-title">${title}</div>
     <ul class="service-list">${rows}</ul>
   </div>`;
 }
 
 // Renders Mass section with holy day entries pinned at bottom behind a sub-divider
-function renderMassSectionWithHolyDays(services, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, lentOnly) {
+function renderMassSectionWithHolyDays(services, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter) {
   const HOLYDAY_DAYS = ['holyday', 'holyday_eve'];
 
-  // Split into regular and holy day services
-  // When lentOnly is active, keep lent masses in regular so they render (otherwise they vanish from both sections)
-  const regular  = services.filter(s => !HOLYDAY_DAYS.includes(s.day) && (lentOnly || !(s.seasonal && s.seasonal.season === 'lent')));
+  // Split into regular (excluding lenten) and holy day services
+  const regular  = services.filter(s => !HOLYDAY_DAYS.includes(s.day) && !(s.seasonal && s.seasonal.season === 'lent'));
   const holydays = services.filter(s => HOLYDAY_DAYS.includes(s.day));
 
-  const regularSect  = renderServiceSection('Mass', 'mass', regular,   dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, lentOnly);
-  const holydaySect  = renderServiceSection('Mass', 'mass', holydays,  dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, false);
+  const regularSect  = renderServiceSection('Mass', 'mass', regular,   dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter);
+  const holydaySect  = renderServiceSection('Mass', 'mass', holydays,  dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter);
 
   if (!regularSect && !holydaySect) return '';
 
@@ -2095,7 +1974,7 @@ function renderLentenSection(allServices, dayFilter, timeFilter, categoryFilter,
   const lentSvcs = allServices.filter(s => s.seasonal && s.seasonal.season === 'lent');
   if (!lentSvcs.length) return '';
 
-  // Apply active filters but never filter by lentOnly (this IS the lent section)
+  // Apply active filters
   const filtered = lentSvcs.filter(s =>
     serviceMatchesDay(s, dayFilter) &&
     serviceMatchesTime(s, timeFilter) &&
@@ -2189,35 +2068,33 @@ function getVerifiedBadge(p) {
   return `<span class="status-dot ${cls}" data-tooltip="${tip}" onclick="this.classList.toggle('tip-open')">${icon}</span>`;
 }
 
-function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, lentOnly, distMiles) {
+function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, distMiles) {
   const groups = groupServices(p.services || []);
 
   const hasAny = Object.values(groups).flat().some(s =>
     serviceMatchesDay(s, dayFilter) &&
     serviceMatchesTime(s, timeFilter) &&
     serviceMatchesType(s, categoryFilter, subtypeFilter) &&
-    (!langFilter || s.language === langFilter) &&
-    (!lentOnly || (s.seasonal && s.seasonal.is_seasonal && s.seasonal.season === 'lent'))
+    (!langFilter || s.language === langFilter)
   );
-  if (!hasAny && (dayFilter || timeFilter || categoryFilter || subtypeFilter || langFilter || lentOnly)) return '';
+  if (!hasAny && (dayFilter || timeFilter || categoryFilter || subtypeFilter || langFilter)) return '';
 
   const isLowConf = p.validation && (p.validation.status === 'low_confidence');
 
-  const massSect  = renderMassSectionWithHolyDays(groups.mass, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, lentOnly);
-  const confSect  = renderServiceSection('Confession', 'confession', groups.confession, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, lentOnly);
-  const adorSect  = renderServiceSection('Adoration & Prayer', 'adoration', groups.adoration, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, lentOnly);
-  const devotSect = renderServiceSection('Devotions', 'devotion', groups.devotion, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, lentOnly);
-  const otherSect = renderServiceSection('Other Services', 'other', groups.other, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, lentOnly);
-  // Lenten section: only show when NOT in lentOnly filter mode (that already filters all sections)
-  const lentSect  = lentOnly ? '' : renderLentenSection(p.services || [], dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter);
+  const massSect  = renderMassSectionWithHolyDays(groups.mass, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter);
+  const confSect  = renderServiceSection('Confession', 'confession', groups.confession, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter);
+  const adorSect  = renderServiceSection('Adoration & Prayer', 'adoration', groups.adoration, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter);
+  const devotSect = renderServiceSection('Devotions', 'devotion', groups.devotion, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter);
+  const otherSect = renderServiceSection('Other Services', 'other', groups.other, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter);
+  // Lenten section always renders if lent services exist (independent of any filter)
+  const lentSect  = renderLentenSection(p.services || [], dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter);
 
   // Pre-filter services for summaries (mirrors renderServiceSection's internal filter)
   const svcFilter = (s) =>
     serviceMatchesDay(s, dayFilter) &&
     serviceMatchesTime(s, timeFilter) &&
     serviceMatchesType(s, categoryFilter, subtypeFilter) &&
-    (!langFilter || s.language === langFilter) &&
-    (!lentOnly || (s.seasonal && s.seasonal.is_seasonal && s.seasonal.season === 'lent'));
+    (!langFilter || s.language === langFilter);
   const massFiltered  = groups.mass.filter(svcFilter);
   const confFiltered  = groups.confession.filter(svcFilter);
   const adorFiltered  = groups.adoration.filter(svcFilter);
@@ -2227,13 +2104,13 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
 
   // Determine collapse state: expanded (false) vs collapsed (true)
   // Defaults: Mass + Confession expanded; rest collapsed
-  // Auto-expand: if a category filter targets this section, or search/lent is active
+  // Auto-expand: if a category filter targets this section, or search is active
   const hasSearch = !!(document.getElementById('searchInput') && document.getElementById('searchInput').value.trim());
   const massCollapsed  = false; // always open
   const confCollapsed  = false; // always open
   const adorCollapsed  = !(categoryFilter === 'devotion' || hasSearch);
   const devotCollapsed = !(categoryFilter === 'devotion' || hasSearch);
-  const lentCollapsed  = !lentOnly;
+  const lentCollapsed  = !hasSearch;
   const otherCollapsed = !hasSearch;
 
   // Wrap each in collapsible
@@ -2253,14 +2130,14 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   const directionsBtn = `<a class="directions-btn" href="${mapsUrl}" target="_blank" rel="noopener">${appleMapsIcon} Directions</a>`;
 
   const distHtml = (distMiles !== undefined && distMiles !== null)
-    ? `<span class="dist-badge${distMiles <= 5 ? ' near' : ''}">📍 ${distMiles.toFixed(1)} mi</span>`
+    ? `<span class="dist-badge${distMiles <= 5 ? ' near' : ''}">${distMiles.toFixed(1)} mi</span>`
     : '';
 
   const multiSite = p.locations && p.locations.filter(l => l.type === 'church').length > 1
-    ? `<span class="meta-item">🏛 ${p.locations.filter(l=>l.type==='church').length} locations</span>` : '';
+    ? `<span class="meta-item">${p.locations.filter(l=>l.type==='church').length} locations</span>` : '';
 
   const bulletinLink = p.bulletin_url
-    ? `<a class="bulletin-link" href="${p.bulletin_url}" target="_blank" rel="noopener">📄 Bulletin</a>` : '';
+    ? `<a class="bulletin-link" href="${p.bulletin_url}" target="_blank" rel="noopener">Bulletin</a>` : '';
 
   // Build contact drawer rows
   const c = p.contact || {};
@@ -2286,7 +2163,7 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   if (c.notes) contactRows.push(`<div class="contact-row"><span class="contact-row-label">Notes</span><span class="contact-row-val">${c.notes}</span></div>`);
 
   const contactDrawer = contactRows.length
-    ? `<button class="contact-toggle-btn" onclick="toggleContact(this)">☎ Contact</button>
+    ? `<button class="contact-toggle-btn" onclick="toggleContact(this)">Contact</button>
        <div class="contact-drawer">${contactRows.join('')}</div>` : '';
 
   const pastor = st.pastor && st.pastor !== 'Not assigned'
@@ -2295,7 +2172,7 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   const confBadge = getVerifiedBadge(p);
 
   const confWarn = isLowConf
-    ? `<div class="confidence-warn">⚠ Schedule unverified — confirm times with parish</div>` : '';
+    ? `<div class="confidence-warn">Schedule unverified — confirm times with parish</div>` : '';
 
   return `<article class="parish-card${isLowConf ? ' low-confidence' : ''}">
     <div class="card-header">
@@ -2310,7 +2187,7 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
     </div>
     <div class="card-footer">
       ${pastor}
-      <button class="reconcile-btn" onclick="openReconcile('${p.id}')" title="Report an update or correction">✏ Reconcile</button>
+      <button class="reconcile-btn" onclick="openReconcile('${p.id}')" title="Report an update or correction">Reconcile</button>
     </div>
   </article>`;
 }
@@ -2332,7 +2209,6 @@ const countyFilter  = document.getElementById('countyFilter');
 const dayFilterEl   = document.getElementById('dayFilter');
 const timeFilterEl  = document.getElementById('timeFilter');
 const langFilterEl  = document.getElementById('langFilter');
-const lentToggleEl  = document.getElementById('lentToggle');
 const categoryChips = document.getElementById('categoryChips');
 const subfilterBar  = document.getElementById('subfilterBar');
 const subtypeChips  = document.getElementById('subtypeChips');
@@ -2341,7 +2217,6 @@ const resultsCount  = document.getElementById('resultsCount');
 
 let activeCategory = '';
 let activeSubtype  = '';
-let lentOnly       = false;
 
 // Stats
 const totalSvc = parishes.reduce((n,p) => n + (p.services||[]).length, 0);
@@ -2359,7 +2234,7 @@ function buildSubChips(category) {
 
 function isAnyFilterActive() {
   return !!(searchInput.value.trim() || countyFilter.value || dayFilterEl.value ||
-            timeFilterEl.value || langFilterEl.value || activeCategory || lentOnly);
+            timeFilterEl.value || langFilterEl.value || activeCategory);
 }
 
 function updateClearFiltersBtn() {
@@ -2376,7 +2251,6 @@ function syncUrlParams() {
   if (langFilterEl.value)       params.set('lang', langFilterEl.value);
   if (activeCategory)           params.set('cat', activeCategory);
   if (activeSubtype)            params.set('sub', activeSubtype);
-  if (lentOnly)                 params.set('lent', '1');
   const str = params.toString();
   history.replaceState(null, '', str ? '?' + str : location.pathname);
 }
@@ -2393,13 +2267,12 @@ function render() {
   const filtered = parishes.filter(p => {
     if (!parishMatchesSearch(p, q)) return false;
     if (county && p.county !== county) return false;
-    if (day || time || cat || subtype || lang || lentOnly) {
+    if (day || time || cat || subtype || lang) {
       const hasMatch = (p.services||[]).some(s =>
         serviceMatchesDay(s, day) &&
         serviceMatchesTime(s, time) &&
         serviceMatchesType(s, cat, subtype) &&
-        (!lang || s.language === lang) &&
-        (!lentOnly || (s.seasonal && s.seasonal.is_seasonal && s.seasonal.season === 'lent'))
+        (!lang || s.language === lang)
       );
       if (!hasMatch) return false;
     }
@@ -2421,7 +2294,7 @@ function render() {
     filtered.sort((a, b) => a.name.localeCompare(b.name));
   }
   var html = filtered.map(function(p) {
-    return renderParishCard(p, day, time, cat, subtype, lang, lentOnly, getDistMiles(p));
+    return renderParishCard(p, day, time, cat, subtype, lang, getDistMiles(p));
   }).join('');
   grid.innerHTML = html || '<div class="no-results"><div class="cross">✝</div><p>No parishes found matching your filters.</p></div>';
 
@@ -2472,13 +2345,6 @@ document.getElementById('clearFiltersBtn').addEventListener('click', function(e)
   clearAllFilters();
 });
 
-// Lent toggle
-lentToggleEl.addEventListener('click', () => {
-  lentOnly = !lentOnly;
-  lentToggleEl.classList.toggle('active', lentOnly);
-  render();
-});
-
 // Proximity stubs — real implementation in location block below
 var userLat = null;
 var userLng = null;
@@ -2504,7 +2370,6 @@ function haversine(lat1, lng1, lat2, lng2) {
   if (p.get('day'))    dayFilterEl.value = p.get('day');
   if (p.get('time'))   timeFilterEl.value = p.get('time');
   if (p.get('lang'))   langFilterEl.value = p.get('lang');
-  if (p.get('lent'))   { lentOnly = true; lentToggleEl.classList.add('active'); }
   if (p.get('cat')) {
     activeCategory = p.get('cat');
     categoryChips.querySelectorAll('[data-cat]').forEach(c => c.classList.toggle('active', c.dataset.cat === activeCategory));
@@ -2526,8 +2391,7 @@ render();
 // userLat, userLng, haversine, getDistMiles declared in main block above
 var locationStatus = 'unknown';
 var soonRadiusMiles = 10;
-var soonRadiusExpanded = false;
-var soonMode = 'mass'; // 'mass' | 'confession' | 'lenten'
+var soonMode = 'mass'; // 'mass' | 'confession'
 var sortMode = 'alpha'; // 'proximity' | 'alpha'  — proximity only when location known
 
 function requestLocation() {
@@ -2555,7 +2419,7 @@ function requestLocation() {
       if (quickActive === 'btnNearMe') {
         const grid = document.getElementById('parishGrid');
         grid.innerHTML = `<div class="location-denied-notice">
-          &#128274; Location access was denied. To use "Near Me", enable location for this site in your browser settings, then tap <strong>Near Me</strong> again.
+          Location access was denied. To use "Near Me", enable location for this site in your browser settings, then tap <strong>Near Me</strong> again.
         </div>` + grid.innerHTML;
       }
     },
@@ -2583,32 +2447,6 @@ try {
   }
 } catch(e) {
   initLocationBanner();
-}
-
-// Radius toggle
-var soonRadiusBtnEl = document.getElementById('soonRadiusBtn');
-if (soonRadiusBtnEl) {
-  soonRadiusBtnEl.addEventListener('click', function() {
-    soonRadiusExpanded = !soonRadiusExpanded;
-    soonRadiusMiles = soonRadiusExpanded ? 20 : 10;
-    soonRadiusBtnEl.textContent = 'Within ' + soonRadiusMiles + ' mi';
-    refreshSoon();
-  });
-}
-
-// Time window toggle: 30 / 60 / 90 min
-var soonWindowMins = 90;
-var soonWindowOptions = [30, 60, 90];
-var soonWindowIdx = 2;
-var soonWindowBtnEl = document.getElementById('soonWindowBtn');
-if (soonWindowBtnEl) {
-  soonWindowBtnEl.addEventListener('click', function(e) {
-    e.stopPropagation();
-    soonWindowIdx = (soonWindowIdx + 1) % soonWindowOptions.length;
-    soonWindowMins = soonWindowOptions[soonWindowIdx];
-    soonWindowBtnEl.textContent = 'Next ' + soonWindowMins + ' min';
-    refreshSoon();
-  });
 }
 
 // Mode tab switching
@@ -2652,26 +2490,15 @@ function refreshSoon() {
   const todayIdx = now.getDay(); // 0=Sun
   const todayName = DAY_NAMES[todayIdx];
   const nowMin = now.getHours() * 60 + now.getMinutes();
-  var windowMin = soonWindowMins;
-
-  // Update title based on mode
-  const titleEl = document.getElementById('soonTitle');
-  const titles = { mass: '⛪ Masses Starting Soon', confession: '🙏 Confession Starting Soon', lenten: '✦ Lenten Services Starting Soon' };
-  if (titleEl) titleEl.textContent = titles[soonMode] || titles.mass;
+  var windowMin = 90;
 
   // Determine which services qualify for this mode
   function svcMatchesMode(svc) {
-    const isLenten = svc.seasonal && svc.seasonal.is_seasonal && svc.seasonal.season === 'lent';
     if (soonMode === 'mass') {
-      if (isLenten) return false;
       return svc.type === 'sunday_mass' || svc.type === 'daily_mass' || svc.type === 'mass';
     }
     if (soonMode === 'confession') {
-      if (isLenten) return false;
       return svc.type === 'confession';
-    }
-    if (soonMode === 'lenten') {
-      return isLenten;
     }
     return false;
   }
@@ -2709,8 +2536,8 @@ function refreshSoon() {
 
   const container = document.getElementById('soonCards');
   if (results.length === 0) {
-    const modeLabel = soonMode === 'confession' ? 'Confession' : soonMode === 'lenten' ? 'Lenten services' : 'Masses';
-    container.innerHTML = `<span class="soon-none">No ${modeLabel} starting in the next ${soonWindowMins} minutes within ${soonRadiusMiles} miles.</span>`;
+    const modeLabel = soonMode === 'confession' ? 'confessions' : 'Masses';
+    container.innerHTML = `<span class="soon-none">No ${modeLabel} starting in the next 90 minutes within 10 miles.</span>`;
     return;
   }
 
@@ -2725,16 +2552,16 @@ function refreshSoon() {
     const mapsUrl = /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent) && !window.MSStream
       ? `https://maps.apple.com/?q=${encodeURIComponent(loc.address || p.name + ', ' + p.town + ', MA')}`
       : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(loc.address || p.name + ', ' + p.town + ', MA')}`;
-    // Show service type label on confession/lenten cards
     const typeLabel = (soonMode !== 'mass')
       ? `<div class="soon-card-type">${SVCTYPE_SHORT[svc.type] || svc.type.replace(/_/g,' ')}</div>` : '';
-    return `<a class="soon-card${soonMode === 'lenten' ? ' lenten' : ''}" href="${mapsUrl}" target="_blank" rel="noopener">
+    const isLenten = svc.seasonal && svc.seasonal.is_seasonal && svc.seasonal.season === 'lent';
+    return `<a class="soon-card${isLenten ? ' lenten' : ''}" href="${mapsUrl}" target="_blank" rel="noopener">
       <div class="soon-card-time">${svc.time ? fmt12(svc.time) : 'Soon'}</div>
       <div class="soon-card-starts">${minsLabel}</div>
       ${typeLabel}
       <div class="soon-card-parish">${p.name}</div>
       <div class="soon-card-town">${p.town}</div>
-      <div class="soon-card-dist">&#128205; ${dist.toFixed(1)} mi away</div>
+      <div class="soon-card-dist">${dist.toFixed(1)} mi</div>
     </a>`;
   }).join('');
 }
@@ -2785,8 +2612,6 @@ function clearQuick() {
   categoryChips.querySelectorAll('[data-cat]').forEach(c => c.classList.toggle('active', c.dataset.cat === ''));
   activeCategory = '';
   activeSubtype = '';
-  lentOnly = false;
-  lentToggleEl.classList.remove('active');
   subfilterBar.style.display = 'none';
   setQuickActive(null);
   render();
@@ -2846,7 +2671,6 @@ function quickNearMe() {
 
 function quickLentNearMe() {
   if (quickActive === 'btnLentNearMe') { clearQuick(); return; }
-  // Clear other filters
   searchInput.value = '';
   countyFilter.value = '';
   dayFilterEl.value = '';
@@ -2855,10 +2679,6 @@ function quickLentNearMe() {
   activeCategory = '';
   activeSubtype = '';
   subfilterBar.style.display = 'none';
-  // Activate lent mode
-  lentOnly = true;
-  lentToggleEl.classList.add('active');
-  // Request location if not yet available
   if (userLat === null) requestLocation();
   setQuickActive('btnLentNearMe');
   render();
@@ -2873,8 +2693,6 @@ function clearAllFilters() {
   categoryChips.querySelectorAll('[data-cat]').forEach(c => c.classList.toggle('active', c.dataset.cat === ''));
   activeCategory = '';
   activeSubtype = '';
-  lentOnly = false;
-  lentToggleEl.classList.remove('active');
   subfilterBar.style.display = 'none';
   subtypeChips.innerHTML = '';
   setQuickActive(null);
@@ -2941,9 +2759,9 @@ window.toggleAddParish  = toggleAddParish;
 
   <!-- MODE TABS -->
   <div class="mode-tabs">
-    <button class="mode-tab active" id="tab-flag"    onclick="switchTab('flag')">🔍 Correct Existing Service</button>
-    <button class="mode-tab"        id="tab-add"     onclick="switchTab('add')">➕ Report Missing Service</button>
-    <button class="mode-tab"        id="tab-general" onclick="switchTab('general')">📋 General Note</button>
+    <button class="mode-tab active" id="tab-flag"    onclick="switchTab('flag')">Correct Existing Service</button>
+    <button class="mode-tab"        id="tab-add"     onclick="switchTab('add')">+ Report Missing Service</button>
+    <button class="mode-tab"        id="tab-general" onclick="switchTab('general')">General Note</button>
   </div>
 
   <!-- ── TAB: FLAG EXISTING ── -->
@@ -3265,7 +3083,7 @@ window.toggleAddParish  = toggleAddParish;
 
   <!-- SUCCESS SCREEN (hidden until submit) -->
   <div class="msuccess" id="mSuccess">
-    <div class="sicon">✅</div>
+    <div class="sicon">✓</div>
     <h3>Submission received — thank you!</h3>
     <p>Your report has been logged for review by the diocese data team.<br>
        No change is made to the directory until the update is verified.</p>
@@ -3529,7 +3347,7 @@ async function sendFormEmail(subject, htmlBody, refId) {
       body: JSON.stringify({
         access_key: W3F_KEY,
         subject: subject,
-        from_name: 'WMass Parish Finder',
+        from_name: 'Mass Finder',
         to: 'mvadamski@gmail.com',
         message: htmlBody,
         replyto: 'noreply@parishfinder.vercel.app',
@@ -3633,7 +3451,7 @@ function submitReconcile() {
     if (!wrongEl.value.trim()) {
       wrongEl.style.borderColor = '#c0392b';
       wrongEl.focus();
-      wrongEl.placeholder = '⚠ Please describe what is incorrect before submitting.';
+      wrongEl.placeholder = 'Please describe what is incorrect before submitting.';
       valid = false;
     } else wrongEl.style.borderColor = '';
   } else if (_activeTab === 'add') {
@@ -3741,7 +3559,7 @@ function submitReconcile() {
 
   <div class="mhdr">
     <div class="mhdr-left">
-      <h2>➕ Request a Parish Listing</h2>
+      <h2>Request a Parish Listing</h2>
       <div class="mhdr-parish">Diocese of Springfield, Massachusetts</div>
     </div>
     <button class="mhdr-close" onclick="closeNewParish()">×</button>
@@ -3794,7 +3612,7 @@ function submitReconcile() {
 
   <!-- SUCCESS -->
   <div class="msuccess" id="npSuccess" style="display:none">
-    <div class="sicon">🏛️</div>
+    <div class="sicon">+</div>
     <h3>Got it — thank you!</h3>
     <p>The data team will look this up, verify it against the bulletin, and add it to the directory if confirmed.</p>
     <div class="ref-id" id="npRefId"></div>
