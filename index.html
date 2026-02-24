@@ -2661,14 +2661,17 @@ function refreshSoon() {
 
   // Determine which services qualify for this mode
   function svcMatchesMode(svc) {
+    const isLenten = svc.seasonal && svc.seasonal.is_seasonal && svc.seasonal.season === 'lent';
     if (soonMode === 'mass') {
+      if (isLenten) return false;
       return svc.type === 'sunday_mass' || svc.type === 'daily_mass' || svc.type === 'mass';
     }
     if (soonMode === 'confession') {
+      if (isLenten) return false;
       return svc.type === 'confession';
     }
     if (soonMode === 'lenten') {
-      return svc.seasonal && svc.seasonal.season === 'lent';
+      return isLenten;
     }
     return false;
   }
@@ -2763,9 +2766,11 @@ let quickActive = null;
 
 function setQuickActive(id) {
   ['btnThisWeekend','btnLentNearMe','btnConfession','btnNearMe'].forEach(b => {
-    document.getElementById(b).classList.toggle('active', b === id);
+    const el = document.getElementById(b);
+    if (el) el.classList.toggle('active', b === id);
   });
-  document.getElementById('btnClearQuick').style.display = id ? '' : 'none';
+  const clearBtn = document.getElementById('btnClearQuick');
+  if (clearBtn) clearBtn.style.display = id ? '' : 'none';
   quickActive = id;
 }
 
@@ -3033,12 +3038,12 @@ window.toggleAddParish  = toggleAddParish;
         <div class="fg">
           <label>What is incorrect or outdated? <span class="req">*</span></label>
           <textarea id="fd_wrong" rows="3"
-            placeholder="e.g. Adoration is listed as Wednesday 9 AM–noon but it moved to Friday 9 AM–noon starting February 2026."></textarea>
+            ></textarea>
         </div>
         <div class="fg">
           <label>What should it say? (corrected version)</label>
           <textarea id="fd_correct" rows="2"
-            placeholder="e.g. Adoration: Friday 9:00 AM – 12:00 PM, following the 8 AM Mass."></textarea>
+            ></textarea>
         </div>
       </div>
     </div>
@@ -3074,7 +3079,7 @@ window.toggleAddParish  = toggleAddParish;
         </div>
         <div class="fg">
           <label>Your name (optional)</label>
-          <input type="text" id="fd_name" placeholder="Parishioner name">
+          <input type="text" id="fd_name" >
         </div>
       </div>
     </div>
@@ -3185,7 +3190,7 @@ window.toggleAddParish  = toggleAddParish;
         <div class="fg span2">
           <label>Additional notes</label>
           <textarea id="fa_notes" rows="2"
-            placeholder="e.g. Follows the 9 AM daily Mass. Begins with Exposition and closes with Benediction."></textarea>
+            ></textarea>
         </div>
       </div>
     </div>
@@ -3221,7 +3226,7 @@ window.toggleAddParish  = toggleAddParish;
         </div>
         <div class="fg">
           <label>Your name (optional)</label>
-          <input type="text" id="fa_name" placeholder="Parishioner name">
+          <input type="text" id="fa_name" >
         </div>
       </div>
     </div>
@@ -3238,19 +3243,19 @@ window.toggleAddParish  = toggleAddParish;
         <div class="fg">
           <label>What would you like to report? <span class="req">*</span></label>
           <textarea id="fg_notes" rows="5"
-            placeholder="e.g. This parish has permanently closed. / The pastor listed is no longer assigned here. / The phone number is wrong. / There is a second location not listed."></textarea>
+            ></textarea>
         </div>
         <div class="fg">
           <label>Source / how you know</label>
-          <input type="text" id="fg_source" placeholder="e.g. Parish website, phone call, bulletin, personal attendance…">
+          <input type="text" id="fg_source" >
         </div>
         <div class="fg">
           <label>Source URL (if applicable)</label>
-          <input type="url" id="fg_url" placeholder="https://…">
+          <input type="url" id="fg_url" placeholder="https://">
         </div>
         <div class="fg">
           <label>Your name (optional)</label>
-          <input type="text" id="fg_name" placeholder="Parishioner name">
+          <input type="text" id="fg_name" >
         </div>
       </div>
     </div>
@@ -3511,6 +3516,113 @@ function selectService(svcId) {
     `Currently listed as: ${SVC_TYPE_LABELS[s.type]||s.type}, ${svcMeta(s)} — describe what's incorrect.`;
 }
 
+// ── email via Web3Forms ──────────────────────────────────────
+// Get your access key at https://web3forms.com (free, 250/mo)
+const W3F_KEY = 'bf7958f8-3eda-4ed3-8b61-9843af03fd5a';
+const W3F_URL = 'https://api.web3forms.com/submit';
+
+async function sendFormEmail(subject, htmlBody, refId) {
+  try {
+    const resp = await fetch(W3F_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        access_key: W3F_KEY,
+        subject: subject,
+        from_name: 'WMass Parish Finder',
+        to: 'mvadamski@gmail.com',
+        message: htmlBody,
+        replyto: 'noreply@parishfinder.vercel.app',
+      })
+    });
+    const data = await resp.json();
+    if (!data.success) console.warn('Web3Forms error:', data.message);
+    return data.success;
+  } catch(e) {
+    console.warn('Email send failed:', e);
+    return false;
+  }
+}
+
+function formatReconcileEmail(payload) {
+  const lines = [];
+  lines.push(`Parish: ${payload.parish_name} (${payload.parish_id})`);
+  lines.push(`Tab: ${payload.mode}`);
+  lines.push(`Ref: ${payload.ref_id}`);
+  lines.push(`Submitted: ${payload.submitted_at}`);
+  lines.push('');
+
+  if (payload.mode === 'flag') {
+    if (payload.service_id) lines.push(`Service ID: ${payload.service_id}`);
+    if (payload.report) {
+      lines.push(`What's wrong: ${payload.report.what_is_wrong}`);
+      if (payload.report.what_it_should_say) lines.push(`Should say: ${payload.report.what_it_should_say}`);
+    }
+    if (payload.proposed_fields) {
+      const pf = payload.proposed_fields;
+      lines.push('');
+      lines.push('Proposed fields:');
+      if (pf.type) lines.push(`  Type: ${pf.type}`);
+      if (pf.days && pf.days.length) lines.push(`  Days: ${pf.days.join(', ')}`);
+      if (pf.special_day) lines.push(`  Special day: ${pf.special_day}`);
+      if (pf.time) lines.push(`  Time: ${pf.time}${pf.end_time ? ' – ' + pf.end_time : ''}`);
+      if (pf.language) lines.push(`  Language: ${pf.language}`);
+      if (pf.is_seasonal) lines.push(`  Season: ${pf.season}`);
+    }
+    if (payload.source) {
+      lines.push('');
+      lines.push(`Source: ${payload.source.type}${payload.source.date ? ' (' + payload.source.date + ')' : ''}`);
+      if (payload.source.url) lines.push(`Source URL: ${payload.source.url}`);
+      lines.push(`Confidence: ${payload.source.confidence}`);
+    }
+  } else if (payload.mode === 'add') {
+    if (payload.new_service) {
+      const ns = payload.new_service;
+      lines.push('New service:');
+      lines.push(`  Type: ${ns.type}`);
+      if (ns.language && ns.language !== 'en') lines.push(`  Language: ${ns.language}`);
+      if (ns.days && ns.days.length) lines.push(`  Days: ${ns.days.join(', ')}`);
+      if (ns.special_day) lines.push(`  Special day: ${ns.special_day}`);
+      if (ns.time) lines.push(`  Time: ${ns.time}${ns.end_time ? ' – ' + ns.end_time : ''}`);
+      if (ns.is_seasonal) lines.push(`  Season: ${ns.season}`);
+      if (ns.notes) lines.push(`  Notes: ${ns.notes}`);
+    }
+    if (payload.source) {
+      lines.push('');
+      lines.push(`Source: ${payload.source.type}${payload.source.date ? ' (' + payload.source.date + ')' : ''}`);
+      if (payload.source.url) lines.push(`Source URL: ${payload.source.url}`);
+      lines.push(`Confidence: ${payload.source.confidence}`);
+    }
+  } else {
+    if (payload.notes) lines.push(`Notes: ${payload.notes}`);
+    if (payload.source) lines.push(`Source: ${payload.source}`);
+    if (payload.source_url) lines.push(`URL: ${payload.source_url}`);
+  }
+
+  if (payload.submitter && payload.submitter.name) {
+    lines.push('');
+    lines.push(`Submitter: ${payload.submitter.name}`);
+  }
+
+  return lines.join('\n');
+}
+
+function formatNewParishEmail(payload) {
+  const lines = [];
+  lines.push(`New parish request: ${payload.name}`);
+  lines.push(`Ref: ${payload.ref_id}`);
+  lines.push(`Submitted: ${payload.submitted_at}`);
+  lines.push('');
+  if (payload.website) lines.push(`Website: ${payload.website}`);
+  if (payload.bulletin_url) lines.push(`Bulletin: ${payload.bulletin_url}`);
+  if (payload.notes) lines.push(`Notes: ${payload.notes}`);
+  if (payload.submitter) {
+    if (payload.submitter.name) lines.push(`Submitter: ${payload.submitter.name}`);
+    if (payload.submitter.email) lines.push(`Email: ${payload.submitter.email}`);
+  }
+  return lines.join('\n');
+}
+
 // ── submit ───────────────────────────────────────────────────
 
 function submitReconcile() {
@@ -3605,7 +3717,11 @@ function submitReconcile() {
     payload.submitter  = { name: document.getElementById('fg_name').value };
   }
 
-  // Log to console (in a real deployment, POST to an endpoint)
+  // Send email
+  const modeLabels = { flag: 'Flag Incorrect Data', add: 'Add Missing Service', general: 'General Note' };
+  const subject = `[Parish Finder] ${modeLabels[_activeTab] || _activeTab} — ${_currentParish.name} (${refId})`;
+  const body = formatReconcileEmail(payload);
+  sendFormEmail(subject, body, refId);
 
   // Show success screen
   document.querySelectorAll('.tab-panel').forEach(p => p.style.display='none');
@@ -3642,7 +3758,7 @@ function submitReconcile() {
       <div class="fsection-body fgrid cols1">
         <div class="fg">
           <label>Parish name <span class="req">*</span></label>
-          <input type="text" id="np_name" placeholder="e.g. Our Lady of the Rosary Parish, Springfield">
+          <input type="text" id="np_name" >
         </div>
         <div class="fg">
           <label>Parish website</label>
@@ -3655,7 +3771,7 @@ function submitReconcile() {
         <div class="fg">
           <label>Anything else you know <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:0.78rem;color:#888">(services, schedule notes, location — whatever you have)</span></label>
           <textarea id="np_notes" rows="4"
-            placeholder="e.g. They have confession every Saturday at 3 PM and adoration on Fridays. Located on Main St in Westfield."></textarea>
+            ></textarea>
         </div>
       </div>
     </div>
@@ -3665,11 +3781,11 @@ function submitReconcile() {
       <div class="fsection-body fgrid">
         <div class="fg">
           <label>Your name</label>
-          <input type="text" id="np_sub_name" placeholder="Optional">
+          <input type="text" id="np_sub_name" >
         </div>
         <div class="fg">
           <label>Email (for follow-up)</label>
-          <input type="email" id="np_sub_email" placeholder="Optional">
+          <input type="email" id="np_sub_email" >
         </div>
       </div>
     </div>
@@ -3744,6 +3860,10 @@ function submitNewParish() {
     },
   };
 
+  // Send email
+  const subject = `[Parish Finder] New Parish Request — ${payload.name} (${refId})`;
+  const body = formatNewParishEmail(payload);
+  sendFormEmail(subject, body, refId);
 
   document.getElementById('npFormBody').style.display = 'none';
   document.getElementById('npFtr').style.display      = 'none';
