@@ -758,6 +758,31 @@
     .search-wrap { min-width: 140px; }
     main { padding: 16px 14px 40px; }
   }
+  @media (max-width: 520px) {
+    .controls-row-1 {
+      flex-wrap: nowrap;
+      gap: 5px;
+      padding: 6px 10px 2px;
+    }
+    .controls-row-1 .search-wrap {
+      min-width: 0;
+      max-width: none;
+      flex: 1;
+    }
+    .controls-row-1 .search-wrap input {
+      padding: 7px 8px;
+      font-size: 0.78rem;
+    }
+    .controls-row-1 select {
+      padding: 7px 18px 7px 6px;
+      font-size: 0.72rem;
+      flex-shrink: 0;
+      min-width: 0;
+      background-position: right 4px center;
+      background-size: 10px;
+    }
+    .controls-row-2 { padding: 2px 10px 6px; gap: 5px; }
+  }
 
   /* EMPTY STATE HELPERS */
   .loading { text-align: center; padding: 60px; color: var(--mid-gray); font-size: 1.1rem; }
@@ -1341,8 +1366,29 @@
   .soon-mode-tab:hover { background: rgba(255,255,255,0.1); color: #fff; }
   .soon-mode-tab.active { background: rgba(255,255,255,0.18); color: #fff; }
 
+  /* Collapse toggle - mobile only */
+  .soon-collapse-btn {
+    display: none;
+    background: none;
+    border: 1px solid rgba(255,255,255,0.25);
+    color: rgba(255,255,255,0.6);
+    font-size: 0.9rem;
+    line-height: 1;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+    flex-shrink: 0;
+    padding: 0;
+  }
+  .soon-collapse-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+  .soon-body { max-height: 300px; transition: max-height 0.2s ease, opacity 0.2s; overflow: hidden; opacity: 1; }
+  .soon-body.collapsed { max-height: 0; opacity: 0; padding: 0; }
+
   /* ── MOBILE: soon section ── */
   @media (max-width: 520px) {
+    .soon-collapse-btn { display: flex; align-items: center; justify-content: center; }
     .soon-row-title {
       flex-wrap: wrap;
       gap: 4px;
@@ -1459,8 +1505,11 @@
         <button class="soon-mode-tab" data-mode="confession">Confession</button>
       </div>
       <span class="soon-location" id="soonLocationLabel" onclick="requestLocation()"></span>
+      <button class="soon-collapse-btn" id="soonCollapseBtn" onclick="toggleSoonCollapse()">−</button>
     </div>
-    <div class="soon-cards" id="soonCards"></div>
+    <div class="soon-body" id="soonBody">
+      <div class="soon-cards" id="soonCards"></div>
+    </div>
   </div>
 </div>
 
@@ -1782,6 +1831,14 @@ function groupServices(services) {
 }
 
 // ─── COLLAPSIBLE SECTION HELPERS ──────────────────────────────────────────────
+
+function toggleSoonCollapse() {
+  const body = document.getElementById('soonBody');
+  const btn = document.getElementById('soonCollapseBtn');
+  if (!body || !btn) return;
+  body.classList.toggle('collapsed');
+  btn.textContent = body.classList.contains('collapsed') ? '+' : '−';
+}
 
 function toggleSection(el) {
   const wrapper = el.closest('.svc-collapse');
@@ -2302,7 +2359,7 @@ function render() {
   grid.innerHTML = html || '<div class="no-results"><div class="cross">✝</div><p>No parishes found matching your filters.</p></div>';
 
   const shown = filtered.length;
-  resultsCount.textContent = shown === parishes.length ? '' : shown + ' of ' + parishes.length + ' shown';
+  resultsCount.textContent = shown + ' of ' + parishes.length + ' shown';
 
   updateClearFiltersBtn();
   syncUrlParams();
