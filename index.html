@@ -2196,7 +2196,8 @@
   /* ── RESPONSIVE OVERRIDES ── */
   @media (max-width: 520px) {
     .app-tab-bar { top: 38px; }
-    .app-tab { font-size: 0.7rem; padding: 7px 8px; letter-spacing: 0.05em; }
+    .app-tab { font-size: 0.65rem; padding: 7px 4px; letter-spacing: 0.03em; }
+    .app-tab .tab-icon { margin-right: 2px; font-size: 0.75rem; }
     .summary-bar { padding: 7px 14px; }
     .summary-bar-inner { font-size: 0.75rem; gap: 8px; }
     .now-view { padding: 12px 14px 40px; }
@@ -2229,53 +2230,36 @@
 <nav class="app-tab-bar" id="appTabBar">
   <button class="app-tab active" data-view="churches" onclick="switchAppView('churches')"><span class="tab-icon">⛪</span>Churches</button>
   <button class="app-tab" data-view="now" onclick="switchAppView('now')"><span class="tab-icon">⏱</span>What's Now</button>
+  <button class="app-tab" data-view="yc" onclick="switchAppView('yc')"><span class="tab-icon">✦</span>YC Events</button>
   <button class="app-tab" data-view="map" onclick="switchAppView('map')"><span class="tab-icon">🗺</span>Map</button>
 </nav>
 
 <!-- ══════ CHURCHES VIEW ══════ -->
 <div class="app-view active" id="viewChurches">
 
-<!-- SUMMARY BAR -->
-<div class="summary-bar" id="summaryBar" onclick="toggleSummaryExpand()">
+<!-- SUMMARY BAR — tap navigates to What's Now -->
+<div class="summary-bar" id="summaryBar" onclick="switchAppView('now')">
   <div class="summary-bar-inner">
     <span class="summary-icon">✝</span>
     <span class="summary-text" id="summaryText">Loading services…</span>
-    <span class="summary-chevron" id="summaryChevron">▼</span>
+    <span class="summary-chevron">→</span>
   </div>
 </div>
-<div class="summary-expanded-content" id="summaryExpanded">
-  <!-- Happening Now + YC strip render here when expanded -->
-<div id="happeningSoon" style="display:none">
+
+<!-- Hidden data containers — JS needs these elements for data population -->
+<div id="happeningSoon" style="display:none!important">
   <div class="soon-inner">
-    <div class="soon-header">
-      <span class="soon-title" id="soonTitle">Happening Now</span>
-      <button class="soon-collapse-btn" id="soonCollapseBtn" onclick="toggleSoonCollapse()">−</button>
-    </div>
     <div class="soon-body" id="soonBody">
-      <div class="soon-row soon-row-title">
-        <div class="soon-mode-tabs" id="soonModeTabs">
-          <button class="soon-mode-tab active" data-mode="mass">Mass</button>
-          <button class="soon-mode-tab" data-mode="confession">Confession</button>
-          <button class="soon-mode-tab" data-mode="adoration">Adoration</button>
-          <button class="soon-mode-tab lent-tab" data-mode="lent">Lent</button>
-        </div>
-        <span class="soon-location" id="soonLocationLabel" onclick="requestLocation()"></span>
-      </div>
       <div class="soon-cards" id="soonCards"></div>
     </div>
   </div>
 </div>
-
-<div id="ycEventsSection" style="display:none">
+<div id="ycEventsSection" style="display:none!important">
   <div class="yc-inner">
-    <div class="yc-header">
-      <span class="yc-title"><span class="yc-badge">YC</span> Young &amp; Catholic Western MA</span>
-      <span class="yc-subtitle" id="ycSubtitle"></span>
-    </div>
+    <span class="yc-subtitle" id="ycSubtitle"></span>
     <div class="yc-cards" id="ycCards"></div>
   </div>
 </div>
-</div><!-- /summary-expanded-content -->
 
 <div class="controls-bar">
   <div class="controls-inner controls-row-1">
@@ -2365,10 +2349,17 @@
       <button class="now-pill lent-pill" data-now-mode="lent" onclick="setNowMode('lent')" id="nowLentPill">Lent</button>
     </div>
     <div class="now-timeline" id="nowTimeline"></div>
-    <div class="now-yc-section" id="nowYCSection" style="display:none">
-      <h3><span class="yc-badge">YC</span> Young &amp; Catholic — Upcoming</h3>
-      <div class="now-timeline" id="nowYCTimeline"></div>
+  </div>
+</div>
+
+<!-- ══════ YC EVENTS VIEW ══════ -->
+<div class="app-view" id="viewYc">
+  <div class="now-view">
+    <div class="now-header">
+      <h2><span class="yc-badge" style="font-size:0.7rem;margin-right:6px;">YC</span> Young &amp; Catholic</h2>
+      <span style="font-size:0.78rem;color:var(--text-light);" id="ycViewSubtitle"></span>
     </div>
+    <div class="now-timeline" id="ycViewTimeline"></div>
   </div>
 </div>
 
@@ -2768,14 +2759,6 @@ function groupServices(services) {
 }
 
 // ─── COLLAPSIBLE SECTION HELPERS ──────────────────────────────────────────────
-
-function toggleSoonCollapse() {
-  const body = document.getElementById('soonBody');
-  const btn = document.getElementById('soonCollapseBtn');
-  if (!body || !btn) return;
-  body.classList.toggle('collapsed');
-  btn.textContent = body.classList.contains('collapsed') ? '+' : '−';
-}
 
 function toggleSection(el) {
   const wrapper = el.closest('.svc-collapse');
@@ -3746,23 +3729,20 @@ var sortMode = 'alpha'; // 'proximity' | 'alpha'  — proximity only when locati
 
 function requestLocation() {
   if (!navigator.geolocation) {
-    document.getElementById('soonLocationLabel').textContent = 'Geolocation not supported by your browser';
     return;
   }
-  document.getElementById('soonLocationLabel').textContent = 'Locating…';
   navigator.geolocation.getCurrentPosition(
     pos => {
       userLat = pos.coords.latitude;
       userLng = pos.coords.longitude;
       locationStatus = 'granted';
-      document.getElementById('soonLocationLabel').textContent = 'Location active ✓';
       sortMode = 'proximity';
       document.getElementById('sortToggle').classList.add('location-ready');
       document.querySelectorAll('.sort-btn').forEach(b => b.classList.toggle('active', b.dataset.sort === 'proximity'));
-      refreshSoon();
       renderYCEvents();
       render();
       if (currentView === 'now') renderNowView();
+      if (currentView === 'yc') renderYCView();
       if (mapInitialized && appMap) {
         L.circleMarker([userLat, userLng], {
           radius: 8, fillColor: '#4285F4', fillOpacity: 0.9, color: '#fff', weight: 2
@@ -3771,14 +3751,6 @@ function requestLocation() {
     },
     () => {
       locationStatus = 'denied';
-      document.getElementById('soonLocationLabel').textContent = 'Location unavailable — tap to retry';
-      // If Near Me quick action was triggered, show denied notice in grid
-      if (quickActive === 'btnNearMe') {
-        const grid = document.getElementById('parishGrid');
-        grid.innerHTML = `<div class="location-denied-notice">
-          Location access was denied. To use "Near Me", enable location for this site in your browser settings, then tap <strong>Near Me</strong> again.
-        </div>` + grid.innerHTML;
-      }
     },
     { timeout: 8000 }
   );
@@ -3786,9 +3758,7 @@ function requestLocation() {
 
 // Passive location attempt on load (no prompt shown if permission not already granted)
 function initLocationBanner() {
-  document.getElementById('happeningSoon').style.display = '';
-  document.getElementById('soonCards').innerHTML = '<span class="soon-none">Enable location to see services starting soon near you.</span>';
-  document.getElementById('soonLocationLabel').textContent = 'Tap to enable location →';
+  // Happening Soon section removed from visible UI — just attempt passive location
 }
 try {
   if (navigator.permissions) {
@@ -3804,29 +3774,6 @@ try {
   }
 } catch(e) {
   initLocationBanner();
-}
-
-// Mode tab switching
-var soonModeTabsEl = document.getElementById('soonModeTabs');
-if (soonModeTabsEl) {
-  soonModeTabsEl.addEventListener('click', function(e) {
-    const tab = e.target.closest('[data-mode]');
-    if (!tab) return;
-    soonMode = tab.dataset.mode;
-    soonModeTabsEl.querySelectorAll('.soon-mode-tab').forEach(t => t.classList.toggle('active', t === tab));
-    refreshSoon();
-  });
-
-  // Hide Lent tab outside Lent season
-  const lentTab = soonModeTabsEl.querySelector('.lent-tab');
-  if (lentTab) {
-    const lentRange = getLentRange(new Date().getFullYear());
-    const todayCheck = new Date();
-    todayCheck.setHours(0, 0, 0, 0);
-    if (todayCheck < lentRange.start || todayCheck > lentRange.end) {
-      lentTab.style.display = 'none';
-    }
-  }
 }
 
 // ═══════════════════════════════════════════════════
@@ -4056,7 +4003,7 @@ function refreshSoon() {
 }
 
 // Refresh soon every minute
-setInterval(() => { if (userLat !== null) refreshSoon(); updateSummaryBar(); }, 60000);
+setInterval(() => { updateSummaryBar(); if (currentView === 'now') renderNowView(); }, 60000);
 
 // ═══════════════════════════════════════════════════
 // YOUNG & CATHOLIC EVENTS
@@ -4367,7 +4314,6 @@ function clearLocationSort() {
   const st = document.getElementById('sortToggle');
   if (st) { st.classList.remove('location-ready'); }
   document.querySelectorAll('.sort-btn').forEach(b => b.classList.toggle('active', b.dataset.sort === 'alpha'));
-  document.getElementById('soonLocationLabel').textContent = 'Tap to enable location →';
   render();
 }
 
@@ -4411,11 +4357,10 @@ function shareParish(parishId, btnEl) {
   }
 
   // Use native share sheet on mobile if available
+  // Include URL in text field — many platforms (iOS Messages, WhatsApp) only use text, not url
   if (navigator.share) {
     navigator.share({
-      title: churchName + ' — Mass Finder',
-      text: 'Check out ' + churchName + ' on Mass Finder',
-      url: shareUrl,
+      text: churchName + ' — Mass Finder\n' + shareUrl,
     }).then(showCopied).catch(() => { /* user cancelled share */ });
   } else {
     fallbackCopy();
@@ -4509,11 +4454,12 @@ function switchAppView(view) {
   if (viewEl) viewEl.classList.add('active');
   const tabEl = document.querySelector(`.app-tab[data-view="${view}"]`);
   if (tabEl) tabEl.classList.add('active');
-  // Show/hide controls bar based on view
+  // Show/hide controls bar + summary bar based on view
   document.querySelector('.controls-bar').style.display = (view === 'churches') ? '' : 'none';
   document.getElementById('summaryBar').style.display = (view === 'churches') ? '' : 'none';
 
   if (view === 'now') renderNowView();
+  if (view === 'yc') renderYCView();
   if (view === 'map' && !mapInitialized) initMap();
 
   history.replaceState(null, '', view === 'churches' ? location.pathname : '#' + view);
@@ -4522,7 +4468,7 @@ function switchAppView(view) {
 // Handle hash on load
 (function checkHash() {
   const h = location.hash.replace('#', '');
-  if (h === 'now' || h === 'map') {
+  if (h === 'now' || h === 'map' || h === 'yc') {
     setTimeout(() => switchAppView(h), 100);
   }
 })();
@@ -4531,12 +4477,7 @@ function switchAppView(view) {
 // SUMMARY BAR (WP8)
 // ═══════════════════════════════════════════════════
 
-var summaryExpanded = false;
-
-function toggleSummaryExpand() {
-  summaryExpanded = !summaryExpanded;
-  document.getElementById('summaryBar').classList.toggle('expanded', summaryExpanded);
-}
+// Summary bar now navigates to What's Now — no expand/collapse needed
 
 function updateSummaryBar() {
   const now = new Date();
@@ -4557,7 +4498,7 @@ function updateSummaryBar() {
       if (!matchesToday) continue;
       let endMin = svc.end_time ? timeToMinutes(svc.end_time) : svcMin + 90;
       const minsAway = svcMin - nowMin;
-      const isNowOrSoon = (nowMin >= svcMin && nowMin <= endMin) || (minsAway > 0 && minsAway <= 90);
+      const isNowOrSoon = (nowMin >= svcMin && nowMin <= endMin) || (minsAway > 0 && minsAway <= 60);
       if (!isNowOrSoon) continue;
       if (svc.type === 'sunday_mass' || svc.type === 'daily_mass') massCount++;
       else if (svc.type === 'confession') confCount++;
@@ -4569,17 +4510,17 @@ function updateSummaryBar() {
   const ycThisWeek = [...ycActiveThisWeek].length;
 
   const parts = [];
-  if (massCount) parts.push(`<strong>${massCount}</strong> Mass${massCount!==1?'es':''} within the hour`);
+  if (massCount) parts.push(`<strong>${massCount}</strong> Mass${massCount!==1?'es':''} soon`);
   if (confCount) parts.push(`<strong>${confCount}</strong> Confession${confCount!==1?'s':''}`);
-  if (otherCount) parts.push(`<strong>${otherCount}</strong> other service${otherCount!==1?'s':''}`);
+  if (otherCount) parts.push(`<strong>${otherCount}</strong> other`);
   if (ycThisWeek) parts.push(`<strong>${ycThisWeek}</strong> YC event${ycThisWeek!==1?'s':''} this week`);
 
   const el = document.getElementById('summaryText');
   if (el) {
     if (parts.length) {
-      el.innerHTML = parts.join(' · ');
+      el.innerHTML = parts.join(' · ') + ' <span style="opacity:0.5;font-size:0.7rem;">Tap for details</span>';
     } else {
-      el.innerHTML = 'No services happening right now — tap to expand schedule';
+      el.innerHTML = 'See what\'s happening now <span style="opacity:0.5;font-size:0.7rem;">→</span>';
     }
   }
 }
@@ -4651,7 +4592,7 @@ function renderNowView() {
 
       let status = null;
       if (nowMin >= svcMin && nowMin <= endMin) status = 'now';
-      else if (minsAway > 0 && minsAway <= 90) status = 'soon';
+      else if (minsAway > 0 && minsAway <= 60) status = 'soon';
 
       if (!status) continue;
 
@@ -4704,7 +4645,7 @@ function renderNowView() {
 
   if (!displayResults.length) {
     const noLocNote = userLat === null ? '<br><small style="color:#999;">Enable location for nearby results.</small>' : '';
-    container.innerHTML = `<div class="now-empty"><div class="cross">✝</div><p>No services happening or starting within 90 minutes.${noLocNote}</p></div>`;
+    container.innerHTML = `<div class="now-empty"><div class="cross">✝</div><p>No services happening or starting within 60 minutes.${noLocNote}</p></div>`;
   } else {
     let html = '';
     let lastStatus = '';
@@ -4738,43 +4679,79 @@ function renderNowView() {
     }
     container.innerHTML = html;
   }
+}
 
-  // YC Events section
-  const ycSection = document.getElementById('nowYCSection');
-  const ycTimeline = document.getElementById('nowYCTimeline');
+// ═══════════════════════════════════════════════════
+// YC EVENTS VIEW
+// ═══════════════════════════════════════════════════
+
+function renderYCView() {
   const ycEvents = (PARISH_DATA.yc_events || []);
   const today = new Date(); today.setHours(0,0,0,0);
-  const nextWeek = new Date(today); nextWeek.setDate(today.getDate() + 14);
 
-  const upcomingYC = ycEvents.filter(evt => {
+  const upcoming = ycEvents.filter(evt => {
     if (!evt.date) return false;
     const evtDate = new Date(evt.date + 'T00:00:00');
-    return evtDate >= today && evtDate <= nextWeek;
-  }).sort((a,b) => a.date.localeCompare(b.date));
+    return evtDate >= today;
+  }).sort((a,b) => a.date.localeCompare(b.date) || (a.time||'').localeCompare(b.time||''));
 
-  if (upcomingYC.length && (nowMode === 'all' || nowMode === 'mass')) {
-    ycSection.style.display = '';
-    ycTimeline.innerHTML = upcomingYC.map(evt => {
-      const d = new Date(evt.date + 'T12:00:00');
-      const dayName = d.toLocaleString('en-US', { weekday: 'short' });
-      const month = d.toLocaleString('en-US', { month: 'short' });
-      const dayNum = d.getDate();
+  const subtitle = document.getElementById('ycViewSubtitle');
+  if (subtitle) subtitle.textContent = upcoming.length + ' upcoming event' + (upcoming.length !== 1 ? 's' : '');
 
-      let placeName = '';
-      if (evt.venue_name) placeName = evt.venue_name;
-      else if (evt.parish_id) {
-        const ep = parishes.find(x => x.id === evt.parish_id);
-        if (ep && ep.locations && ep.locations[0]) placeName = ep.locations[0].name;
-      }
-
-      return `<div class="now-item yc-event" onclick="switchAppView('churches'); setTimeout(() => scrollToParish('${evt.parish_id || ''}'), 200);">
-        <div class="now-item-time"><div class="time-big">${evt.time ? fmt12(evt.time) : ''}</div><span class="time-away">${dayName} ${month} ${dayNum}</span></div>
-        <div class="now-item-info"><div class="item-type" style="color:#e8a838;">YC Event</div><div class="item-name">${evt.title}</div><div class="item-location">${placeName}</div></div>
-      </div>`;
-    }).join('');
-  } else {
-    ycSection.style.display = 'none';
+  const container = document.getElementById('ycViewTimeline');
+  if (!upcoming.length) {
+    container.innerHTML = '<div class="now-empty"><div class="cross">✝</div><p>No upcoming YC events.</p></div>';
+    return;
   }
+
+  // Group by date
+  let html = '';
+  let lastDateStr = '';
+
+  for (const evt of upcoming) {
+    const d = new Date(evt.date + 'T12:00:00');
+    const dayName = d.toLocaleString('en-US', { weekday: 'long' });
+    const month = d.toLocaleString('en-US', { month: 'short' });
+    const dayNum = d.getDate();
+    const dateStr = `${dayName}, ${month} ${dayNum}`;
+
+    if (dateStr !== lastDateStr) {
+      html += `<div class="now-section-label" style="color:#b8860b;border-bottom-color:rgba(232,168,56,0.3);">${dateStr}</div>`;
+      lastDateStr = dateStr;
+    }
+
+    let placeName = '';
+    if (evt.venue_name) placeName = evt.venue_name;
+    else if (evt.parish_id) {
+      const ep = parishes.find(x => x.id === evt.parish_id);
+      if (ep && ep.locations && ep.locations[0]) placeName = ep.locations[0].name;
+    }
+
+    let distHtml = '';
+    if (userLat !== null && evt.parish_id) {
+      const ep = parishes.find(x => x.id === evt.parish_id);
+      if (ep) {
+        const eLoc = evt.location_id
+          ? (ep.locations || []).find(l => l.id === evt.location_id)
+          : (ep.locations && ep.locations[0]);
+        if (eLoc && eLoc.lat) {
+          const evtDist = haversine(userLat, userLng, eLoc.lat, eLoc.lng);
+          distHtml = `<span class="now-item-dist${evtDist <= 5 ? ' near' : ''}">${evtDist.toFixed(1)} mi</span>`;
+        }
+      }
+    }
+
+    const socialNote = evt.social ? ' · Social after' : '';
+    const noteText = evt.notes ? `<div style="font-size:0.72rem;color:var(--mid-gray);font-style:italic;margin-top:2px;">${evt.notes}</div>` : '';
+
+    html += `<div class="now-item yc-event" onclick="switchAppView('churches'); setTimeout(() => scrollToParish('${evt.parish_id || ''}'), 200);">
+      <div class="now-item-time"><div class="time-big">${evt.time ? fmt12(evt.time) : ''}</div><span class="time-away">${evt.end_time ? '– ' + fmt12(evt.end_time) : ''}</span></div>
+      <div class="now-item-info"><div class="item-type" style="color:#e8a838;">${evt.type || 'Event'}${socialNote}</div><div class="item-name">${evt.title}</div><div class="item-location">${placeName}</div>${noteText}</div>
+      ${distHtml}
+    </div>`;
+  }
+
+  container.innerHTML = html;
 }
 
 // ═══════════════════════════════════════════════════
@@ -4892,8 +4869,8 @@ window.toggleContact     = toggleContact;
 window.shareParish       = shareParish;
 window.scrollToParish   = scrollToParish;
 window.switchAppView    = switchAppView;
-window.toggleSummaryExpand = toggleSummaryExpand;
 window.setNowMode       = setNowMode;
+window.renderYCView     = renderYCView;
 window.setMapFilter     = setMapFilter;
 window.toggleFavorite   = toggleFavorite;
 window.toggleFavFilter  = toggleFavFilter;
