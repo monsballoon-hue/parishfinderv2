@@ -2335,6 +2335,53 @@
   .fav-chip:hover { background: rgba(255,255,255,0.1); color: #fff; }
   .fav-chip.active { background: #e8a838; border-color: #e8a838; color: var(--navy); font-weight: 600; }
 
+  /* Find My Mass compact mode */
+  .find-mass-btn {
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: transparent;
+    color: rgba(255,255,255,0.7);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .find-mass-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+  .find-mass-btn.active { background: var(--gold); border-color: var(--gold); color: var(--navy); font-weight: 600; }
+  .fml-table { width: 100%; border-collapse: collapse; }
+  .fml-table th {
+    text-align: left;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-light);
+    padding: 6px 8px;
+    border-bottom: 2px solid var(--border);
+    white-space: nowrap;
+  }
+  .fml-table td {
+    padding: 9px 8px;
+    font-size: 0.85rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  .fml-table tr { cursor: pointer; transition: background 0.1s; }
+  .fml-table tr:hover { background: var(--gold-pale); }
+  .fml-day { color: var(--text-light); font-size: 0.78rem; white-space: nowrap; }
+  .fml-time { font-weight: 700; color: var(--navy); white-space: nowrap; }
+  .fml-name { font-weight: 600; color: var(--navy); }
+  .fml-town { color: var(--text-light); font-size: 0.78rem; white-space: nowrap; }
+  .fml-dist { font-weight: 600; color: var(--green); font-size: 0.78rem; white-space: nowrap; text-align: right; }
+  .fml-lang { font-size: 0.68rem; background: var(--gold-pale); border: 1px solid var(--gold); color: var(--navy); padding: 1px 6px; border-radius: 8px; font-weight: 600; }
+  .fml-type { font-size: 0.68rem; color: var(--text-light); }
+  .fml-wrapper { background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 6px rgba(0,0,0,0.08); }
+  @media (max-width: 520px) {
+    .fml-table th, .fml-table td { padding: 7px 5px; font-size: 0.78rem; }
+    .fml-name { max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  }
+
   /* ── RESPONSIVE OVERRIDES ── */
   @media (max-width: 520px) {
     .app-tab-bar { top: 38px; }
@@ -2477,6 +2524,7 @@
       <button class="chip" data-cat="devotion">Devotions</button>
     </div>
     <button class="fav-chip" id="favFilterChip" onclick="toggleFavFilter()">❤️ Favorites</button>
+    <button class="find-mass-btn" id="findMassBtn" onclick="toggleFindMass()">🔍 Find a Mass</button>
     <div class="sort-toggle" id="sortToggle">
       <button class="sort-btn active" data-sort="proximity" id="sortProximity" title="Sort by distance" onclick="setSortMode('proximity')">Near</button>
       <button class="sort-btn" data-sort="alpha" id="sortAlpha" title="Sort A→Z" onclick="setSortMode('alpha')">A→Z</button>
@@ -3548,6 +3596,7 @@ var ycActiveThisWeek = new Set(); // parish_ids with a YC event this week (Sun-S
 var ycLiteralEventsByParish = {}; // parish_id → array of upcoming YC events without service_id
 var favorites = new Set(); // WP-Favorites: parish IDs the user has favorited
 var favFilterActive = false;
+var findMassMode = false;
 
 function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, distMiles) {
   const groups = groupServices(p.services || []);
@@ -3956,9 +4005,14 @@ function render() {
     });
   }
 
-  var html = filtered.map(function(p) {
-    return renderParishCard(p, day, time, cat, subtype, lang, getDistMiles(p));
-  }).join('');
+  var html = '';
+  if (findMassMode) {
+    html = renderFindMassResults(filtered, day, time, lang);
+  } else {
+    html = filtered.map(function(p) {
+      return renderParishCard(p, day, time, cat, subtype, lang, getDistMiles(p));
+    }).join('');
+  }
   grid.innerHTML = html || '<div class="no-results"><div class="cross">✝</div><p>No churches found matching your filters.</p></div>';
 
   const shown = filtered.length;
@@ -3976,6 +4030,13 @@ categoryChips.addEventListener('click', e => {
   chip.classList.add('active');
   activeCategory = chip.dataset.cat;
   activeSubtype  = '';
+
+  // Exit Find Mass mode if user manually picks a different category
+  if (findMassMode && activeCategory !== 'mass') {
+    findMassMode = false;
+    const fmBtn = document.getElementById('findMassBtn');
+    if (fmBtn) { fmBtn.classList.remove('active'); fmBtn.textContent = '🔍 Find a Mass'; }
+  }
 
   if (activeCategory && SUBTYPES[activeCategory]) {
     buildSubChips(activeCategory);
@@ -4428,6 +4489,12 @@ function clearAllFilters() {
   activeSubtype = '';
   subfilterBar.style.display = 'none';
   subtypeChips.innerHTML = '';
+  // Exit Find Mass mode
+  if (findMassMode) {
+    findMassMode = false;
+    const fmBtn = document.getElementById('findMassBtn');
+    if (fmBtn) { fmBtn.classList.remove('active'); fmBtn.textContent = '🔍 Find a Mass'; }
+  }
   setQuickActive(null);
   render();
 }
@@ -4575,6 +4642,93 @@ function updateFavChip() {
     chip.classList.toggle('visible', favorites.size > 0);
     chip.classList.toggle('active', favFilterActive);
   }
+}
+
+function toggleFindMass() {
+  findMassMode = !findMassMode;
+  const btn = document.getElementById('findMassBtn');
+  if (btn) {
+    btn.classList.toggle('active', findMassMode);
+    btn.textContent = findMassMode ? '✕ Exit Mass Finder' : '🔍 Find a Mass';
+  }
+  if (findMassMode) {
+    // Auto-select Mass category
+    activeCategory = 'mass';
+    activeSubtype = '';
+    categoryChips.querySelectorAll('[data-cat]').forEach(c => c.classList.toggle('active', c.dataset.cat === 'mass'));
+    subfilterBar.style.display = 'none';
+  }
+  render();
+}
+
+function renderFindMassResults(filtered, dayFilter, timeFilter, langFilter) {
+  const MASS_TYPES = ['sunday_mass','daily_mass','communion_service','holy_thursday_mass','good_friday_service','easter_vigil_mass'];
+  const rows = [];
+
+  for (const p of filtered) {
+    const dist = getDistMiles(p);
+    const loc = p.locations && p.locations[0];
+    let churchName = (loc && loc.name) ? loc.name : p.name;
+    if (/Cathedral|Basilica/i.test(churchName)) churchName = churchName.replace(/\s+Church$/i, '');
+
+    for (const svc of (p.services || [])) {
+      if (!MASS_TYPES.includes(svc.type)) continue;
+      if (!isCurrentSeason(svc)) continue;
+      if (!serviceMatchesDay(svc, dayFilter)) continue;
+      if (!serviceMatchesTime(svc, timeFilter)) continue;
+      if (langFilter && svc.language !== langFilter) continue;
+      if (!svc.time) continue;
+
+      const days = getDays(svc);
+      const dayStr = fmtDays(days);
+      rows.push({ p, svc, dist, churchName, dayStr, days });
+    }
+  }
+
+  // Sort: by day rank then time, or by distance first if location active
+  if (userLat !== null) {
+    rows.sort((a, b) => {
+      const dd = (a.dist || 999) - (b.dist || 999);
+      if (Math.abs(dd) > 0.5) return dd;
+      return (a.svc.time || '').localeCompare(b.svc.time || '');
+    });
+  } else {
+    rows.sort((a, b) => {
+      const da = Math.min(...a.days.map(d => dayRank(d)));
+      const db = Math.min(...b.days.map(d => dayRank(d)));
+      if (da !== db) return da - db;
+      return (a.svc.time || '').localeCompare(b.svc.time || '');
+    });
+  }
+
+  if (!rows.length) {
+    return '<div class="no-results"><div class="cross">✝</div><p>No Masses found matching your filters.<br>Try adjusting the day or time.</p></div>';
+  }
+
+  const distHeader = userLat !== null ? '<th>Dist</th>' : '';
+  let html = '<div class="fml-wrapper"><table class="fml-table"><thead><tr><th>Day</th><th>Time</th><th>Church</th><th>Town</th>' + distHeader + '</tr></thead><tbody>';
+
+  for (const r of rows) {
+    const timeStr = fmt12(r.svc.time);
+    const lang = (r.svc.language && r.svc.language !== 'en')
+      ? ' <span class="fml-lang">' + (LANG_LABELS[r.svc.language] || r.svc.language) + '</span>' : '';
+    const typeNote = (r.svc.type !== 'sunday_mass' && r.svc.type !== 'daily_mass')
+      ? ' <span class="fml-type">' + (SERVICE_LABELS[r.svc.type] || '') + '</span>' : '';
+    const distTd = userLat !== null
+      ? '<td class="fml-dist">' + (r.dist !== null ? r.dist.toFixed(1) + ' mi' : '') + '</td>' : '';
+
+    html += '<tr onclick="switchAppView(\'churches\'); toggleFindMass(); setTimeout(() => scrollToParish(\'' + r.p.id + '\'), 150);">';
+    html += '<td class="fml-day">' + r.dayStr + '</td>';
+    html += '<td class="fml-time">' + timeStr + lang + typeNote + '</td>';
+    html += '<td class="fml-name">' + r.churchName + '</td>';
+    html += '<td class="fml-town">' + r.p.town + '</td>';
+    html += distTd;
+    html += '</tr>';
+  }
+
+  html += '</tbody></table></div>';
+  html += '<div style="text-align:center;padding:12px;color:var(--text-light);font-size:0.78rem;">' + rows.length + ' Mass' + (rows.length !== 1 ? 'es' : '') + ' found</div>';
+  return html;
 }
 
 loadFavorites();
@@ -5176,6 +5330,7 @@ window.setMapFilter     = setMapFilter;
 window.setFilterRadius  = setFilterRadius;
 window.toggleFavorite   = toggleFavorite;
 window.toggleFavFilter  = toggleFavFilter;
+window.toggleFindMass   = toggleFindMass;
 window.shareCurrentView  = shareCurrentView;
 window.toggleVerifyDetail = toggleVerifyDetail;
 
