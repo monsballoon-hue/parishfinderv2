@@ -4662,6 +4662,15 @@ function toggleFindMass() {
 }
 
 function renderFindMassResults(filtered, dayFilter, timeFilter, langFilter) {
+  // Require at least a day selection before showing results
+  if (!dayFilter) {
+    return '<div class="fml-wrapper" style="padding:32px 20px;text-align:center;">'
+      + '<div style="font-size:1.4rem;margin-bottom:8px;">🔍</div>'
+      + '<div style="font-weight:700;color:var(--navy);font-size:1rem;margin-bottom:6px;">Find a Mass</div>'
+      + '<div style="color:var(--text-light);font-size:0.85rem;">Select a <strong>day</strong> from the filter above to find Masses near you.</div>'
+      + '</div>';
+  }
+
   const MASS_TYPES = ['sunday_mass','daily_mass','communion_service','holy_thursday_mass','good_friday_service','easter_vigil_mass'];
   const rows = [];
 
@@ -4685,7 +4694,7 @@ function renderFindMassResults(filtered, dayFilter, timeFilter, langFilter) {
     }
   }
 
-  // Sort: by day rank then time, or by distance first if location active
+  // Sort: by distance if location active, otherwise by time
   if (userLat !== null) {
     rows.sort((a, b) => {
       const dd = (a.dist || 999) - (b.dist || 999);
@@ -4693,41 +4702,45 @@ function renderFindMassResults(filtered, dayFilter, timeFilter, langFilter) {
       return (a.svc.time || '').localeCompare(b.svc.time || '');
     });
   } else {
-    rows.sort((a, b) => {
-      const da = Math.min(...a.days.map(d => dayRank(d)));
-      const db = Math.min(...b.days.map(d => dayRank(d)));
-      if (da !== db) return da - db;
-      return (a.svc.time || '').localeCompare(b.svc.time || '');
-    });
+    rows.sort((a, b) => (a.svc.time || '').localeCompare(b.svc.time || ''));
   }
 
-  if (!rows.length) {
-    return '<div class="no-results"><div class="cross">✝</div><p>No Masses found matching your filters.<br>Try adjusting the day or time.</p></div>';
+  // Limit to top 3
+  const topRows = rows.slice(0, 3);
+
+  if (!topRows.length) {
+    return '<div class="fml-wrapper" style="padding:24px 20px;text-align:center;">'
+      + '<div class="cross" style="font-size:1.2rem;margin-bottom:6px;">✝</div>'
+      + '<div style="color:var(--text-light);font-size:0.85rem;">No Masses found for that day/time. Try adjusting your filters.</div>'
+      + '</div>';
   }
 
-  const distHeader = userLat !== null ? '<th>Dist</th>' : '';
-  let html = '<div class="fml-wrapper"><table class="fml-table"><thead><tr><th>Day</th><th>Time</th><th>Church</th><th>Town</th>' + distHeader + '</tr></thead><tbody>';
+  let html = '<div class="fml-wrapper"><table class="fml-table"><tbody>';
 
-  for (const r of rows) {
+  for (const r of topRows) {
     const timeStr = fmt12(r.svc.time);
     const lang = (r.svc.language && r.svc.language !== 'en')
       ? ' <span class="fml-lang">' + (LANG_LABELS[r.svc.language] || r.svc.language) + '</span>' : '';
     const typeNote = (r.svc.type !== 'sunday_mass' && r.svc.type !== 'daily_mass')
       ? ' <span class="fml-type">' + (SERVICE_LABELS[r.svc.type] || '') + '</span>' : '';
-    const distTd = userLat !== null
-      ? '<td class="fml-dist">' + (r.dist !== null ? r.dist.toFixed(1) + ' mi' : '') + '</td>' : '';
+    const distStr = (userLat !== null && r.dist !== null)
+      ? '<span class="fml-dist">' + r.dist.toFixed(1) + ' mi</span>' : '';
 
-    html += '<tr onclick="switchAppView(\'churches\'); toggleFindMass(); setTimeout(() => scrollToParish(\'' + r.p.id + '\'), 150);">';
-    html += '<td class="fml-day">' + r.dayStr + '</td>';
-    html += '<td class="fml-time">' + timeStr + lang + typeNote + '</td>';
-    html += '<td class="fml-name">' + r.churchName + '</td>';
-    html += '<td class="fml-town">' + r.p.town + '</td>';
-    html += distTd;
+    html += '<tr onclick="toggleFindMass(); setTimeout(() => scrollToParish(\'' + r.p.id + '\'), 150);">';
+    html += '<td style="width:1%"><span class="fml-time">' + timeStr + '</span></td>';
+    html += '<td><span class="fml-name">' + r.churchName + '</span> <span class="fml-town">' + r.p.town + '</span>' + lang + typeNote + '</td>';
+    if (distStr) html += '<td style="width:1%;text-align:right">' + distStr + '</td>';
     html += '</tr>';
   }
 
   html += '</tbody></table></div>';
-  html += '<div style="text-align:center;padding:12px;color:var(--text-light);font-size:0.78rem;">' + rows.length + ' Mass' + (rows.length !== 1 ? 'es' : '') + ' found</div>';
+
+  if (rows.length > 3) {
+    html += '<div style="text-align:center;padding:8px;color:var(--text-light);font-size:0.75rem;">'
+      + 'Showing top 3 of ' + rows.length + ' results'
+      + '</div>';
+  }
+
   return html;
 }
 
