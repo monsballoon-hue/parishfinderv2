@@ -604,9 +604,9 @@
     display: inline-flex;
     align-items: center;
     gap: 3px;
-    padding: 1px 6px;
+    padding: 2px 8px;
     border-radius: 10px;
-    font-size: 0.55rem;
+    font-size: 0.66rem;
     font-weight: 600;
     cursor: pointer;
     position: relative;
@@ -1454,7 +1454,7 @@
   .soon-mode-tab:last-child { border-right: none; }
   .soon-mode-tab:hover { background: rgba(255,255,255,0.1); color: #fff; }
   .soon-mode-tab.active { background: rgba(255,255,255,0.18); color: #fff; }
-  .soon-mode-tab.lent-tab.active { background: rgba(128,0,128,0.3); color: #e8c8ff; }
+  .soon-mode-tab.seasonal-tab.active { background: rgba(128,0,128,0.3); color: #e8c8ff; }
 
   /* Collapse toggle - mobile only */
   .soon-collapse-btn {
@@ -1992,7 +1992,7 @@
   }
   .now-pill:hover { border-color: var(--gold); background: var(--gold-pale); }
   .now-pill.active { background: var(--navy); border-color: var(--navy); color: #fff; }
-  .now-pill.lent-pill.active { background: #7c4fa0; border-color: #7c4fa0; }
+  .now-pill.seasonal-pill.active { background: #7c4fa0; border-color: #7c4fa0; }
   .now-timeline { display: flex; flex-direction: column; gap: 6px; }
   /* Desktop grid for What's Now and YC Events */
   @media (min-width: 769px) {
@@ -2028,7 +2028,7 @@
   .now-item:hover { box-shadow: var(--shadow); border-color: var(--gold-light); }
   .now-item.happening { border-left: 3px solid var(--green); background: #f0faf4; }
   .now-item.yc-event { border-left: 3px solid #e8a838; background: #fffbf0; }
-  .now-item.lent-item { border-left: 3px solid #7c4fa0; background: #faf5ff; }
+  .now-item.seasonal-item { border-left: 3px solid #7c4fa0; background: #faf5ff; }
   .now-item-time {
     flex-shrink: 0;
     min-width: 58px;
@@ -2134,92 +2134,7 @@
     gap: 6px;
   }
 
-  /* ── WEEKLY CALENDAR VIEW (WP-WeekCal) ── */
-  .now-view-toggle {
-    display: flex; gap: 4px; background: var(--warm-gray); border-radius: 8px; padding: 3px;
-  }
-  .now-view-toggle button {
-    padding: 5px 14px; border-radius: 6px; border: none; background: transparent;
-    font-family: 'Source Sans 3', sans-serif; font-size: 0.75rem; font-weight: 600;
-    color: var(--text-light); cursor: pointer; transition: all 0.15s; white-space: nowrap;
-  }
-  .now-view-toggle button.active { background: #fff; color: var(--navy); box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
-  .now-view-toggle button:hover:not(.active) { color: var(--text); }
 
-  .week-cal { margin-top: 4px; }
-  .week-cal-grid {
-    display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px;
-    min-height: 200px;
-  }
-  .week-col {
-    min-width: 0; background: #fff; border-radius: 10px; border: 1px solid var(--border);
-    overflow: hidden;
-  }
-  .week-col.today { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold); }
-  .week-col-head {
-    padding: 8px 6px; text-align: center; font-size: 0.7rem; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-light);
-    border-bottom: 1px solid var(--border); background: var(--cream);
-  }
-  .week-col.today .week-col-head {
-    background: var(--navy); color: #fff;
-  }
-  .week-col-head .week-date {
-    display: block; font-size: 1.05rem; font-weight: 700; color: var(--navy);
-    margin-top: 2px; letter-spacing: 0;
-  }
-  .week-col.today .week-col-head .week-date { color: var(--gold-light); }
-  .week-col-body { padding: 4px; display: flex; flex-direction: column; gap: 3px; max-height: 55vh; overflow-y: auto; }
-  .week-svc {
-    padding: 5px 6px; border-radius: 6px; font-size: 0.68rem; line-height: 1.3;
-    cursor: pointer; transition: background 0.1s; border-left: 3px solid transparent;
-  }
-  .week-svc:hover { background: var(--gold-pale); }
-  .week-svc.type-mass { border-left-color: var(--navy); }
-  .week-svc.type-confession { border-left-color: var(--green); }
-  .week-svc.type-adoration { border-left-color: var(--gold); }
-  .week-svc.type-lent { border-left-color: #7c4fa0; }
-  .week-svc.type-other { border-left-color: var(--mid-gray); }
-  .week-svc-time { font-weight: 700; color: var(--navy); }
-  .week-svc-type { font-weight: 600; color: var(--text-light); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.03em; }
-  .week-svc-name { color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .week-svc-dist { font-size: 0.6rem; color: var(--mid-gray); }
-  .week-empty { text-align: center; padding: 20px 4px; color: var(--mid-gray); font-size: 0.7rem; opacity: 0.6; }
-
-  /* Mobile: horizontal scroll for week calendar */
-  @media (max-width: 768px) {
-    .week-cal-grid {
-      grid-template-columns: repeat(7, minmax(110px, 1fr));
-      overflow-x: auto; -webkit-overflow-scrolling: touch;
-      scroll-snap-type: x mandatory; padding-bottom: 6px;
-    }
-    .week-col { scroll-snap-align: start; min-width: 110px; }
-    .week-col-body { max-height: 45vh; }
-  }
-
-  /* Calendar export button */
-  .cal-export-btn {
-    padding: 6px 14px; border-radius: 20px; border: 1.5px solid var(--gold);
-    background: var(--gold-pale); color: var(--navy); font-family: 'Source Sans 3', sans-serif;
-    font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: all 0.15s; white-space: nowrap;
-  }
-  .cal-export-btn:hover { background: var(--gold-light); }
-  .cal-export-dropdown {
-    position: relative; display: inline-block;
-  }
-  .cal-export-menu {
-    display: none; position: absolute; top: 100%; right: 0; margin-top: 4px;
-    background: #fff; border: 1px solid var(--border); border-radius: 8px;
-    box-shadow: var(--shadow-lg); z-index: 999; min-width: 180px; overflow: hidden;
-  }
-  .cal-export-menu.open { display: block; }
-  .cal-export-menu a, .cal-export-menu button {
-    display: block; width: 100%; padding: 10px 14px; text-align: left; border: none;
-    background: transparent; font-family: 'Source Sans 3', sans-serif; font-size: 0.8rem;
-    color: var(--text); cursor: pointer; text-decoration: none; transition: background 0.1s;
-  }
-  .cal-export-menu a:hover, .cal-export-menu button:hover { background: var(--warm-gray); }
-  .cal-export-menu .menu-divider { border-top: 1px solid var(--border); margin: 2px 0; }
 
   /* Deep link share view button */
   .share-view-btn {
@@ -2504,31 +2419,17 @@
   <div class="now-view">
     <div class="now-header">
       <h2>What's Happening</h2>
-      <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
-        <div class="now-view-toggle" id="nowViewToggle">
-          <button class="active" data-now-view="timeline" onclick="setNowViewMode('timeline')">⏱ Now</button>
-          <button data-now-view="week" onclick="setNowViewMode('week')">📅 This Week</button>
-        </div>
-        <div class="cal-export-dropdown" id="calExportDropdown">
-          <button class="cal-export-btn" onclick="toggleCalExportMenu()" id="calExportBtn" style="display:none;">📅 Export</button>
-          <div class="cal-export-menu" id="calExportMenu">
-            <button onclick="exportFavoritesICS()">Download .ics (All Favorites)</button>
-            <div class="menu-divider"></div>
-            <button onclick="exportWeekICS()">Download This Week .ics</button>
-          </div>
-        </div>
-        <button class="now-location-btn" id="nowLocationBtn" onclick="requestLocation()">📍 Enable Location</button>
-      </div>
+      <button class="now-location-btn" id="nowLocationBtn" onclick="requestLocation()">📍 Enable Location</button>
     </div>
     <div class="now-filter-pills" id="nowFilterPills">
       <button class="now-pill active" data-now-mode="all" onclick="setNowMode('all')">All</button>
       <button class="now-pill" data-now-mode="mass" onclick="setNowMode('mass')">Mass</button>
       <button class="now-pill" data-now-mode="confession" onclick="setNowMode('confession')">Confession</button>
       <button class="now-pill" data-now-mode="adoration" onclick="setNowMode('adoration')">Adoration</button>
-      <button class="now-pill lent-pill" data-now-mode="lent" onclick="setNowMode('lent')" id="nowLentPill">Lent</button>
+      <button class="now-pill seasonal-pill" data-now-mode="seasonal" onclick="setNowMode('seasonal')" id="nowSeasonalPill">Seasonal</button>
     </div>
     <div class="now-timeline" id="nowTimeline"></div>
-    <div class="week-cal" id="weekCalendar" style="display:none;"></div>
+
   </div>
 </div>
 
@@ -3343,7 +3244,7 @@ function getVerifiedBadge(p) {
   const val = p.validation;
 
   // No validation data at all
-  if (!val) return buildVerifyBadge('red', '?', 'Not checked', {
+  if (!val) return buildVerifyBadge('red', '?', 'Unknown', {
     title: 'Not Yet Checked',
     rows: ['This parish has not been verified yet.'],
     action: 'Times may be outdated — confirm with the parish before visiting.',
@@ -3395,9 +3296,8 @@ function getVerifiedBadge(p) {
 
     // Fresh (< 3 months)
     if (monthsOld < 3) {
-      const sourceLabel = sourceType === 'bulletin' ? 'Bulletin'
-        : sourceType === 'website' ? 'Website' : 'Confirmed';
-      return buildVerifyBadge('green', '✓', sourceLabel + (dateLabel ? ' · ' + dateLabel : ''), {
+      const shortDate = dateLabel ? dateLabel.replace(/\b20(\d\d)/, "'$1") : '';
+      return buildVerifyBadge('green', '✓', shortDate || 'Verified', {
         title: '✓ Schedule Verified',
         rows: [
           `<strong>How:</strong> ${howChecked}`,
@@ -3409,7 +3309,8 @@ function getVerifiedBadge(p) {
     }
     // Aging (3-6 months)
     else if (monthsOld < 6) {
-      return buildVerifyBadge('yellow', '–', 'Checked ' + (dateLabel || 'a while ago'), {
+      const shortDateY = dateLabel ? dateLabel.replace(/\b20(\d\d)/, "'$1") : '';
+      return buildVerifyBadge('yellow', '–', shortDateY || 'Review', {
         title: 'Schedule May Need a Refresh',
         rows: [
           `<strong>How:</strong> ${howChecked}`,
@@ -3420,7 +3321,7 @@ function getVerifiedBadge(p) {
     }
     // Stale (6+ months)
     else {
-      return buildVerifyBadge('orange', '!', 'Last checked ' + (dateLabel || 'long ago'), {
+      return buildVerifyBadge('orange', '!', 'Stale', {
         title: 'Schedule May Be Outdated',
         rows: [
           `<strong>How:</strong> ${howChecked}`,
@@ -3432,7 +3333,7 @@ function getVerifiedBadge(p) {
   }
   // Needs verification / deferred
   else if (status === 'needs_verification' || status === 'deferred') {
-    return buildVerifyBadge('yellow', '–', 'Needs review', {
+    return buildVerifyBadge('yellow', '–', 'Review', {
       title: 'Schedule Needs Review',
       rows: [
         'We have service times listed but haven\'t been able to confirm them recently.',
@@ -3455,7 +3356,7 @@ function getVerifiedBadge(p) {
   }
   // Fallback
   else {
-    return buildVerifyBadge('red', '?', 'Not checked', {
+    return buildVerifyBadge('red', '?', 'Unknown', {
       title: 'Not Yet Checked',
       rows: ['This parish has not been verified yet.'],
       action: 'Confirm times directly with the parish. Help us by submitting a report!',
@@ -4006,7 +3907,6 @@ function haversine(lat1, lng1, lat2, lng2) {
 renderYCEvents();
 render();
 applyDeepLinkParams();
-updateCalExportBtn();
 
 // ═══════════════════════════════════════════════════
 // LOCATION & PROXIMITY
@@ -4015,7 +3915,7 @@ updateCalExportBtn();
 // userLat, userLng, haversine, getDistMiles declared in main block above
 var locationStatus = 'unknown';
 var soonRadiusMiles = 10;
-var soonMode = 'mass'; // 'mass' | 'confession' | 'adoration' | 'lent'
+var soonMode = 'mass'; // 'mass' | 'confession' | 'adoration' | 'seasonal'
 var sortMode = 'alpha'; // 'proximity' | 'alpha'  — proximity only when location known
 
 function requestLocation() {
@@ -4033,8 +3933,7 @@ function requestLocation() {
       renderYCEvents();
       render();
       if (currentView === 'now') {
-        if (nowViewMode === 'week') renderWeekCalendar();
-        else renderNowView();
+        renderNowView();
       }
       if (currentView === 'yc') renderYCView();
       if (mapInitialized && appMap) {
@@ -4082,222 +3981,9 @@ function timeToMinutes(t) {
   return h * 60 + m;
 }
 
-function refreshSoon() {
-  if (userLat === null) return;
-  document.getElementById('happeningSoon').style.display = '';
-
-  const now = new Date();
-  const todayIdx = now.getDay(); // 0=Sun
-  const todayName = DAY_NAMES[todayIdx];
-  const nowMin = now.getHours() * 60 + now.getMinutes();
-  var windowMin = 90;
-
-  // Determine which services qualify for this mode
-  function svcMatchesMode(svc) {
-    if (soonMode === 'mass') {
-      return svc.type === 'sunday_mass' || svc.type === 'daily_mass' || svc.type === 'mass';
-    }
-    if (soonMode === 'confession') {
-      return svc.type === 'confession';
-    }
-    if (soonMode === 'adoration') {
-      return svc.type === 'adoration' || svc.type === 'holy_hour';
-    }
-    if (soonMode === 'lent') {
-      // Show all Lenten-season services happening now/soon
-      return svc.seasonal && svc.seasonal.season === 'lent';
-    }
-    return false;
-  }
-
-  const results = [];
-
-  for (const p of parishes) {
-    const primaryLoc = p.locations && p.locations[0];
-    if (!primaryLoc || !primaryLoc.lat) continue;
-
-    for (const svc of (p.services || [])) {
-      if (!svcMatchesMode(svc)) continue;
-      // WP2-2B: Skip out-of-season services
-      if (!isCurrentSeason(svc)) continue;
-      const svcMin = timeToMinutes(svc.time);
-      if (svcMin === null) continue;
-
-      // WP1-1E: Use specific building coords for multi-site distance calc
-      let svcLat = primaryLoc.lat, svcLng = primaryLoc.lng;
-      if (svc.location_id) {
-        const svcLoc = (p.locations || []).find(l => l.id === svc.location_id);
-        if (svcLoc && svcLoc.lat) { svcLat = svcLoc.lat; svcLng = svcLoc.lng; }
-      }
-      const dist = haversine(userLat, userLng, svcLat, svcLng);
-      if (dist > soonRadiusMiles) continue;
-
-      const svcDay = svc.day;
-      const isWeekday = todayIdx >= 1 && todayIdx <= 5; // Mon-Fri
-      const matchesToday = svcDay === todayName
-        || (svcDay === 'daily')  // daily = all 7 days
-        || (svcDay === 'weekday' && isWeekday);
-
-      if (!matchesToday) continue;
-
-      // WP2-2A: Use real end times instead of hardcoded 90-min window
-      let endMin;
-      if (svc.end_time) {
-        endMin = timeToMinutes(svc.end_time);
-      } else {
-        // Fallback: estimated duration by type
-        const isMass = svc.type === 'sunday_mass' || svc.type === 'daily_mass' || svc.type === 'mass';
-        endMin = svcMin + (isMass ? 90 : 60);
-      }
-
-      const minsAway = svcMin - nowMin;
-      let status = null;
-      if (nowMin >= svcMin && nowMin <= endMin) {
-        status = 'now';       // Service in progress
-      } else if (minsAway > 0 && minsAway <= windowMin) {
-        status = 'soon';      // Starting within lookahead window
-      }
-
-      if (status) {
-        results.push({ p, svc, dist, minsAway, svcMin, status });
-      }
-    }
-  }
-
-  // WP2-2D: Also check special_events for today
-  for (const p of parishes) {
-    if (!p.special_events || !p.special_events.length) continue;
-    const primaryLoc = p.locations && p.locations[0];
-    if (!primaryLoc || !primaryLoc.lat) continue;
-
-    for (const evt of p.special_events) {
-      if (!evt.time) continue;
-
-      // Check if this event applies today
-      let appliesToday = false;
-      const todayStr = now.getFullYear() + '-' +
-        String(now.getMonth()+1).padStart(2,'0') + '-' +
-        String(now.getDate()).padStart(2,'0');
-
-      if (evt.recurrence && evt.recurrence.type === 'seasonal' && evt.recurrence.season) {
-        // Recurring seasonal: check if season is active AND today's day matches
-        const fakeSvc = { seasonal: { is_seasonal: true, season: evt.recurrence.season } };
-        if (isCurrentSeason(fakeSvc) && evt.recurrence.days && evt.recurrence.days.length) {
-          const todayDayName = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'][now.getDay()];
-          appliesToday = evt.recurrence.days.includes(todayDayName);
-        }
-      } else if (evt.date) {
-        appliesToday = (evt.date === todayStr);
-      }
-      if (!appliesToday) continue;
-      if (!svcMatchesMode(evt)) continue;
-
-      const svcMin = timeToMinutes(evt.time);
-      if (svcMin === null) continue;
-
-      let svcLat = primaryLoc.lat, svcLng = primaryLoc.lng;
-      if (evt.location_id) {
-        const evtLoc = (p.locations || []).find(l => l.id === evt.location_id);
-        if (evtLoc && evtLoc.lat) { svcLat = evtLoc.lat; svcLng = evtLoc.lng; }
-      }
-      const dist = haversine(userLat, userLng, svcLat, svcLng);
-      if (dist > soonRadiusMiles) continue;
-
-      let endMin;
-      if (evt.end_time) {
-        endMin = timeToMinutes(evt.end_time);
-      } else {
-        endMin = svcMin + 60;
-      }
-
-      const minsAway = svcMin - nowMin;
-      let status = null;
-      if (nowMin >= svcMin && nowMin <= endMin) {
-        status = 'now';
-      } else if (minsAway > 0 && minsAway <= windowMin) {
-        status = 'soon';
-      }
-
-      if (status) {
-        results.push({ p, svc: evt, dist, minsAway, svcMin, status, isSpecialEvent: true });
-      }
-    }
-  }
-
-  // Sort: "happening now" first (by how far into the service), then "starting soon" (by minsAway)
-  results.sort((a, b) => {
-    if (a.status === 'now' && b.status !== 'now') return -1;
-    if (a.status !== 'now' && b.status === 'now') return 1;
-    if (a.status === 'now' && b.status === 'now') return a.dist - b.dist;
-    return a.minsAway - b.minsAway || a.dist - b.dist;
-  });
-
-  const container = document.getElementById('soonCards');
-  if (results.length === 0) {
-    const modeLabels = { mass: 'Masses', confession: 'confessions', adoration: 'adoration services', lent: 'Lenten services' };
-    const modeLabel = modeLabels[soonMode] || 'services';
-    container.innerHTML = `<span class="soon-none">No ${modeLabel} happening now or starting soon within 10 miles.</span>`;
-    return;
-  }
-
-    const SVCTYPE_SHORT = { confession:'Confession', mass:'Mass', sunday_mass:'Mass', daily_mass:'Mass',
-    stations_of_cross:'Stations', adoration:'Adoration', holy_hour:'Holy Hour', rosary:'Rosary', divine_mercy:'Divine Mercy', devotion:'Devotion',
-    communion_service:'Communion Svc', novena:'Novena', anointing:'Anointing', miraculous_medal:'Miraculous Medal' };
-
-  container.innerHTML = results.slice(0, 10).map(({ p, svc, dist, minsAway, status }) => {
-    // WP2-2A: Distinguish "happening now" from "starting soon"
-    let minsLabel;
-    if (status === 'now') {
-      minsLabel = 'Happening now';
-    } else if (minsAway === 0) {
-      minsLabel = 'Starting now';
-    } else if (minsAway <= 5) {
-      minsLabel = 'In a few minutes';
-    } else {
-      minsLabel = `In ${minsAway} min`;
-    }
-
-    // WP1-1E: Use correct building name/address for multi-site parishes
-    let displayName, displayTown, directionsAddr;
-    if (svc.location_id) {
-      const svcLoc = (p.locations || []).find(l => l.id === svc.location_id);
-      if (svcLoc) {
-        displayName = svcLoc.name;
-        displayTown = svcLoc.city || p.town;
-        directionsAddr = svcLoc.address || (p.locations[0] && p.locations[0].address) || `${displayName}, ${displayTown}, MA`;
-      }
-    }
-    if (!displayName) {
-      const primaryLoc = p.locations && p.locations[0];
-      displayName = (primaryLoc && primaryLoc.name) ? primaryLoc.name : p.name;
-      // Strip trailing "Church" if name contains Cathedral/Basilica
-      if (/Cathedral|Basilica/i.test(displayName)) {
-        displayName = displayName.replace(/\s+Church$/i, '');
-      }
-      displayTown = p.town;
-      directionsAddr = (primaryLoc && primaryLoc.address) || `${displayName}, ${p.town}, MA`;
-    }
-
-    const mapsUrl = /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent) && !window.MSStream
-      ? `https://maps.apple.com/?q=${encodeURIComponent(directionsAddr)}`
-      : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(directionsAddr)}`;
-    const typeLabel = (soonMode !== 'mass')
-      ? `<div class="soon-card-type">${SVCTYPE_SHORT[svc.type] || svc.type.replace(/_/g,' ')}</div>` : '';
-    const isLenten = svc.seasonal && svc.seasonal.is_seasonal && svc.seasonal.season === 'lent';
-    const nowClass = status === 'now' ? ' happening-now' : '';
-    return `<a class="soon-card${isLenten ? ' lenten' : ''}${nowClass}" href="${mapsUrl}" target="_blank" rel="noopener">
-      <div class="soon-card-time">${svc.time ? fmt12(svc.time) : 'Soon'}</div>
-      <div class="soon-card-starts">${minsLabel}</div>
-      ${typeLabel}
-      <div class="soon-card-parish">${displayName}</div>
-      <div class="soon-card-town">${displayTown}</div>
-      <div class="soon-card-dist">${dist.toFixed(1)} mi</div>
-    </a>`;
-  }).join('');
-}
 
 // Refresh soon every minute
-setInterval(() => { if (currentView === 'now') { if (nowViewMode === 'week') renderWeekCalendar(); else renderNowView(); } }, 60000);
+setInterval(() => { if (currentView === 'now') renderNowView(); }, 60000);
 
 // ═══════════════════════════════════════════════════
 // YOUNG & CATHOLIC EVENTS
@@ -4753,9 +4439,7 @@ function switchAppView(view) {
   document.querySelector('.controls-bar').style.display = (view === 'churches') ? '' : 'none';
 
   if (view === 'now') {
-    if (nowViewMode === 'week') renderWeekCalendar();
-    else renderNowView();
-    updateCalExportBtn();
+    renderNowView();
   }
   if (view === 'yc') renderYCView();
   if (view === 'map' && !mapInitialized) initMap();
@@ -4782,8 +4466,7 @@ var nowMode = 'all';
 function setNowMode(mode) {
   nowMode = mode;
   document.querySelectorAll('[data-now-mode]').forEach(p => p.classList.toggle('active', p.dataset.nowMode === mode));
-  if (nowViewMode === 'week') renderWeekCalendar();
-  else renderNowView();
+  renderNowView();
 }
 
 function renderNowView() {
@@ -4804,12 +4487,28 @@ function renderNowView() {
     }
   }
 
-  // Hide/show Lent pill
-  const lentPill = document.getElementById('nowLentPill');
-  if (lentPill) {
-    const lentRange = getLentRange(now.getFullYear());
-    const todayCheck = new Date(); todayCheck.setHours(0,0,0,0);
-    lentPill.style.display = (todayCheck >= lentRange.start && todayCheck <= lentRange.end) ? '' : 'none';
+  // Hide/show Seasonal pill — visible when ANY seasonal services are active
+  const seasonalPill = document.getElementById('nowSeasonalPill');
+  if (seasonalPill) {
+    const hasActiveSeasonal = parishes.some(p =>
+      (p.services || []).some(s => s.seasonal && s.seasonal.is_seasonal && isCurrentSeason(s))
+    );
+    seasonalPill.style.display = hasActiveSeasonal ? '' : 'none';
+    // Update label to current season name
+    if (hasActiveSeasonal) {
+      const activeSeasons = new Set();
+      for (const p of parishes) {
+        for (const s of (p.services || [])) {
+          if (s.seasonal && s.seasonal.is_seasonal && isCurrentSeason(s) && s.seasonal.season) {
+            activeSeasons.add(s.seasonal.season);
+          }
+        }
+      }
+      const label = activeSeasons.size === 1
+        ? (SEASON_LABELS[Array.from(activeSeasons)[0]] || 'Seasonal')
+        : 'Seasonal';
+      seasonalPill.textContent = label;
+    }
   }
 
   function svcMatchesNowMode(svc) {
@@ -4817,7 +4516,7 @@ function renderNowView() {
     if (nowMode === 'mass') return svc.type === 'sunday_mass' || svc.type === 'daily_mass';
     if (nowMode === 'confession') return svc.type === 'confession';
     if (nowMode === 'adoration') return svc.type === 'adoration' || svc.type === 'holy_hour';
-    if (nowMode === 'lent') return svc.seasonal && svc.seasonal.season === 'lent';
+    if (nowMode === 'seasonal') return svc.seasonal && svc.seasonal.is_seasonal && isCurrentSeason(svc);
     return false;
   }
 
@@ -4966,375 +4665,6 @@ function toggleNowOverflow(status) {
 }
 
 // ═══════════════════════════════════════════════════
-// WEEKLY CALENDAR VIEW (WP-WeekCal)
-// ═══════════════════════════════════════════════════
-
-var nowViewMode = 'timeline'; // 'timeline' | 'week'
-
-function setNowViewMode(mode) {
-  nowViewMode = mode;
-  document.querySelectorAll('#nowViewToggle button').forEach(b =>
-    b.classList.toggle('active', b.dataset.nowView === mode)
-  );
-  document.getElementById('nowTimeline').style.display = (mode === 'timeline') ? '' : 'none';
-  document.getElementById('weekCalendar').style.display = (mode === 'week') ? '' : 'none';
-  // Show/hide export button (always visible in week mode, or when favorites exist)
-  updateCalExportBtn();
-  if (mode === 'timeline') renderNowView();
-  else renderWeekCalendar();
-}
-
-function updateCalExportBtn() {
-  const btn = document.getElementById('calExportBtn');
-  if (btn) {
-    btn.style.display = (nowViewMode === 'week' || favorites.size > 0) ? '' : 'none';
-  }
-}
-
-function renderWeekCalendar() {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const todayIdx = today.getDay(); // 0=Sun
-
-  // Build array of 7 days starting from today
-  const days = [];
-  const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  const dayKeys = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-  for (let i = 0; i < 7; i++) {
-    const d = new Date(today);
-    d.setDate(d.getDate() + i);
-    days.push({
-      date: d,
-      dayName: dayNames[d.getDay()],
-      dayKey: dayKeys[d.getDay()],
-      dateLabel: monthNames[d.getMonth()] + ' ' + d.getDate(),
-      isToday: i === 0,
-      isWeekday: d.getDay() >= 1 && d.getDay() <= 5,
-    });
-  }
-
-  const SVCTYPE_SHORT = {
-    confession: 'Confession', sunday_mass: 'Mass', daily_mass: 'Mass',
-    stations_of_cross: 'Stations', adoration: 'Adoration', holy_hour: 'Holy Hour',
-    rosary: 'Rosary', divine_mercy: 'Divine Mercy', communion_service: 'Communion', novena: 'Novena'
-  };
-
-  function svcMatchesNowMode(svc) {
-    if (nowMode === 'all') return true;
-    if (nowMode === 'mass') return svc.type === 'sunday_mass' || svc.type === 'daily_mass';
-    if (nowMode === 'confession') return svc.type === 'confession';
-    if (nowMode === 'adoration') return svc.type === 'adoration' || svc.type === 'holy_hour';
-    if (nowMode === 'lent') return svc.seasonal && svc.seasonal.season === 'lent';
-    return false;
-  }
-
-  function getSvcTypeClass(svc) {
-    if (svc.type === 'sunday_mass' || svc.type === 'daily_mass') return 'type-mass';
-    if (svc.type === 'confession') return 'type-confession';
-    if (svc.type === 'adoration' || svc.type === 'holy_hour') return 'type-adoration';
-    if (svc.seasonal && svc.seasonal.season === 'lent') return 'type-lent';
-    return 'type-other';
-  }
-
-  let html = '<div class="week-cal-grid">';
-
-  for (const day of days) {
-    const svcs = [];
-    for (const p of parishes) {
-      const primaryLoc = p.locations && p.locations[0];
-      for (const svc of (p.services || [])) {
-        if (!svcMatchesNowMode(svc)) continue;
-        if (!isCurrentSeason(svc)) continue;
-        const svcMin = timeToMinutes(svc.time);
-        if (svcMin === null) continue;
-
-        const svcDay = svc.day;
-        const matchesDay = svcDay === day.dayKey || svcDay === 'daily' || (svcDay === 'weekday' && day.isWeekday);
-        if (!matchesDay) continue;
-
-        // Check location radius if user has location
-        let dist = null;
-        if (userLat !== null && primaryLoc && primaryLoc.lat) {
-          let svcLat = primaryLoc.lat, svcLng = primaryLoc.lng;
-          if (svc.location_id) {
-            const svcLoc = (p.locations || []).find(l => l.id === svc.location_id);
-            if (svcLoc && svcLoc.lat) { svcLat = svcLoc.lat; svcLng = svcLoc.lng; }
-          }
-          dist = haversine(userLat, userLng, svcLat, svcLng);
-          if (dist > 25) continue; // 25mi radius for week view
-        }
-
-        let displayName = (primaryLoc && primaryLoc.name) || p.name;
-        if (/Cathedral|Basilica/i.test(displayName)) displayName = displayName.replace(/\s+Church$/i, '');
-        if (svc.location_id) {
-          const svcLoc = (p.locations || []).find(l => l.id === svc.location_id);
-          if (svcLoc) displayName = svcLoc.name;
-        }
-
-        svcs.push({ p, svc, dist, svcMin, displayName });
-      }
-    }
-
-    // Sort by time
-    svcs.sort((a, b) => a.svcMin - b.svcMin);
-
-    html += `<div class="week-col${day.isToday ? ' today' : ''}">`;
-    html += `<div class="week-col-head">${day.dayName}<span class="week-date">${day.date.getDate()}</span></div>`;
-    html += `<div class="week-col-body">`;
-
-    if (!svcs.length) {
-      html += `<div class="week-empty">No services</div>`;
-    } else {
-      for (const s of svcs) {
-        const typeLabel = SVCTYPE_SHORT[s.svc.type] || s.svc.type.replace(/_/g, ' ');
-        const distHtml = s.dist !== null ? `<div class="week-svc-dist">${s.dist.toFixed(1)} mi</div>` : '';
-        html += `<div class="week-svc ${getSvcTypeClass(s.svc)}" onclick="switchAppView('churches'); setTimeout(() => scrollToParish('${s.p.id}'), 200);" title="${s.displayName} — ${typeLabel} at ${fmt12(s.svc.time)}">
-          <div class="week-svc-time">${fmt12(s.svc.time)}</div>
-          <div class="week-svc-type">${typeLabel}</div>
-          <div class="week-svc-name">${s.displayName}</div>
-          ${distHtml}
-        </div>`;
-      }
-    }
-
-    html += `</div></div>`;
-  }
-
-  html += '</div>';
-  document.getElementById('weekCalendar').innerHTML = html;
-
-  // Scroll today's column into view on mobile
-  setTimeout(() => {
-    const todayCol = document.querySelector('.week-col.today');
-    if (todayCol) todayCol.scrollIntoView({ inline: 'start', behavior: 'smooth' });
-  }, 50);
-}
-
-// ═══════════════════════════════════════════════════
-// CALENDAR EXPORT (WP-CalExport)
-// ═══════════════════════════════════════════════════
-
-function toggleCalExportMenu() {
-  const menu = document.getElementById('calExportMenu');
-  if (menu) menu.classList.toggle('open');
-}
-
-// Close export menu on outside click
-document.addEventListener('click', function(e) {
-  if (!e.target.closest('#calExportDropdown')) {
-    const menu = document.getElementById('calExportMenu');
-    if (menu) menu.classList.remove('open');
-  }
-});
-
-function buildMultiEventICS(events) {
-  const lines = [
-    'BEGIN:VCALENDAR',
-    'VERSION:2.0',
-    'PRODID:-//WMass Parish Finder//EN',
-    'X-WR-CALNAME:Mass Finder Services',
-  ];
-
-  for (const evt of events) {
-    lines.push('BEGIN:VEVENT');
-    lines.push(`DTSTART:${evt.dtStart}`);
-    if (evt.dtEnd) lines.push(`DTEND:${evt.dtEnd}`);
-    lines.push(`SUMMARY:${(evt.title || '').replace(/[,;\\]/g, ' ')}`);
-    if (evt.location) lines.push(`LOCATION:${evt.location.replace(/[,;\\]/g, ' ')}`);
-    if (evt.description) lines.push(`DESCRIPTION:${evt.description.replace(/[,;\\]/g, ' ').replace(/\n/g, '\\n')}`);
-    // RRULE for recurring services
-    if (evt.rrule) lines.push(evt.rrule);
-    lines.push(`UID:${evt.uid || (Date.now() + '-' + Math.random().toString(36).slice(2))}@parishfinder`);
-    lines.push('END:VEVENT');
-  }
-
-  lines.push('END:VCALENDAR');
-  return lines.join('\r\n');
-}
-
-function dayKeyToRRuleDay(dayKey) {
-  const map = { sunday: 'SU', monday: 'MO', tuesday: 'TU', wednesday: 'WE',
-    thursday: 'TH', friday: 'FR', saturday: 'SA' };
-  return map[dayKey] || null;
-}
-
-function getNextOccurrence(dayKey, timeStr) {
-  const now = new Date();
-  const targetDayIdx = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'].indexOf(dayKey);
-  const todayIdx = now.getDay();
-  let daysAhead = targetDayIdx - todayIdx;
-  if (daysAhead < 0) daysAhead += 7;
-  if (daysAhead === 0) {
-    // If today, check if time hasn't passed
-    const [h, m] = (timeStr || '00:00').split(':').map(Number);
-    if (now.getHours() * 60 + now.getMinutes() > h * 60 + m) daysAhead = 7;
-  }
-  const d = new Date(now);
-  d.setDate(d.getDate() + daysAhead);
-  return d;
-}
-
-function buildICSDateTime(date, timeStr) {
-  const y = date.getFullYear();
-  const mo = String(date.getMonth() + 1).padStart(2, '0');
-  const dy = String(date.getDate()).padStart(2, '0');
-  if (!timeStr) return `${y}${mo}${dy}`;
-  const [h, m] = timeStr.split(':').map(Number);
-  return `${y}${mo}${dy}T${String(h).padStart(2,'0')}${String(m).padStart(2,'0')}00`;
-}
-
-function exportFavoritesICS() {
-  if (favorites.size === 0) {
-    alert('Add some favorites first! Tap the heart on any church card.');
-    return;
-  }
-
-  const events = [];
-  for (const p of parishes) {
-    if (!favorites.has(p.id)) continue;
-    const primaryLoc = p.locations && p.locations[0];
-    const locName = (primaryLoc && primaryLoc.name) || p.name;
-    const address = primaryLoc ? [primaryLoc.address, primaryLoc.city, primaryLoc.state].filter(Boolean).join(', ') : '';
-
-    for (const svc of (p.services || [])) {
-      if (!isCurrentSeason(svc)) continue;
-      const svcMin = timeToMinutes(svc.time);
-      if (svcMin === null) continue;
-
-      const svcDay = svc.day;
-      const typeLabel = svc.type.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-      let rrule = null;
-
-      if (['sunday','monday','tuesday','wednesday','thursday','friday','saturday'].includes(svcDay)) {
-        const rrDay = dayKeyToRRuleDay(svcDay);
-        if (rrDay) rrule = `RRULE:FREQ=WEEKLY;BYDAY=${rrDay};COUNT=13`; // ~3 months
-        const nextDate = getNextOccurrence(svcDay, svc.time);
-        const dtStart = buildICSDateTime(nextDate, svc.time);
-        const endH = Math.floor(svcMin / 60) + 1;
-        const endM = svcMin % 60;
-        const dtEnd = svc.end_time ? buildICSDateTime(nextDate, svc.end_time)
-          : buildICSDateTime(nextDate, `${String(endH).padStart(2,'0')}:${String(endM).padStart(2,'0')}`);
-
-        events.push({
-          title: `${typeLabel} — ${locName}`,
-          dtStart, dtEnd,
-          location: address || locName,
-          description: svc.notes || '',
-          rrule,
-          uid: `${p.id}-${svc.id}@parishfinder`,
-        });
-      } else if (svcDay === 'daily' || svcDay === 'weekday') {
-        const days = svcDay === 'daily' ? 'MO,TU,WE,TH,FR,SA,SU' : 'MO,TU,WE,TH,FR';
-        rrule = `RRULE:FREQ=WEEKLY;BYDAY=${days};COUNT=13`;
-        const nextDate = new Date();
-        nextDate.setDate(nextDate.getDate() + 1);
-        const dtStart = buildICSDateTime(nextDate, svc.time);
-        const endH = Math.floor(svcMin / 60) + 1;
-        const endM = svcMin % 60;
-        const dtEnd = svc.end_time ? buildICSDateTime(nextDate, svc.end_time)
-          : buildICSDateTime(nextDate, `${String(endH).padStart(2,'0')}:${String(endM).padStart(2,'0')}`);
-
-        events.push({
-          title: `${typeLabel} — ${locName}`,
-          dtStart, dtEnd,
-          location: address || locName,
-          description: svc.notes || '',
-          rrule,
-          uid: `${p.id}-${svc.id}@parishfinder`,
-        });
-      }
-    }
-  }
-
-  if (!events.length) {
-    alert('No services found for your favorited churches.');
-    return;
-  }
-
-  downloadICSFile(buildMultiEventICS(events), 'mass-finder-favorites.ics');
-  document.getElementById('calExportMenu').classList.remove('open');
-}
-
-function exportWeekICS() {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const dayKeys = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
-  const events = [];
-
-  for (let i = 0; i < 7; i++) {
-    const d = new Date(today);
-    d.setDate(d.getDate() + i);
-    const dayKey = dayKeys[d.getDay()];
-    const isWeekday = d.getDay() >= 1 && d.getDay() <= 5;
-
-    for (const p of parishes) {
-      const primaryLoc = p.locations && p.locations[0];
-      const locName = (primaryLoc && primaryLoc.name) || p.name;
-      const address = primaryLoc ? [primaryLoc.address, primaryLoc.city, primaryLoc.state].filter(Boolean).join(', ') : '';
-
-      // If user has location, only include nearby
-      if (userLat !== null && primaryLoc && primaryLoc.lat) {
-        const dist = haversine(userLat, userLng, primaryLoc.lat, primaryLoc.lng);
-        if (dist > 25) continue;
-      }
-
-      for (const svc of (p.services || [])) {
-        if (!isCurrentSeason(svc)) continue;
-        const svcMin = timeToMinutes(svc.time);
-        if (svcMin === null) continue;
-        // Filter by now mode
-        if (nowMode !== 'all') {
-          if (nowMode === 'mass' && svc.type !== 'sunday_mass' && svc.type !== 'daily_mass') continue;
-          if (nowMode === 'confession' && svc.type !== 'confession') continue;
-          if (nowMode === 'adoration' && svc.type !== 'adoration' && svc.type !== 'holy_hour') continue;
-          if (nowMode === 'lent' && !(svc.seasonal && svc.seasonal.season === 'lent')) continue;
-        }
-
-        const svcDay = svc.day;
-        const matchesDay = svcDay === dayKey || svcDay === 'daily' || (svcDay === 'weekday' && isWeekday);
-        if (!matchesDay) continue;
-
-        const typeLabel = svc.type.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-        const dtStart = buildICSDateTime(d, svc.time);
-        const endH = Math.floor(svcMin / 60) + 1;
-        const endM = svcMin % 60;
-        const dtEnd = svc.end_time ? buildICSDateTime(d, svc.end_time)
-          : buildICSDateTime(d, `${String(endH).padStart(2,'0')}:${String(endM).padStart(2,'0')}`);
-
-        events.push({
-          title: `${typeLabel} — ${locName}`,
-          dtStart, dtEnd,
-          location: address || locName,
-          description: svc.notes || '',
-          uid: `${p.id}-${svc.id}-${i}@parishfinder`,
-        });
-      }
-    }
-  }
-
-  if (!events.length) {
-    alert('No services found for this week with current filters.');
-    return;
-  }
-
-  downloadICSFile(buildMultiEventICS(events), 'mass-finder-this-week.ics');
-  document.getElementById('calExportMenu').classList.remove('open');
-}
-
-function downloadICSFile(icsContent, filename) {
-  const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-}
-
 // ═══════════════════════════════════════════════════
 // DEEP LINKS — SHAREABLE FILTER URLS (WP-DeepLinks)
 // ═══════════════════════════════════════════════════
@@ -5359,7 +4689,6 @@ function shareCurrentView(btnEl) {
   // If in now view, capture now mode and view mode
   if (currentView === 'now') {
     if (nowMode !== 'all') params.set('nowMode', nowMode);
-    if (nowViewMode !== 'timeline') params.set('nowView', nowViewMode);
   }
 
   const shareUrl = base + (params.toString() ? '?' + params.toString() : '');
@@ -5408,7 +4737,7 @@ function applyDeepLinkParams() {
   // Now view mode
   if (p.get('nowMode')) {
     const nm = p.get('nowMode');
-    if (['mass', 'confession', 'adoration', 'lent'].includes(nm)) {
+    if (['mass', 'confession', 'adoration', 'seasonal'].includes(nm)) {
       nowMode = nm;
       document.querySelectorAll('[data-now-mode]').forEach(pill =>
         pill.classList.toggle('active', pill.dataset.nowMode === nm)
@@ -5416,10 +4745,6 @@ function applyDeepLinkParams() {
     }
   }
 
-  // Now view style (timeline vs week)
-  if (p.get('nowView') === 'week') {
-    setTimeout(() => setNowViewMode('week'), 200);
-  }
 
   // Sort mode
   if (p.get('sort') === 'proximity' && userLat !== null) {
@@ -5654,11 +4979,6 @@ window.renderYCView     = renderYCView;
 window.setMapFilter     = setMapFilter;
 window.toggleFavorite   = toggleFavorite;
 window.toggleFavFilter  = toggleFavFilter;
-window.setNowViewMode   = setNowViewMode;
-window.renderWeekCalendar = renderWeekCalendar;
-window.toggleCalExportMenu = toggleCalExportMenu;
-window.exportFavoritesICS = exportFavoritesICS;
-window.exportWeekICS     = exportWeekICS;
 window.shareCurrentView  = shareCurrentView;
 window.toggleVerifyDetail = toggleVerifyDetail;
 
