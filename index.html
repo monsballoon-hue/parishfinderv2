@@ -766,6 +766,30 @@
     display: block;
   }
 
+  /* WP2-2C: Special Events section */
+  .service-section.special-events .service-section-title {
+    color: #b8860b;
+    border-bottom-color: #e8d5a0;
+  }
+  .special-event-row {
+    display: flex;
+    gap: 10px;
+    padding: 4px 0;
+    font-size: 0.82rem;
+    line-height: 1.35;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+  }
+  .special-event-row:last-child { border-bottom: none; }
+  .special-event-date {
+    font-weight: 600;
+    color: #b8860b;
+    white-space: nowrap;
+    min-width: 50px;
+  }
+  .special-event-detail {
+    color: #333;
+  }
+
   /* RESPONSIVE */
   @media (max-width: 768px) {
     .parish-grid { grid-template-columns: 1fr; }
@@ -1359,6 +1383,15 @@
   }
   .soon-card.lenten .soon-card-time { color: #d4b8e8; }
   .soon-card.lenten .soon-card-dist { color: #d4b8e8; }
+  /* WP2-2A: In-progress services get a subtle green accent */
+  .soon-card.happening-now {
+    border-color: rgba(52,168,83,0.45);
+    background: rgba(52,168,83,0.12);
+  }
+  .soon-card.happening-now .soon-card-starts {
+    color: #34a853;
+    font-weight: 600;
+  }
   .soon-none {
     font-size: 0.8rem;
     color: rgba(255,255,255,0.5);
@@ -1790,6 +1823,64 @@ function parishMatchesSearch(p, q) {
   return q.toLowerCase().split(' ').every(w => s.includes(w));
 }
 
+// ─── WP2: SEASONAL DATE AWARENESS ──────────────────────────────────────────
+
+// Compute Easter Sunday for a given year using the Anonymous Gregorian algorithm
+function computeEaster(year) {
+  const a = year % 19;
+  const b = Math.floor(year / 100);
+  const c = year % 100;
+  const d = Math.floor(b / 4);
+  const e = b % 4;
+  const f = Math.floor((b + 8) / 25);
+  const g = Math.floor((b - f + 1) / 3);
+  const h = (19 * a + b - d - g + 15) % 30;
+  const i = Math.floor(c / 4);
+  const k = c % 4;
+  const l = (32 + 2 * e + 2 * i - h - k) % 7;
+  const m = Math.floor((a + 11 * h + 22 * l) / 451);
+  const month = Math.floor((h + l - 7 * m + 114) / 31); // 3=March, 4=April
+  const day = ((h + l - 7 * m + 114) % 31) + 1;
+  return new Date(year, month - 1, day);
+}
+
+// Get Lent date range for a given year: Ash Wednesday through Holy Saturday
+function getLentRange(year) {
+  const easter = computeEaster(year);
+  const ashWednesday = new Date(easter);
+  ashWednesday.setDate(easter.getDate() - 46); // 46 days before Easter
+  const holySaturday = new Date(easter);
+  holySaturday.setDate(easter.getDate() - 1);  // day before Easter
+  return { start: ashWednesday, end: holySaturday };
+}
+
+// Check if a seasonal service should be visible right now
+function isCurrentSeason(svc) {
+  if (!svc.seasonal || !svc.seasonal.is_seasonal) return true; // not seasonal = always show
+  const season = svc.seasonal.season;
+  if (!season) return true;
+
+  const now = new Date();
+  const year = now.getFullYear();
+
+  if (season === 'lent') {
+    const lent = getLentRange(year);
+    const today = new Date(year, now.getMonth(), now.getDate());
+    return today >= lent.start && today <= lent.end;
+  }
+  if (season === 'school_year') {
+    const month = now.getMonth(); // 0-indexed: 0=Jan, 8=Sep
+    // Sep 1 through May 15
+    return month >= 8 || month <= 3 || (month === 4 && now.getDate() <= 15);
+  }
+  if (season === 'summer') {
+    const month = now.getMonth();
+    // May 16 through Aug 31
+    return (month === 4 && now.getDate() >= 16) || (month >= 5 && month <= 7);
+  }
+  return true; // unknown season = show
+}
+
 // ─── RENDERING ───────────────────────────────────────────────────────────────
 
 // Canonical day sort order
@@ -1951,6 +2042,7 @@ function wrapCollapsible(sectionKey, title, icon, innerHtml, filteredServices, c
 
 function renderServiceSection(title, icon, services, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite) {
   const filtered = services.filter(s =>
+    isCurrentSeason(s) &&
     serviceMatchesDay(s, dayFilter) &&
     serviceMatchesTime(s, timeFilter) &&
     serviceMatchesType(s, categoryFilter, subtypeFilter) &&
@@ -2064,7 +2156,7 @@ function renderMassSectionWithHolyDays(services, dayFilter, timeFilter, category
 
 // Renders a dedicated Lenten Services section aggregating all seasonal=lent services
 function renderLentenSection(allServices, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite) {
-  const lentSvcs = allServices.filter(s => s.seasonal && s.seasonal.season === 'lent');
+  const lentSvcs = allServices.filter(s => s.seasonal && s.seasonal.season === 'lent' && isCurrentSeason(s));
   if (!lentSvcs.length) return '';
 
   // Apply active filters
@@ -2114,6 +2206,46 @@ function renderLentenSection(allServices, dayFilter, timeFilter, categoryFilter,
   return `<div class="service-section lenten">
     <div class="service-section-title"><span class="icon-lent"></span>Lenten Services</div>
     <ul class="service-list">${rows}</ul>
+  </div>`;
+}
+
+// WP2-2C: Render special_events (one-time events) on parish cards
+function renderSpecialEvents(p) {
+  if (!p.special_events || !p.special_events.length) return '';
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  // Only show future or today's events
+  const upcoming = p.special_events.filter(evt => {
+    if (!evt.date) return false;
+    const evtDate = new Date(evt.date + 'T00:00:00');
+    return evtDate >= today;
+  }).sort((a, b) => a.date.localeCompare(b.date) || (a.time || '').localeCompare(b.time || ''));
+
+  if (!upcoming.length) return '';
+
+  const rows = upcoming.map(evt => {
+    // Format date: "Mar 18"
+    const d = new Date(evt.date + 'T12:00:00'); // noon to avoid timezone shift
+    const month = d.toLocaleString('en-US', { month: 'short' });
+    const day = d.getDate();
+    const dateStr = `${month} ${day}`;
+
+    const timeStr = evt.time ? fmt12(evt.time) : '';
+    const endStr = evt.end_time ? ` – ${fmt12(evt.end_time)}` : '';
+    const label = SERVICE_LABELS[evt.type] || evt.type.replace(/_/g, ' ');
+    const note = evt.notes ? ` — ${evt.notes}` : ` — ${label}`;
+
+    return `<li class="special-event-row">
+      <span class="special-event-date">${dateStr}</span>
+      <span class="special-event-detail">${timeStr}${endStr}${note}</span>
+    </li>`;
+  }).join('');
+
+  return `<div class="service-section special-events">
+    <div class="service-section-title">Upcoming Events</div>
+    <ul class="service-list special-events-list">${rows}</ul>
   </div>`;
 }
 
@@ -2168,6 +2300,7 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   const groups = groupServices(p.services || []);
 
   const hasAny = Object.values(groups).flat().some(s =>
+    isCurrentSeason(s) &&
     serviceMatchesDay(s, dayFilter) &&
     serviceMatchesTime(s, timeFilter) &&
     serviceMatchesType(s, categoryFilter, subtypeFilter) &&
@@ -2216,6 +2349,7 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
 
   // Pre-filter services for summaries (mirrors renderServiceSection's internal filter)
   const svcFilter = (s) =>
+    isCurrentSeason(s) &&
     serviceMatchesDay(s, dayFilter) &&
     serviceMatchesTime(s, timeFilter) &&
     serviceMatchesType(s, categoryFilter, subtypeFilter) &&
@@ -2225,7 +2359,7 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   const adorFiltered  = groups.adoration.filter(svcFilter);
   const devotFiltered = groups.devotion.filter(svcFilter);
   const otherFiltered = groups.other.filter(svcFilter);
-  const lentFiltered  = (p.services || []).filter(s => s.seasonal && s.seasonal.season === 'lent' && serviceMatchesDay(s, dayFilter) && serviceMatchesTime(s, timeFilter) && serviceMatchesType(s, categoryFilter, subtypeFilter) && (!langFilter || s.language === langFilter));
+  const lentFiltered  = (p.services || []).filter(s => s.seasonal && s.seasonal.season === 'lent' && isCurrentSeason(s) && serviceMatchesDay(s, dayFilter) && serviceMatchesTime(s, timeFilter) && serviceMatchesType(s, categoryFilter, subtypeFilter) && (!langFilter || s.language === langFilter));
 
   // Determine collapse state: expanded (false) vs collapsed (true)
   // Defaults: Mass + Confession expanded; rest collapsed
@@ -2308,6 +2442,7 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
     <div class="card-meta">${contactDrawer}${bulletinLink}${distHtml}${directionsBtn}${multiSite}</div>
     <div class="card-body">
       ${massWrapped}${confWrapped}${lentWrapped}${adorWrapped}${devotWrapped}${otherWrapped}
+      ${renderSpecialEvents(p)}
     </div>
     <div class="card-footer">
       ${pastor}
@@ -2393,6 +2528,7 @@ function render() {
     if (county && p.county !== county) return false;
     if (day || time || cat || subtype || lang) {
       const hasMatch = (p.services||[]).some(s =>
+        isCurrentSeason(s) &&
         serviceMatchesDay(s, day) &&
         serviceMatchesTime(s, time) &&
         serviceMatchesType(s, cat, subtype) &&
@@ -2635,6 +2771,8 @@ function refreshSoon() {
 
     for (const svc of (p.services || [])) {
       if (!svcMatchesMode(svc)) continue;
+      // WP2-2B: Skip out-of-season services
+      if (!isCurrentSeason(svc)) continue;
       const svcMin = timeToMinutes(svc.time);
       if (svcMin === null) continue;
 
@@ -2656,29 +2794,108 @@ function refreshSoon() {
 
       if (!matchesToday) continue;
 
+      // WP2-2A: Use real end times instead of hardcoded 90-min window
+      let endMin;
+      if (svc.end_time) {
+        endMin = timeToMinutes(svc.end_time);
+      } else {
+        // Fallback: estimated duration by type
+        const isMass = svc.type === 'sunday_mass' || svc.type === 'daily_mass' || svc.type === 'mass';
+        endMin = svcMin + (isMass ? 90 : 60);
+      }
+
       const minsAway = svcMin - nowMin;
-      if (minsAway >= 0 && minsAway <= windowMin) {
-        results.push({ p, svc, dist, minsAway, svcMin });
+      let status = null;
+      if (nowMin >= svcMin && nowMin <= endMin) {
+        status = 'now';       // Service in progress
+      } else if (minsAway > 0 && minsAway <= windowMin) {
+        status = 'soon';      // Starting within lookahead window
+      }
+
+      if (status) {
+        results.push({ p, svc, dist, minsAway, svcMin, status });
       }
     }
   }
 
-  results.sort((a, b) => a.minsAway - b.minsAway || a.dist - b.dist);
+  // WP2-2D: Also check special_events for today
+  for (const p of parishes) {
+    if (!p.special_events || !p.special_events.length) continue;
+    const primaryLoc = p.locations && p.locations[0];
+    if (!primaryLoc || !primaryLoc.lat) continue;
+
+    for (const evt of p.special_events) {
+      if (!evt.date || !evt.time) continue;
+      // Only today's events
+      const evtDate = evt.date; // "2026-03-18" format
+      const todayStr = now.getFullYear() + '-' +
+        String(now.getMonth()+1).padStart(2,'0') + '-' +
+        String(now.getDate()).padStart(2,'0');
+      if (evtDate !== todayStr) continue;
+      if (!svcMatchesMode(evt)) continue;
+
+      const svcMin = timeToMinutes(evt.time);
+      if (svcMin === null) continue;
+
+      let svcLat = primaryLoc.lat, svcLng = primaryLoc.lng;
+      if (evt.location_id) {
+        const evtLoc = (p.locations || []).find(l => l.id === evt.location_id);
+        if (evtLoc && evtLoc.lat) { svcLat = evtLoc.lat; svcLng = evtLoc.lng; }
+      }
+      const dist = haversine(userLat, userLng, svcLat, svcLng);
+      if (dist > soonRadiusMiles) continue;
+
+      let endMin;
+      if (evt.end_time) {
+        endMin = timeToMinutes(evt.end_time);
+      } else {
+        endMin = svcMin + 60;
+      }
+
+      const minsAway = svcMin - nowMin;
+      let status = null;
+      if (nowMin >= svcMin && nowMin <= endMin) {
+        status = 'now';
+      } else if (minsAway > 0 && minsAway <= windowMin) {
+        status = 'soon';
+      }
+
+      if (status) {
+        results.push({ p, svc: evt, dist, minsAway, svcMin, status, isSpecialEvent: true });
+      }
+    }
+  }
+
+  // Sort: "happening now" first (by how far into the service), then "starting soon" (by minsAway)
+  results.sort((a, b) => {
+    if (a.status === 'now' && b.status !== 'now') return -1;
+    if (a.status !== 'now' && b.status === 'now') return 1;
+    if (a.status === 'now' && b.status === 'now') return a.dist - b.dist;
+    return a.minsAway - b.minsAway || a.dist - b.dist;
+  });
 
   const container = document.getElementById('soonCards');
   if (results.length === 0) {
     const modeLabel = soonMode === 'confession' ? 'confessions' : 'Masses';
-    container.innerHTML = `<span class="soon-none">No ${modeLabel} starting in the next 90 minutes within 10 miles.</span>`;
+    container.innerHTML = `<span class="soon-none">No ${modeLabel} happening now or starting soon within 10 miles.</span>`;
     return;
   }
 
   const SVCTYPE_SHORT = { confession:'Confession', mass:'Mass', sunday_mass:'Mass', daily_mass:'Mass',
     stations_of_cross:'Stations', adoration:'Adoration', rosary:'Rosary', divine_mercy:'Divine Mercy', devotion:'Devotion' };
 
-  container.innerHTML = results.slice(0, 10).map(({ p, svc, dist, minsAway }) => {
-    const minsLabel = minsAway === 0 ? 'Starting now'
-      : minsAway <= 5 ? 'In a few minutes'
-      : `In ${minsAway} min`;
+  container.innerHTML = results.slice(0, 10).map(({ p, svc, dist, minsAway, status }) => {
+    // WP2-2A: Distinguish "happening now" from "starting soon"
+    let minsLabel;
+    if (status === 'now') {
+      minsLabel = 'Happening now';
+    } else if (minsAway === 0) {
+      minsLabel = 'Starting now';
+    } else if (minsAway <= 5) {
+      minsLabel = 'In a few minutes';
+    } else {
+      minsLabel = `In ${minsAway} min`;
+    }
 
     // WP1-1E: Use correct building name/address for multi-site parishes
     let displayName, displayTown, directionsAddr;
@@ -2707,7 +2924,8 @@ function refreshSoon() {
     const typeLabel = (soonMode !== 'mass')
       ? `<div class="soon-card-type">${SVCTYPE_SHORT[svc.type] || svc.type.replace(/_/g,' ')}</div>` : '';
     const isLenten = svc.seasonal && svc.seasonal.is_seasonal && svc.seasonal.season === 'lent';
-    return `<a class="soon-card${isLenten ? ' lenten' : ''}" href="${mapsUrl}" target="_blank" rel="noopener">
+    const nowClass = status === 'now' ? ' happening-now' : '';
+    return `<a class="soon-card${isLenten ? ' lenten' : ''}${nowClass}" href="${mapsUrl}" target="_blank" rel="noopener">
       <div class="soon-card-time">${svc.time ? fmt12(svc.time) : 'Soon'}</div>
       <div class="soon-card-starts">${minsLabel}</div>
       ${typeLabel}
