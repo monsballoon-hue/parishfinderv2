@@ -2851,7 +2851,6 @@ function isCurrentSeason(svc) {
     return today >= lent.start && today <= lent.end;
   }
   if (season === 'holy_week') {
-    return true; // TEMP TEST — remove after verifying Holy Week UI
     const easter = computeEaster(year);
     const palmSunday = new Date(easter);
     palmSunday.setDate(easter.getDate() - 7);
