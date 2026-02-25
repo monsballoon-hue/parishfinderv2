@@ -1542,12 +1542,10 @@
     display: inline-flex;
     align-items: center;
     gap: 3px;
-    font-size: 0.68rem;
-    color: var(--green);
+    font-size: 0.72rem;
+    color: var(--text);
     font-weight: 600;
-    margin-left: 6px;
-    vertical-align: middle;
-    title: "Wheelchair accessible";
+    white-space: nowrap;
   }
 
   /* ── CALENDAR BUTTON ── */
@@ -2922,7 +2920,7 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
 
   // Accessibility badge
   const accessBadge = (loc && loc.is_accessible)
-    ? '<span class="access-badge" title="Wheelchair accessible">♿</span>' : '';
+    ? '<span class="access-badge" title="Wheelchair accessible">♿ Accessible</span>' : '';
 
   const confBadge = getVerifiedBadge(p);
 
@@ -2947,13 +2945,13 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   return `<article class="parish-card${isLowConf ? ' low-confidence' : ''}${ycActiveThisWeek.has(p.id) ? ' yc-active-week' : ''}" data-parish-id="${p.id}">
     ${ycBannerHtml}
     <div class="card-header">
-      <h2>${churchName}${accessBadge}</h2>
+      <h2>${churchName}</h2>
       ${alsoAtHtml}
       <div class="card-location">${p.town}, MA &middot; ${p.county} County</div>
       <span class="county-badge">${confBadge}</span>
       ${confWarn}
     </div>
-    <div class="card-meta">${contactDrawer}${bulletinLink}${distHtml}${directionsBtn}<button class="share-btn" onclick="event.stopPropagation(); shareParish('${p.id}', this);" title="Copy link to this church">⛓ Share</button>${multiSite}</div>
+    <div class="card-meta">${accessBadge}${contactDrawer}${bulletinLink}${distHtml}${directionsBtn}<button class="share-btn" onclick="event.stopPropagation(); shareParish('${p.id}', this);" title="Copy link to this church">📋 Copy Link</button>${multiSite}</div>
     <div class="card-body">
       ${renderYCLiteralEvents(p)}
       ${massWrapped}${confWrapped}${lentWrapped}${adorWrapped}${devotWrapped}${otherWrapped}
@@ -3024,27 +3022,44 @@ function generateGCalURL(title, dateStr, timeStr, endTimeStr, location, descript
 }
 
 function toggleCalDropdown(el) {
-  const menu = el.parentElement.querySelector('.cal-dropdown-menu');
-  // Close any other open dropdowns first
-  document.querySelectorAll('.cal-dropdown-menu.open').forEach(m => {
-    if (m !== menu) m.classList.remove('open');
-  });
-  if (menu.classList.contains('open')) {
-    menu.classList.remove('open');
-    return;
+  // Close any already-open dropdown
+  const existing = document.getElementById('calDropdownPortal');
+  if (existing) {
+    existing.remove();
+    // If clicking same button that opened it, just close
+    if (existing._srcBtn === el) return;
   }
-  // Position the fixed menu below the button
+
+  const menu = el.parentElement.querySelector('.cal-dropdown-menu');
+  if (!menu) return;
+
+  // Clone the menu and portal it to body
+  const portal = menu.cloneNode(true);
+  portal.id = 'calDropdownPortal';
+  portal._srcBtn = el;
+  portal.classList.add('open');
+
+  // Position below the button
   const rect = el.getBoundingClientRect();
-  menu.style.top = (rect.bottom + 4) + 'px';
-  menu.style.left = Math.max(4, Math.min(rect.left, window.innerWidth - 170)) + 'px';
-  menu.classList.add('open');
+  portal.style.position = 'fixed';
+  portal.style.top = (rect.bottom + 4) + 'px';
+  portal.style.left = Math.max(4, Math.min(rect.left, window.innerWidth - 170)) + 'px';
+  portal.style.zIndex = '9999';
+
+  document.body.appendChild(portal);
 }
 
 document.addEventListener('click', function(e) {
-  if (!e.target.closest('.cal-dropdown')) {
-    document.querySelectorAll('.cal-dropdown-menu.open').forEach(m => m.classList.remove('open'));
+  if (!e.target.closest('.cal-dropdown') && !e.target.closest('#calDropdownPortal')) {
+    const portal = document.getElementById('calDropdownPortal');
+    if (portal) portal.remove();
   }
 });
+
+window.addEventListener('scroll', function() {
+  const portal = document.getElementById('calDropdownPortal');
+  if (portal) portal.remove();
+}, true);
 
 (async function() {
   try {
@@ -3218,6 +3233,7 @@ document.getElementById('clearFiltersBtn').addEventListener('click', function(e)
 
 // Tap-to-expand/collapse special event detail text
 grid.addEventListener('click', function(e) {
+  if (e.target.closest('.cal-dropdown')) return;
   const detail = e.target.closest('.special-event-detail');
   if (detail) {
     detail.classList.toggle('expanded');
@@ -3908,7 +3924,7 @@ function shareParish(parishId, btnEl) {
     if (btnEl) {
       btnEl.classList.add('copied');
       btnEl.textContent = '✓ Copied!';
-      setTimeout(() => { btnEl.classList.remove('copied'); btnEl.textContent = '⛓ Share'; }, 1800);
+      setTimeout(() => { btnEl.classList.remove('copied'); btnEl.textContent = '📋 Copy Link'; }, 1800);
     }
   }
 
