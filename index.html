@@ -41,6 +41,7 @@
     top: 0;
     z-index: 100;
     box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+    cursor: pointer;
   }
   .header-inner {
     max-width: 1280px;
@@ -1423,6 +1424,7 @@
   .soon-mode-tab:last-child { border-right: none; }
   .soon-mode-tab:hover { background: rgba(255,255,255,0.1); color: #fff; }
   .soon-mode-tab.active { background: rgba(255,255,255,0.18); color: #fff; }
+  .soon-mode-tab.lent-tab.active { background: rgba(128,0,128,0.3); color: #e8c8ff; }
 
   /* Collapse toggle - mobile only */
   .soon-collapse-btn {
@@ -1771,7 +1773,7 @@
 <body>
 
 
-<header>
+<header onclick="window.scrollTo({top:0,behavior:'smooth'})">
   <div class="header-inner">
     <div class="header-cross">✝</div>
     <div class="header-title">
@@ -1793,6 +1795,8 @@
         <div class="soon-mode-tabs" id="soonModeTabs">
           <button class="soon-mode-tab active" data-mode="mass">Mass</button>
           <button class="soon-mode-tab" data-mode="confession">Confession</button>
+          <button class="soon-mode-tab" data-mode="adoration">Adoration</button>
+          <button class="soon-mode-tab lent-tab" data-mode="lent">Lent</button>
         </div>
         <span class="soon-location" id="soonLocationLabel" onclick="requestLocation()"></span>
       </div>
@@ -2045,13 +2049,80 @@ function serviceMatchesType(svc, categoryFilter, subtypeFilter) {
   return group ? group.includes(svc.type) : true;
 }
 
+// Common abbreviations → expansions for search
+const SEARCH_ABBREVIATIONS = {
+  'olv': 'our lady valley',
+  'olc': 'our lady czestochowa',
+  'olbs': 'our lady blessed sacrament',
+  'olsh': 'our lady sacred heart',
+  'olmc': 'our lady mount carmel',
+  'olp': 'our lady peace',
+  'olf': 'our lady fatima',
+  'mmh': 'mary mother hope',
+  'bvm': 'blessed virgin mary',
+  'smu': 'st mary assumption',
+  'hf': 'holy family',
+  'hc': 'holy cross',
+  'hn': 'holy name',
+  'ht': 'holy trinity',
+  'bt': 'blessed trinity',
+  'bs': 'blessed sacrament',
+  'ck': 'christ king',
+  'ic': 'immaculate conception',
+  'dm': 'divine mercy',
+  'sh': 'sacred heart',
+  'stj': 'st joseph',
+  'sta': 'st ann',
+  'sm': 'st mary',
+  'sp': 'st patrick',
+  'sc': 'st cecilia',
+  'se': 'st elizabeth',
+  'sfa': 'st francis assisi',
+  'stm': 'st michael',
+  'cathedral': 'st michael cathedral',
+};
+
 function parishMatchesSearch(p, q) {
   if (!q) return true;
   const svcNotes = (p.services || []).map(s => s.notes || '').join(' ');
+  const svcTypes = (p.services || []).map(s => {
+    const label = SERVICE_LABELS[s.type] || s.type.replace(/_/g, ' ');
+    return label;
+  }).join(' ');
   // WP1: Include location/church names in search index
   const locNames = (p.locations || []).map(l => l.name || '').join(' ');
-  const s = `${p.name} ${locNames} ${p.town} ${p.county} ${svcNotes}`.toLowerCase();
-  return q.toLowerCase().split(' ').every(w => s.includes(w));
+  const locAddresses = (p.locations || []).map(l => l.address || '').join(' ');
+  const staffStr = p.staff ? `${p.staff.pastor || ''} ${p.staff.deacon || ''}` : '';
+  const haystack = `${p.name} ${locNames} ${locAddresses} ${p.town} ${p.county} ${svcNotes} ${svcTypes} ${staffStr}`.toLowerCase();
+
+  // Normalize query: expand abbreviations, handle "st"/"saint" equivalence
+  const words = q.toLowerCase().split(/\s+/).filter(Boolean);
+  const expanded = [];
+  for (const w of words) {
+    // Check if the whole query (joined) is an abbreviation
+    if (words.length === 1 && SEARCH_ABBREVIATIONS[w]) {
+      expanded.push(...SEARCH_ABBREVIATIONS[w].split(' '));
+      continue;
+    }
+    // Normalize st/saint/st.
+    if (w === 'saint') { expanded.push('st'); continue; }
+    if (w === 'st.' || w === 'st') { expanded.push('st'); continue; }
+    expanded.push(w);
+  }
+
+  // Also check if multi-word query forms an abbreviation
+  const initials = words.map(w => w[0]).join('');
+  if (initials.length >= 2 && SEARCH_ABBREVIATIONS[initials]) {
+    const abbrevWords = SEARCH_ABBREVIATIONS[initials].split(' ');
+    if (abbrevWords.every(aw => haystack.includes(aw))) return true;
+  }
+
+  // Build a normalized haystack with st/saint equivalence
+  const normHaystack = haystack
+    .replace(/\bsaint\b/g, 'st')
+    .replace(/\bst\.\b/g, 'st');
+
+  return expanded.every(w => normHaystack.includes(w));
 }
 
 // ─── WP2: SEASONAL DATE AWARENESS ──────────────────────────────────────────
@@ -3011,7 +3082,7 @@ render();
 // userLat, userLng, haversine, getDistMiles declared in main block above
 var locationStatus = 'unknown';
 var soonRadiusMiles = 10;
-var soonMode = 'mass'; // 'mass' | 'confession'
+var soonMode = 'mass'; // 'mass' | 'confession' | 'adoration' | 'lent'
 var sortMode = 'alpha'; // 'proximity' | 'alpha'  — proximity only when location known
 
 function requestLocation() {
@@ -3050,7 +3121,7 @@ function requestLocation() {
 // Passive location attempt on load (no prompt shown if permission not already granted)
 function initLocationBanner() {
   document.getElementById('happeningSoon').style.display = '';
-  document.getElementById('soonCards').innerHTML = '<span class="soon-none">Enable location to see Masses starting soon near you.</span>';
+  document.getElementById('soonCards').innerHTML = '<span class="soon-none">Enable location to see services starting soon near you.</span>';
   document.getElementById('soonLocationLabel').textContent = 'Tap to enable location →';
 }
 try {
@@ -3079,6 +3150,17 @@ if (soonModeTabsEl) {
     soonModeTabsEl.querySelectorAll('.soon-mode-tab').forEach(t => t.classList.toggle('active', t === tab));
     refreshSoon();
   });
+
+  // Hide Lent tab outside Lent season
+  const lentTab = soonModeTabsEl.querySelector('.lent-tab');
+  if (lentTab) {
+    const lentRange = getLentRange(new Date().getFullYear());
+    const todayCheck = new Date();
+    todayCheck.setHours(0, 0, 0, 0);
+    if (todayCheck < lentRange.start || todayCheck > lentRange.end) {
+      lentTab.style.display = 'none';
+    }
+  }
 }
 
 // ═══════════════════════════════════════════════════
@@ -3119,6 +3201,13 @@ function refreshSoon() {
     }
     if (soonMode === 'confession') {
       return svc.type === 'confession';
+    }
+    if (soonMode === 'adoration') {
+      return svc.type === 'adoration' || svc.type === 'holy_hour';
+    }
+    if (soonMode === 'lent') {
+      // Show all Lenten-season services happening now/soon
+      return svc.seasonal && svc.seasonal.season === 'lent';
     }
     return false;
   }
@@ -3247,13 +3336,15 @@ function refreshSoon() {
 
   const container = document.getElementById('soonCards');
   if (results.length === 0) {
-    const modeLabel = soonMode === 'confession' ? 'confessions' : 'Masses';
+    const modeLabels = { mass: 'Masses', confession: 'confessions', adoration: 'adoration services', lent: 'Lenten services' };
+    const modeLabel = modeLabels[soonMode] || 'services';
     container.innerHTML = `<span class="soon-none">No ${modeLabel} happening now or starting soon within 10 miles.</span>`;
     return;
   }
 
-  const SVCTYPE_SHORT = { confession:'Confession', mass:'Mass', sunday_mass:'Mass', daily_mass:'Mass',
-    stations_of_cross:'Stations', adoration:'Adoration', rosary:'Rosary', divine_mercy:'Divine Mercy', devotion:'Devotion' };
+    const SVCTYPE_SHORT = { confession:'Confession', mass:'Mass', sunday_mass:'Mass', daily_mass:'Mass',
+    stations_of_cross:'Stations', adoration:'Adoration', holy_hour:'Holy Hour', rosary:'Rosary', divine_mercy:'Divine Mercy', devotion:'Devotion',
+    communion_service:'Communion Svc', novena:'Novena', anointing:'Anointing', miraculous_medal:'Miraculous Medal' };
 
   container.innerHTML = results.slice(0, 10).map(({ p, svc, dist, minsAway, status }) => {
     // WP2-2A: Distinguish "happening now" from "starting soon"
