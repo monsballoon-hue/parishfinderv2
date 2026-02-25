@@ -3372,9 +3372,25 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   const confWarn = isLowConf
     ? `<div class="confidence-warn">Schedule unverified — confirm times with the church</div>` : '';
 
+  let ycBannerHtml = '';
+  if (ycParishIds.has(p.id)) {
+    const nextEvt = ycNextEventByParish[p.id];
+    let bannerText = '';
+    if (nextEvt) {
+      const d = new Date(nextEvt.date + 'T12:00:00');
+      const dayName = d.toLocaleString('en-US', { weekday: 'short' });
+      const month = d.toLocaleString('en-US', { month: 'short' });
+      const dayNum = d.getDate();
+      const timeStr = nextEvt.time ? fmt12(nextEvt.time) : '';
+      bannerText = `${nextEvt.title} · ${dayName} ${month} ${dayNum}${timeStr ? ' · ' + timeStr : ''}${nextEvt.social ? ' · Social after' : ''}`;
+    }
+    ycBannerHtml = `<div class="parish-yc-banner"><span class="yc-banner-label">YC</span>${bannerText ? `<span class="yc-banner-text">${bannerText}</span>` : '<span class="yc-banner-text">Young &amp; Catholic</span>'}</div>`;
+  }
+
   const isFav = favorites.has(p.id);
 
-  return `<article class="parish-card${isLowConf ? ' low-confidence' : ''}" data-parish-id="${p.id}">
+  return `<article class="parish-card${isLowConf ? ' low-confidence' : ''}${ycActiveThisWeek.has(p.id) ? ' yc-active-week' : ''}" data-parish-id="${p.id}">
+    ${ycBannerHtml}
     <div class="card-header">
       <h2>${churchName}</h2>
       ${alsoAtHtml}
@@ -3385,6 +3401,7 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
     </div>
     <div class="card-meta">${accessBadge}${contactDrawer}${bulletinLink}${distHtml}${directionsBtn}<button class="share-btn" onclick="event.stopPropagation(); shareParish('${p.id}', this);" title="Share this church">📋 Share</button>${multiSite}</div>
     <div class="card-body">
+      ${renderYCLiteralEvents(p)}
       ${lentWrapped}${massWrapped}${confWrapped}${adorWrapped}${devotWrapped}${otherWrapped}
       ${renderSpecialEvents(p)}
     </div>
@@ -3598,6 +3615,18 @@ function render() {
   } else {
     // Alphabetical (default)
     filtered.sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  // Pin YC active-this-week parishes to top (regardless of filters)
+  if (ycActiveThisWeek.size > 0) {
+    const filteredIds = new Set(filtered.map(p => p.id));
+    const missingYC = parishes.filter(p => ycActiveThisWeek.has(p.id) && !filteredIds.has(p.id));
+    if (missingYC.length) filtered.unshift(...missingYC);
+    filtered.sort((a, b) => {
+      const aYC = ycActiveThisWeek.has(a.id) ? 0 : 1;
+      const bYC = ycActiveThisWeek.has(b.id) ? 0 : 1;
+      return aYC - bYC;
+    });
   }
 
   // WP-Favorites: Pin favorites to top when not in favorites-only mode
@@ -4145,7 +4174,8 @@ function renderYCEvents() {
     </div>`;
   }).join('');
 
-  section.style.display = '';
+  // Strip moved to dedicated YC Events tab — keep container hidden
+  // section.style.display = '';
 }
 
 function scrollToParish(parishId) {
