@@ -2965,6 +2965,77 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   </article>`;
 }
 
+// ═══════════════════════════════════════════════════
+// CALENDAR INTEGRATION
+// ═══════════════════════════════════════════════════
+
+function formatICSDate(dateStr, timeStr) {
+  if (!dateStr) return '';
+  const d = dateStr.replace(/-/g, '');
+  const t = timeStr ? timeStr.replace(/:/g, '') + '00' : '000000';
+  return d + 'T' + t;
+}
+
+function generateICS(title, dateStr, timeStr, endTimeStr, location, description) {
+  const dtStart = formatICSDate(dateStr, timeStr);
+  const dtEnd = endTimeStr ? formatICSDate(dateStr, endTimeStr)
+    : formatICSDate(dateStr, timeStr ? (() => {
+        const [h, m] = timeStr.split(':').map(Number);
+        const endH = h + 1;
+        return `${String(endH).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+      })() : null);
+
+  const lines = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//WMass Parish Finder//EN',
+    'BEGIN:VEVENT',
+    `DTSTART:${dtStart}`,
+    dtEnd ? `DTEND:${dtEnd}` : '',
+    `SUMMARY:${(title || '').replace(/[,;\\]/g, ' ')}`,
+    location ? `LOCATION:${location.replace(/[,;\\]/g, ' ')}` : '',
+    description ? `DESCRIPTION:${description.replace(/[,;\\]/g, ' ').replace(/\n/g, '\\n')}` : '',
+    `UID:${Date.now()}-${Math.random().toString(36).slice(2)}@parishfinder`,
+    'END:VEVENT',
+    'END:VCALENDAR'
+  ].filter(Boolean).join('\r\n');
+
+  return 'data:text/calendar;charset=utf-8,' + encodeURIComponent(lines);
+}
+
+function generateGCalURL(title, dateStr, timeStr, endTimeStr, location, description) {
+  const dtStart = formatICSDate(dateStr, timeStr);
+  const dtEnd = endTimeStr ? formatICSDate(dateStr, endTimeStr)
+    : formatICSDate(dateStr, timeStr ? (() => {
+        const [h, m] = timeStr.split(':').map(Number);
+        return `${String(h + 1).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+      })() : null);
+
+  const params = new URLSearchParams({
+    action: 'TEMPLATE',
+    text: title || '',
+    dates: dtStart + '/' + (dtEnd || dtStart),
+  });
+  if (location) params.set('location', location);
+  if (description) params.set('details', description);
+
+  return 'https://calendar.google.com/calendar/render?' + params.toString();
+}
+
+function toggleCalDropdown(el) {
+  const menu = el.parentElement.querySelector('.cal-dropdown-menu');
+  document.querySelectorAll('.cal-dropdown-menu.open').forEach(m => {
+    if (m !== menu) m.classList.remove('open');
+  });
+  menu.classList.toggle('open');
+}
+
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.cal-dropdown')) {
+    document.querySelectorAll('.cal-dropdown-menu.open').forEach(m => m.classList.remove('open'));
+  }
+});
+
 (async function() {
   try {
     const resp = await fetch(PARISH_DATA_URL);
@@ -3868,80 +3939,6 @@ function shareParish(parishId, btnEl) {
   }, 400);
 })();
 
-// ═══════════════════════════════════════════════════
-// CALENDAR INTEGRATION
-// ═══════════════════════════════════════════════════
-
-function formatICSDate(dateStr, timeStr) {
-  // dateStr: "2026-03-12", timeStr: "19:00"
-  if (!dateStr) return '';
-  const d = dateStr.replace(/-/g, '');
-  const t = timeStr ? timeStr.replace(/:/g, '') + '00' : '000000';
-  return d + 'T' + t;
-}
-
-function generateICS(title, dateStr, timeStr, endTimeStr, location, description) {
-  const dtStart = formatICSDate(dateStr, timeStr);
-  const dtEnd = endTimeStr ? formatICSDate(dateStr, endTimeStr)
-    : formatICSDate(dateStr, timeStr ? (() => {
-        const [h, m] = timeStr.split(':').map(Number);
-        const endH = h + 1;
-        return `${String(endH).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
-      })() : null);
-
-  const lines = [
-    'BEGIN:VCALENDAR',
-    'VERSION:2.0',
-    'PRODID:-//WMass Parish Finder//EN',
-    'BEGIN:VEVENT',
-    `DTSTART:${dtStart}`,
-    dtEnd ? `DTEND:${dtEnd}` : '',
-    `SUMMARY:${(title || '').replace(/[,;\\]/g, ' ')}`,
-    location ? `LOCATION:${location.replace(/[,;\\]/g, ' ')}` : '',
-    description ? `DESCRIPTION:${description.replace(/[,;\\]/g, ' ').replace(/\n/g, '\\n')}` : '',
-    `UID:${Date.now()}-${Math.random().toString(36).slice(2)}@parishfinder`,
-    'END:VEVENT',
-    'END:VCALENDAR'
-  ].filter(Boolean).join('\r\n');
-
-  return 'data:text/calendar;charset=utf-8,' + encodeURIComponent(lines);
-}
-
-function generateGCalURL(title, dateStr, timeStr, endTimeStr, location, description) {
-  const dtStart = formatICSDate(dateStr, timeStr);
-  const dtEnd = endTimeStr ? formatICSDate(dateStr, endTimeStr)
-    : formatICSDate(dateStr, timeStr ? (() => {
-        const [h, m] = timeStr.split(':').map(Number);
-        return `${String(h + 1).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
-      })() : null);
-
-  const params = new URLSearchParams({
-    action: 'TEMPLATE',
-    text: title || '',
-    dates: dtStart + '/' + (dtEnd || dtStart),
-  });
-  if (location) params.set('location', location);
-  if (description) params.set('details', description);
-
-  return 'https://calendar.google.com/calendar/render?' + params.toString();
-}
-
-function toggleCalDropdown(el) {
-  const menu = el.parentElement.querySelector('.cal-dropdown-menu');
-  // Close any other open dropdowns first
-  document.querySelectorAll('.cal-dropdown-menu.open').forEach(m => {
-    if (m !== menu) m.classList.remove('open');
-  });
-  menu.classList.toggle('open');
-}
-
-// Close calendar dropdowns when clicking outside
-document.addEventListener('click', function(e) {
-  if (!e.target.closest('.cal-dropdown')) {
-    document.querySelectorAll('.cal-dropdown-menu.open').forEach(m => m.classList.remove('open'));
-  }
-});
-
 // Expose all interactive functions to global scope
 // (they're defined inside an async IIFE — inline onclick attributes require global scope)
 window.requestLocation  = requestLocation;
@@ -3955,7 +3952,6 @@ window.clearLocationSort = clearLocationSort;
 window.setSortMode       = setSortMode;
 window.toggleContact     = toggleContact;
 window.shareParish       = shareParish;
-window.toggleCalDropdown = toggleCalDropdown;
 window.scrollToParish   = scrollToParish;
 
 })();
