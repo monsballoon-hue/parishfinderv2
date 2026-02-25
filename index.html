@@ -1538,6 +1538,125 @@
     gap: 6px;
   }
 
+  /* ── YOUNG & CATHOLIC EVENTS ── */
+  #ycEventsSection {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding: 10px 0 12px;
+  }
+  .yc-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 12px;
+  }
+  .yc-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .yc-title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .yc-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #e8a838 0%, #d4831a 100%);
+    color: #1a1a2e;
+    font-size: 0.58rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    padding: 2px 6px;
+    border-radius: 3px;
+    text-transform: uppercase;
+  }
+  .yc-subtitle {
+    font-size: 0.68rem;
+    color: rgba(255,255,255,0.45);
+  }
+  .yc-cards {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
+  }
+  .yc-cards::-webkit-scrollbar { height: 3px; }
+  .yc-cards::-webkit-scrollbar-thumb { background: rgba(232,168,56,0.3); border-radius: 2px; }
+  .yc-card {
+    flex: 0 0 auto;
+    min-width: 155px;
+    max-width: 180px;
+    background: rgba(232,168,56,0.08);
+    border: 1px solid rgba(232,168,56,0.25);
+    border-radius: 8px;
+    padding: 10px 11px 9px;
+    scroll-snap-align: start;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .yc-card:hover { background: rgba(232,168,56,0.15); border-color: rgba(232,168,56,0.45); }
+  .yc-card-date {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #e8a838;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .yc-card-title {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #fff;
+    margin: 3px 0 2px;
+    line-height: 1.2;
+  }
+  .yc-card-time {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.7);
+  }
+  .yc-card-place {
+    font-size: 0.68rem;
+    color: rgba(255,255,255,0.45);
+    margin-top: 3px;
+    line-height: 1.25;
+  }
+  .yc-card-social {
+    display: inline-block;
+    font-size: 0.56rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #e8a838;
+    margin-top: 4px;
+    opacity: 0.8;
+  }
+  /* YC badge on parish cards */
+  .parish-yc-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    background: linear-gradient(135deg, #e8a838 0%, #d4831a 100%);
+    color: #1a1a2e;
+    font-size: 0.54rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    padding: 1px 5px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
 
 </style>
 </head>
@@ -1574,11 +1693,15 @@
   </div>
 </div>
 
-
-
-
-
-
+<div id="ycEventsSection" style="display:none">
+  <div class="yc-inner">
+    <div class="yc-header">
+      <span class="yc-title"><span class="yc-badge">YC</span> Young &amp; Catholic Western MA</span>
+      <span class="yc-subtitle" id="ycSubtitle"></span>
+    </div>
+    <div class="yc-cards" id="ycCards"></div>
+  </div>
+</div>
 
 <div class="controls-bar">
   <div class="controls-inner controls-row-1">
@@ -2296,6 +2419,8 @@ function getVerifiedBadge(p) {
   return `<span class="status-dot ${cls}" data-tooltip="${tip}" onclick="this.classList.toggle('tip-open')">${icon}</span>`;
 }
 
+var ycParishIds = new Set(); // populated by renderYCEvents(), used by card rendering
+
 function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, distMiles) {
   const groups = groupServices(p.services || []);
 
@@ -2431,9 +2556,11 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   const confWarn = isLowConf
     ? `<div class="confidence-warn">Schedule unverified — confirm times with the church</div>` : '';
 
+  const ycBadge = ycParishIds.has(p.id) ? '<span class="parish-yc-tag">YC</span>' : '';
+
   return `<article class="parish-card${isLowConf ? ' low-confidence' : ''}">
     <div class="card-header">
-      <h2>${churchName}</h2>
+      <h2>${churchName}${ycBadge}</h2>
       ${alsoAtHtml}
       <div class="card-location">${p.town}, MA &middot; ${p.county} County</div>
       <span class="county-badge">${confBadge}</span>
@@ -2642,6 +2769,7 @@ function haversine(lat1, lng1, lat2, lng2) {
 })();
 
 // Initial render
+renderYCEvents();
 render();
 
 // ═══════════════════════════════════════════════════
@@ -2939,6 +3067,102 @@ function refreshSoon() {
 setInterval(() => { if (userLat !== null) refreshSoon(); }, 60000);
 
 // ═══════════════════════════════════════════════════
+// YOUNG & CATHOLIC EVENTS
+// ═══════════════════════════════════════════════════
+
+function renderYCEvents() {
+  const ycEvents = (PARISH_DATA.yc_events || []);
+  if (!ycEvents.length) return;
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const upcoming = ycEvents.filter(evt => {
+    if (!evt.date) return false;
+    const evtDate = new Date(evt.date + 'T00:00:00');
+    return evtDate >= today;
+  }).sort((a, b) => a.date.localeCompare(b.date) || (a.time || '').localeCompare(b.time || ''));
+
+  if (!upcoming.length) return;
+
+  // Build parish ID → name lookup for card labels
+  ycParishIds.clear();
+  upcoming.forEach(evt => { if (evt.parish_id) ycParishIds.add(evt.parish_id); });
+
+  const section = document.getElementById('ycEventsSection');
+  const container = document.getElementById('ycCards');
+  const subtitle = document.getElementById('ycSubtitle');
+
+  subtitle.textContent = upcoming.length + ' upcoming';
+
+  container.innerHTML = upcoming.map(evt => {
+    // Date formatting: "Fri Mar 12"
+    const d = new Date(evt.date + 'T12:00:00');
+    const dayName = d.toLocaleString('en-US', { weekday: 'short' });
+    const month = d.toLocaleString('en-US', { month: 'short' });
+    const dayNum = d.getDate();
+    const dateStr = `${dayName}, ${month} ${dayNum}`;
+
+    const timeStr = evt.time ? fmt12(evt.time) : '';
+    const endStr = evt.end_time ? ` – ${fmt12(evt.end_time)}` : '';
+
+    // Resolve location name
+    let placeName = '';
+    if (evt.parish_id) {
+      const p = parishes.find(x => x.id === evt.parish_id);
+      if (p) {
+        if (evt.location_id) {
+          const loc = (p.locations || []).find(l => l.id === evt.location_id);
+          if (loc) placeName = loc.name;
+        }
+        if (!placeName) {
+          const primary = p.locations && p.locations[0];
+          if (primary) {
+            placeName = primary.name;
+            if (/Cathedral|Basilica/i.test(placeName)) placeName = placeName.replace(/\s+Church$/i, '');
+          } else {
+            placeName = p.name;
+          }
+        }
+      }
+    }
+    if (evt.venue_name) placeName = evt.venue_name;
+
+    const socialTag = evt.social ? '<div class="yc-card-social">✦ Social after</div>' : '';
+    const noteTag = evt.notes ? `<div style="font-size:0.6rem;color:rgba(255,255,255,0.4);margin-top:2px;">${evt.notes}</div>` : '';
+
+    return `<div class="yc-card" data-parish-id="${evt.parish_id || ''}" onclick="scrollToParish('${evt.parish_id || ''}')">
+      <div class="yc-card-date">${dateStr}</div>
+      <div class="yc-card-title">${evt.title}</div>
+      <div class="yc-card-time">${timeStr}${endStr}</div>
+      <div class="yc-card-place">${placeName}</div>
+      ${socialTag}${noteTag}
+    </div>`;
+  }).join('');
+
+  section.style.display = '';
+}
+
+function scrollToParish(parishId) {
+  if (!parishId) return;
+  // Find the card in the grid by searching for the reconcile button with this ID
+  const cards = document.querySelectorAll('.parish-card');
+  for (const card of cards) {
+    const reconcileBtn = card.querySelector('.reconcile-btn');
+    if (reconcileBtn) {
+      const onclickStr = reconcileBtn.getAttribute('onclick') || '';
+      if (onclickStr.includes(parishId)) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        card.style.transition = 'box-shadow 0.3s';
+        card.style.boxShadow = '0 0 0 2px #e8a838, 0 0 16px rgba(232,168,56,0.3)';
+        setTimeout(() => { card.style.boxShadow = ''; }, 2500);
+        return;
+      }
+    }
+  }
+}
+
+// ═══════════════════════════════════════════════════
 // LANGUAGE BAR
 // ═══════════════════════════════════════════════════
 
@@ -3107,6 +3331,7 @@ window.clearLocationSort = clearLocationSort;
 window.setSortMode       = setSortMode;
 window.toggleContact     = toggleContact;
 window.toggleAddParish  = toggleAddParish;
+window.scrollToParish   = scrollToParish;
 
 })();
 </script>
