@@ -1515,6 +1515,106 @@
   }
   .dist-badge.near { color: var(--green); font-weight: 600; }
 
+  /* ── SHARE BUTTON ── */
+  .share-btn {
+    padding: 2px 10px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: #fff;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: all 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+  }
+  .share-btn:hover { border-color: var(--navy); color: var(--navy); }
+  .share-btn.copied { background: var(--green); color: #fff; border-color: var(--green); }
+
+  /* ── ACCESSIBILITY BADGE ── */
+  .access-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 0.68rem;
+    color: var(--green);
+    font-weight: 600;
+    margin-left: 6px;
+    vertical-align: middle;
+    title: "Wheelchair accessible";
+  }
+
+  /* ── CALENDAR BUTTON ── */
+  .cal-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 2px 7px;
+    border: 1px solid rgba(232,168,56,0.35);
+    border-radius: 4px;
+    background: transparent;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 600;
+    color: #e8a838;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  .cal-btn:hover { background: rgba(232,168,56,0.15); border-color: #e8a838; }
+  .cal-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  .cal-dropdown-menu {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    box-shadow: var(--shadow-lg);
+    z-index: 50;
+    min-width: 160px;
+    padding: 4px 0;
+    margin-bottom: 4px;
+  }
+  .cal-dropdown-menu.open { display: block; }
+  .cal-dropdown-menu a {
+    display: block;
+    padding: 7px 14px;
+    font-size: 0.8rem;
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .cal-dropdown-menu a:hover { background: var(--warm-gray); }
+  .special-event-cal {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 1px 6px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: transparent;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 600;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+    text-decoration: none;
+    margin-left: 6px;
+  }
+  .special-event-cal:hover { background: var(--warm-gray); border-color: var(--navy); color: var(--navy); }
+
   /* ── PROXIMITY SORT INDICATOR ── */
   .sort-indicator {
     font-size: 0.72rem;
@@ -1770,7 +1870,7 @@
       <p>Catholic Services Directory</p>
     </div>
     <div class="header-badge" id="headerBadge">Loading…</div>
-    <button class="header-add-btn" id="headerAddBtn" onclick="event.stopPropagation(); openNewParish();" title="Add a church">+ Add</button>
+    <button class="header-add-btn" id="headerAddBtn" onclick="event.stopPropagation(); openNewParish();" title="Add a church">+ Add A Church
   </div>
 </header>
 
@@ -2540,9 +2640,20 @@ function renderSpecialEvents(p) {
     const label = SERVICE_LABELS[evt.type] || evt.type.replace(/_/g, ' ');
     const note = evt.notes ? ` — ${evt.notes}` : ` — ${label}`;
 
+    // Calendar button for non-recurring events with a time
+    let calHtml = '';
+    if (!isRecurring && evt.date && evt.time) {
+      const loc0 = p.locations && p.locations[0];
+      const evtLoc = (loc0 && loc0.name ? loc0.name : p.name) + ', ' + (p.town || '') + ', MA';
+      const evtTitle = (evt.notes || label) + ' at ' + (loc0 ? loc0.name : p.name);
+      const icsUrl = generateICS(evtTitle, evt.date, evt.time, evt.end_time, evtLoc, '');
+      const gcalUrl = generateGCalURL(evtTitle, evt.date, evt.time, evt.end_time, evtLoc, '');
+      calHtml = `<span class="cal-dropdown"><button class="special-event-cal" onclick="event.stopPropagation(); toggleCalDropdown(this);">📅</button><div class="cal-dropdown-menu"><a href="${gcalUrl}" target="_blank" rel="noopener">Google Calendar</a><a href="${icsUrl}" download="event.ics">Download .ics</a></div></span>`;
+    }
+
     return `<li class="special-event-row">
       <span class="special-event-date">${dateStr}</span>
-      <span class="special-event-detail">${timeStr}${endStr}${note}</span>
+      <span class="special-event-detail">${timeStr}${endStr}${note}${calHtml}</span>
     </li>`;
   }).join('');
 
@@ -2599,11 +2710,21 @@ function renderYCLiteralEvents(p) {
       recurrenceNote = `<div class="yc-recurrence-note">Monthly · also ${futureDates}</div>`;
     }
 
+    // Calendar button for the next occurrence
+    let ycCalHtml = '';
+    if (next.date && next.time) {
+      const loc0 = p.locations && p.locations[0];
+      const evtLoc = (loc0 ? loc0.name : p.name) + ', ' + (p.town || '') + ', MA';
+      const icsUrl = generateICS(next.title, next.date, next.time, next.end_time, evtLoc, next.notes || '');
+      const gcalUrl = generateGCalURL(next.title, next.date, next.time, next.end_time, evtLoc, next.notes || '');
+      ycCalHtml = ` <span class="cal-dropdown"><button class="special-event-cal" onclick="event.stopPropagation(); toggleCalDropdown(this);">📅</button><div class="cal-dropdown-menu"><a href="${gcalUrl}" target="_blank" rel="noopener">Google Calendar</a><a href="${icsUrl}" download="${next.id || 'yc-event'}.ics">Download .ics</a></div></span>`;
+    }
+
     rows.push(`<li class="yc-event-row">
       <span class="yc-event-date-col">${dateStr}</span>
       <span class="yc-event-detail-col">
         <span class="yc-event-title-tag">${next.title}</span>
-        ${timeStr ? ` · ${timeStr}${endStr}` : ''}${socialTag}${noteTag}
+        ${timeStr ? ` · ${timeStr}${endStr}` : ''}${socialTag}${ycCalHtml}${noteTag}
         ${recurrenceNote}
       </span>
     </li>`);
@@ -2798,6 +2919,10 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   const pastor = st.pastor && st.pastor !== 'Not assigned'
     ? `<span class="pastor-name">${st.pastor}</span>` : `<span></span>`;
 
+  // Accessibility badge
+  const accessBadge = (loc && loc.is_accessible)
+    ? '<span class="access-badge" title="Wheelchair accessible">♿</span>' : '';
+
   const confBadge = getVerifiedBadge(p);
 
   const confWarn = isLowConf
@@ -2821,13 +2946,13 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   return `<article class="parish-card${isLowConf ? ' low-confidence' : ''}${ycActiveThisWeek.has(p.id) ? ' yc-active-week' : ''}" data-parish-id="${p.id}">
     ${ycBannerHtml}
     <div class="card-header">
-      <h2>${churchName}</h2>
+      <h2>${churchName}${accessBadge}</h2>
       ${alsoAtHtml}
       <div class="card-location">${p.town}, MA &middot; ${p.county} County</div>
       <span class="county-badge">${confBadge}</span>
       ${confWarn}
     </div>
-    <div class="card-meta">${contactDrawer}${bulletinLink}${distHtml}${directionsBtn}${multiSite}</div>
+    <div class="card-meta">${contactDrawer}${bulletinLink}${distHtml}${directionsBtn}<button class="share-btn" onclick="event.stopPropagation(); shareParish('${p.id}', this);" title="Copy link to this church">⛓ Share</button>${multiSite}</div>
     <div class="card-body">
       ${renderYCLiteralEvents(p)}
       ${massWrapped}${confWrapped}${lentWrapped}${adorWrapped}${devotWrapped}${otherWrapped}
@@ -3497,12 +3622,26 @@ function renderYCEvents() {
       }
     }
 
+    // Calendar button
+    const evtLocation = evt.venue_address || (placeName ? placeName + ', MA' : '');
+    const evtDesc = evt.title + (evt.social ? ' (Social after)' : '') + (evt.notes ? ' — ' + evt.notes : '');
+    const icsUrl = generateICS(evt.title, evt.date, evt.time, evt.end_time, evtLocation, evtDesc);
+    const gcalUrl = generateGCalURL(evt.title, evt.date, evt.time, evt.end_time, evtLocation, evtDesc);
+    const calBtnHtml = evt.date && evt.time
+      ? `<div class="cal-dropdown" onclick="event.stopPropagation();">
+           <button class="cal-btn" onclick="event.stopPropagation(); toggleCalDropdown(this);">📅 Add</button>
+           <div class="cal-dropdown-menu">
+             <a href="${gcalUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation();">Google Calendar</a>
+             <a href="${icsUrl}" download="${evt.id || 'event'}.ics" onclick="event.stopPropagation();">Download .ics</a>
+           </div>
+         </div>` : '';
+
     return `<div class="yc-card" data-parish-id="${evt.parish_id || ''}" onclick="scrollToParish('${evt.parish_id || ''}')">
       <div class="yc-card-date">${dateStr}</div>
       <div class="yc-card-title">${evt.title}</div>
       <div class="yc-card-time">${timeStr}${endStr}</div>
       <div class="yc-card-place">${placeName}</div>
-      ${distTag}${socialTag}${noteTag}
+      ${distTag}${socialTag}${calBtnHtml}${noteTag}
     </div>`;
   }).join('');
 
@@ -3676,6 +3815,133 @@ function clearLocationSort() {
   render();
 }
 
+// ═══════════════════════════════════════════════════
+// SHARE PARISH DEEP LINK
+// ═══════════════════════════════════════════════════
+
+function shareParish(parishId, btnEl) {
+  const url = new URL(window.location.href);
+  url.search = '';
+  url.searchParams.set('parish', parishId);
+  const shareUrl = url.toString();
+
+  if (navigator.share) {
+    navigator.share({ title: 'Parish Finder', url: shareUrl }).catch(() => {});
+  } else if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(shareUrl).then(() => {
+      if (btnEl) {
+        btnEl.classList.add('copied');
+        btnEl.textContent = '✓ Copied!';
+        setTimeout(() => { btnEl.classList.remove('copied'); btnEl.textContent = '⛓ Share'; }, 1800);
+      }
+    });
+  } else {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = shareUrl;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    if (btnEl) {
+      btnEl.classList.add('copied');
+      btnEl.textContent = '✓ Copied!';
+      setTimeout(() => { btnEl.classList.remove('copied'); btnEl.textContent = '⛓ Share'; }, 1800);
+    }
+  }
+}
+
+// Handle ?parish=xxx deep link on load
+(function handleParishDeepLink() {
+  const p = new URLSearchParams(location.search);
+  const pid = p.get('parish');
+  if (!pid) return;
+  // Wait for DOM to settle after render
+  setTimeout(() => {
+    const card = document.querySelector(`[data-parish-id="${pid}"]`);
+    if (card) {
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.style.transition = 'box-shadow 0.3s';
+      card.style.boxShadow = '0 0 0 3px var(--gold), 0 0 20px rgba(201,168,76,0.3)';
+      setTimeout(() => { card.style.boxShadow = ''; }, 3500);
+    }
+  }, 400);
+})();
+
+// ═══════════════════════════════════════════════════
+// CALENDAR INTEGRATION
+// ═══════════════════════════════════════════════════
+
+function formatICSDate(dateStr, timeStr) {
+  // dateStr: "2026-03-12", timeStr: "19:00"
+  if (!dateStr) return '';
+  const d = dateStr.replace(/-/g, '');
+  const t = timeStr ? timeStr.replace(/:/g, '') + '00' : '000000';
+  return d + 'T' + t;
+}
+
+function generateICS(title, dateStr, timeStr, endTimeStr, location, description) {
+  const dtStart = formatICSDate(dateStr, timeStr);
+  const dtEnd = endTimeStr ? formatICSDate(dateStr, endTimeStr)
+    : formatICSDate(dateStr, timeStr ? (() => {
+        const [h, m] = timeStr.split(':').map(Number);
+        const endH = h + 1;
+        return `${String(endH).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+      })() : null);
+
+  const lines = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//WMass Parish Finder//EN',
+    'BEGIN:VEVENT',
+    `DTSTART:${dtStart}`,
+    dtEnd ? `DTEND:${dtEnd}` : '',
+    `SUMMARY:${(title || '').replace(/[,;\\]/g, ' ')}`,
+    location ? `LOCATION:${location.replace(/[,;\\]/g, ' ')}` : '',
+    description ? `DESCRIPTION:${description.replace(/[,;\\]/g, ' ').replace(/\n/g, '\\n')}` : '',
+    `UID:${Date.now()}-${Math.random().toString(36).slice(2)}@parishfinder`,
+    'END:VEVENT',
+    'END:VCALENDAR'
+  ].filter(Boolean).join('\r\n');
+
+  return 'data:text/calendar;charset=utf-8,' + encodeURIComponent(lines);
+}
+
+function generateGCalURL(title, dateStr, timeStr, endTimeStr, location, description) {
+  const dtStart = formatICSDate(dateStr, timeStr);
+  const dtEnd = endTimeStr ? formatICSDate(dateStr, endTimeStr)
+    : formatICSDate(dateStr, timeStr ? (() => {
+        const [h, m] = timeStr.split(':').map(Number);
+        return `${String(h + 1).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+      })() : null);
+
+  const params = new URLSearchParams({
+    action: 'TEMPLATE',
+    text: title || '',
+    dates: dtStart + '/' + (dtEnd || dtStart),
+  });
+  if (location) params.set('location', location);
+  if (description) params.set('details', description);
+
+  return 'https://calendar.google.com/calendar/render?' + params.toString();
+}
+
+function toggleCalDropdown(el) {
+  const menu = el.parentElement.querySelector('.cal-dropdown-menu');
+  // Close any other open dropdowns first
+  document.querySelectorAll('.cal-dropdown-menu.open').forEach(m => {
+    if (m !== menu) m.classList.remove('open');
+  });
+  menu.classList.toggle('open');
+}
+
+// Close calendar dropdowns when clicking outside
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.cal-dropdown')) {
+    document.querySelectorAll('.cal-dropdown-menu.open').forEach(m => m.classList.remove('open'));
+  }
+});
+
 // Expose all interactive functions to global scope
 // (they're defined inside an async IIFE — inline onclick attributes require global scope)
 window.requestLocation  = requestLocation;
@@ -3688,7 +3954,8 @@ window.clearAllFilters  = clearAllFilters;
 window.clearLocationSort = clearLocationSort;
 window.setSortMode       = setSortMode;
 window.toggleContact     = toggleContact;
-
+window.shareParish       = shareParish;
+window.toggleCalDropdown = toggleCalDropdown;
 window.scrollToParish   = scrollToParish;
 
 })();
