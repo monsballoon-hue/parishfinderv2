@@ -1645,33 +1645,36 @@
   .parish-yc-banner {
     background: linear-gradient(135deg, #e8a838 0%, #d4831a 100%);
     color: #1a1a2e;
-    padding: 7px 14px;
+    padding: 6px 12px;
     font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.03em;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     line-height: 1.3;
+    min-height: 32px;
   }
   .parish-yc-banner .yc-banner-label {
     flex-shrink: 0;
-    font-size: 0.6rem;
+    font-size: 0.72rem;
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    background: rgba(26,26,46,0.18);
+    letter-spacing: 0.1em;
+    background: rgba(26,26,46,0.2);
     color: #1a1a2e;
-    padding: 2px 7px;
-    border-radius: 3px;
+    padding: 3px 10px;
+    border-radius: 4px;
   }
   .parish-yc-banner .yc-banner-text {
-    opacity: 0.8;
+    flex: 1;
+    min-width: 0;
     font-weight: 600;
+    font-size: 0.72rem;
+    opacity: 0.85;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    min-width: 0;
   }
   /* YC badge inline on individual service lines — more prominent */
   .svc-yc-tag {
@@ -1703,12 +1706,11 @@
     background: linear-gradient(135deg, #2a2540 0%, #3a2f50 100%);
   }
   .parish-card.yc-active-week .parish-yc-banner {
-    padding: 9px 14px;
-    font-size: 0.78rem;
+    padding: 8px 12px;
   }
   .parish-card.yc-active-week .parish-yc-banner .yc-banner-label {
-    font-size: 0.65rem;
-    padding: 3px 8px;
+    font-size: 0.78rem;
+    padding: 4px 12px;
   }
 
   /* YC literal event rows in Upcoming Events section */
@@ -2552,7 +2554,7 @@ function renderYCLiteralEvents(p) {
     </li>`);
   }
 
-  return `<div class="service-section special-events" style="border-left:3px solid #e8a838;">
+  return `<div class="service-section special-events yc-events-section">
     <div class="service-section-title" style="color:#b8860b;"><span class="svc-yc-tag" style="margin-right:6px;font-size:0.55rem;">YC</span>Young &amp; Catholic Events</div>
     <ul class="service-list special-events-list">${rows.join('')}</ul>
   </div>`;
@@ -2756,9 +2758,9 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
       const month = d.toLocaleString('en-US', { month: 'short' });
       const dayNum = d.getDate();
       const timeStr = nextEvt.time ? fmt12(nextEvt.time) : '';
-      bannerText = `Next: ${nextEvt.title} · ${dayName} ${month} ${dayNum}${timeStr ? ' · ' + timeStr : ''}${nextEvt.social ? ' · Social after' : ''}`;
+      bannerText = `${nextEvt.title} · ${dayName} ${month} ${dayNum}${timeStr ? ' · ' + timeStr : ''}${nextEvt.social ? ' · Social after' : ''}`;
     }
-    ycBannerHtml = `<div class="parish-yc-banner"><span class="yc-banner-label">YC</span> Young &amp; Catholic${bannerText ? `<span class="yc-banner-text">— ${bannerText}</span>` : ''}</div>`;
+    ycBannerHtml = `<div class="parish-yc-banner"><span class="yc-banner-label">YC</span>${bannerText ? `<span class="yc-banner-text">${bannerText}</span>` : '<span class="yc-banner-text">Young &amp; Catholic</span>'}</div>`;
   }
 
   return `<article class="parish-card${isLowConf ? ' low-confidence' : ''}${ycActiveThisWeek.has(p.id) ? ' yc-active-week' : ''}" data-parish-id="${p.id}">
@@ -2772,9 +2774,9 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
     </div>
     <div class="card-meta">${contactDrawer}${bulletinLink}${distHtml}${directionsBtn}${multiSite}</div>
     <div class="card-body">
+      ${renderYCLiteralEvents(p)}
       ${massWrapped}${confWrapped}${lentWrapped}${adorWrapped}${devotWrapped}${otherWrapped}
       ${renderSpecialEvents(p)}
-      ${renderYCLiteralEvents(p)}
     </div>
     <div class="card-footer">
       ${pastor}
