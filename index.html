@@ -1871,9 +1871,9 @@
   .app-tab {
     flex: 1;
     max-width: 180px;
-    padding: 9px 12px;
+    padding: 12px 14px;
     font-family: 'Source Sans 3', sans-serif;
-    font-size: 0.78rem;
+    font-size: 0.82rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -2076,6 +2076,17 @@
     text-align: center; letter-spacing: 0.02em;
   }
   .now-expand-btn:hover { background: #e8e4dc; }
+  .yc-item-actions {
+    width: 100%; display: flex; gap: 8px; padding: 6px 0 2px;
+    margin-top: 4px; border-top: 1px solid rgba(0,0,0,0.06);
+  }
+  .yc-action-btn {
+    flex: 1; padding: 7px 10px; border-radius: 6px;
+    font-size: 0.72rem; font-weight: 600; cursor: pointer;
+    text-align: center; text-decoration: none; border: 1px solid var(--border);
+    background: #fff; color: var(--navy); transition: background 0.15s;
+  }
+  .yc-action-btn:hover { background: var(--warm-gray); }
   .now-section-label {
     font-size: 0.72rem;
     font-weight: 700;
@@ -2206,8 +2217,8 @@
   /* ── RESPONSIVE OVERRIDES ── */
   @media (max-width: 520px) {
     .app-tab-bar { top: 38px; }
-    .app-tab { font-size: 0.65rem; padding: 7px 4px; letter-spacing: 0.03em; }
-    .app-tab .tab-icon { margin-right: 2px; font-size: 0.75rem; }
+    .app-tab { font-size: 0.72rem; padding: 10px 6px; letter-spacing: 0.03em; }
+    .app-tab .tab-icon { margin-right: 3px; font-size: 0.8rem; }
     .summary-bar { padding: 7px 14px; }
     .summary-bar-inner { font-size: 0.75rem; gap: 8px; }
     .now-view { padding: 12px 14px 40px; }
@@ -3354,25 +3365,9 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   const confWarn = isLowConf
     ? `<div class="confidence-warn">Schedule unverified — confirm times with the church</div>` : '';
 
-  let ycBannerHtml = '';
-  if (ycParishIds.has(p.id)) {
-    const nextEvt = ycNextEventByParish[p.id];
-    let bannerText = '';
-    if (nextEvt) {
-      const d = new Date(nextEvt.date + 'T12:00:00');
-      const dayName = d.toLocaleString('en-US', { weekday: 'short' });
-      const month = d.toLocaleString('en-US', { month: 'short' });
-      const dayNum = d.getDate();
-      const timeStr = nextEvt.time ? fmt12(nextEvt.time) : '';
-      bannerText = `${nextEvt.title} · ${dayName} ${month} ${dayNum}${timeStr ? ' · ' + timeStr : ''}${nextEvt.social ? ' · Social after' : ''}`;
-    }
-    ycBannerHtml = `<div class="parish-yc-banner"><span class="yc-banner-label">YC</span>${bannerText ? `<span class="yc-banner-text">${bannerText}</span>` : '<span class="yc-banner-text">Young &amp; Catholic</span>'}</div>`;
-  }
-
   const isFav = favorites.has(p.id);
 
-  return `<article class="parish-card${isLowConf ? ' low-confidence' : ''}${ycActiveThisWeek.has(p.id) ? ' yc-active-week' : ''}" data-parish-id="${p.id}">
-    ${ycBannerHtml}
+  return `<article class="parish-card${isLowConf ? ' low-confidence' : ''}" data-parish-id="${p.id}">
     <div class="card-header">
       <h2>${churchName}</h2>
       ${alsoAtHtml}
@@ -3383,7 +3378,6 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
     </div>
     <div class="card-meta">${accessBadge}${contactDrawer}${bulletinLink}${distHtml}${directionsBtn}<button class="share-btn" onclick="event.stopPropagation(); shareParish('${p.id}', this);" title="Share this church">📋 Share</button>${multiSite}</div>
     <div class="card-body">
-      ${renderYCLiteralEvents(p)}
       ${lentWrapped}${massWrapped}${confWrapped}${adorWrapped}${devotWrapped}${otherWrapped}
       ${renderSpecialEvents(p)}
     </div>
@@ -3597,21 +3591,6 @@ function render() {
   } else {
     // Alphabetical (default)
     filtered.sort((a, b) => a.name.localeCompare(b.name));
-  }
-
-  // Pin YC active-this-week parishes to top (regardless of filters)
-  if (ycActiveThisWeek.size > 0) {
-    // Ensure active-week parishes are in results even if filters excluded them
-    const filteredIds = new Set(filtered.map(p => p.id));
-    const missingYC = parishes.filter(p => ycActiveThisWeek.has(p.id) && !filteredIds.has(p.id));
-    if (missingYC.length) filtered.unshift(...missingYC);
-
-    // Stable sort: active-week first, then rest in existing order
-    filtered.sort((a, b) => {
-      const aYC = ycActiveThisWeek.has(a.id) ? 0 : 1;
-      const bYC = ycActiveThisWeek.has(b.id) ? 0 : 1;
-      return aYC - bYC;
-    });
   }
 
   // WP-Favorites: Pin favorites to top when not in favorites-only mode
@@ -4790,10 +4769,14 @@ function renderYCView() {
     const socialNote = evt.social ? ' · Social after' : '';
     const noteText = evt.notes ? `<div style="font-size:0.72rem;color:var(--mid-gray);font-style:italic;margin-top:2px;">${evt.notes}</div>` : '';
 
-    html += `<div class="now-item yc-event" onclick="switchAppView('churches'); setTimeout(() => scrollToParish('${evt.parish_id || ''}'), 200);">
+    html += `<div class="now-item yc-event" style="flex-wrap:wrap;">
       <div class="now-item-time"><div class="time-big">${evt.time ? fmt12(evt.time) : ''}</div><span class="time-away">${evt.end_time ? '– ' + fmt12(evt.end_time) : ''}</span></div>
       <div class="now-item-info"><div class="item-type" style="color:#e8a838;">${evt.type || 'Event'}${socialNote}</div><div class="item-name">${evt.title}</div><div class="item-location">${placeName}</div>${noteText}</div>
       ${distHtml}
+      <div class="yc-item-actions">
+        ${evt.date && evt.time ? `<a class="yc-action-btn" href="${generateICS(evt.title, evt.date, evt.time, evt.end_time || null, placeName, evt.notes || '')}" download="${(evt.title||'event').replace(/[^a-zA-Z0-9]/g,'_')}.ics" onclick="event.stopPropagation();">📅 Add to Calendar</a>` : ''}
+        ${evt.parish_id ? `<button class="yc-action-btn" onclick="event.stopPropagation(); switchAppView('churches'); setTimeout(() => scrollToParish('${evt.parish_id}'), 200);">⛪ View Church</button>` : ''}
+      </div>
     </div>`;
   }
 
