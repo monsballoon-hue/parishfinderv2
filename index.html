@@ -2177,6 +2177,35 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
 
   const isLowConf = p.validation && (p.validation.status === 'low_confidence');
 
+  const loc = p.locations && p.locations[0];
+
+  // WP1-1A: Derive church display name from primary location
+  let churchName = (loc && loc.name) ? loc.name : p.name;
+  // Edge case: strip trailing "Church" if name already contains Cathedral/Basilica
+  if (/Cathedral|Basilica/i.test(churchName)) {
+    churchName = churchName.replace(/\s+Church$/i, '');
+  }
+
+  // WP1-1B: Multi-site detection & sibling churches
+  const worshipSites = (p.locations || []).filter(l =>
+    ['church', 'chapel', 'mission'].includes(l.type)
+  );
+  const isMultiSite = worshipSites.length > 1;
+  let alsoAtHtml = '';
+  if (isMultiSite) {
+    const siblings = worshipSites.slice(1);
+    const siblingText = siblings.map(s => {
+      const cityLabel = (s.city && s.city.toLowerCase() !== (p.town||'').toLowerCase())
+        ? `, ${s.city}` : '';
+      return `${s.name}${cityLabel}`;
+    }).join(' &middot; ');
+    alsoAtHtml = `<div class="also-at">Also at: ${siblingText}</div>`;
+  }
+
+  // WP1-1C: Build location lookup map for service-level labels
+  const locMap = {};
+  (p.locations || []).forEach(l => { locMap[l.id] = l; });
+
   const massSect  = renderMassSectionWithHolyDays(groups.mass, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite);
   const confSect  = renderServiceSection('Confession', 'confession', groups.confession, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite);
   const adorSect  = renderServiceSection('Adoration & Prayer', 'adoration', groups.adoration, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite);
@@ -2216,35 +2245,6 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   const devotWrapped = wrapCollapsible('devotion',   'Devotions',        'devotion',   devotSect, devotFiltered, devotCollapsed);
   const lentWrapped  = wrapCollapsible('lent',       'Lenten Services',  'lent',       lentSect,  lentFiltered,  lentCollapsed);
   const otherWrapped = wrapCollapsible('other',      'Other Services',   'other',      otherSect, otherFiltered, otherCollapsed);
-
-  const loc = p.locations && p.locations[0];
-
-  // WP1-1A: Derive church display name from primary location
-  let churchName = (loc && loc.name) ? loc.name : p.name;
-  // Edge case: strip trailing "Church" if name already contains Cathedral/Basilica
-  if (/Cathedral|Basilica/i.test(churchName)) {
-    churchName = churchName.replace(/\s+Church$/i, '');
-  }
-
-  // WP1-1B: Multi-site detection & sibling churches
-  const worshipSites = (p.locations || []).filter(l =>
-    ['church', 'chapel', 'mission'].includes(l.type)
-  );
-  const isMultiSite = worshipSites.length > 1;
-  let alsoAtHtml = '';
-  if (isMultiSite) {
-    const siblings = worshipSites.slice(1);
-    const siblingText = siblings.map(s => {
-      const cityLabel = (s.city && s.city.toLowerCase() !== (p.town||'').toLowerCase())
-        ? `, ${s.city}` : '';
-      return `${s.name}${cityLabel}`;
-    }).join(' &middot; ');
-    alsoAtHtml = `<div class="also-at">Also at: ${siblingText}</div>`;
-  }
-
-  // WP1-1C: Build location lookup map for service-level labels
-  const locMap = {};
-  (p.locations || []).forEach(l => { locMap[l.id] = l; });
 
   const addr = loc && loc.address ? loc.address : `${churchName}, ${p.town}, MA`;
   const mapsUrl = /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent) && !window.MSStream
