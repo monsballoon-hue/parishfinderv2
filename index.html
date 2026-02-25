@@ -458,6 +458,24 @@
     padding-left: 0;
     margin-left: 0;
   }
+  /* Holy Week section crimson accent */
+  .svc-collapse--holy_week .svc-collapse-header { border-bottom-color: #e8b8b8; }
+  .svc-collapse--holy_week .svc-collapse-label { color: #8b1a1a; }
+  .svc-collapse--holy_week .svc-collapse-chevron { color: #8b1a1a; }
+  .svc-collapse--holy_week .svc-collapse-summary { color: #8b1a1a; }
+  .svc-collapse--holy_week.open {
+    background: rgba(139,26,26,0.10);
+    border-left: 3px solid #8b1a1a;
+    padding-left: 10px;
+    margin-left: -10px;
+    border-radius: 0 6px 6px 0;
+  }
+  .svc-collapse--holy_week.open .svc-collapse-header { border-bottom-color: rgba(139,26,26,0.2); }
+  .svc-collapse--holy_week.open .svc-collapse-body .service-section.holy-week {
+    border-left: none;
+    padding-left: 0;
+    margin-left: 0;
+  }
   .service-list { list-style: none; margin: 0; padding: 0; }
   .service-row {
     display: grid;
@@ -797,6 +815,26 @@
     background: #f5eeff;
     border-color: #c9a0e0;
     color: #7c4fa0;
+  }
+
+  /* Holy Week section — crimson/red treatment */
+  .service-section.holy-week {
+    border-left: 3px solid #8b1a1a;
+    padding-left: 10px;
+    margin-left: -10px;
+  }
+  .service-section.holy-week .service-section-title {
+    color: #8b1a1a;
+    border-bottom-color: #e8b8b8;
+  }
+  .service-section.holy-week .service-section-title span.icon-holy-week {
+    color: #8b1a1a;
+    margin-right: 4px;
+  }
+  .service-section.holy-week .seasonal-tag {
+    background: #fef0f0;
+    border-color: #e0a0a0;
+    color: #8b1a1a;
   }
 
   /* YC Events section — warm amber treatment (mirrors Lenten purple) */
@@ -2583,7 +2621,8 @@ const SERVICE_LABELS = {
   miraculous_medal:'Miraculous Medal', novena:'Novena',
   stations_of_cross:'Stations of the Cross', stations_of_the_cross:'Stations of the Cross',
   anointing_of_sick:'Anointing of the Sick', communion_service:'Communion Service',
-  devotion:'Devotion',
+  holy_thursday_mass:'Mass of the Lord\'s Supper', good_friday_service:'Passion of the Lord',
+  easter_vigil_mass:'Easter Vigil Mass', devotion:'Devotion',
 };
 
 const DAY_LABELS = {
@@ -2596,7 +2635,7 @@ const DAY_LABELS = {
 };
 
 const SEASON_LABELS = {
-  lent:'Lent', advent:'Advent', school_year:'School Year', summer:'Summer',
+  lent:'Lent', holy_week:'Holy Week', advent:'Advent', school_year:'School Year', summer:'Summer',
 };
 
 const LANG_NAMES = {
@@ -2608,7 +2647,7 @@ const LANG_LABELS = {
 };
 
 const SERVICE_TYPE_GROUPS = {
-  mass:       ['sunday_mass','daily_mass','communion_service'],
+  mass:       ['sunday_mass','daily_mass','communion_service','holy_thursday_mass','good_friday_service','easter_vigil_mass'],
   confession: ['confession'],
   devotion:   ['adoration','holy_hour','perpetual_adoration','benediction',
                'rosary','divine_mercy','miraculous_medal','novena',
@@ -2894,7 +2933,7 @@ function collapseServiceDays(services) {
 
 // Card-level grouping: keeps adoration separate from devotion for display
 const CARD_TYPE_GROUPS = {
-  mass:       ['sunday_mass','daily_mass','communion_service'],
+  mass:       ['sunday_mass','daily_mass','communion_service','holy_thursday_mass','good_friday_service','easter_vigil_mass'],
   confession: ['confession'],
   adoration:  ['adoration','holy_hour','perpetual_adoration','benediction'],
   devotion:   ['rosary','divine_mercy','miraculous_medal','novena',
@@ -3087,8 +3126,8 @@ function renderServiceSection(title, icon, services, dayFilter, timeFilter, cate
 function renderMassSectionWithHolyDays(services, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite) {
   const HOLYDAY_DAYS = ['holyday', 'holyday_eve'];
 
-  // Split into regular (excluding lenten) and holy day services
-  const regular  = services.filter(s => !HOLYDAY_DAYS.includes(s.day) && !(s.seasonal && s.seasonal.season === 'lent'));
+  // Split into regular (excluding lenten and holy week) and holy day services
+  const regular  = services.filter(s => !HOLYDAY_DAYS.includes(s.day) && !(s.seasonal && s.seasonal.season === 'lent') && !(s.seasonal && s.seasonal.season === 'holy_week'));
   const holydays = services.filter(s => HOLYDAY_DAYS.includes(s.day));
 
   const regularSect  = renderServiceSection('Mass', 'mass', regular,   dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite);
@@ -3163,6 +3202,49 @@ function renderLentenSection(allServices, dayFilter, timeFilter, categoryFilter,
 
   return `<div class="service-section lenten">
     <div class="service-section-title"><span class="icon-lent"></span>Lenten Services</div>
+    <ul class="service-list">${rows}</ul>
+  </div>`;
+}
+
+// Renders a dedicated Holy Week section aggregating all seasonal=holy_week services
+function renderHolyWeekSection(allServices, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite) {
+  const hwSvcs = allServices.filter(s => s.seasonal && s.seasonal.season === 'holy_week' && isCurrentSeason(s));
+  if (!hwSvcs.length) return '';
+
+  const filtered = hwSvcs.filter(s =>
+    serviceMatchesDay(s, dayFilter) &&
+    serviceMatchesTime(s, timeFilter) &&
+    serviceMatchesType(s, categoryFilter, subtypeFilter) &&
+    (!langFilter || s.language === langFilter)
+  );
+  if (!filtered.length) return '';
+
+  // Sort by Triduum liturgical order
+  const triduumOrder = { holy_thursday_mass: 0, good_friday_service: 1, easter_vigil_mass: 2 };
+  filtered.sort((a, b) => {
+    const oa = triduumOrder[a.type] !== undefined ? triduumOrder[a.type] : 3;
+    const ob = triduumOrder[b.type] !== undefined ? triduumOrder[b.type] : 3;
+    if (oa !== ob) return oa - ob;
+    return (a.time || '99:99').localeCompare(b.time || '99:99');
+  });
+
+  const rows = filtered.map(svc => {
+    const timeStr = fmtTimeRange(svc);
+    const label = SERVICE_LABELS[svc.type] || svc.type.replace(/_/g, ' ');
+    const typeTag = `<span class="svc-type-tag">${label}</span>`;
+    const lang = svc.language && svc.language !== 'en'
+      ? `<span class="lang-tag">${LANG_LABELS[svc.language] || svc.language}</span>` : '';
+    const locLabel = (isMultiSite && svc.location_id && locMap && locMap[svc.location_id])
+      ? `<span class="svc-location-label">&middot; ${locMap[svc.location_id].name}</span>` : '';
+    const dayLabel = svc.day ? (DAY_LABELS[svc.day] || svc.day) : '';
+    return `<li class="service-row">
+      <span class="svc-day">${dayLabel}</span>
+      <span class="svc-times"><span class="svc-stack"><span class="svc-stack-row"><span class="svc-t">${timeStr}</span>${locLabel}${typeTag}${lang}${svc.notes ? `<span class="svc-note-line">${svc.notes}</span>` : ''}</span></span></span>
+    </li>`;
+  }).join('');
+
+  return `<div class="service-section holy-week">
+    <div class="service-section-title"><span class="icon-holy-week">✝</span> Sacred Triduum</div>
     <ul class="service-list">${rows}</ul>
   </div>`;
 }
@@ -3517,6 +3599,7 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   const otherSect = renderServiceSection('Other Services', 'other', groups.other, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite);
   // Lenten section always renders if lent services exist (independent of any filter)
   const lentSect  = renderLentenSection(p.services || [], dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite);
+  const hwSect    = renderHolyWeekSection(p.services || [], dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite);
 
   // Pre-filter services for summaries (mirrors renderServiceSection's internal filter)
   const svcFilter = (s) =>
@@ -3531,6 +3614,7 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   const devotFiltered = groups.devotion.filter(svcFilter);
   const otherFiltered = groups.other.filter(svcFilter);
   const lentFiltered  = (p.services || []).filter(s => s.seasonal && s.seasonal.season === 'lent' && isCurrentSeason(s) && serviceMatchesDay(s, dayFilter) && serviceMatchesTime(s, timeFilter) && serviceMatchesType(s, categoryFilter, subtypeFilter) && (!langFilter || s.language === langFilter));
+  const hwFiltered    = (p.services || []).filter(s => s.seasonal && s.seasonal.season === 'holy_week' && isCurrentSeason(s) && serviceMatchesDay(s, dayFilter) && serviceMatchesTime(s, timeFilter) && serviceMatchesType(s, categoryFilter, subtypeFilter) && (!langFilter || s.language === langFilter));
 
   // Determine collapse state: expanded (false) vs collapsed (true)
   // Defaults: Mass + Confession expanded; rest collapsed
@@ -3541,6 +3625,7 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   const adorCollapsed  = !(categoryFilter === 'devotion' || hasSearch);
   const devotCollapsed = !(categoryFilter === 'devotion' || hasSearch);
   const lentCollapsed  = false; // WP9: expanded by default when pinned to top
+  const hwCollapsed    = false; // Holy Week: expanded by default
   const otherCollapsed = !hasSearch;
 
   // Wrap each in collapsible
@@ -3549,6 +3634,7 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   const adorWrapped  = wrapCollapsible('adoration',  'Adoration & Prayer','adoration', adorSect,  adorFiltered,  adorCollapsed);
   const devotWrapped = wrapCollapsible('devotion',   'Devotions',        'devotion',   devotSect, devotFiltered, devotCollapsed);
   const lentWrapped  = wrapCollapsible('lent',       'Lenten Services',  'lent',       lentSect,  lentFiltered,  lentCollapsed);
+  const hwWrapped    = wrapCollapsible('holy_week',  'Sacred Triduum',   'holy_week',  hwSect,    hwFiltered,    hwCollapsed);
   const otherWrapped = wrapCollapsible('other',      'Other Services',   'other',      otherSect, otherFiltered, otherCollapsed);
 
   const addr = loc && loc.address ? loc.address : `${churchName}, ${p.town}, MA`;
@@ -3634,7 +3720,7 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
     <div class="card-meta">${accessBadge}${contactDrawer}${bulletinLink}${distHtml}${directionsBtn}<button class="share-btn" onclick="event.stopPropagation(); shareParish('${p.id}', this);" title="Share this church">📋 Share</button>${multiSite}</div>
     <div class="card-body">
       ${renderYCLiteralEvents(p)}
-      ${lentWrapped}${massWrapped}${confWrapped}${adorWrapped}${devotWrapped}${otherWrapped}
+      ${lentWrapped}${hwWrapped}${massWrapped}${confWrapped}${adorWrapped}${devotWrapped}${otherWrapped}
       ${renderSpecialEvents(p)}
     </div>
     <div class="card-footer">
@@ -4589,7 +4675,7 @@ function renderNowView() {
 
   function svcMatchesNowMode(svc) {
     if (nowMode === 'all') return true;
-    if (nowMode === 'mass') return svc.type === 'sunday_mass' || svc.type === 'daily_mass';
+    if (nowMode === 'mass') return svc.type === 'sunday_mass' || svc.type === 'daily_mass' || svc.type === 'holy_thursday_mass' || svc.type === 'good_friday_service' || svc.type === 'easter_vigil_mass';
     if (nowMode === 'confession') return svc.type === 'confession';
     if (nowMode === 'adoration') return svc.type === 'adoration' || svc.type === 'holy_hour';
     if (nowMode === 'seasonal') return svc.seasonal && svc.seasonal.is_seasonal && isCurrentSeason(svc);
