@@ -2224,8 +2224,8 @@
           "id": "parish_011-rosa-bul-3684",
           "type": "rosary",
           "day": "daily",
-          "time": null,
-          "end_time": null,
+          "time": "15:30",
+          "end_time": "16:00",
           "location_id": null,
           "language": "en",
           "notes": "30 min before each Mass",
@@ -2234,7 +2234,8 @@
             "season": "year_round"
           },
           "source": "website_2026-02",
-          "validated": true
+          "validated": true,
+          "time_is_inferred": true
         }
       ],
       "validation": {
@@ -6453,8 +6454,8 @@
           "id": "parish_027-rosary-pre-mass",
           "type": "rosary",
           "day": "daily",
-          "time": null,
-          "end_time": null,
+          "time": "06:15",
+          "end_time": "06:45",
           "location_id": null,
           "language": "en",
           "notes": "Rosary prayed before every Mass",
@@ -6463,7 +6464,8 @@
             "season": "year_round"
           },
           "source": "manual_verification_2026-02",
-          "validated": true
+          "validated": true,
+          "time_is_inferred": true
         }
       ],
       "validation": {
@@ -7782,7 +7784,7 @@
           "day": "monday",
           "time": "06:30",
           "end_time": "20:00",
-          "location_id": "st-mary-mother-of-the-church-church-lee",
+          "location_id": "st-joseph-church-stockbridge",
           "language": "en",
           "notes": "1st Monday of the month; 1st Monday of each month",
           "seasonal": {
@@ -7819,7 +7821,7 @@
     },
     {
       "id": "parish_033",
-      "name": "St. Ann Parish",
+      "name": "Triparish Community",
       "town": "Lenox",
       "state": "MA",
       "zip": "01240",
@@ -7839,6 +7841,42 @@
           "is_accessible": null,
           "lat": 42.3534,
           "lng": -73.2854
+        },
+        {
+          "id": "st-vincent-de-paul-church-lenox-dale",
+          "name": "St. Vincent de Paul Church",
+          "type": "church",
+          "address": "29 Crystal Street, Lenox Dale, MA 01242",
+          "city": "Lenox Dale",
+          "state": "MA",
+          "zip": "01242",
+          "is_accessible": null,
+          "lat": 42.3284,
+          "lng": -73.2665
+        },
+        {
+          "id": "st-patrick-church-west-stockbridge",
+          "name": "St. Patrick Church",
+          "type": "church",
+          "address": "30 Albany Road, West Stockbridge, MA 01266",
+          "city": "West Stockbridge",
+          "state": "MA",
+          "zip": "01266",
+          "is_accessible": null,
+          "lat": 42.3454,
+          "lng": -73.3668
+        },
+        {
+          "id": "st-ann-family-center-lenox",
+          "name": "St. Ann Family Center",
+          "type": "chapel",
+          "address": "134 Main Street, Lenox, MA 01240",
+          "city": "Lenox",
+          "state": "MA",
+          "zip": "01240",
+          "is_accessible": null,
+          "lat": 42.3534,
+          "lng": -73.2854
         }
       ],
       "contact": {
@@ -7849,7 +7887,8 @@
         ],
         "website": "https://www.avptriparish.org",
         "website_validated": false,
-        "office_hours": "Tues., Wed., Thurs., 9:00 a.m. - 3:00 p.m., Fri. 9:00 a.m. - 1:00 p.m."
+        "office_hours": "Tues., Wed., Thurs., 9:00 a.m. - 3:00 p.m., Fri. 9:00 a.m. - 1:00 p.m.",
+        "notes": "Triparish Community: St. Ann (Lenox), St. Vincent de Paul (Lenox Dale), St. Patrick (West Stockbridge). St. Patrick office: (413) 232-4427 M & TH"
       },
       "staff": {
         "pastor": "Rev. Msgr. John Bonzagni",
@@ -7910,7 +7949,7 @@
           "day": "monday",
           "time": "07:00",
           "end_time": null,
-          "location_id": null,
+          "location_id": "st-ann-family-center-lenox",
           "language": "en",
           "notes": "St. Ann Family Center",
           "seasonal": {
@@ -7926,7 +7965,7 @@
           "day": "tuesday",
           "time": "07:00",
           "end_time": null,
-          "location_id": null,
+          "location_id": "st-ann-family-center-lenox",
           "language": "en",
           "notes": "St. Ann Family Center",
           "seasonal": {
@@ -7942,7 +7981,7 @@
           "day": "wednesday",
           "time": "07:00",
           "end_time": null,
-          "location_id": null,
+          "location_id": "st-ann-family-center-lenox",
           "language": "en",
           "notes": "St. Ann Family Center",
           "seasonal": {
@@ -7958,7 +7997,7 @@
           "day": "thursday",
           "time": "07:00",
           "end_time": null,
-          "location_id": null,
+          "location_id": "st-ann-family-center-lenox",
           "language": "en",
           "notes": "St. Ann Family Center",
           "seasonal": {
@@ -7974,7 +8013,7 @@
           "day": "friday",
           "time": "07:00",
           "end_time": null,
-          "location_id": null,
+          "location_id": "st-ann-family-center-lenox",
           "language": "en",
           "notes": "Communion Service — St. Ann Family Center",
           "seasonal": {
@@ -7999,64 +8038,7 @@
           },
           "source": "bulletin_2026-02",
           "validated": true
-        }
-      ],
-      "special_events": [],
-      "validation": {
-        "status": "verified",
-        "last_checked": "2026-02-21",
-        "sources": [
-          "bulletin_2026-02 — avptriparish.org"
-        ],
-        "discrepancies": [
-          "ADDED: Mon–Thu 7:00 AM Daily Mass at St. Ann Family Center.",
-          "ADDED: Friday 7:00 AM Communion Service at St. Ann Family Center.",
-          "Confession end time added: 3:30 PM."
-        ]
-      },
-      "county": "Berkshire",
-      "clergy": [],
-      "bulletin_url": "https://www.avptriparish.org"
-    },
-    {
-      "id": "parish_033b",
-      "name": "St. Vincent de Paul Parish",
-      "town": "Lenox Dale",
-      "state": "MA",
-      "zip": "01242",
-      "established": null,
-      "is_mission": false,
-      "mission_of": null,
-      "status": "active",
-      "locations": [
-        {
-          "id": "st-vincent-de-paul-church-lenox-dale",
-          "name": "St. Vincent de Paul Church",
-          "type": "church",
-          "address": "Lenox Dale, MA 01242",
-          "city": "Lenox Dale",
-          "state": "MA",
-          "zip": "01242",
-          "is_accessible": null,
-          "lat": 42.3284,
-          "lng": -73.2665
-        }
-      ],
-      "contact": {
-        "phone": "413-637-0157",
-        "fax": null,
-        "emails": [
-          "parishoffice@avptriparish.org"
-        ],
-        "website": "https://www.avptriparish.org",
-        "website_validated": false,
-        "office_hours": "Tues., Wed., Thurs., 9:00 a.m. - 3:00 p.m., Fri. 9:00 a.m. - 1:00 p.m."
-      },
-      "staff": {
-        "pastor": "Rev. Msgr. John Bonzagni",
-        "additional": []
-      },
-      "services": [
+        },
         {
           "id": "parish_033b-sun-001",
           "type": "sunday_mass",
@@ -8072,64 +8054,7 @@
           },
           "source": "bulletin_2026-02",
           "validated": true
-        }
-      ],
-      "special_events": [],
-      "validation": {
-        "status": "verified",
-        "last_checked": "2026-02-21",
-        "sources": [
-          "bulletin_2026-02 — avptriparish.org"
-        ],
-        "discrepancies": [
-          "Corrupt daily_mass entry (no day) removed.",
-          "Confession 'after Saturday Mass' removed — not listed in bulletin.",
-          "Only Sat 5:30 PM Vigil confirmed for this site."
-        ]
-      },
-      "county": "Berkshire",
-      "clergy": [],
-      "bulletin_url": "https://www.avptriparish.org"
-    },
-    {
-      "id": "parish_033c",
-      "name": "St. Patrick Parish",
-      "town": "West Stockbridge",
-      "state": "MA",
-      "zip": "01266",
-      "established": null,
-      "is_mission": false,
-      "mission_of": null,
-      "status": "active",
-      "locations": [
-        {
-          "id": "st-patrick-church-west-stockbridge",
-          "name": "St. Patrick Church",
-          "type": "church",
-          "address": "West Stockbridge, MA 01266",
-          "city": "West Stockbridge",
-          "state": "MA",
-          "zip": "01266",
-          "is_accessible": null,
-          "lat": 42.3454,
-          "lng": -73.3668
-        }
-      ],
-      "contact": {
-        "phone": "413-637-0157",
-        "fax": null,
-        "emails": [
-          "parishoffice@avptriparish.org"
-        ],
-        "website": "https://www.avptriparish.org",
-        "website_validated": false,
-        "office_hours": "Tues., Wed., Thurs., 9:00 a.m. - 3:00 p.m., Fri. 9:00 a.m. - 1:00 p.m."
-      },
-      "staff": {
-        "pastor": "Rev. Msgr. John Bonzagni",
-        "additional": []
-      },
-      "services": [
+        },
         {
           "id": "parish_033c-sun-001",
           "type": "sunday_mass",
@@ -8155,8 +8080,9 @@
           "bulletin_2026-02 — avptriparish.org"
         ],
         "discrepancies": [
-          "4th Sunday Confession (no time) removed — not listed in bulletin.",
-          "Only Sunday 8:30 AM Mass confirmed for this site."
+          "ADDED: Mon–Thu 7:00 AM Daily Mass at St. Ann Family Center.",
+          "ADDED: Friday 7:00 AM Communion Service at St. Ann Family Center.",
+          "Confession end time added: 3:30 PM."
         ]
       },
       "county": "Berkshire",
@@ -8851,13 +8777,14 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Perpetual Adoration Chapel — scheduled adorers; livestream at ctkchapelludlow.com",
+          "notes": "Perpetual Adoration Chapel — open 24/7 for scheduled adorers. Public access hours may vary; contact the church for walk-in availability. Livestream at ctkchapelludlow.com",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
           },
           "source": "bulletin_2026-02",
-          "validated": true
+          "validated": true,
+          "perpetual": true
         },
         {
           "id": "parish_036-ros-wkday",
@@ -12727,8 +12654,8 @@
           "id": "parish_053-con-sun",
           "type": "confession",
           "day": "sunday",
-          "time": null,
-          "end_time": null,
+          "time": "07:15",
+          "end_time": "08:00",
           "location_id": null,
           "language": "en",
           "notes": "Before and after Masses; by appointment",
@@ -12737,7 +12664,8 @@
             "season": "year_round"
           },
           "source": "bulletin_2026-02",
-          "validated": true
+          "validated": true,
+          "time_is_inferred": true
         },
         {
           "id": "parish_053-open",
@@ -17999,8 +17927,8 @@
           "id": "parish_073-con-001",
           "type": "confession",
           "day": "daily",
-          "time": null,
-          "end_time": null,
+          "time": "07:15",
+          "end_time": "08:00",
           "location_id": null,
           "language": "en",
           "notes": "Before each Mass",
@@ -18009,7 +17937,8 @@
             "season": "year_round"
           },
           "source": "bulletin_2026-02",
-          "validated": true
+          "validated": true,
+          "time_is_inferred": true
         },
         {
           "id": "parish_073-ros-wed",
@@ -19815,6 +19744,858 @@
       "county": "Berkshire",
       "clergy": [],
       "bulletin_url": "https://www.williamstowncatholics.org/bulletins"
+    },
+    {
+      "id": "shrine_001",
+      "name": "National Shrine of The Divine Mercy",
+      "town": "Stockbridge",
+      "county": "Berkshire",
+      "state": "MA",
+      "zip": "01262",
+      "status": "active",
+      "bulletin_url": null,
+      "established": null,
+      "contact": {
+        "phone": "413-298-3931",
+        "fax": null,
+        "emails": [],
+        "website": "https://www.shrineofdivinemercy.org",
+        "office_hours": null,
+        "office_address": "PO Box 951, 2 Prospect Hill Road, Stockbridge, MA 01262",
+        "notes": "A Ministry of the Marians of the Immaculate Conception. GPS: 11 Pine Street, Stockbridge, MA. Bus Pilgrimages: 413-298-1119. Gift Shop: 888-484-1112. Also: thedivinemercy.org, marian.org"
+      },
+      "staff": {
+        "pastor": "Fr. Matthew Tomeny, MIC",
+        "deacon": null,
+        "additional": [
+          {
+            "role": "Vice Rector",
+            "name": "Fr. Robert Vennetti, MIC"
+          },
+          {
+            "role": "Vice Rector",
+            "name": "Fr. Anthony Gramlich, MIC"
+          }
+        ]
+      },
+      "locations": [
+        {
+          "id": "divine-mercy-shrine-stockbridge",
+          "name": "National Shrine of The Divine Mercy",
+          "type": "church",
+          "address": "2 Prospect Hill Road, Stockbridge, MA 01262",
+          "city": "Stockbridge",
+          "state": "MA",
+          "zip": "01262",
+          "is_accessible": null,
+          "lat": 42.2876,
+          "lng": -73.3201
+        }
+      ],
+      "validation": {
+        "status": "verified",
+        "last_checked": "2026-02-24",
+        "sources": [
+          "shrine website — shrineofdivinemercy.org",
+          "bulletin_2026-02"
+        ],
+        "discrepancies": []
+      },
+      "services": [
+        {
+          "id": "shrine_001-sun-0900",
+          "type": "sunday_mass",
+          "day": "sunday",
+          "time": "09:00",
+          "end_time": null,
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-sun-1030",
+          "type": "sunday_mass",
+          "day": "sunday",
+          "time": "10:30",
+          "end_time": null,
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-sun-1400",
+          "type": "sunday_mass",
+          "day": "sunday",
+          "time": "14:00",
+          "end_time": null,
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-sat-0800",
+          "type": "sunday_mass",
+          "day": "saturday",
+          "time": "08:00",
+          "end_time": null,
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-sat-0900",
+          "type": "sunday_mass",
+          "day": "saturday",
+          "time": "09:00",
+          "end_time": null,
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-sat-1400",
+          "type": "sunday_mass",
+          "day": "saturday",
+          "time": "14:00",
+          "end_time": null,
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": "2 PM Mass on Saturday does NOT fulfill Sunday obligation",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-dai-0800",
+          "type": "daily_mass",
+          "day": "weekday",
+          "time": "08:00",
+          "end_time": null,
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-dai-0900",
+          "type": "daily_mass",
+          "day": "weekday",
+          "time": "09:00",
+          "end_time": null,
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-dai-1400",
+          "type": "daily_mass",
+          "day": "weekday",
+          "time": "14:00",
+          "end_time": null,
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-con-wkday",
+          "type": "confession",
+          "day": "weekday",
+          "time": "13:00",
+          "end_time": "14:00",
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-con-sat-1",
+          "type": "confession",
+          "day": "saturday",
+          "time": "13:00",
+          "end_time": "14:00",
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-con-sat-2",
+          "type": "confession",
+          "day": "saturday",
+          "time": "15:30",
+          "end_time": "16:15",
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-con-sun-1",
+          "type": "confession",
+          "day": "sunday",
+          "time": "13:00",
+          "end_time": "14:00",
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-con-sun-2",
+          "type": "confession",
+          "day": "sunday",
+          "time": "15:30",
+          "end_time": "16:15",
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-div-mercy",
+          "type": "divine_mercy",
+          "day": "daily",
+          "time": "15:00",
+          "end_time": "15:30",
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": "Chaplet of Divine Mercy",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-ros-life",
+          "type": "rosary",
+          "day": "daily",
+          "time": "17:00",
+          "end_time": "17:30",
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": "Rosary for Life",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-heal-thu",
+          "type": "daily_mass",
+          "day": "thursday",
+          "time": "19:00",
+          "end_time": null,
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": "Healing Mass — last Thursday of each month",
+          "recurrence": {
+            "type": "nth",
+            "week": "last"
+          },
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "shrine_website",
+          "validated": true
+        }
+      ],
+      "special_events": [
+        {
+          "id": "shrine_001-evt-relics",
+          "type": "devotion",
+          "date": "2026-02-28",
+          "time": "10:30",
+          "end_time": "12:30",
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": "Veneration of 9 unique and rarely seen relics of the Passion of Our Lord — St. Faustina Center",
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-evt-wotc-2026-02-20",
+          "type": "stations_of_cross",
+          "date": "2026-02-20",
+          "time": "15:30",
+          "end_time": "16:15",
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": "St. Faustina's Way of the Cross — after 2 PM Mass & Chaplet",
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-evt-wotc-2026-02-21",
+          "type": "stations_of_cross",
+          "date": "2026-02-21",
+          "time": "15:30",
+          "end_time": "16:15",
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": "St. Faustina's Way of the Cross — after 2 PM Mass & Chaplet",
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-evt-wotc-2026-02-22",
+          "type": "stations_of_cross",
+          "date": "2026-02-22",
+          "time": "15:30",
+          "end_time": "16:15",
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": "St. Faustina's Way of the Cross — after 2 PM Mass & Chaplet",
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-evt-wotc-2026-02-27",
+          "type": "stations_of_cross",
+          "date": "2026-02-27",
+          "time": "15:30",
+          "end_time": "16:15",
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": "St. Faustina's Way of the Cross — after 2 PM Mass & Chaplet",
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-evt-wotc-2026-02-28",
+          "type": "stations_of_cross",
+          "date": "2026-02-28",
+          "time": "15:30",
+          "end_time": "16:15",
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": "St. Faustina's Way of the Cross — after 2 PM Mass & Chaplet",
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-evt-wotc-2026-03-01",
+          "type": "stations_of_cross",
+          "date": "2026-03-01",
+          "time": "15:30",
+          "end_time": "16:15",
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": "St. Faustina's Way of the Cross — after 2 PM Mass & Chaplet",
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-evt-wotc-2026-03-06",
+          "type": "stations_of_cross",
+          "date": "2026-03-06",
+          "time": "15:30",
+          "end_time": "16:15",
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": "St. Faustina's Way of the Cross — after 2 PM Mass & Chaplet",
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-evt-wotc-2026-03-07",
+          "type": "stations_of_cross",
+          "date": "2026-03-07",
+          "time": "15:30",
+          "end_time": "16:15",
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": "St. Faustina's Way of the Cross — after 2 PM Mass & Chaplet",
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-evt-wotc-2026-03-08",
+          "type": "stations_of_cross",
+          "date": "2026-03-08",
+          "time": "15:30",
+          "end_time": "16:15",
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": "St. Faustina's Way of the Cross — after 2 PM Mass & Chaplet",
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-evt-wotc-2026-03-13",
+          "type": "stations_of_cross",
+          "date": "2026-03-13",
+          "time": "15:30",
+          "end_time": "16:15",
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": "St. Faustina's Way of the Cross — after 2 PM Mass & Chaplet",
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-evt-wotc-2026-03-14",
+          "type": "stations_of_cross",
+          "date": "2026-03-14",
+          "time": "15:30",
+          "end_time": "16:15",
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": "St. Faustina's Way of the Cross — after 2 PM Mass & Chaplet",
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-evt-wotc-2026-03-15",
+          "type": "stations_of_cross",
+          "date": "2026-03-15",
+          "time": "15:30",
+          "end_time": "16:15",
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": "St. Faustina's Way of the Cross — after 2 PM Mass & Chaplet",
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-evt-wotc-2026-03-20",
+          "type": "stations_of_cross",
+          "date": "2026-03-20",
+          "time": "15:30",
+          "end_time": "16:15",
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": "St. Faustina's Way of the Cross — after 2 PM Mass & Chaplet",
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-evt-wotc-2026-03-21",
+          "type": "stations_of_cross",
+          "date": "2026-03-21",
+          "time": "15:30",
+          "end_time": "16:15",
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": "St. Faustina's Way of the Cross — after 2 PM Mass & Chaplet",
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-evt-wotc-2026-03-22",
+          "type": "stations_of_cross",
+          "date": "2026-03-22",
+          "time": "15:30",
+          "end_time": "16:15",
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": "St. Faustina's Way of the Cross — after 2 PM Mass & Chaplet",
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-evt-wotc-2026-03-27",
+          "type": "stations_of_cross",
+          "date": "2026-03-27",
+          "time": "15:30",
+          "end_time": "16:15",
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": "St. Faustina's Way of the Cross — after 2 PM Mass & Chaplet",
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-evt-wotc-2026-03-28",
+          "type": "stations_of_cross",
+          "date": "2026-03-28",
+          "time": "15:30",
+          "end_time": "16:15",
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": "St. Faustina's Way of the Cross — after 2 PM Mass & Chaplet",
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-evt-wotc-2026-03-29",
+          "type": "stations_of_cross",
+          "date": "2026-03-29",
+          "time": "15:30",
+          "end_time": "16:15",
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": "St. Faustina's Way of the Cross — after 2 PM Mass & Chaplet",
+          "source": "shrine_website",
+          "validated": true
+        },
+        {
+          "id": "shrine_001-evt-wotc-2026-04-03",
+          "type": "stations_of_cross",
+          "date": "2026-04-03",
+          "time": "15:30",
+          "end_time": "16:15",
+          "location_id": "divine-mercy-shrine-stockbridge",
+          "language": "en",
+          "notes": "St. Faustina's Way of the Cross — after 2 PM Mass & Chaplet",
+          "source": "shrine_website",
+          "validated": true
+        }
+      ],
+      "visitation": null
+    }
+  ],
+  "yc_events": [
+    {
+      "id": "yc-2026-03-02-stj",
+      "title": "Eucharistic Adoration",
+      "date": "2026-03-02",
+      "time": "18:30",
+      "end_time": "20:30",
+      "type": "adoration",
+      "social": false,
+      "notes": null,
+      "parish_id": "parish_032",
+      "location_id": "st-joseph-church-stockbridge",
+      "service_id": "parish_032-ador-001",
+      "venue_name": null,
+      "venue_address": null,
+      "venue_lat": null,
+      "venue_lng": null
+    },
+    {
+      "id": "yc-2026-04-06-stj",
+      "title": "Eucharistic Adoration",
+      "date": "2026-04-06",
+      "time": "18:30",
+      "end_time": "20:30",
+      "type": "adoration",
+      "social": false,
+      "notes": null,
+      "parish_id": "parish_032",
+      "location_id": "st-joseph-church-stockbridge",
+      "service_id": "parish_032-ador-001",
+      "venue_name": null,
+      "venue_address": null,
+      "venue_lat": null,
+      "venue_lng": null
+    },
+    {
+      "id": "yc-2026-05-04-stj",
+      "title": "Eucharistic Adoration",
+      "date": "2026-05-04",
+      "time": "18:30",
+      "end_time": "20:30",
+      "type": "adoration",
+      "social": false,
+      "notes": null,
+      "parish_id": "parish_032",
+      "location_id": "st-joseph-church-stockbridge",
+      "service_id": "parish_032-ador-001",
+      "venue_name": null,
+      "venue_address": null,
+      "venue_lat": null,
+      "venue_lng": null
+    },
+    {
+      "id": "yc-2026-06-01-stj",
+      "title": "Eucharistic Adoration",
+      "date": "2026-06-01",
+      "time": "18:30",
+      "end_time": "20:30",
+      "type": "adoration",
+      "social": false,
+      "notes": null,
+      "parish_id": "parish_032",
+      "location_id": "st-joseph-church-stockbridge",
+      "service_id": "parish_032-ador-001",
+      "venue_name": null,
+      "venue_address": null,
+      "venue_lat": null,
+      "venue_lng": null
+    },
+    {
+      "id": "yc-2026-03-12-cath",
+      "title": "Adoration & Social",
+      "date": "2026-03-12",
+      "time": "18:00",
+      "end_time": null,
+      "type": "adoration",
+      "social": true,
+      "notes": "6:00 PM on 3/12 (not the usual 6:30)",
+      "parish_id": "parish_067",
+      "location_id": null,
+      "service_id": null,
+      "venue_name": null,
+      "venue_address": null,
+      "venue_lat": null,
+      "venue_lng": null
+    },
+    {
+      "id": "yc-2026-04-09-cath",
+      "title": "Adoration & Social",
+      "date": "2026-04-09",
+      "time": "18:30",
+      "end_time": null,
+      "type": "adoration",
+      "social": true,
+      "notes": null,
+      "parish_id": "parish_067",
+      "location_id": null,
+      "service_id": null,
+      "venue_name": null,
+      "venue_address": null,
+      "venue_lat": null,
+      "venue_lng": null
+    },
+    {
+      "id": "yc-2026-05-14-cath",
+      "title": "Adoration & Social",
+      "date": "2026-05-14",
+      "time": "18:30",
+      "end_time": null,
+      "type": "adoration",
+      "social": true,
+      "notes": null,
+      "parish_id": "parish_067",
+      "location_id": null,
+      "service_id": null,
+      "venue_name": null,
+      "venue_address": null,
+      "venue_lat": null,
+      "venue_lng": null
+    },
+    {
+      "id": "yc-2026-06-11-cath",
+      "title": "Adoration & Social",
+      "date": "2026-06-11",
+      "time": "18:30",
+      "end_time": null,
+      "type": "adoration",
+      "social": true,
+      "notes": null,
+      "parish_id": "parish_067",
+      "location_id": null,
+      "service_id": null,
+      "venue_name": null,
+      "venue_address": null,
+      "venue_lat": null,
+      "venue_lng": null
+    },
+    {
+      "id": "yc-2026-03-25-dm",
+      "title": "Bible Study",
+      "date": "2026-03-25",
+      "time": "17:00",
+      "end_time": "18:00",
+      "type": "devotion",
+      "social": false,
+      "notes": null,
+      "parish_id": "shrine_001",
+      "location_id": "divine-mercy-shrine-stockbridge",
+      "service_id": null,
+      "venue_name": null,
+      "venue_address": null,
+      "venue_lat": null,
+      "venue_lng": null
+    },
+    {
+      "id": "yc-2026-04-29-dm",
+      "title": "Bible Study",
+      "date": "2026-04-29",
+      "time": "17:00",
+      "end_time": "18:00",
+      "type": "devotion",
+      "social": false,
+      "notes": null,
+      "parish_id": "shrine_001",
+      "location_id": "divine-mercy-shrine-stockbridge",
+      "service_id": null,
+      "venue_name": null,
+      "venue_address": null,
+      "venue_lat": null,
+      "venue_lng": null
+    },
+    {
+      "id": "yc-2026-05-27-dm",
+      "title": "Bible Study",
+      "date": "2026-05-27",
+      "time": "17:00",
+      "end_time": "18:00",
+      "type": "devotion",
+      "social": false,
+      "notes": null,
+      "parish_id": "shrine_001",
+      "location_id": "divine-mercy-shrine-stockbridge",
+      "service_id": null,
+      "venue_name": null,
+      "venue_address": null,
+      "venue_lat": null,
+      "venue_lng": null
+    },
+    {
+      "id": "yc-2026-06-24-dm",
+      "title": "Bible Study",
+      "date": "2026-06-24",
+      "time": "17:00",
+      "end_time": "18:00",
+      "type": "devotion",
+      "social": false,
+      "notes": null,
+      "parish_id": "shrine_001",
+      "location_id": "divine-mercy-shrine-stockbridge",
+      "service_id": null,
+      "venue_name": null,
+      "venue_address": null,
+      "venue_lat": null,
+      "venue_lng": null
+    },
+    {
+      "id": "yc-2026-03-18-hf",
+      "title": "Adoration & Social",
+      "date": "2026-03-18",
+      "time": "17:00",
+      "end_time": null,
+      "type": "adoration",
+      "social": true,
+      "notes": null,
+      "parish_id": "parish_054",
+      "location_id": "holy-family-south-deerfield",
+      "service_id": "parish_054-ador-wed",
+      "venue_name": null,
+      "venue_address": null,
+      "venue_lat": null,
+      "venue_lng": null
+    },
+    {
+      "id": "yc-2026-04-15-nc",
+      "title": "Adoration & Social",
+      "date": "2026-04-15",
+      "time": "19:00",
+      "end_time": null,
+      "type": "adoration",
+      "social": true,
+      "notes": null,
+      "parish_id": "parish_004",
+      "location_id": null,
+      "service_id": null,
+      "venue_name": null,
+      "venue_address": null,
+      "venue_lat": null,
+      "venue_lng": null
+    },
+    {
+      "id": "yc-2026-05-20-olv",
+      "title": "Mass & Social",
+      "date": "2026-05-20",
+      "time": "18:00",
+      "end_time": null,
+      "type": "sunday_mass",
+      "social": true,
+      "notes": null,
+      "parish_id": "parish_017",
+      "location_id": null,
+      "service_id": "parish_017-mass-wed-1800",
+      "venue_name": null,
+      "venue_address": null,
+      "venue_lat": null,
+      "venue_lng": null
+    },
+    {
+      "id": "yc-2026-06-17-hf",
+      "title": "Adoration & Social",
+      "date": "2026-06-17",
+      "time": "17:00",
+      "end_time": null,
+      "type": "adoration",
+      "social": true,
+      "notes": null,
+      "parish_id": "parish_054",
+      "location_id": "holy-family-south-deerfield",
+      "service_id": null,
+      "venue_name": null,
+      "venue_address": null,
+      "venue_lat": null,
+      "venue_lng": null
     }
   ]
 }
