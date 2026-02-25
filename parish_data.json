@@ -108,7 +108,6 @@
       ],
       "contact": {
         "phone": "413-743-0577",
-        "fax": null,
         "emails": [
           "office@acparishes.org"
         ],
@@ -116,10 +115,10 @@
         "website_validated": false,
         "office_hours": "Mon - Wed, 9:00 a.m. - 1:00 p.m. (St. Mary the Assumption, Cheshire)"
       },
-      "staff": {
-        "pastor": "Rev. Michael Lillpop",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_001-sund-bul-2963",
@@ -426,9 +425,9 @@
         "website_validated": false,
         "office_hours": "Mon. - Thu. 9:00 AM - 3:00 PM"
       },
-      "staff": {
-        "pastor": "Rev. Michael Kokoszka"
-      },
+      "staff": [
+        "pastor"
+      ],
       "services": [
         {
           "id": "parish_003-mass-sat-1600",
@@ -686,17 +685,15 @@
       ],
       "contact": {
         "phone": "413-549-0300",
-        "fax": null,
         "emails": [
           "newmansecretary@diospringfield.org"
         ],
         "website": "https://www.newmanumass.org",
-        "website_validated": false,
-        "office_hours": ""
+        "website_validated": false
       },
-      "staff": {
-        "pastor": "Rev. Deacon Thomas Lynch"
-      },
+      "staff": [
+        "pastor"
+      ],
       "services": [
         {
           "id": "parish_004-mass-mon-530",
@@ -913,9 +910,9 @@
         "website_validated": false,
         "office_hours": "Mon. - Fri. 9:00 AM - 2:00 PM"
       },
-      "staff": {
-        "pastor": "Rev. Deacon Adalberto Santiago-Martínez"
-      },
+      "staff": [
+        "pastor"
+      ],
       "services": [
         {
           "id": "parish_005-mass-mon-800",
@@ -1223,10 +1220,10 @@
         "website_validated": false,
         "office_hours": "Mon. - Fri. 9:00 AM - Noon"
       },
-      "staff": {
-        "pastor": "Rev. David Darcy",
-        "deacon": "Dcn. John Murray"
-      },
+      "staff": [
+        "pastor",
+        "deacon"
+      ],
       "services": [
         {
           "id": "parish_006-mass-sat-1600",
@@ -1559,7 +1556,6 @@
       ],
       "contact": {
         "phone": "413-245-7274",
-        "fax": null,
         "emails": [
           "stchrisbrimfield@gmail.com"
         ],
@@ -1567,9 +1563,9 @@
         "website_validated": false,
         "office_hours": "Mon. - Thu. 8:30 AM - 2:30 PM"
       },
-      "staff": {
-        "pastor": "Rev. John J. Brennan"
-      },
+      "staff": [
+        "pastor"
+      ],
       "services": [
         {
           "id": "parish_007-mass-sat-1800",
@@ -1721,13 +1717,13 @@
           "id": "st-anne-church-chicopee",
           "name": "St. Anne Church",
           "type": "church",
-          "address": "",
+          "address": "30 College Street",
           "city": "Chicopee",
           "state": "MA",
           "zip": "01020",
           "is_accessible": null,
-          "lat": 42.1487,
-          "lng": -72.6078
+          "lat": 42.1716,
+          "lng": -72.6138
         }
       ],
       "contact": {
@@ -1740,10 +1736,10 @@
         "website_validated": false,
         "office_hours": "Mon. - Fri. 8:00 a.m. - 2:00 p.m."
       },
-      "staff": {
-        "pastor": "Rev. Dennis Skowera",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_010-mass-sat-1600",
@@ -2067,13 +2063,13 @@
           "id": "st-anthony-of-padua-church-chicopee",
           "name": "St. Anthony of Padua Church",
           "type": "church",
-          "address": "",
+          "address": "56 St. Anthony Street",
           "city": "Chicopee",
           "state": "MA",
           "zip": "01013",
           "is_accessible": null,
-          "lat": 42.1487,
-          "lng": -72.6078
+          "lat": 42.17,
+          "lng": -72.6003
         }
       ],
       "contact": {
@@ -2087,10 +2083,10 @@
         "website_validated": true,
         "office_hours": "Tues. - Fri. 10:00 a.m. - 2:00 p.m."
       },
-      "staff": {
-        "pastor": "Rev. Jacek Leszczynski, OFM Conv.",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_011-sund-bul-7129",
@@ -2278,7 +2274,6 @@
       ],
       "contact": {
         "phone": "413-536-4558",
-        "fax": null,
         "emails": [
           "frbob@sterose.org"
         ],
@@ -2286,9 +2281,9 @@
         "website_validated": false,
         "office_hours": "Mon. - Thu. 9:00 AM - 5:00 PM; Fri. 9:00 AM - 3:00 PM"
       },
-      "staff": {
-        "pastor": "Rev. Robert Gentile"
-      },
+      "staff": [
+        "pastor"
+      ],
       "services": [
         {
           "id": "parish_012-mass-sat-1600",
@@ -2619,9 +2614,9 @@
         "website_validated": false,
         "office_hours": "Mon. - Fri. 9:00 a.m. - 5:00 p.m."
       },
-      "staff": {
-        "pastor": "Rev. Brad Milunski, OFM Conv."
-      },
+      "staff": [
+        "pastor"
+      ],
       "services": [
         {
           "id": "parish_013-mass-sat-1600",
@@ -3269,10 +3264,10 @@
         "website_validated": false,
         "office_hours": "Mon. - Fri. 10:30 a.m. - 4:30 p.m."
       },
-      "staff": {
-        "pastor": "Rev. Brian McGrath",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_016-sun-001",
@@ -3538,7 +3533,6 @@
       ],
       "contact": {
         "phone": "413-527-9778",
-        "fax": null,
         "emails": [
           "olveasthampton@gmail.com"
         ],
@@ -3546,9 +3540,9 @@
         "website_validated": false,
         "office_hours": "Mon. - Thu. 8:00 AM - 3:00 PM"
       },
-      "staff": {
-        "pastor": "Rev. Ryan Sliwa"
-      },
+      "staff": [
+        "pastor"
+      ],
       "services": [
         {
           "id": "parish_017-mass-sat-1600",
@@ -3944,9 +3938,9 @@
         "website_validated": false,
         "office_hours": "Mon. - Fri. 8:00 a.m.- 3:00 p.m."
       },
-      "staff": {
-        "pastor": "Rev. Wayne Biernat"
-      },
+      "staff": [
+        "pastor"
+      ],
       "services": [
         {
           "id": "parish_018-mass-sat-1600",
@@ -4189,10 +4183,10 @@
         "website_validated": false,
         "office_hours": "Mon.-Thurs. 8:30 AM-4:30 PM; Fri. closed"
       },
-      "staff": {
-        "pastor": "Rev. Steven Amo",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_019-mass-sat-1600",
@@ -4410,9 +4404,9 @@
         "website_validated": false,
         "office_hours": "Mon. - Thurs. 9:00 a.m. - 2:00 p.m."
       },
-      "staff": {
-        "pastor": "Rev. Michael Goodreau"
-      },
+      "staff": [
+        "pastor"
+      ],
       "services": [
         {
           "id": "parish_020-mass-sat-1600",
@@ -4785,18 +4779,16 @@
       ],
       "contact": {
         "phone": "413-528-1157",
-        "fax": null,
         "emails": [
           "st.petergb12@gmail.com"
         ],
-        "website": "",
         "website_validated": false,
         "office_hours": "Mon. - Fri. 9:00 a.m. - 2:00 p.m."
       },
-      "staff": {
-        "pastor": "Rev. William P. Murphy",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_021-sun-001",
@@ -4961,8 +4953,8 @@
           "state": "MA",
           "zip": "01301",
           "is_accessible": null,
-          "lat": null,
-          "lng": null
+          "lat": 42.5883,
+          "lng": -72.5997
         }
       ],
       "contact": {
@@ -4975,10 +4967,10 @@
         "website_validated": false,
         "office_hours": "Mon.-Fri. 9:00 AM-3:00 PM"
       },
-      "staff": {
-        "pastor": "Very Rev. Michael Pierz",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_022-sund-sat-vigil",
@@ -5371,7 +5363,6 @@
       ],
       "contact": {
         "phone": "413-584-1326",
-        "fax": null,
         "emails": [
           "mhrhadleychurch@gmail.com"
         ],
@@ -5379,9 +5370,9 @@
         "website_validated": false,
         "office_hours": "Mon., Tues., Thurs., Fri. 9:00 a.m. - 3:00 p.m."
       },
-      "staff": {
-        "pastor": "Rev. Douglas McGonagle"
-      },
+      "staff": [
+        "pastor"
+      ],
       "services": [
         {
           "id": "parish_023-mass-sat-1600",
@@ -5726,7 +5717,6 @@
       ],
       "contact": {
         "phone": "413-566-8843",
-        "fax": null,
         "emails": [
           "stmaryhampden@gmail.com"
         ],
@@ -5734,9 +5724,9 @@
         "website_validated": false,
         "office_hours": "Mon. - Thurs. 9:00 a.m. - 12:00 p.m."
       },
-      "staff": {
-        "pastor": "Rev. Mark S. Stelzer"
-      },
+      "staff": [
+        "pastor"
+      ],
       "services": [
         {
           "id": "parish_024-mass-sat-1600",
@@ -5940,7 +5930,6 @@
       ],
       "contact": {
         "phone": "413-247-9079",
-        "fax": null,
         "emails": [
           "ourladyofgracehatfield@yahoo.com"
         ],
@@ -5948,9 +5937,9 @@
         "website_validated": false,
         "office_hours": "Mon., Tue., Thu., Fri. 9:00 AM - 2:00 PM (closed Wednesday)"
       },
-      "staff": {
-        "pastor": "Very Rev. Douglas McGonagle"
-      },
+      "staff": [
+        "pastor"
+      ],
       "services": [
         {
           "id": "parish_025-mass-sat-1730",
@@ -6085,9 +6074,9 @@
         "website_validated": false,
         "office_hours": "Mon. - Thu. 9:00 AM - Noon"
       },
-      "staff": {
-        "pastor": "Rev. John Gawienowski"
-      },
+      "staff": [
+        "pastor"
+      ],
       "services": [
         {
           "id": "parish_026-mass-sat-1600",
@@ -6262,7 +6251,6 @@
       ],
       "contact": {
         "phone": "413-532-0713",
-        "fax": null,
         "emails": [
           "blsachol@comcast.net"
         ],
@@ -6270,9 +6258,9 @@
         "website_validated": false,
         "office_hours": "Mon. - Thu. 8:30 AM - 4:00 PM; Fri. 8:30 AM - 2:00 PM"
       },
-      "staff": {
-        "pastor": "Rev. Duy Le"
-      },
+      "staff": [
+        "pastor"
+      ],
       "services": [
         {
           "id": "parish_027-mass-sat-1600",
@@ -6524,10 +6512,10 @@
         "website_validated": false,
         "office_hours": "Mon. - Fri. 8:30 a.m. - 12:30 p.m."
       },
-      "staff": {
-        "pastor": "Rev. Albert Scherer, OFM Conv.",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_028-sun-001",
@@ -6904,10 +6892,10 @@
         "website_validated": false,
         "office_hours": "Mon. - Fri. 10:00 a.m. - 2:00 p.m."
       },
-      "staff": {
-        "pastor": "Rev. Francis Reilly",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_029-sun-001",
@@ -7228,18 +7216,16 @@
       ],
       "contact": {
         "phone": "413-274-3443",
-        "fax": null,
         "emails": [
           "st.teresa9@gmail.com"
         ],
-        "website": "",
         "website_validated": false,
         "office_hours": "Mon. - Fri. 9:00 a.m. - 3:00 p.m."
       },
-      "staff": {
-        "pastor": "Rev. William P. Murphy",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_030-sun-001",
@@ -7352,7 +7338,6 @@
       ],
       "contact": {
         "phone": "413-543-3627",
-        "fax": null,
         "emails": [
           "iccmaoffice@gmail.com"
         ],
@@ -7360,10 +7345,10 @@
         "website_validated": false,
         "office_hours": "Mon., Tue., and Wed. 3:00 p.m. - 6:00 p.m."
       },
-      "staff": {
-        "pastor": "Rev. Piotr Calik",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_031-sun-001",
@@ -7636,7 +7621,6 @@
       ],
       "contact": {
         "phone": "413-243-0275",
-        "fax": null,
         "emails": [
           "lcsmchurch@gmail.com"
         ],
@@ -7645,10 +7629,10 @@
         "office_hours": "Mon. - Thurs. 9:00 a.m. - 12:00 p.m.",
         "notes": "Oratory located behind St. Mary's Church, Lee. Open Mon–Fri 8 AM–11 PM, Sat–Sun 9 AM–11 PM for private prayer and adoration."
       },
-      "staff": {
-        "pastor": "Rev. Matthew Guidi",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_032-sun-001",
@@ -7881,7 +7865,6 @@
       ],
       "contact": {
         "phone": "413-637-0157",
-        "fax": null,
         "emails": [
           "parishoffice@avptriparish.org"
         ],
@@ -7890,10 +7873,10 @@
         "office_hours": "Tues., Wed., Thurs., 9:00 a.m. - 3:00 p.m., Fri. 9:00 a.m. - 1:00 p.m.",
         "notes": "Triparish Community: St. Ann (Lenox), St. Vincent de Paul (Lenox Dale), St. Patrick (West Stockbridge). St. Patrick office: (413) 232-4427 M & TH"
       },
-      "staff": {
-        "pastor": "Rev. Msgr. John Bonzagni",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_033-sun-001",
@@ -8115,7 +8098,6 @@
       ],
       "contact": {
         "phone": "413-567-3124",
-        "fax": null,
         "emails": [
           "parishoffice@stmarylong.org"
         ],
@@ -8123,10 +8105,10 @@
         "website_validated": false,
         "office_hours": "Mon. - Thurs. 9:00 a.m. - 3:00 p.m."
       },
-      "staff": {
-        "pastor": "Rev. Christopher (CJ) Waitekus",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_035-sun-001",
@@ -8548,18 +8530,15 @@
       ],
       "contact": {
         "phone": "413-583-2630",
-        "fax": null,
         "emails": [
           "ctkludlow@gmail.com"
         ],
-        "website": "",
-        "website_validated": false,
-        "office_hours": ""
+        "website_validated": false
       },
-      "staff": {
-        "pastor": "Rev. Raymond Soltys",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_036-sun-001",
@@ -8973,15 +8952,10 @@
         "website_validated": false,
         "office_hours": "Mon. - Thurs. 9:00 a.m. - 5:00 p.m."
       },
-      "staff": {
-        "pastor": "Rev Pedro de Oliveira, OFM. Conv.",
-        "additional": [
-          {
-            "role": "Parochial Vicar",
-            "name": "Friar Luiz De Lima Rangel, OFM Conv."
-          }
-        ]
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_037-sund-bul-5325",
@@ -9230,7 +9204,6 @@
       ],
       "contact": {
         "phone": "413-583-3467",
-        "fax": null,
         "emails": [
           "info@stelizabethludlow.org"
         ],
@@ -9238,10 +9211,10 @@
         "website_validated": false,
         "office_hours": "Mon. - Fri. 8:00 a.m. - 4:00 p.m."
       },
-      "staff": {
-        "pastor": "Rev. Msgr. Homer Gosselin",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_038-sun-001",
@@ -9522,9 +9495,9 @@
         "website_validated": true,
         "office_hours": "Mon. - Fri. 8:30 AM - 5:00 PM"
       },
-      "staff": {
-        "pastor": "Rev. John J. Brennan"
-      },
+      "staff": [
+        "pastor"
+      ],
       "services": [
         {
           "id": "parish_039-mass-sat-1600",
@@ -9704,7 +9677,6 @@
       ],
       "contact": {
         "phone": "413-663-5316",
-        "fax": null,
         "emails": [
           "stelizabethofhungaryna@gmail.com"
         ],
@@ -9712,10 +9684,10 @@
         "website_validated": true,
         "office_hours": "Mon. - Thurs. 9:00 a.m. - 12:30 p.m."
       },
-      "staff": {
-        "pastor": "Rev. Dariusz Wudarski",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_041-sun-001",
@@ -10006,16 +9978,15 @@
       "contact": {
         "phone": "413-584-7310",
         "fax": "413-584-4788",
-        "emails": [],
         "website": "https://www.saintelizabethannseton.net",
         "website_validated": false,
         "office_hours": "Mon. - Fri. 9:00 AM - 3:30 PM",
         "office_address": "87 Beacon Street, Florence, MA 01062"
       },
-      "staff": {
-        "pastor": "",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_042-mass-sat-1600",
@@ -10307,18 +10278,15 @@
       ],
       "contact": {
         "phone": "413-498-5039",
-        "fax": null,
         "emails": [
           "stpatrickschurch0317@gmail.com"
         ],
-        "website": "",
-        "website_validated": false,
-        "office_hours": ""
+        "website_validated": false
       },
-      "staff": {
-        "pastor": "Rev. Paul Bombardier",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_043-sun-001",
@@ -10485,7 +10453,6 @@
       ],
       "contact": {
         "phone": "978-544-2900",
-        "fax": null,
         "emails": [
           "office@stmaryolr.org"
         ],
@@ -10493,10 +10460,10 @@
         "website_validated": false,
         "office_hours": "Mon. and Thurs. 9:00 a.m. - 12:00 p.m."
       },
-      "staff": {
-        "pastor": "Rev. Mark Glover",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_044-sun-001",
@@ -10792,14 +10759,12 @@
         "emails": [
           "sttompal@comcast.net"
         ],
-        "website": "",
-        "website_validated": false,
-        "office_hours": ""
+        "website_validated": false
       },
-      "staff": {
-        "pastor": "Rev. Richard Turner",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_046-sun-001",
@@ -11038,7 +11003,6 @@
       ],
       "contact": {
         "phone": "413-443-6960",
-        "fax": null,
         "emails": [
           "pinkchurch@aol.com"
         ],
@@ -11047,10 +11011,10 @@
         "office_hours": "Mon. - Thurs. 9:00 a.m. - 1:00 p.m.",
         "office_address": "56 Newell Street, Pittsfield, MA 01201"
       },
-      "staff": {
-        "pastor": "Rev. Steven Montesanti",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_047-sun-001",
@@ -11308,7 +11272,6 @@
       ],
       "contact": {
         "phone": "413-442-7470",
-        "fax": null,
         "emails": [
           "stcharlespittsfield@gmail.com"
         ],
@@ -11316,15 +11279,10 @@
         "website_validated": false,
         "office_hours": "Mon. - Thurs. 9:30 a.m. - 2:00 p.m."
       },
-      "staff": {
-        "pastor": "Rev. Matthew Barone",
-        "additional": [
-          {
-            "role": "Pastor email",
-            "name": "frmattbarone@gmail.com"
-          }
-        ]
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_048-sun-001",
@@ -11647,7 +11605,6 @@
       ],
       "contact": {
         "phone": "413-445-5789",
-        "fax": null,
         "emails": [
           "msgrmike@stjoepittsfield.com"
         ],
@@ -11655,10 +11612,10 @@
         "website_validated": false,
         "office_hours": "Mon., Tues., Wed. 9:30 a.m. - 4:30 p.m."
       },
-      "staff": {
-        "pastor": "Rev. Msgr. Michael Shershanovich",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_049-sun-001",
@@ -11923,7 +11880,7 @@
           "id": "st-mark-church-pittsfield",
           "name": "St. Mark Church",
           "type": "church",
-          "address": "",
+          "address": "400 West Street",
           "city": "Pittsfield",
           "state": "MA",
           "zip": "01201",
@@ -11935,15 +11892,14 @@
       "contact": {
         "phone": "413-447-7510",
         "fax": "413-448-2164",
-        "emails": [],
         "website": "https://www.saintmarkspittsfield.org",
         "website_validated": false,
         "office_hours": "Mon. - Thurs. 8:30 a.m. - 2:30 p.m."
       },
-      "staff": {
-        "pastor": "Rev. John Salatino",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_050-sund-bul-8673",
@@ -12075,18 +12031,16 @@
       ],
       "contact": {
         "phone": "413-862-4418",
-        "fax": null,
         "emails": [
           "parish@holyfamilyrussell.org"
         ],
         "website": "https://www.holyfamilyrussell.org",
-        "website_validated": false,
-        "office_hours": ""
+        "website_validated": false
       },
-      "staff": {
-        "pastor": "Rev. Ronald Sadlowski",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_051-sun-001",
@@ -12244,7 +12198,6 @@
       ],
       "contact": {
         "phone": "413-229-3028",
-        "fax": null,
         "emails": [
           "our.lady.valley@gmail.com"
         ],
@@ -12252,10 +12205,10 @@
         "website_validated": false,
         "office_hours": "By appointment"
       },
-      "staff": {
-        "pastor": "Rev. Robert Miskell",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_052-sun-001",
@@ -12501,10 +12454,10 @@
         "website_validated": false,
         "office_hours": "Mon. - Fri. 8:00 a.m. - Noon"
       },
-      "staff": {
-        "pastor": "Rev. William Lunney",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_053-sun-0800",
@@ -12746,8 +12699,8 @@
           "state": "MA",
           "zip": "01373",
           "is_accessible": null,
-          "lat": null,
-          "lng": null
+          "lat": 42.4773,
+          "lng": -72.6077
         },
         {
           "id": "st-marks-mission-south-deerfield",
@@ -12758,13 +12711,12 @@
           "state": "MA",
           "zip": "01373",
           "is_accessible": null,
-          "lat": null,
-          "lng": null
+          "lat": 42.478,
+          "lng": -72.606
         }
       ],
       "contact": {
         "phone": "413-665-3254",
-        "fax": null,
         "emails": [
           "Holyfamilysd29@gmail.com"
         ],
@@ -12772,10 +12724,10 @@
         "website_validated": false,
         "office_hours": "Mon. - Thurs. 8:30 a.m. - 3:00 p.m."
       },
-      "staff": {
-        "pastor": "Rev. Paul Norman",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_054-sun-001",
@@ -13055,7 +13007,6 @@
       ],
       "contact": {
         "phone": "413-532-2850",
-        "fax": null,
         "emails": [
           "stpatrickssh@outlook.com"
         ],
@@ -13063,15 +13014,10 @@
         "website_validated": false,
         "office_hours": "Mon. - Thurs. 9:00 a.m. - 3:00 p.m., Fri. 9:00 a.m. - 12:00 p.m."
       },
-      "staff": {
-        "pastor": "Fr. David Aufiero",
-        "additional": [
-          {
-            "role": "Parochial Vicar",
-            "name": "Fr. Peter Ayorogo"
-          }
-        ]
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_055-mass-sat-1600",
@@ -13376,7 +13322,6 @@
       ],
       "contact": {
         "phone": "413-532-3228",
-        "fax": null,
         "emails": [
           "alittleflower22@gmail.com",
           "sttfaithformation@gmail.com"
@@ -13385,10 +13330,10 @@
         "website_validated": false,
         "office_hours": "Mon. - Thu. 9:00 AM - 4:00 PM"
       },
-      "staff": {
-        "pastor": "Rev. Michael Twohig",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_056-mass-sat-1600",
@@ -13667,7 +13612,6 @@
       ],
       "contact": {
         "phone": "413- 569-0161",
-        "fax": null,
         "emails": [
           "ParishOffice@ollsouthwick.org"
         ],
@@ -13675,10 +13619,10 @@
         "website_validated": false,
         "office_hours": "Mon. - Wed. 9:00 a.m. - 3:00 p.m., Thurs. 9:00 a.m. - 12:00 p.m."
       },
-      "staff": {
-        "pastor": "",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_057-sun-001",
@@ -13866,14 +13810,12 @@
         "emails": [
           "Blessedsacramentchurch@comcast.net"
         ],
-        "website": "",
-        "website_validated": false,
-        "office_hours": ""
+        "website_validated": false
       },
-      "staff": {
-        "pastor": "",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_058-sun-001",
@@ -14093,18 +14035,15 @@
       ],
       "contact": {
         "phone": "413-736-0076",
-        "fax": null,
         "emails": [
           "Blessedsacramentchurch@comcast.net"
         ],
-        "website": "",
-        "website_validated": false,
-        "office_hours": ""
+        "website_validated": false
       },
-      "staff": {
-        "pastor": "",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_059-sun-001",
@@ -14307,15 +14246,14 @@
       "contact": {
         "phone": "413-783-4111",
         "fax": "413-788-6143",
-        "emails": [],
         "website": "https://www.holycrossparish.org",
         "website_validated": false,
         "office_hours": "Mon. - Fri. 8:00 a.m. - 2:00 p.m."
       },
-      "staff": {
-        "pastor": "Rev. Quynh Dinh Tran",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_060-con-001",
@@ -14610,15 +14548,14 @@
       "contact": {
         "phone": "413-733-5823",
         "fax": "413-788-6481",
-        "emails": [],
         "website": "https://www.holynamespringfieldma.org",
         "website_validated": false,
         "office_hours": "Mon. - Fri. 8:30 a.m. - 4:00 p.m."
       },
-      "staff": {
-        "pastor": "Rev. John Chrysostom Tibakunirwa",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_061-sun-001",
@@ -14963,7 +14900,6 @@
       ],
       "contact": {
         "phone": "413-739-0456",
-        "fax": null,
         "emails": [
           "office@mmohspringfield.org"
         ],
@@ -14971,10 +14907,10 @@
         "website_validated": false,
         "office_hours": "Mon., Tues.,Wed., 9:00 a.m. - 3:00 p.m."
       },
-      "staff": {
-        "pastor": "Rev. Michael Wood",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_062-sun-001",
@@ -15243,10 +15179,10 @@
         "website_validated": false,
         "office_hours": "Mon. - Fri. 8:00 a.m. - 4:00 p.m., Sat. 9:00 a.m. - 3:30 p.m."
       },
-      "staff": {
-        "pastor": "Rev. Robert S. White, CSS",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_063-sun-001",
@@ -15494,15 +15430,10 @@
         "website_validated": true,
         "office_hours": "Mon. - Thurs. 9:00 a.m. - 1:00 p.m."
       },
-      "staff": {
-        "pastor": "Rev. Msgr. Christopher D. Connelly",
-        "additional": [
-          {
-            "role": "Co-Pastor",
-            "name": "Rev. Msgr. George A. Farland"
-          }
-        ]
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_064-sun-001",
@@ -15761,13 +15692,13 @@
           "id": "sacred-heart-church-springfield",
           "name": "Sacred Heart Church",
           "type": "church",
-          "address": "",
+          "address": "387 Chestnut Street",
           "city": "Springfield",
           "state": "MA",
           "zip": "01104",
           "is_accessible": null,
-          "lat": 42.1015,
-          "lng": -72.5898
+          "lat": 42.105,
+          "lng": -72.587
         }
       ],
       "contact": {
@@ -15777,13 +15708,12 @@
           "shc395@aol.com"
         ],
         "website": "https://www.sacredheartspringfield.org",
-        "website_validated": true,
-        "office_hours": ""
+        "website_validated": true
       },
-      "staff": {
-        "pastor": "Rev. Msgr. George A. Farland",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_065-sun-001",
@@ -16005,7 +15935,6 @@
       ],
       "contact": {
         "phone": "413-783-8619",
-        "fax": null,
         "emails": [
           "parishoffice@stcatherinespringfield.org"
         ],
@@ -16013,10 +15942,10 @@
         "website_validated": true,
         "office_hours": "Mon–Thu 9:00 AM–2:00 PM; Fri closed"
       },
-      "staff": {
-        "pastor": "Rev. Jeffrey Ballou",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_066-sun-001",
@@ -16326,7 +16255,6 @@
       ],
       "contact": {
         "phone": "413-781-3656",
-        "fax": null,
         "emails": [
           "stmichaelscathedral@diospringfield.org"
         ],
@@ -16334,10 +16262,10 @@
         "website_validated": false,
         "office_hours": "Mon. - Fri. 9:30 a.m. - 3:30 p.m."
       },
-      "staff": {
-        "pastor": "",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_067-sun-001",
@@ -16625,13 +16553,13 @@
           "id": "st-patrick-church-springfield",
           "name": "St. Patrick Church",
           "type": "church",
-          "address": "",
+          "address": "1900 Allen Street",
           "city": "Springfield",
           "state": "MA",
           "zip": "01118",
           "is_accessible": true,
-          "lat": 42.1015,
-          "lng": -72.5898
+          "lat": 42.0832,
+          "lng": -72.5337
         }
       ],
       "contact": {
@@ -16644,10 +16572,10 @@
         "website_validated": false,
         "office_hours": "Mon. - Fri. 8:30 a.m. - 1:30 p.m."
       },
-      "staff": {
-        "pastor": "Very Rev. Christopher Malatesta",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_068-sund-man-6792",
@@ -16816,18 +16744,16 @@
       ],
       "contact": {
         "phone": "413-737-4422",
-        "fax": null,
         "emails": [
           "stpaulchurch235@gmail.com"
         ],
-        "website": "",
         "website_validated": false,
         "office_hours": "Mon. - Fri. 9:00 a.m. - 2:00 p.m."
       },
-      "staff": {
-        "pastor": "Rev. Peter Ha Dinh Dang",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_069-sun-001",
@@ -17083,7 +17009,6 @@
       ],
       "contact": {
         "phone": "413-283-6030",
-        "fax": null,
         "emails": [
           "petruspaulus1905@gmail.com"
         ],
@@ -17091,10 +17016,10 @@
         "website_validated": false,
         "office_hours": "Mon., Fri., 9:00 a.m. - 3:00 p.m."
       },
-      "staff": {
-        "pastor": "Rev. Stefan Niemczyk",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_071-sund-man-6792",
@@ -17373,7 +17298,7 @@
           "id": "our-lady-of-czestochowa-church-turners-falls",
           "name": "Our Lady of Czestochowa Church",
           "type": "church",
-          "address": "",
+          "address": "84 K Street",
           "city": "Turners Falls",
           "state": "MA",
           "zip": "01376",
@@ -17384,16 +17309,14 @@
       ],
       "contact": {
         "phone": "413-863-4748",
-        "fax": null,
-        "emails": [],
         "website": "https://www.chroniclesofczestochowa.wordpress.com",
         "website_validated": false,
         "office_hours": "Tues. - Fri. 9:30 a.m. - 3:30 p.m."
       },
-      "staff": {
-        "pastor": "Rev. Sean O’Mannion",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_072-sun-001",
@@ -17782,7 +17705,6 @@
       ],
       "contact": {
         "phone": "413-863-2585",
-        "fax": null,
         "emails": [
           "church@ourladyofpeacetf.com"
         ],
@@ -17790,10 +17712,10 @@
         "website_validated": true,
         "office_hours": "Mon. - Thurs. 8:30 a.m. - Noon"
       },
-      "staff": {
-        "pastor": "Rev. Stanley Aksamit",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_073-sun-001",
@@ -18016,7 +17938,6 @@
       ],
       "contact": {
         "phone": "413-967-5913",
-        "fax": null,
         "emails": [
           "allsaintschurch17@gmail.com"
         ],
@@ -18024,15 +17945,10 @@
         "website_validated": false,
         "office_hours": "Mon & Wed 9am–12pm; Fri closed"
       },
-      "staff": {
-        "pastor": "Rev. Piotr Pawlus",
-        "additional": [
-          {
-            "role": "Parochial Vicar",
-            "name": "Rev. Fr. Joel Philip"
-          }
-        ]
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_074-sund-bul-1081",
@@ -18228,7 +18144,6 @@
       ],
       "contact": {
         "phone": "413-967-5913",
-        "fax": null,
         "emails": [
           "stmaryschurch60@gmail.com"
         ],
@@ -18236,15 +18151,10 @@
         "website_validated": false,
         "office_hours": "Mon & Wed 9am–12pm; Fri closed"
       },
-      "staff": {
-        "pastor": "Rev. Piotr Pawlus",
-        "additional": [
-          {
-            "role": "Parochial Vicar",
-            "name": "Rev. Fr. Joel Philip"
-          }
-        ]
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_075-sund-bul-5211",
@@ -18428,10 +18338,10 @@
         "website_validated": false,
         "office_hours": "Mon. - Fri. 9:30 a.m. - 4:30 p.m."
       },
-      "staff": {
-        "pastor": "Rev. John Sheaffer",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_076-sund-man-3650",
@@ -18680,7 +18590,6 @@
       ],
       "contact": {
         "phone": "413-568-1506",
-        "fax": null,
         "emails": [
           "htoffice@holytrinitywestfield.com"
         ],
@@ -18688,10 +18597,10 @@
         "website_validated": false,
         "office_hours": "Mon. - Thurs. 8:00 a.m. - 4:00 p.m."
       },
-      "staff": {
-        "pastor": "",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_077-sun-001",
@@ -18840,18 +18749,16 @@
       ],
       "contact": {
         "phone": "413-562-3450",
-        "fax": null,
         "emails": [
           "olbsoffice@aol.com"
         ],
         "website": "https://www.olbswestfield.org",
-        "website_validated": false,
-        "office_hours": ""
+        "website_validated": false
       },
-      "staff": {
-        "pastor": "Rev. Daniel Pacholec",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_078-sun-001",
@@ -19019,18 +18926,16 @@
       ],
       "contact": {
         "phone": "413-562-5477",
-        "fax": null,
         "emails": [
           "eramos@stmsaints.org"
         ],
         "website": "https://www.stmarysofwestfield.com",
-        "website_validated": false,
-        "office_hours": ""
+        "website_validated": false
       },
-      "staff": {
-        "pastor": "Rev. Jonathan Reardon",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_079-sund-bul-4669",
@@ -19237,7 +19142,6 @@
       ],
       "contact": {
         "phone": "413-568-1506",
-        "fax": null,
         "emails": [
           "htoffice@holytrinitywestfield.com"
         ],
@@ -19245,10 +19149,10 @@
         "website_validated": false,
         "office_hours": "Mon. - Thurs. 9:00 a.m. - 4:00 p.m."
       },
-      "staff": {
-        "pastor": "",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_080-sun-001",
@@ -19351,7 +19255,7 @@
           "id": "st-cecilia-church-wilbraham",
           "name": "St. Cecilia Church",
           "type": "church",
-          "address": "",
+          "address": "42 Main Street",
           "city": "Wilbraham",
           "state": "MA",
           "zip": "01095",
@@ -19362,7 +19266,6 @@
       ],
       "contact": {
         "phone": "413-596-4232",
-        "fax": null,
         "emails": [
           "administrator@saintceciliawilbraham.org"
         ],
@@ -19370,10 +19273,10 @@
         "website_validated": false,
         "office_hours": "Mon. - Fri. 8:00 a.m. - 3:00 p.m."
       },
-      "staff": {
-        "pastor": "Rev. John Nolte",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_082-sund-man-6792",
@@ -19542,18 +19445,16 @@
       ],
       "contact": {
         "phone": "413-458-4946",
-        "fax": null,
         "emails": [
           "saintspatrickandraphael@gmail.com"
         ],
         "website": "https://www.williamstowncatholics.org",
-        "website_validated": false,
-        "office_hours": ""
+        "website_validated": false
       },
-      "staff": {
-        "pastor": "Rev. John McDonagh",
-        "additional": []
-      },
+      "staff": [
+        "pastor",
+        "additional"
+      ],
       "services": [
         {
           "id": "parish_083-sund-man-6792",
@@ -19757,27 +19658,15 @@
       "established": null,
       "contact": {
         "phone": "413-298-3931",
-        "fax": null,
-        "emails": [],
         "website": "https://www.shrineofdivinemercy.org",
-        "office_hours": null,
         "office_address": "PO Box 951, 2 Prospect Hill Road, Stockbridge, MA 01262",
         "notes": "A Ministry of the Marians of the Immaculate Conception. Bus Pilgrimages: 413-298-1119. Gift Shop: 888-484-1112. Also: thedivinemercy.org, marian.org"
       },
-      "staff": {
-        "pastor": "Fr. Matthew Tomeny, MIC",
-        "deacon": null,
-        "additional": [
-          {
-            "role": "Vice Rector",
-            "name": "Fr. Robert Vennetti, MIC"
-          },
-          {
-            "role": "Vice Rector",
-            "name": "Fr. Anthony Gramlich, MIC"
-          }
-        ]
-      },
+      "staff": [
+        "pastor",
+        "deacon",
+        "additional"
+      ],
       "locations": [
         {
           "id": "divine-mercy-shrine-stockbridge",
@@ -20114,7 +20003,10 @@
           "validated": true
         }
       ],
-      "visitation": null
+      "visitation": null,
+      "is_mission": false,
+      "mission_of": null,
+      "clergy": []
     }
   ],
   "yc_events": [
