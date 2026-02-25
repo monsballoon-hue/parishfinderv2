@@ -1789,9 +1789,9 @@ function serviceMatchesDay(svc, dayFilter) {
   // 'weekday' services match Mon-Fri only
   const WEEKDAYS = ['monday','tuesday','wednesday','thursday','friday'];
   if (days.includes('weekday') && WEEKDAYS.includes(dayFilter)) return true;
-  // 'daily' services match Mon-Sat (not Sunday in Catholic parish context)
-  const DAILY_DAYS = ['monday','tuesday','wednesday','thursday','friday','saturday'];
-  if (days.includes('daily') && DAILY_DAYS.includes(dayFilter)) return true;
+  // 'daily' services match all 7 days (Mon-Sun)
+  const ALL_DAYS = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
+  if (days.includes('daily') && ALL_DAYS.includes(dayFilter)) return true;
   return false;
 }
 
@@ -2787,9 +2787,8 @@ function refreshSoon() {
 
       const svcDay = svc.day;
       const isWeekday = todayIdx >= 1 && todayIdx <= 5; // Mon-Fri
-      const isDailyDay = todayIdx >= 1 && todayIdx <= 6; // Mon-Sat
       const matchesToday = svcDay === todayName
-        || (svcDay === 'daily' && isDailyDay)
+        || (svcDay === 'daily')  // daily = all 7 days
         || (svcDay === 'weekday' && isWeekday);
 
       if (!matchesToday) continue;
