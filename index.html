@@ -91,6 +91,22 @@
     font-weight: 500;
     white-space: nowrap;
   }
+  .header-add-btn {
+    padding: 4px 12px;
+    background: var(--gold);
+    color: var(--navy);
+    border: none;
+    border-radius: 20px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s;
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+  }
+  .header-add-btn:hover { background: var(--gold-light); }
 
   /* CONTROLS */
   .controls-bar {
@@ -796,6 +812,7 @@
   @media (max-width: 768px) {
     .parish-grid { grid-template-columns: 1fr; }
     .header-badge { display: none; }
+    .header-add-btn { margin-left: auto; }
     .controls-inner { padding: 8px 14px; }
     .controls-row-1 { padding-bottom: 2px; }
     .controls-row-2 { padding-top: 2px; }
@@ -1114,39 +1131,6 @@
 
 
   /* ─── ADD PARISH CTA STRIP ─────────────────────────────────── */
-  .add-parish-strip {
-    background: linear-gradient(135deg, #0d1e4a 0%, #162a70 100%);
-    border-bottom: 3px solid var(--gold);
-    padding: 12px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-  }
-  .add-parish-strip .strip-text {
-    color: rgba(255,255,255,0.85);
-    font-size: 0.82rem;
-  }
-  .add-parish-strip .strip-text strong {
-    color: #fff;
-    font-weight: 700;
-  }
-  .add-parish-btn {
-    padding: 8px 20px;
-    background: var(--gold);
-    color: var(--navy);
-    border: none;
-    border-radius: 6px;
-    font-family: 'Source Sans 3', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 700;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.15s;
-    flex-shrink: 0;
-  }
-  .add-parish-btn:hover { background: #e8c84a; transform: translateY(-1px); }
-
   /* ─── NEW PARISH MODAL ──────────────────────────────────────── */
   .np-backdrop {
     display: none;
@@ -1643,6 +1627,11 @@
     margin-top: 4px;
     opacity: 0.8;
   }
+  .yc-card-dist {
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.5);
+    margin-top: 3px;
+  }
   /* YC badge on parish cards — sits above the card header as its own strip */
   .parish-yc-banner {
     background: linear-gradient(135deg, #e8a838 0%, #d4831a 100%);
@@ -1781,6 +1770,7 @@
       <p>Catholic Services Directory</p>
     </div>
     <div class="header-badge" id="headerBadge">Loading…</div>
+    <button class="header-add-btn" id="headerAddBtn" onclick="event.stopPropagation(); openNewParish();" title="Add a church">+ Add</button>
   </div>
 </header>
 
@@ -1875,13 +1865,7 @@
   </div>
 </div>
 
-<div class="add-parish-strip" id="addParishStrip" style="cursor:pointer;" onclick="toggleAddParish(event)">
-  <div class="strip-text">
-    <strong>Don't see your church?</strong> <span id="addParishHint" style="color:rgba(255,255,255,0.6);font-size:0.8rem;">Tap to expand</span>
-    <div id="addParishBody" style="display:none;margin-top:6px;">Submit a request to have it added to the directory — include as much detail as you have and the data team will verify and publish it.</div>
-  </div>
-  <button class="add-parish-btn" id="addParishBtn" style="display:none;" onclick="openNewParish()">+ Add My Church</button>
-</div>
+
 
 
 
@@ -3101,6 +3085,7 @@ function requestLocation() {
       document.getElementById('sortToggle').classList.add('location-ready');
       document.querySelectorAll('.sort-btn').forEach(b => b.classList.toggle('active', b.dataset.sort === 'proximity'));
       refreshSoon();
+      renderYCEvents();
       render();
     },
     () => {
@@ -3493,12 +3478,31 @@ function renderYCEvents() {
     const socialTag = evt.social ? '<div class="yc-card-social">✦ Social after</div>' : '';
     const noteTag = evt.notes ? `<div style="font-size:0.6rem;color:rgba(255,255,255,0.4);margin-top:2px;">${evt.notes}</div>` : '';
 
+    // Distance calculation
+    let distTag = '';
+    if (userLat !== null) {
+      let evtLat = evt.venue_lat, evtLng = evt.venue_lng;
+      if (!evtLat && evt.parish_id) {
+        const ep = parishes.find(x => x.id === evt.parish_id);
+        if (ep) {
+          const eLoc = evt.location_id
+            ? (ep.locations || []).find(l => l.id === evt.location_id)
+            : (ep.locations && ep.locations[0]);
+          if (eLoc && eLoc.lat) { evtLat = eLoc.lat; evtLng = eLoc.lng; }
+        }
+      }
+      if (evtLat && evtLng) {
+        const evtDist = haversine(userLat, userLng, evtLat, evtLng);
+        distTag = `<div class="yc-card-dist">${evtDist.toFixed(1)} mi</div>`;
+      }
+    }
+
     return `<div class="yc-card" data-parish-id="${evt.parish_id || ''}" onclick="scrollToParish('${evt.parish_id || ''}')">
       <div class="yc-card-date">${dateStr}</div>
       <div class="yc-card-title">${evt.title}</div>
       <div class="yc-card-time">${timeStr}${endStr}</div>
       <div class="yc-card-place">${placeName}</div>
-      ${socialTag}${noteTag}
+      ${distTag}${socialTag}${noteTag}
     </div>`;
   }).join('');
 
@@ -3530,15 +3534,7 @@ function scrollToParish(parishId) {
 
 // langBar removed from DOM — language filtering via langFilterEl select only
 
-// Add parish strip collapse
-var addParishExpanded = false;
-function toggleAddParish(e) {
-  if (e.target.classList.contains('add-parish-btn')) return; // let button click through
-  addParishExpanded = !addParishExpanded;
-  document.getElementById('addParishBody').style.display = addParishExpanded ? 'block' : 'none';
-  document.getElementById('addParishBtn').style.display  = addParishExpanded ? 'inline-flex' : 'none';
-  document.getElementById('addParishHint').textContent   = addParishExpanded ? '' : 'Tap to expand';
-}
+// Add parish now handled via header button → openNewParish()
 
 // ═══════════════════════════════════════════════════
 // QUICK ACTIONS
@@ -3692,7 +3688,7 @@ window.clearAllFilters  = clearAllFilters;
 window.clearLocationSort = clearLocationSort;
 window.setSortMode       = setSortMode;
 window.toggleContact     = toggleContact;
-window.toggleAddParish  = toggleAddParish;
+
 window.scrollToParish   = scrollToParish;
 
 })();
