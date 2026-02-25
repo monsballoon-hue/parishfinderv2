@@ -18,7 +18,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.Default.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
 <style>
   :root {
     --navy: #1a2744;
@@ -2183,6 +2186,56 @@
   }
   .map-chip:hover { border-color: var(--gold); }
   .map-chip.active { background: var(--navy); border-color: var(--navy); color: #fff; }
+
+  /* Marker Cluster overrides */
+  .marker-cluster-small, .marker-cluster-medium, .marker-cluster-large {
+    background: rgba(26, 39, 68, 0.25);
+  }
+  .marker-cluster-small div, .marker-cluster-medium div, .marker-cluster-large div {
+    background: var(--navy);
+    color: #fff;
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+  }
+
+  /* Radius dropdown (shared by Now view & Map view) */
+  .radius-select {
+    padding: 4px 8px;
+    border-radius: 14px;
+    border: 1.5px solid var(--gold);
+    background: var(--gold-pale);
+    color: var(--navy);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%231a2744'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    padding-right: 22px;
+  }
+  .radius-select:focus { outline: 2px solid var(--gold); }
+
+  .map-radius-select {
+    padding: 5px 10px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    background: #fff;
+    color: var(--text);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23333'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    padding-right: 22px;
+  }
   .leaflet-popup-content {
     font-family: 'Source Sans 3', sans-serif;
     font-size: 0.85rem;
@@ -2420,6 +2473,13 @@
     <div class="now-header">
       <h2>What's Happening</h2>
       <button class="now-location-btn" id="nowLocationBtn" onclick="requestLocation()">📍 Enable Location</button>
+      <select class="radius-select" id="nowRadiusSelect" onchange="setFilterRadius(this.value)" style="display:none;" title="Distance radius">
+        <option value="5">5 mi</option>
+        <option value="10" selected>10 mi</option>
+        <option value="15">15 mi</option>
+        <option value="25">25 mi</option>
+        <option value="50">50 mi</option>
+      </select>
     </div>
     <div class="now-filter-pills" id="nowFilterPills">
       <button class="now-pill active" data-now-mode="all" onclick="setNowMode('all')">All</button>
@@ -2452,6 +2512,13 @@
       <button class="map-chip" data-map-cat="mass" onclick="setMapFilter('mass')">Mass</button>
       <button class="map-chip" data-map-cat="confession" onclick="setMapFilter('confession')">Confession</button>
       <button class="map-chip" data-map-cat="devotion" onclick="setMapFilter('devotion')">Devotions</button>
+      <select class="map-radius-select" id="mapRadiusSelect" onchange="setFilterRadius(this.value)" style="display:none;" title="Distance radius">
+        <option value="5">5 mi</option>
+        <option value="10">10 mi</option>
+        <option value="15">15 mi</option>
+        <option value="25" selected>25 mi</option>
+        <option value="50">50 mi</option>
+      </select>
     </div>
     <div id="mapContainer"></div>
   </div>
@@ -3940,7 +4007,13 @@ function requestLocation() {
         L.circleMarker([userLat, userLng], {
           radius: 8, fillColor: '#4285F4', fillOpacity: 0.9, color: '#fff', weight: 2
         }).addTo(appMap).bindPopup('You are here');
+        renderMapMarkers();
       }
+      // Show radius dropdowns
+      var nowRad = document.getElementById('nowRadiusSelect');
+      var mapRad = document.getElementById('mapRadiusSelect');
+      if (nowRad) nowRad.style.display = '';
+      if (mapRad) mapRad.style.display = '';
     },
     () => {
       locationStatus = 'denied';
@@ -4477,13 +4550,16 @@ function renderNowView() {
 
   // Update location button state
   const locBtn = document.getElementById('nowLocationBtn');
+  const nowRadiusSel = document.getElementById('nowRadiusSelect');
   if (locBtn) {
     if (userLat !== null) {
       locBtn.textContent = '📍 Location Active';
       locBtn.classList.add('active');
+      if (nowRadiusSel) nowRadiusSel.style.display = '';
     } else {
       locBtn.textContent = '📍 Enable Location';
       locBtn.classList.remove('active');
+      if (nowRadiusSel) nowRadiusSel.style.display = 'none';
     }
   }
 
@@ -4552,8 +4628,8 @@ function renderNowView() {
           if (svcLoc && svcLoc.lat) { svcLat = svcLoc.lat; svcLng = svcLoc.lng; }
         }
         dist = haversine(userLat, userLng, svcLat, svcLng);
-        // With location active: only show within 10 miles
-        if (dist > 10) continue;
+        // With location active: only show within filterRadius miles
+        if (dist > filterRadius) continue;
       }
 
       let displayName = (primaryLoc && primaryLoc.name) || p.name;
@@ -4865,6 +4941,20 @@ function renderYCView() {
 var appMap = null;
 var mapMarkers = [];
 var mapFilter = '';
+var mapClusterGroup = null;
+var filterRadius = 10; // default miles for What's Now; map default is 25
+
+function setFilterRadius(val) {
+  filterRadius = parseInt(val, 10);
+  // Sync both dropdowns
+  var nowSel = document.getElementById('nowRadiusSelect');
+  var mapSel = document.getElementById('mapRadiusSelect');
+  if (nowSel) nowSel.value = filterRadius;
+  if (mapSel) mapSel.value = filterRadius;
+  // Re-render affected views
+  if (currentView === 'now') renderNowView();
+  if (mapInitialized && appMap) renderMapMarkers();
+}
 
 function initMap() {
   if (mapInitialized) return;
@@ -4878,6 +4968,16 @@ function initMap() {
     maxZoom: 18,
   }).addTo(appMap);
 
+  // Init marker cluster group
+  mapClusterGroup = L.markerClusterGroup({
+    maxClusterRadius: 40,
+    spiderfyOnMaxZoom: true,
+    showCoverageOnHover: false,
+    zoomToBoundsOnClick: true,
+    disableClusteringAtZoom: 15
+  });
+  appMap.addLayer(mapClusterGroup);
+
   // Invalidate size after view becomes visible
   setTimeout(() => { appMap.invalidateSize(); }, 200);
 
@@ -4888,6 +4988,8 @@ function initMap() {
     L.circleMarker([userLat, userLng], {
       radius: 8, fillColor: '#4285F4', fillOpacity: 0.9, color: '#fff', weight: 2
     }).addTo(appMap).bindPopup('You are here');
+    var mapRad = document.getElementById('mapRadiusSelect');
+    if (mapRad) mapRad.style.display = '';
   }
 }
 
@@ -4895,7 +4997,7 @@ function renderMapMarkers() {
   if (!appMap) return;
 
   // Clear existing
-  mapMarkers.forEach(m => appMap.removeLayer(m));
+  if (mapClusterGroup) mapClusterGroup.clearLayers();
   mapMarkers = [];
 
   const markerColors = {
@@ -4918,6 +5020,13 @@ function renderMapMarkers() {
     }
 
     const loc = p.locations[0];
+
+    // Distance radius filter (only when location is active)
+    if (userLat !== null) {
+      const dist = haversine(userLat, userLng, loc.lat, loc.lng);
+      if (dist > filterRadius) continue;
+    }
+
     let churchName = loc.name || p.name;
     if (/Cathedral|Basilica/i.test(churchName)) churchName = churchName.replace(/\s+Church$/i, '');
 
@@ -4940,7 +5049,7 @@ function renderMapMarkers() {
       fillOpacity: 0.85,
       color: '#fff',
       weight: 2,
-    }).addTo(appMap);
+    });
 
     marker.bindPopup(`
       <h3>${churchName}</h3>
@@ -4954,6 +5063,7 @@ function renderMapMarkers() {
     marker.on('mouseout', function() { if (!this.isPopupOpen()) { this.setRadius(12); this.setStyle({ weight: 2 }); } });
 
     mapMarkers.push(marker);
+    mapClusterGroup.addLayer(marker);
   }
 }
 
@@ -4977,6 +5087,7 @@ window.setNowMode       = setNowMode;
 window.toggleNowOverflow = toggleNowOverflow;
 window.renderYCView     = renderYCView;
 window.setMapFilter     = setMapFilter;
+window.setFilterRadius  = setFilterRadius;
 window.toggleFavorite   = toggleFavorite;
 window.toggleFavFilter  = toggleFavFilter;
 window.shareCurrentView  = shareCurrentView;
