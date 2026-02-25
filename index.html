@@ -2598,8 +2598,8 @@ function parishMatchesSearch(p, q) {
   // WP1: Include location/church names in search index
   const locNames = (p.locations || []).map(l => l.name || '').join(' ');
   const locAddresses = (p.locations || []).map(l => l.address || '').join(' ');
-  const staffStr = p.staff ? `${p.staff.pastor || ''} ${p.staff.deacon || ''}` : '';
-  const haystack = `${p.name} ${locNames} ${locAddresses} ${p.town} ${p.county} ${svcNotes} ${svcTypes} ${staffStr}`.toLowerCase();
+  const clergyStr = (p.clergy || []).map(cl => cl.name || '').join(' ');
+  const haystack = `${p.name} ${locNames} ${locAddresses} ${p.town} ${p.county} ${svcNotes} ${svcTypes} ${clergyStr}`.toLowerCase();
 
   // Normalize query: expand abbreviations, handle "st"/"saint" equivalence
   const words = q.toLowerCase().split(/\s+/).filter(Boolean);
@@ -2613,6 +2613,9 @@ function parishMatchesSearch(p, q) {
     // Normalize st/saint/st.
     if (w === 'saint') { expanded.push('st'); continue; }
     if (w === 'st.' || w === 'st') { expanded.push('st'); continue; }
+    // Normalize fr/father/fr./rev
+    if (w === 'father' || w === 'reverend' || w === 'rev' || w === 'rev.') { expanded.push('fr'); continue; }
+    if (w === 'fr.' || w === 'fr') { expanded.push('fr'); continue; }
     expanded.push(w);
   }
 
@@ -2623,10 +2626,15 @@ function parishMatchesSearch(p, q) {
     if (abbrevWords.every(aw => haystack.includes(aw))) return true;
   }
 
-  // Build a normalized haystack with st/saint equivalence
+  // Build a normalized haystack with st/saint and fr/father equivalence
   const normHaystack = haystack
     .replace(/\bsaint\b/g, 'st')
-    .replace(/\bst\.\b/g, 'st');
+    .replace(/\bst\.\b/g, 'st')
+    .replace(/\bfather\b/g, 'fr')
+    .replace(/\bfr\.\b/g, 'fr')
+    .replace(/\bfriar\b/g, 'fr')
+    .replace(/\brev\.\b/g, 'fr')
+    .replace(/\brevd?\b/g, 'fr');
 
   return expanded.every(w => normHaystack.includes(w));
 }
@@ -3328,7 +3336,7 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
 
   // Build contact drawer rows
   const c = p.contact || {};
-  const st = p.staff || {};
+  const clergy = p.clergy || [];
   const contactRows = [];
   if (c.phone) contactRows.push(`<div class="contact-row"><span class="contact-row-label">Phone</span><span class="contact-row-val"><a href="tel:${c.phone.replace(/\D/g,'')}" class="phone-link">${c.phone}</a></span></div>`);
   if (c.fax)   contactRows.push(`<div class="contact-row"><span class="contact-row-label">Fax</span><span class="contact-row-val">${c.fax}</span></div>`);
@@ -3340,12 +3348,9 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   if (c.office_hours) contactRows.push(`<div class="contact-row"><span class="contact-row-label">Office hrs</span><span class="contact-row-val">${c.office_hours}</span></div>`);
   if (loc && loc.address) contactRows.push(`<div class="contact-row"><span class="contact-row-label">Address</span><span class="contact-row-val">${loc.address}</span></div>`);
   if (c.office_address) contactRows.push(`<div class="contact-row"><span class="contact-row-label">Mailing</span><span class="contact-row-val">${c.office_address}</span></div>`);
-  if (st.pastor && st.pastor !== 'Not assigned') contactRows.push(`<div class="contact-row"><span class="contact-row-label">Pastor</span><span class="contact-row-val">${st.pastor}</span></div>`);
-  if (st.deacon) contactRows.push(`<div class="contact-row"><span class="contact-row-label">Deacon</span><span class="contact-row-val">${st.deacon}</span></div>`);
-  if (st.additional && st.additional.length) {
-    st.additional.forEach(s => {
-      if (s.name) contactRows.push(`<div class="contact-row"><span class="contact-row-label">${s.role||'Staff'}</span><span class="contact-row-val">${s.name}</span></div>`);
-    });
+  // Clergy from data
+  for (const cl of clergy) {
+    if (cl.name) contactRows.push(`<div class="contact-row"><span class="contact-row-label">${cl.title || 'Clergy'}</span><span class="contact-row-val">${cl.name}</span></div>`);
   }
   if (c.notes) contactRows.push(`<div class="contact-row"><span class="contact-row-label">Notes</span><span class="contact-row-val">${c.notes}</span></div>`);
 
@@ -3353,8 +3358,10 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
     ? `<button class="contact-toggle-btn" onclick="toggleContact(this)">Contact</button>
        <div class="contact-drawer">${contactRows.join('')}</div>` : '';
 
-  const pastorHeader = st.pastor && st.pastor !== 'Not assigned'
-    ? `<div class="pastor-line">${st.pastor}</div>` : '';
+  // Pastor name for card header — find first clergy with "Pastor" or "Rector" title
+  const pastorClergy = clergy.find(cl => cl.name && /pastor|rector/i.test(cl.title || ''));
+  const pastorHeader = pastorClergy
+    ? `<div class="pastor-line">${pastorClergy.name}</div>` : '';
 
   // Accessibility badge
   const accessBadge = (loc && loc.is_accessible)
