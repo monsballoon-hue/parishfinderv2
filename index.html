@@ -548,7 +548,6 @@
     font-size: 0.74rem;
     color: var(--mid-gray);
   }
-  .pastor-line { font-size: 0.78rem; color: var(--mid-gray); font-style: italic; margin-top: 1px; }
   .pastor-name { font-style: italic; }
   .verified-badge {
     display: flex;
@@ -1993,6 +1992,24 @@
   .now-pill.active { background: var(--navy); border-color: var(--navy); color: #fff; }
   .now-pill.lent-pill.active { background: #7c4fa0; border-color: #7c4fa0; }
   .now-timeline { display: flex; flex-direction: column; gap: 6px; }
+  /* Desktop grid for What's Now and YC Events */
+  @media (min-width: 769px) {
+    .now-view { max-width: 960px; margin: 0 auto; }
+    .now-timeline {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .now-section-label { grid-column: 1 / -1; }
+    .now-overflow-wrapper { grid-column: 1 / -1; display: none; }
+    .now-overflow-wrapper.open {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .now-expand-btn { grid-column: 1 / -1; }
+    .now-empty { grid-column: 1 / -1; }
+  }
   .now-item {
     display: flex;
     align-items: center;
@@ -3358,10 +3375,10 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
     ? `<button class="contact-toggle-btn" onclick="toggleContact(this)">Contact</button>
        <div class="contact-drawer">${contactRows.join('')}</div>` : '';
 
-  // Pastor name for card header — find first clergy with "Pastor" or "Rector" title
+  // Pastor name for card footer — find first clergy with "Pastor" or "Rector" title
   const pastorClergy = clergy.find(cl => cl.name && /pastor|rector/i.test(cl.title || ''));
-  const pastorHeader = pastorClergy
-    ? `<div class="pastor-line">${pastorClergy.name}</div>` : '';
+  const pastorFooter = pastorClergy
+    ? `<span class="pastor-name">${pastorClergy.name}</span>` : `<span></span>`;
 
   // Accessibility badge
   const accessBadge = (loc && loc.is_accessible)
@@ -3395,7 +3412,6 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
       <h2>${churchName}</h2>
       ${alsoAtHtml}
       <div class="card-location">${p.town}, MA &middot; ${p.county} County</div>
-      ${pastorHeader}
       <span class="county-badge"><button class="fav-btn${isFav ? ' favorited' : ''}" onclick="event.stopPropagation(); toggleFavorite('${p.id}', this);" title="${isFav ? 'Remove from favorites' : 'Add to favorites'}">${isFav ? '❤️' : '🤍'}</button> ${confBadge}</span>
       ${confWarn}
     </div>
@@ -3406,7 +3422,7 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
       ${renderSpecialEvents(p)}
     </div>
     <div class="card-footer">
-      <span></span>
+      ${pastorFooter}
       <button class="reconcile-btn" onclick="openReconcile('${p.id}')" title="Report an update or correction">Reconcile</button>
     </div>
   </article>`;
