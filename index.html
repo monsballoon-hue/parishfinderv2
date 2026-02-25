@@ -1576,17 +1576,14 @@
   }
   .cal-dropdown-menu {
     display: none;
-    position: absolute;
-    top: 100%;
-    right: 0;
+    position: fixed;
     background: #fff;
     border: 1px solid var(--border);
     border-radius: 6px;
     box-shadow: var(--shadow-lg);
-    z-index: 50;
+    z-index: 200;
     min-width: 160px;
     padding: 4px 0;
-    margin-top: 4px;
   }
   .cal-dropdown-menu.open { display: block; }
   .cal-dropdown-menu a {
@@ -3028,10 +3025,19 @@ function generateGCalURL(title, dateStr, timeStr, endTimeStr, location, descript
 
 function toggleCalDropdown(el) {
   const menu = el.parentElement.querySelector('.cal-dropdown-menu');
+  // Close any other open dropdowns first
   document.querySelectorAll('.cal-dropdown-menu.open').forEach(m => {
     if (m !== menu) m.classList.remove('open');
   });
-  menu.classList.toggle('open');
+  if (menu.classList.contains('open')) {
+    menu.classList.remove('open');
+    return;
+  }
+  // Position the fixed menu below the button
+  const rect = el.getBoundingClientRect();
+  menu.style.top = (rect.bottom + 4) + 'px';
+  menu.style.left = Math.max(4, Math.min(rect.left, window.innerWidth - 170)) + 'px';
+  menu.classList.add('open');
 }
 
 document.addEventListener('click', function(e) {
