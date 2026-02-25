@@ -548,6 +548,7 @@
     font-size: 0.74rem;
     color: var(--mid-gray);
   }
+  .pastor-line { font-size: 0.78rem; color: var(--mid-gray); font-style: italic; margin-top: 1px; }
   .pastor-name { font-style: italic; }
   .verified-badge {
     display: flex;
@@ -2066,6 +2067,15 @@
     color: var(--mid-gray);
   }
   .now-empty .cross { font-size: 2.5rem; margin-bottom: 10px; opacity: 0.25; }
+  .now-overflow-wrapper { display: none; }
+  .now-overflow-wrapper.open { display: block; }
+  .now-expand-btn {
+    display: block; width: 100%; padding: 10px; margin: 2px 0 8px;
+    background: var(--warm-gray); border: 1px dashed var(--border); border-radius: 8px;
+    color: var(--navy); font-size: 0.78rem; font-weight: 600; cursor: pointer;
+    text-align: center; letter-spacing: 0.02em;
+  }
+  .now-expand-btn:hover { background: #e8e4dc; }
   .now-section-label {
     font-size: 0.72rem;
     font-weight: 700;
@@ -2264,7 +2274,7 @@
 <div class="controls-bar">
   <div class="controls-inner controls-row-1">
     <div class="search-wrap">
-      <input type="text" id="searchInput" placeholder="Search by name or town…" autocomplete="off">
+      <input type="text" id="searchInput" placeholder="Search by name, town, or pastor…" autocomplete="off">
     </div>
     <select id="countyFilter" style="display:none">
       <option value="">All Counties</option>
@@ -3332,8 +3342,8 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
     ? `<button class="contact-toggle-btn" onclick="toggleContact(this)">Contact</button>
        <div class="contact-drawer">${contactRows.join('')}</div>` : '';
 
-  const pastor = st.pastor && st.pastor !== 'Not assigned'
-    ? `<span class="pastor-name">${st.pastor}</span>` : `<span></span>`;
+  const pastorHeader = st.pastor && st.pastor !== 'Not assigned'
+    ? `<div class="pastor-line">${st.pastor}</div>` : '';
 
   // Accessibility badge
   const accessBadge = (loc && loc.is_accessible)
@@ -3367,6 +3377,7 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
       <h2>${churchName}</h2>
       ${alsoAtHtml}
       <div class="card-location">${p.town}, MA &middot; ${p.county} County</div>
+      ${pastorHeader}
       <span class="county-badge"><button class="fav-btn${isFav ? ' favorited' : ''}" onclick="event.stopPropagation(); toggleFavorite('${p.id}', this);" title="${isFav ? 'Remove from favorites' : 'Add to favorites'}">${isFav ? '❤️' : '🤍'}</button> ${confBadge}</span>
       ${confWarn}
     </div>
@@ -3377,7 +3388,7 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
       ${renderSpecialEvents(p)}
     </div>
     <div class="card-footer">
-      ${pastor}
+      <span></span>
       <button class="reconcile-btn" onclick="openReconcile('${p.id}')" title="Report an update or correction">Reconcile</button>
     </div>
   </article>`;
@@ -4647,19 +4658,18 @@ function renderNowView() {
     const noLocNote = userLat === null ? '<br><small style="color:#999;">Enable location for nearby results.</small>' : '';
     container.innerHTML = `<div class="now-empty"><div class="cross">✝</div><p>No services happening or starting within 60 minutes.${noLocNote}</p></div>`;
   } else {
-    let html = '';
-    let lastStatus = '';
+    // Group results by status
+    const grouped = { now: [], soon: [] };
+    for (const r of displayResults) {
+      if (grouped[r.status]) grouped[r.status].push(r);
+    }
+
     const SVCTYPE_SHORT = { confession:'Confession', mass:'Mass', sunday_mass:'Mass', daily_mass:'Mass',
       stations_of_cross:'Stations', adoration:'Adoration', holy_hour:'Holy Hour', rosary:'Rosary',
       divine_mercy:'Divine Mercy', devotion:'Devotion', communion_service:'Communion', novena:'Novena' };
+    const SECTION_LIMIT = 3;
 
-    for (const r of displayResults) {
-      if (r.status !== lastStatus) {
-        const labels = { now: 'Happening Now', soon: 'Starting Soon' };
-        html += `<div class="now-section-label">${labels[r.status] || r.status}</div>`;
-        lastStatus = r.status;
-      }
-
+    function renderItem(r) {
       let minsLabel = '';
       if (r.status === 'now') minsLabel = '<span class="time-status">Happening now</span>';
       else if (r.minsAway <= 5) minsLabel = '<span class="time-away">In a few min</span>';
@@ -4671,13 +4681,49 @@ function renderNowView() {
       const distHtml = r.dist !== null
         ? `<span class="now-item-dist${r.dist <= 5 ? ' near' : ''}">${r.dist.toFixed(1)} mi</span>` : '';
 
-      html += `<div class="now-item${itemClass}" onclick="switchAppView('churches'); setTimeout(() => scrollToParish('${r.p.id}'), 200);">
+      return `<div class="now-item${itemClass}" onclick="switchAppView('churches'); setTimeout(() => scrollToParish('${r.p.id}'), 200);">
         <div class="now-item-time"><div class="time-big">${fmt12(r.svc.time)}</div>${minsLabel}</div>
         <div class="now-item-info"><div class="item-type">${typeLabel}</div><div class="item-name">${r.displayName}</div><div class="item-location">${r.p.town}, MA</div></div>
         ${distHtml}
       </div>`;
     }
+
+    let html = '';
+    const sectionLabels = { now: 'Happening Now', soon: 'Starting Soon' };
+
+    for (const status of ['now', 'soon']) {
+      const items = grouped[status];
+      if (!items.length) continue;
+      html += `<div class="now-section-label">${sectionLabels[status]}</div>`;
+      // Show first 3
+      for (let i = 0; i < Math.min(items.length, SECTION_LIMIT); i++) {
+        html += renderItem(items[i]);
+      }
+      // Overflow items collapsed
+      if (items.length > SECTION_LIMIT) {
+        const overflowCount = items.length - SECTION_LIMIT;
+        html += `<div class="now-overflow-wrapper" id="nowOverflow_${status}">`;
+        for (let i = SECTION_LIMIT; i < items.length; i++) {
+          html += renderItem(items[i]);
+        }
+        html += `</div>`;
+        html += `<button class="now-expand-btn" id="nowExpandBtn_${status}" onclick="toggleNowOverflow('${status}')">Show ${overflowCount} more ▾</button>`;
+      }
+    }
     container.innerHTML = html;
+  }
+}
+
+function toggleNowOverflow(status) {
+  const wrapper = document.getElementById('nowOverflow_' + status);
+  const btn = document.getElementById('nowExpandBtn_' + status);
+  if (!wrapper || !btn) return;
+  const isOpen = wrapper.classList.toggle('open');
+  if (isOpen) {
+    btn.textContent = 'Show less ▴';
+  } else {
+    const count = wrapper.children.length;
+    btn.textContent = `Show ${count} more ▾`;
   }
 }
 
@@ -4870,6 +4916,7 @@ window.shareParish       = shareParish;
 window.scrollToParish   = scrollToParish;
 window.switchAppView    = switchAppView;
 window.setNowMode       = setNowMode;
+window.toggleNowOverflow = toggleNowOverflow;
 window.renderYCView     = renderYCView;
 window.setMapFilter     = setMapFilter;
 window.toggleFavorite   = toggleFavorite;
