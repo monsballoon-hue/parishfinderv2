@@ -20281,6 +20281,23 @@
       "venue_address": null,
       "venue_lat": null,
       "venue_lng": null
+    },
+    {
+      "id": "yc-2026-02-26-test",
+      "title": "Lenten Holy Hour & Social",
+      "date": "2026-02-26",
+      "time": "19:00",
+      "end_time": "20:30",
+      "type": "holy_hour",
+      "social": true,
+      "notes": "TEST EVENT — remove before production deploy",
+      "parish_id": "parish_067",
+      "location_id": "st-michael-s-cathedral-church-springfield",
+      "service_id": null,
+      "venue_name": null,
+      "venue_address": null,
+      "venue_lat": null,
+      "venue_lng": null
     }
   ]
 }
