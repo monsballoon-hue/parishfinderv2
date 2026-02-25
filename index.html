@@ -276,6 +276,7 @@
     margin-bottom: 2px;
     font-style: italic;
     padding-right: 70px;
+    line-height: 1.45;
     line-height: 1.3;
   }
   /* WP1-1C: Location label on service lines for multi-site parishes */
@@ -2452,12 +2453,12 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   let alsoAtHtml = '';
   if (isMultiSite) {
     const siblings = worshipSites.slice(1);
-    const siblingText = siblings.map(s => {
+    const siblingLines = siblings.map(s => {
       const cityLabel = (s.city && s.city.toLowerCase() !== (p.town||'').toLowerCase())
         ? `, ${s.city}` : '';
       return `${s.name}${cityLabel}`;
-    }).join(' &middot; ');
-    alsoAtHtml = `<div class="also-at">Also at: ${siblingText}</div>`;
+    }).join('<br>');
+    alsoAtHtml = `<div class="also-at">Also at:<br>${siblingLines}</div>`;
   }
 
   // WP1-1C: Build location lookup map for service-level labels
