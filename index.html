@@ -1546,7 +1546,7 @@
     padding: 10px 0 12px;
   }
   .yc-inner {
-    max-width: 720px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 12px;
   }
@@ -1641,21 +1641,98 @@
     margin-top: 4px;
     opacity: 0.8;
   }
-  /* YC badge on parish cards */
-  .parish-yc-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 3px;
+  /* YC badge on parish cards — prominent banner */
+  .parish-yc-banner {
     background: linear-gradient(135deg, #e8a838 0%, #d4831a 100%);
     color: #1a1a2e;
-    font-size: 0.54rem;
+    padding: 6px 14px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 10px 10px 0 0;
+    margin: -14px -14px 10px -14px;
+  }
+  .parish-yc-banner .yc-banner-label {
+    font-size: 0.62rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    background: rgba(26,26,46,0.2);
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+  .parish-yc-banner .yc-banner-text {
+    opacity: 0.85;
+    font-weight: 600;
+  }
+  /* YC badge inline on individual service lines */
+  .svc-yc-tag {
+    display: inline-flex;
+    align-items: center;
+    background: linear-gradient(135deg, #e8a838 0%, #d4831a 100%);
+    color: #1a1a2e;
+    font-size: 0.5rem;
     font-weight: 800;
     letter-spacing: 0.06em;
-    padding: 1px 5px;
-    border-radius: 3px;
+    padding: 1px 4px;
+    border-radius: 2px;
     text-transform: uppercase;
-    margin-left: 6px;
+    margin-left: 4px;
     vertical-align: middle;
+  }
+
+  /* YC active this week — full card highlight */
+  .parish-card.yc-active-week {
+    border: 2px solid #e8a838;
+    box-shadow: 0 0 0 1px rgba(232,168,56,0.2), 0 4px 16px rgba(232,168,56,0.15);
+  }
+  .parish-card.yc-active-week:hover {
+    box-shadow: 0 0 0 1px rgba(232,168,56,0.3), 0 6px 24px rgba(232,168,56,0.22);
+  }
+  .parish-card.yc-active-week .card-header {
+    background: linear-gradient(135deg, #2a2540 0%, #3a2f50 100%);
+  }
+  .parish-card.yc-active-week .parish-yc-banner {
+    padding: 8px 14px;
+    font-size: 0.75rem;
+  }
+  .parish-card.yc-active-week .parish-yc-banner .yc-banner-label {
+    font-size: 0.68rem;
+    padding: 2px 8px;
+  }
+
+  /* YC literal event rows in Upcoming Events section */
+  .yc-event-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 4px 0;
+    border-bottom: 1px solid #f0ead6;
+  }
+  .yc-event-row:last-child { border-bottom: none; }
+  .yc-event-date-col {
+    flex-shrink: 0;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #b8860b;
+    min-width: 48px;
+  }
+  .yc-event-detail-col {
+    font-size: 0.72rem;
+    color: #333;
+    line-height: 1.3;
+  }
+  .yc-event-title-tag {
+    font-weight: 600;
+  }
+  .yc-event-social-tag {
+    font-size: 0.6rem;
+    color: #b8860b;
+    font-weight: 600;
+    margin-left: 4px;
   }
 
 
@@ -2215,7 +2292,9 @@ function renderServiceSection(title, icon, services, dayFilter, timeFilter, cate
       // WP1-1C: Location label for multi-site parishes
       const locLabel = (isMultiSite && svc.location_id && locMap && locMap[svc.location_id])
         ? `<span class="svc-location-label">&middot; ${locMap[svc.location_id].name}</span>` : '';
-      return { timeStr, lang, season, typeTag, note, locLabel };
+      // WP3: YC badge on linked services
+      const ycTag = ycServiceIds.has(svc.id) ? '<span class="svc-yc-tag">YC</span>' : '';
+      return { timeStr, lang, season, typeTag, note, locLabel, ycTag };
     };
 
     let timesHtml;
@@ -2224,7 +2303,7 @@ function renderServiceSection(title, icon, services, dayFilter, timeFilter, cate
       timesHtml = `<span class="svc-inline">${
         svcs.map(svc => {
           const e = entryHtml(svc);
-          return `<span class="svc-t">${e.timeStr}${e.locLabel}${e.typeTag}${e.lang}${e.season}</span>`;
+          return `<span class="svc-t">${e.timeStr}${e.locLabel}${e.typeTag}${e.lang}${e.season}${e.ycTag}</span>`;
         }).join('<span class="svc-sep">·</span>')
       }</span>`;
     } else {
@@ -2233,7 +2312,7 @@ function renderServiceSection(title, icon, services, dayFilter, timeFilter, cate
         svcs.map(svc => {
           const e = entryHtml(svc);
           const noteHtml = e.note ? `<span class="svc-note-line">${e.note}</span>` : '';
-          return `<span class="svc-stack-row"><span class="svc-t">${e.timeStr}</span>${e.locLabel}${e.typeTag}${e.lang}${e.season}${noteHtml}</span>`;
+          return `<span class="svc-stack-row"><span class="svc-t">${e.timeStr}</span>${e.locLabel}${e.typeTag}${e.lang}${e.season}${e.ycTag}${noteHtml}</span>`;
         }).join('')
       }</span>`;
     }
@@ -2318,7 +2397,8 @@ function renderLentenSection(allServices, dayFilter, timeFilter, categoryFilter,
       // WP1-1C: Location label for multi-site parishes
       const locLabel = (isMultiSite && svc.location_id && locMap && locMap[svc.location_id])
         ? `<span class="svc-location-label">&middot; ${locMap[svc.location_id].name}</span>` : '';
-      return `<span class="svc-stack-row"><span class="svc-t">${timeStr}</span>${locLabel}${typeTag}${lang}${svc.notes ? `<span class="svc-note-line">${svc.notes}</span>` : ''}</span>`;
+      const ycTag = ycServiceIds.has(svc.id) ? '<span class="svc-yc-tag">YC</span>' : '';
+      return `<span class="svc-stack-row"><span class="svc-t">${timeStr}</span>${locLabel}${typeTag}${lang}${ycTag}${svc.notes ? `<span class="svc-note-line">${svc.notes}</span>` : ''}</span>`;
     };
 
     return `<li class="service-row">
@@ -2340,9 +2420,14 @@ function renderSpecialEvents(p) {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  // Only show future or today's events
+  // Show future/today events, OR recurring events whose season is still active
   const upcoming = p.special_events.filter(evt => {
     if (!evt.date) return false;
+    // Recurring seasonal events: show if season is currently active
+    if (evt.recurrence && evt.recurrence.type === 'seasonal' && evt.recurrence.season) {
+      const fakeSvc = { seasonal: { is_seasonal: true, season: evt.recurrence.season } };
+      return isCurrentSeason(fakeSvc);
+    }
     const evtDate = new Date(evt.date + 'T00:00:00');
     return evtDate >= today;
   }).sort((a, b) => a.date.localeCompare(b.date) || (a.time || '').localeCompare(b.time || ''));
@@ -2350,11 +2435,20 @@ function renderSpecialEvents(p) {
   if (!upcoming.length) return '';
 
   const rows = upcoming.map(evt => {
-    // Format date: "Mar 18"
-    const d = new Date(evt.date + 'T12:00:00'); // noon to avoid timezone shift
-    const month = d.toLocaleString('en-US', { month: 'short' });
-    const day = d.getDate();
-    const dateStr = `${month} ${day}`;
+    const isRecurring = evt.recurrence && evt.recurrence.type === 'seasonal';
+
+    let dateStr;
+    if (isRecurring && evt.recurrence.days && evt.recurrence.days.length) {
+      // Show recurring schedule: "Fri, Sat, Sun"
+      const dayAbbrs = evt.recurrence.days.map(d => d.charAt(0).toUpperCase() + d.slice(1,3));
+      dateStr = dayAbbrs.join(', ');
+    } else {
+      // Format date: "Mar 18"
+      const d = new Date(evt.date + 'T12:00:00'); // noon to avoid timezone shift
+      const month = d.toLocaleString('en-US', { month: 'short' });
+      const day = d.getDate();
+      dateStr = `${month} ${day}`;
+    }
 
     const timeStr = evt.time ? fmt12(evt.time) : '';
     const endStr = evt.end_time ? ` – ${fmt12(evt.end_time)}` : '';
@@ -2369,6 +2463,48 @@ function renderSpecialEvents(p) {
 
   return `<div class="service-section special-events">
     <div class="service-section-title">Upcoming Events</div>
+    <ul class="service-list special-events-list">${rows}</ul>
+  </div>`;
+}
+
+// Render YC literal events (no service_id) on parish cards in an Events-style section
+function renderYCLiteralEvents(p) {
+  const evts = ycLiteralEventsByParish[p.id];
+  if (!evts || !evts.length) return '';
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const upcoming = evts.filter(evt => {
+    if (!evt.date) return false;
+    const evtDate = new Date(evt.date + 'T00:00:00');
+    return evtDate >= today;
+  });
+  if (!upcoming.length) return '';
+
+  const rows = upcoming.map(evt => {
+    const d = new Date(evt.date + 'T12:00:00');
+    const dayName = d.toLocaleString('en-US', { weekday: 'short' });
+    const month = d.toLocaleString('en-US', { month: 'short' });
+    const dayNum = d.getDate();
+    const dateStr = `${dayName}, ${month} ${dayNum}`;
+
+    const timeStr = evt.time ? fmt12(evt.time) : '';
+    const endStr = evt.end_time ? ` – ${fmt12(evt.end_time)}` : '';
+    const socialTag = evt.social ? '<span class="yc-event-social-tag">✦ Social after</span>' : '';
+    const noteTag = evt.notes ? ` <span style="opacity:0.65;font-size:0.62rem;">— ${evt.notes}</span>` : '';
+
+    return `<li class="yc-event-row">
+      <span class="yc-event-date-col">${dateStr}</span>
+      <span class="yc-event-detail-col">
+        <span class="yc-event-title-tag">${evt.title}</span>
+        ${timeStr ? ` · ${timeStr}${endStr}` : ''}${socialTag}${noteTag}
+      </span>
+    </li>`;
+  }).join('');
+
+  return `<div class="service-section special-events" style="border-left:3px solid #e8a838;">
+    <div class="service-section-title" style="color:#b8860b;"><span class="svc-yc-tag" style="margin-right:6px;font-size:0.55rem;">YC</span>Young &amp; Catholic Events</div>
     <ul class="service-list special-events-list">${rows}</ul>
   </div>`;
 }
@@ -2421,6 +2557,10 @@ function getVerifiedBadge(p) {
 }
 
 var ycParishIds = new Set(); // populated by renderYCEvents(), used by card rendering
+var ycServiceIds = new Set(); // service IDs linked to YC events
+var ycNextEventByParish = {}; // parish_id → next upcoming YC event object
+var ycActiveThisWeek = new Set(); // parish_ids with a YC event this week (Sun-Sat)
+var ycLiteralEventsByParish = {}; // parish_id → array of upcoming YC events without service_id
 
 function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, distMiles) {
   const groups = groupServices(p.services || []);
@@ -2557,11 +2697,25 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   const confWarn = isLowConf
     ? `<div class="confidence-warn">Schedule unverified — confirm times with the church</div>` : '';
 
-  const ycBadge = ycParishIds.has(p.id) ? '<span class="parish-yc-tag">YC</span>' : '';
+  let ycBannerHtml = '';
+  if (ycParishIds.has(p.id)) {
+    const nextEvt = ycNextEventByParish[p.id];
+    let bannerText = '';
+    if (nextEvt) {
+      const d = new Date(nextEvt.date + 'T12:00:00');
+      const dayName = d.toLocaleString('en-US', { weekday: 'short' });
+      const month = d.toLocaleString('en-US', { month: 'short' });
+      const dayNum = d.getDate();
+      const timeStr = nextEvt.time ? fmt12(nextEvt.time) : '';
+      bannerText = `Next: ${nextEvt.title} · ${dayName} ${month} ${dayNum}${timeStr ? ' · ' + timeStr : ''}${nextEvt.social ? ' · Social after' : ''}`;
+    }
+    ycBannerHtml = `<div class="parish-yc-banner"><span class="yc-banner-label">YC</span> Young &amp; Catholic${bannerText ? `<span class="yc-banner-text">— ${bannerText}</span>` : ''}</div>`;
+  }
 
-  return `<article class="parish-card${isLowConf ? ' low-confidence' : ''}">
+  return `<article class="parish-card${isLowConf ? ' low-confidence' : ''}${ycActiveThisWeek.has(p.id) ? ' yc-active-week' : ''}" data-parish-id="${p.id}">
     <div class="card-header">
-      <h2>${churchName}${ycBadge}</h2>
+      ${ycBannerHtml}
+      <h2>${churchName}</h2>
       ${alsoAtHtml}
       <div class="card-location">${p.town}, MA &middot; ${p.county} County</div>
       <span class="county-badge">${confBadge}</span>
@@ -2571,6 +2725,7 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
     <div class="card-body">
       ${massWrapped}${confWrapped}${lentWrapped}${adorWrapped}${devotWrapped}${otherWrapped}
       ${renderSpecialEvents(p)}
+      ${renderYCLiteralEvents(p)}
     </div>
     <div class="card-footer">
       ${pastor}
@@ -2681,6 +2836,22 @@ function render() {
     // Alphabetical (default)
     filtered.sort((a, b) => a.name.localeCompare(b.name));
   }
+
+  // Pin YC active-this-week parishes to top (regardless of filters)
+  if (ycActiveThisWeek.size > 0) {
+    // Ensure active-week parishes are in results even if filters excluded them
+    const filteredIds = new Set(filtered.map(p => p.id));
+    const missingYC = parishes.filter(p => ycActiveThisWeek.has(p.id) && !filteredIds.has(p.id));
+    if (missingYC.length) filtered.unshift(...missingYC);
+
+    // Stable sort: active-week first, then rest in existing order
+    filtered.sort((a, b) => {
+      const aYC = ycActiveThisWeek.has(a.id) ? 0 : 1;
+      const bYC = ycActiveThisWeek.has(b.id) ? 0 : 1;
+      return aYC - bYC;
+    });
+  }
+
   var html = filtered.map(function(p) {
     return renderParishCard(p, day, time, cat, subtype, lang, getDistMiles(p));
   }).join('');
@@ -2953,13 +3124,25 @@ function refreshSoon() {
     if (!primaryLoc || !primaryLoc.lat) continue;
 
     for (const evt of p.special_events) {
-      if (!evt.date || !evt.time) continue;
-      // Only today's events
-      const evtDate = evt.date; // "2026-03-18" format
+      if (!evt.time) continue;
+
+      // Check if this event applies today
+      let appliesToday = false;
       const todayStr = now.getFullYear() + '-' +
         String(now.getMonth()+1).padStart(2,'0') + '-' +
         String(now.getDate()).padStart(2,'0');
-      if (evtDate !== todayStr) continue;
+
+      if (evt.recurrence && evt.recurrence.type === 'seasonal' && evt.recurrence.season) {
+        // Recurring seasonal: check if season is active AND today's day matches
+        const fakeSvc = { seasonal: { is_seasonal: true, season: evt.recurrence.season } };
+        if (isCurrentSeason(fakeSvc) && evt.recurrence.days && evt.recurrence.days.length) {
+          const todayDayName = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'][now.getDay()];
+          appliesToday = evt.recurrence.days.includes(todayDayName);
+        }
+      } else if (evt.date) {
+        appliesToday = (evt.date === todayStr);
+      }
+      if (!appliesToday) continue;
       if (!svcMatchesMode(evt)) continue;
 
       const svcMin = timeToMinutes(evt.time);
@@ -3088,7 +3271,43 @@ function renderYCEvents() {
 
   // Build parish ID → name lookup for card labels
   ycParishIds.clear();
-  upcoming.forEach(evt => { if (evt.parish_id) ycParishIds.add(evt.parish_id); });
+  ycServiceIds.clear();
+  ycNextEventByParish = {};
+  ycActiveThisWeek.clear();
+  ycLiteralEventsByParish = {};
+
+  // Compute current week window (Sunday through Saturday)
+  const nowForWeek = new Date();
+  const dayOfWeek = nowForWeek.getDay(); // 0=Sun
+  const weekStart = new Date(nowForWeek);
+  weekStart.setDate(nowForWeek.getDate() - dayOfWeek);
+  weekStart.setHours(0, 0, 0, 0);
+  const weekEnd = new Date(weekStart);
+  weekEnd.setDate(weekStart.getDate() + 6);
+  weekEnd.setHours(23, 59, 59, 999);
+
+  upcoming.forEach(evt => {
+    if (evt.parish_id) ycParishIds.add(evt.parish_id);
+    if (evt.service_id) ycServiceIds.add(evt.service_id);
+    // Track the next (soonest) event per parish
+    if (evt.parish_id && !ycNextEventByParish[evt.parish_id]) {
+      ycNextEventByParish[evt.parish_id] = evt;
+    }
+    // Check if event falls within this week
+    if (evt.parish_id && evt.date) {
+      const evtDate = new Date(evt.date + 'T12:00:00');
+      if (evtDate >= weekStart && evtDate <= weekEnd) {
+        ycActiveThisWeek.add(evt.parish_id);
+      }
+    }
+    // Build literal events map (no service_id = standalone event)
+    if (evt.parish_id && !evt.service_id) {
+      if (!ycLiteralEventsByParish[evt.parish_id]) {
+        ycLiteralEventsByParish[evt.parish_id] = [];
+      }
+      ycLiteralEventsByParish[evt.parish_id].push(evt);
+    }
+  });
 
   const section = document.getElementById('ycEventsSection');
   const container = document.getElementById('ycCards');
