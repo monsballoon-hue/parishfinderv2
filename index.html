@@ -779,6 +779,7 @@
     font-size: 0.82rem;
     line-height: 1.35;
     border-bottom: 1px solid rgba(0,0,0,0.04);
+    align-items: flex-start;
   }
   .special-event-row:last-child { border-bottom: none; }
   .special-event-date {
@@ -786,9 +787,8 @@
     color: #b8860b;
     white-space: nowrap;
     min-width: 50px;
-  }
-  .special-event-detail {
-    color: #333;
+    flex-shrink: 0;
+    max-width: 90px;
   }
 
   /* RESPONSIVE */
@@ -1641,47 +1641,54 @@
     margin-top: 4px;
     opacity: 0.8;
   }
-  /* YC badge on parish cards — prominent banner */
+  /* YC badge on parish cards — sits above the card header as its own strip */
   .parish-yc-banner {
     background: linear-gradient(135deg, #e8a838 0%, #d4831a 100%);
     color: #1a1a2e;
-    padding: 6px 14px;
-    font-size: 0.7rem;
+    padding: 7px 14px;
+    font-size: 0.72rem;
     font-weight: 700;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.03em;
     display: flex;
     align-items: center;
-    gap: 6px;
-    border-radius: 10px 10px 0 0;
-    margin: -14px -14px 10px -14px;
+    gap: 8px;
+    line-height: 1.3;
   }
   .parish-yc-banner .yc-banner-label {
-    font-size: 0.62rem;
+    flex-shrink: 0;
+    font-size: 0.6rem;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    background: rgba(26,26,46,0.2);
-    padding: 2px 6px;
+    background: rgba(26,26,46,0.18);
+    color: #1a1a2e;
+    padding: 2px 7px;
     border-radius: 3px;
   }
   .parish-yc-banner .yc-banner-text {
-    opacity: 0.85;
+    opacity: 0.8;
     font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
   }
-  /* YC badge inline on individual service lines */
+  /* YC badge inline on individual service lines — more prominent */
   .svc-yc-tag {
     display: inline-flex;
     align-items: center;
     background: linear-gradient(135deg, #e8a838 0%, #d4831a 100%);
-    color: #1a1a2e;
-    font-size: 0.5rem;
+    color: #fff;
+    font-size: 0.55rem;
     font-weight: 800;
     letter-spacing: 0.06em;
-    padding: 1px 4px;
-    border-radius: 2px;
+    padding: 2px 6px;
+    border-radius: 3px;
     text-transform: uppercase;
-    margin-left: 4px;
+    margin-left: 5px;
     vertical-align: middle;
+    text-shadow: 0 0.5px 1px rgba(0,0,0,0.2);
+    box-shadow: 0 1px 3px rgba(212,131,26,0.35);
   }
 
   /* YC active this week — full card highlight */
@@ -1696,12 +1703,12 @@
     background: linear-gradient(135deg, #2a2540 0%, #3a2f50 100%);
   }
   .parish-card.yc-active-week .parish-yc-banner {
-    padding: 8px 14px;
-    font-size: 0.75rem;
+    padding: 9px 14px;
+    font-size: 0.78rem;
   }
   .parish-card.yc-active-week .parish-yc-banner .yc-banner-label {
-    font-size: 0.68rem;
-    padding: 2px 8px;
+    font-size: 0.65rem;
+    padding: 3px 8px;
   }
 
   /* YC literal event rows in Upcoming Events section */
@@ -1733,6 +1740,27 @@
     color: #b8860b;
     font-weight: 600;
     margin-left: 4px;
+  }
+  .yc-recurrence-note {
+    font-size: 0.62rem;
+    color: #999;
+    font-style: italic;
+    margin-top: 1px;
+  }
+
+  /* Special event text truncation with tap-to-expand */
+  .special-event-detail {
+    color: #333;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .special-event-detail.expanded {
+    -webkit-line-clamp: unset;
+    display: block;
+    overflow: visible;
   }
 
 
@@ -2479,33 +2507,54 @@ function renderYCLiteralEvents(p) {
     if (!evt.date) return false;
     const evtDate = new Date(evt.date + 'T00:00:00');
     return evtDate >= today;
-  });
+  }).sort((a, b) => a.date.localeCompare(b.date));
   if (!upcoming.length) return '';
 
-  const rows = upcoming.map(evt => {
-    const d = new Date(evt.date + 'T12:00:00');
+  // Group by title to consolidate recurring events
+  const byTitle = new Map();
+  for (const evt of upcoming) {
+    const key = evt.title || evt.id;
+    if (!byTitle.has(key)) byTitle.set(key, []);
+    byTitle.get(key).push(evt);
+  }
+
+  const rows = [];
+  for (const [title, group] of byTitle) {
+    const next = group[0]; // soonest
+    const d = new Date(next.date + 'T12:00:00');
     const dayName = d.toLocaleString('en-US', { weekday: 'short' });
     const month = d.toLocaleString('en-US', { month: 'short' });
     const dayNum = d.getDate();
     const dateStr = `${dayName}, ${month} ${dayNum}`;
 
-    const timeStr = evt.time ? fmt12(evt.time) : '';
-    const endStr = evt.end_time ? ` – ${fmt12(evt.end_time)}` : '';
-    const socialTag = evt.social ? '<span class="yc-event-social-tag">✦ Social after</span>' : '';
-    const noteTag = evt.notes ? ` <span style="opacity:0.65;font-size:0.62rem;">— ${evt.notes}</span>` : '';
+    const timeStr = next.time ? fmt12(next.time) : '';
+    const endStr = next.end_time ? ` – ${fmt12(next.end_time)}` : '';
+    const socialTag = next.social ? '<span class="yc-event-social-tag">✦ Social after</span>' : '';
+    const noteTag = next.notes ? ` <span style="opacity:0.65;font-size:0.62rem;">— ${next.notes}</span>` : '';
 
-    return `<li class="yc-event-row">
+    // Recurrence note for series with 2+ dates
+    let recurrenceNote = '';
+    if (group.length > 1) {
+      const futureDates = group.slice(1).map(e => {
+        const fd = new Date(e.date + 'T12:00:00');
+        return `${fd.toLocaleString('en-US', { month: 'short' })} ${fd.getDate()}`;
+      }).join(', ');
+      recurrenceNote = `<div class="yc-recurrence-note">Monthly · also ${futureDates}</div>`;
+    }
+
+    rows.push(`<li class="yc-event-row">
       <span class="yc-event-date-col">${dateStr}</span>
       <span class="yc-event-detail-col">
-        <span class="yc-event-title-tag">${evt.title}</span>
+        <span class="yc-event-title-tag">${next.title}</span>
         ${timeStr ? ` · ${timeStr}${endStr}` : ''}${socialTag}${noteTag}
+        ${recurrenceNote}
       </span>
-    </li>`;
-  }).join('');
+    </li>`);
+  }
 
   return `<div class="service-section special-events" style="border-left:3px solid #e8a838;">
     <div class="service-section-title" style="color:#b8860b;"><span class="svc-yc-tag" style="margin-right:6px;font-size:0.55rem;">YC</span>Young &amp; Catholic Events</div>
-    <ul class="service-list special-events-list">${rows}</ul>
+    <ul class="service-list special-events-list">${rows.join('')}</ul>
   </div>`;
 }
 
@@ -2713,8 +2762,8 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   }
 
   return `<article class="parish-card${isLowConf ? ' low-confidence' : ''}${ycActiveThisWeek.has(p.id) ? ' yc-active-week' : ''}" data-parish-id="${p.id}">
+    ${ycBannerHtml}
     <div class="card-header">
-      ${ycBannerHtml}
       <h2>${churchName}</h2>
       ${alsoAtHtml}
       <div class="card-location">${p.town}, MA &middot; ${p.county} County</div>
@@ -2902,6 +2951,15 @@ langFilterEl.addEventListener('change', render);
 document.getElementById('clearFiltersBtn').addEventListener('click', function(e) {
   e.stopPropagation();
   clearAllFilters();
+});
+
+// Tap-to-expand/collapse special event detail text
+grid.addEventListener('click', function(e) {
+  const detail = e.target.closest('.special-event-detail');
+  if (detail) {
+    detail.classList.toggle('expanded');
+    return;
+  }
 });
 
 // Proximity stubs — real implementation in location block below
