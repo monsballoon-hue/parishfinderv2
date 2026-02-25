@@ -797,7 +797,9 @@
     line-height: 1.35;
     border-bottom: 1px solid rgba(0,0,0,0.04);
     align-items: flex-start;
+    overflow: visible;
   }
+  .special-event-row .cal-dropdown { flex-shrink: 0; }
   .special-event-row:last-child { border-bottom: none; }
   .special-event-date {
     font-weight: 600;
@@ -1566,6 +1568,7 @@
     white-space: nowrap;
     text-decoration: none;
   }
+  .yc-card .cal-dropdown { margin-top: 5px; display: block; }
   .cal-btn:hover { background: rgba(232,168,56,0.15); border-color: #e8a838; }
   .cal-dropdown {
     position: relative;
@@ -1574,8 +1577,8 @@
   .cal-dropdown-menu {
     display: none;
     position: absolute;
-    bottom: 100%;
-    left: 0;
+    top: 100%;
+    right: 0;
     background: #fff;
     border: 1px solid var(--border);
     border-radius: 6px;
@@ -1583,7 +1586,7 @@
     z-index: 50;
     min-width: 160px;
     padding: 4px 0;
-    margin-bottom: 4px;
+    margin-top: 4px;
   }
   .cal-dropdown-menu.open { display: block; }
   .cal-dropdown-menu a {
@@ -2653,7 +2656,8 @@ function renderSpecialEvents(p) {
 
     return `<li class="special-event-row">
       <span class="special-event-date">${dateStr}</span>
-      <span class="special-event-detail">${timeStr}${endStr}${note}${calHtml}</span>
+      <span class="special-event-detail">${timeStr}${endStr}${note}</span>
+      ${calHtml}
     </li>`;
   }).join('');
 
@@ -3891,34 +3895,33 @@ function clearLocationSort() {
 // ═══════════════════════════════════════════════════
 
 function shareParish(parishId, btnEl) {
-  const url = new URL(window.location.href);
-  url.search = '';
-  url.searchParams.set('parish', parishId);
-  const shareUrl = url.toString();
+  const base = window.location.origin + window.location.pathname;
+  const shareUrl = base + '?parish=' + encodeURIComponent(parishId);
 
-  if (navigator.share) {
-    navigator.share({ title: 'Parish Finder', url: shareUrl }).catch(() => {});
-  } else if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(shareUrl).then(() => {
-      if (btnEl) {
-        btnEl.classList.add('copied');
-        btnEl.textContent = '✓ Copied!';
-        setTimeout(() => { btnEl.classList.remove('copied'); btnEl.textContent = '⛓ Share'; }, 1800);
-      }
-    });
-  } else {
-    // Fallback
-    const ta = document.createElement('textarea');
-    ta.value = shareUrl;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
+  function showCopied() {
     if (btnEl) {
       btnEl.classList.add('copied');
       btnEl.textContent = '✓ Copied!';
       setTimeout(() => { btnEl.classList.remove('copied'); btnEl.textContent = '⛓ Share'; }, 1800);
     }
+  }
+
+  function fallbackCopy() {
+    const ta = document.createElement('textarea');
+    ta.value = shareUrl;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); showCopied(); }
+    catch(e) { prompt('Copy this link:', shareUrl); }
+    document.body.removeChild(ta);
+  }
+
+  if (navigator.clipboard && navigator.clipboard.writeText && window.isSecureContext) {
+    navigator.clipboard.writeText(shareUrl).then(showCopied).catch(fallbackCopy);
+  } else {
+    fallbackCopy();
   }
 }
 
