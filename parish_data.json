@@ -32,12 +32,12 @@
       "special_events array added per parish for non-liturgical recurring or one-time events",
       "special_events categories: fellowship | conference | volunteering | liturgical | educational | outreach | social",
       "special_events schema: { id, title, category, day, time, frequency (one_time|weekly|monthly|annual), notes, seasonal: { is_seasonal, season } }",
-      "times_vary: true flag on service entries means time is not fixed \u2014 app should display 'Check bulletin for times'",
-      "visitation object (optional, parish-level): { open_daily (bool), hours_note (string), source } \u2014 indicates church open for private prayer/drop-in visits",
+      "times_vary: true flag on service entries means time is not fixed — app should display 'Check bulletin for times'",
+      "visitation object (optional, parish-level): { open_daily (bool), hours_note (string), source } — indicates church open for private prayer/drop-in visits",
       "service type 'anointing_of_sick' added for Sacrament of the Sick/Anointing services",
       "service type 'benediction' used for standalone Benediction at end of adoration blocks",
       "day field enum includes: monday|tuesday|wednesday|thursday|friday|saturday|sunday|weekday|first_friday|first_saturday|first_sunday|fourth_friday|holyday|holyday_eve|lent",
-      "validation.status enum: verified | low_confidence | needs_verification | unverified \u2014 low_confidence means data exists but source is stale/unreliable; app should display a warning badge and recommended_action"
+      "validation.status enum: verified | low_confidence | needs_verification | unverified — low_confidence means data exists but source is stale/unreliable; app should display a warning badge and recommended_action"
     ],
     "languages_found": {
       "es": 21,
@@ -234,44 +234,6 @@
           "validated": true
         },
         {
-          "id": "parish_001-dail-bul-8301",
-          "type": "daily_mass",
-          "time": "08:30",
-          "end_time": null,
-          "location_id": "st-marys-church-adams",
-          "language": "en",
-          "notes": null,
-          "seasonal": {
-            "is_seasonal": false,
-            "season": "year_round"
-          },
-          "source": "bulletin_2026-02",
-          "validated": true,
-          "days": [
-            "wednesday",
-            "thursday"
-          ]
-        },
-        {
-          "id": "parish_001-ador-bul-1002",
-          "type": "adoration",
-          "time": "09:00",
-          "end_time": "10:00",
-          "location_id": "st-marys-church-adams",
-          "language": "en",
-          "notes": "Following 8:30 AM Mass",
-          "seasonal": {
-            "is_seasonal": false,
-            "season": "year_round"
-          },
-          "source": "bulletin_2026-02",
-          "validated": true,
-          "days": [
-            "wednesday",
-            "thursday"
-          ]
-        },
-        {
           "id": "parish_001-comm-bul-2087",
           "type": "communion_service",
           "day": "friday",
@@ -327,7 +289,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Before Daily Mass/Communion Service, Monday\u2013Friday",
+          "notes": "Before Daily Mass/Communion Service, Monday–Friday",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -350,6 +312,70 @@
           },
           "source": "bulletin_2026-02",
           "validated": true
+        },
+        {
+          "id": "parish_001-dail-bul-8301-wed",
+          "type": "daily_mass",
+          "time": "08:30",
+          "end_time": null,
+          "location_id": "st-marys-church-adams",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true,
+          "day": "wednesday"
+        },
+        {
+          "id": "parish_001-dail-bul-8301-thu",
+          "type": "daily_mass",
+          "time": "08:30",
+          "end_time": null,
+          "location_id": "st-marys-church-adams",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true,
+          "day": "thursday"
+        },
+        {
+          "id": "parish_001-ador-bul-1002-wed",
+          "type": "adoration",
+          "time": "09:00",
+          "end_time": "10:00",
+          "location_id": "st-marys-church-adams",
+          "language": "en",
+          "notes": "Following 8:30 AM Mass",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true,
+          "day": "wednesday"
+        },
+        {
+          "id": "parish_001-ador-bul-1002-thu",
+          "type": "adoration",
+          "time": "09:00",
+          "end_time": "10:00",
+          "location_id": "st-marys-church-adams",
+          "language": "en",
+          "notes": "Following 8:30 AM Mass",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true,
+          "day": "thursday"
         }
       ],
       "validation": {
@@ -357,7 +383,7 @@
         "last_checked": "2026-02-21",
         "bulletin_date": "2026-02",
         "discrepancies": [
-          "3-church parish: Notre Dame, St. Stanislaus Kostka, St. Mary's Church/Chapel (same grounds). Monday Mass is seasonal: 9:00 AM school year (St. Stanislaus) / 8:30 AM summer (Notre Dame). Sunday 12:00 PM High Mass removed \u2014 not in current bulletin. Adoration Tue\u2013Fri 9\u201310 AM confirmed. Divine Mercy is Friday-only at St. Stanislaus."
+          "3-church parish: Notre Dame, St. Stanislaus Kostka, St. Mary's Church/Chapel (same grounds). Monday Mass is seasonal: 9:00 AM school year (St. Stanislaus) / 8:30 AM summer (Notre Dame). Sunday 12:00 PM High Mass removed — not in current bulletin. Adoration Tue–Fri 9–10 AM confirmed. Divine Mercy is Friday-only at St. Stanislaus."
         ]
       },
       "special_events": [],
@@ -604,7 +630,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Lenten Stations of the Cross \u2014 Fridays during Lent",
+          "notes": "Lenten Stations of the Cross — Fridays during Lent",
           "seasonal": {
             "is_seasonal": true,
             "season": "lent"
@@ -625,8 +651,8 @@
           "Pastor updated to Fr. Michael Kokoszka.",
           "Weekday corrected: Mon/Tue/Thu/Fri 8:00 AM + Wednesday 6:00 PM (was 9 AM daily).",
           "1st Saturday 8:00 AM Mass added.",
-          "Wednesday Adoration 12:00\u20135:45 PM added.",
-          "Confession: Wednesday 4:30\u20135:30 PM (during Adoration) + Saturday 2:45\u20133:50 PM.",
+          "Wednesday Adoration 12:00–5:45 PM added.",
+          "Confession: Wednesday 4:30–5:30 PM (during Adoration) + Saturday 2:45–3:50 PM.",
           "Lenten Stations of the Cross Fridays 6:30 PM added."
         ]
       },
@@ -808,7 +834,7 @@
           "end_time": "09:00",
           "location_id": null,
           "language": "en",
-          "notes": "After 12:15 PM Mass through Saturday 9:00 AM Mass \u2014 academic year only",
+          "notes": "After 12:15 PM Mass through Saturday 9:00 AM Mass — academic year only",
           "seasonal": {
             "is_seasonal": true,
             "season": "school_year"
@@ -828,7 +854,7 @@
           "Staff updated to Rev. Deacon Thomas Lynch.",
           "All weekday Masses are academic year only.",
           "Thursday Mass is at St. Brigid Parish.",
-          "1st Friday Adoration: after 12:15 PM Mass through Saturday 9 AM \u2014 academic year only.",
+          "1st Friday Adoration: after 12:15 PM Mass through Saturday 9 AM — academic year only.",
           "Confession: by appointment only."
         ]
       },
@@ -888,7 +914,7 @@
         "office_hours": "Mon. - Fri. 9:00 AM - 2:00 PM"
       },
       "staff": {
-        "pastor": "Rev. Deacon Adalberto Santiago-Mart\u00ednez"
+        "pastor": "Rev. Deacon Adalberto Santiago-Martínez"
       },
       "services": [
         {
@@ -1027,13 +1053,17 @@
           "end_time": null,
           "location_id": "st-brigid-church-amherst",
           "language": "en",
-          "notes": "1st Sunday of the month; African Nights \u2014 1st Sunday of the Month",
+          "notes": "1st Sunday of the month; African Nights — 1st Sunday of the Month",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
           },
           "source": "manual_verification_2026-02",
-          "validated": true
+          "validated": true,
+          "recurrence": {
+            "type": "nth",
+            "week": 1
+          }
         },
         {
           "id": "parish_005-conf-sat-1530",
@@ -1125,13 +1155,13 @@
           "Phone corrected to 413-256-6181.",
           "Website corrected to saintbrigidsamherst.org.",
           "Two locations added: church at 122 N. Pleasant St., office at 43 N. Prospect St.",
-          "Staff updated to Rev. Deacon Adalberto Santiago-Mart\u00ednez.",
+          "Staff updated to Rev. Deacon Adalberto Santiago-Martínez.",
           "Saturday vigil corrected from 4:00 PM to 4:30 PM.",
           "Sunday 12:30 PM Spanish Mass added; noon Mass removed.",
           "1st Sunday 4:30 PM African Nights Mass added.",
           "Friday Mass is at Newman Center, not St. Brigid.",
-          "Thursday devotional block added: Adoration 8:30 AM\u20135 PM, Chaplet of Divine Mercy 3 PM, Spanish Holy Hour 5\u20136 PM, Benediction 6 PM.",
-          "Confession corrected to 3:30\u20134:00 PM."
+          "Thursday devotional block added: Adoration 8:30 AM–5 PM, Chaplet of Divine Mercy 3 PM, Spanish Holy Hour 5–6 PM, Benediction 6 PM.",
+          "Confession corrected to 3:30–4:00 PM."
         ]
       },
       "county": "Hampshire",
@@ -1350,7 +1380,7 @@
           "end_time": null,
           "location_id": "st-francis-church-belchertown",
           "language": "en",
-          "notes": "Benediction \u2014 close of Tuesday Adoration",
+          "notes": "Benediction — close of Tuesday Adoration",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -1366,13 +1396,17 @@
           "end_time": null,
           "location_id": "st-francis-church-belchertown",
           "language": "en",
-          "notes": "1st Sunday of the month; Sacrament of the Sick \u2014 1st Sunday of the Month, or by appointment",
+          "notes": "1st Sunday of the month; Sacrament of the Sick — 1st Sunday of the Month, or by appointment",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
           },
           "source": "manual_verification_2026-02",
-          "validated": true
+          "validated": true,
+          "recurrence": {
+            "type": "nth",
+            "week": 1
+          }
         },
         {
           "id": "parish_006-conf-wed-lent",
@@ -1446,7 +1480,7 @@
           "end_time": null,
           "location_id": "st-francis-church-belchertown",
           "language": "en",
-          "notes": "Lenten Stations of the Cross \u2014 begins approx. 12 PM during Adoration",
+          "notes": "Lenten Stations of the Cross — begins approx. 12 PM during Adoration",
           "seasonal": {
             "is_seasonal": true,
             "season": "lent"
@@ -1462,7 +1496,7 @@
           "end_time": null,
           "location_id": "st-francis-church-belchertown",
           "language": "en",
-          "notes": "Chaplet of Divine Mercy \u2014 during Lenten Adoration, approx. 2:30 PM; closes with Divine Praises",
+          "notes": "Chaplet of Divine Mercy — during Lenten Adoration, approx. 2:30 PM; closes with Divine Praises",
           "seasonal": {
             "is_seasonal": true,
             "season": "lent"
@@ -1489,10 +1523,10 @@
           "Saturday vigil confirmed at 4:00 PM.",
           "Weekday Mass expanded to Mon-Thu 8 AM (was Tue/Thu only).",
           "Confession changed to by-appointment / consult weekly schedule.",
-          "Tuesday & Thursday Adoration 8:30 AM\u20138 PM added; Tuesday ends with Benediction.",
+          "Tuesday & Thursday Adoration 8:30 AM–8 PM added; Tuesday ends with Benediction.",
           "1st Sunday Anointing of the Sick 11:40 AM added.",
-          "Lenten Wednesday block: Reconciliation 4:30\u20136:15 PM, Stations 5:45 PM, Evening Mass 6:30 PM.",
-          "Lenten Friday block: Adoration 12\u20133 PM, Stations ~12 PM, Chaplet of Divine Mercy ~2:30 PM."
+          "Lenten Wednesday block: Reconciliation 4:30–6:15 PM, Stations 5:45 PM, Evening Mass 6:30 PM.",
+          "Lenten Friday block: Adoration 12–3 PM, Stations ~12 PM, Chaplet of Divine Mercy ~2:30 PM."
         ]
       },
       "county": "Hampshire",
@@ -1545,7 +1579,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Vigil Mass \u2014 time carried from prior data, bulletin not explicit",
+          "notes": "Vigil Mass — time carried from prior data, bulletin not explicit",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -1561,7 +1595,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Carried from prior data \u2014 bulletin not explicit",
+          "notes": "Carried from prior data — bulletin not explicit",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -1625,7 +1659,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Miraculous Medal Novena \u2014 during 9:00 AM Wednesday Mass",
+          "notes": "Miraculous Medal Novena — during 9:00 AM Wednesday Mass",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -1641,7 +1675,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Lenten Stations of the Cross \u2014 Fridays during Lent",
+          "notes": "Lenten Stations of the Cross — Fridays during Lent",
           "seasonal": {
             "is_seasonal": true,
             "season": "lent"
@@ -1662,7 +1696,7 @@
           "Address corrected to 16 Sturbridge Rd., Brimfield.",
           "Pastor updated to Fr. John J. Brennan (shared with parish_039).",
           "Weekday Mass: Mon & Wed 9:00 AM confirmed.",
-          "Weekend times carried from prior data \u2014 bulletin did not list explicit weekend schedule.",
+          "Weekend times carried from prior data — bulletin did not list explicit weekend schedule.",
           "Confession: Saturday following 6:00 PM Mass.",
           "Miraculous Medal Novena during Wednesday 9:00 AM Mass.",
           "Lenten Stations of the Cross Fridays 3:00 PM added."
@@ -1991,7 +2025,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Lenten Stations of the Cross \u2014 Fridays during Lent",
+          "notes": "Lenten Stations of the Cross — Fridays during Lent",
           "seasonal": {
             "is_seasonal": true,
             "season": "lent"
@@ -2007,10 +2041,10 @@
           "SCRAPPED AND REBUILT per user.",
           "Website corrected to saintanne.us.",
           "Bulletin URL added.",
-          "Weekday Mass corrected to 9:00 AM Mon\u2013Fri (was 7:00 AM).",
+          "Weekday Mass corrected to 9:00 AM Mon–Fri (was 7:00 AM).",
           "1st Saturday 9:00 AM Mass added.",
-          "Rosary 8:30 AM Mon\u2013Fri added (before daily Mass).",
-          "Confession: Saturday 2:45\u20133:45 PM + after daily 9 AM Mass + by appointment/during Holy Hour.",
+          "Rosary 8:30 AM Mon–Fri added (before daily Mass).",
+          "Confession: Saturday 2:45–3:45 PM + after daily 9 AM Mass + by appointment/during Holy Hour.",
           "Lenten Stations of the Cross Fridays 6:00 PM added."
         ]
       },
@@ -2082,7 +2116,7 @@
           "end_time": null,
           "location_id": null,
           "language": "es",
-          "notes": "Misa en Espa\u00f1ol",
+          "notes": "Misa en Español",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -2129,7 +2163,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Tue\u2013Fri 6:00 PM",
+          "notes": "Tue–Fri 6:00 PM",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -2206,12 +2240,12 @@
       "validation": {
         "status": "low_confidence",
         "last_checked": "2026-02-21",
-        "confidence_reason": "No bulletin available \u2014 data sourced from website only. Schedule may not be current.",
+        "confidence_reason": "No bulletin available — data sourced from website only. Schedule may not be current.",
         "sources": [
-          "website_2026-02 \u2014 stanthonyma.org"
+          "website_2026-02 — stanthonyma.org"
         ],
         "discrepancies": [
-          "Fixed legacy days-array field for Tue\u2013Fri daily Mass."
+          "Fixed legacy days-array field for Tue–Fri daily Mass."
         ]
       },
       "county": "Hampden",
@@ -2509,7 +2543,11 @@
             "season": "year_round"
           },
           "source": "manual_verification_2026-02",
-          "validated": true
+          "validated": true,
+          "recurrence": {
+            "type": "nth",
+            "week": 1
+          }
         }
       ],
       "validation": {
@@ -2523,11 +2561,11 @@
           "Address corrected to 15 Chapel Street.",
           "Pastor updated to Rev. Robert Gentile.",
           "Sunday expanded to 7:30 AM, 9:00 AM, 11:00 AM, 4:00 PM (4 Masses).",
-          "Weekday corrected to 7:00 AM Mon\u2013Fri.",
+          "Weekday corrected to 7:00 AM Mon–Fri.",
           "1st Friday 9:00 AM Mass (school year only) added.",
           "Holy Day: Vigil 4:00 PM + Day 6:30 PM.",
-          "1st Friday Adoration 7:30 AM\u20133:30 PM (Parish Center) added.",
-          "1st Tuesday Adoration 6:30\u20138:00 PM (Parish Center) added."
+          "1st Friday Adoration 7:30 AM–3:30 PM (Parish Center) added.",
+          "1st Tuesday Adoration 6:30–8:00 PM (Parish Center) added."
         ]
       },
       "county": "Hampden",
@@ -2864,7 +2902,7 @@
           "end_time": null,
           "location_id": null,
           "language": "pl",
-          "notes": "Polish Mass \u2014 1st Friday",
+          "notes": "Polish Mass — 1st Friday",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -2875,12 +2913,12 @@
         {
           "id": "parish_013-ador-daily",
           "type": "adoration",
-          "day": "daily",
+          "day": "weekday",
           "time": "07:00",
           "end_time": "12:00",
           "location_id": null,
           "language": "en",
-          "notes": "Mon\u2013Fri",
+          "notes": "Mon–Fri",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -2923,12 +2961,12 @@
         {
           "id": "parish_013-rosary-daily-0700",
           "type": "rosary",
-          "day": "daily",
+          "day": "weekday",
           "time": "07:00",
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Mon\u2013Fri",
+          "notes": "Mon–Fri",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -2939,12 +2977,12 @@
         {
           "id": "parish_013-rosary-daily-0815",
           "type": "rosary",
-          "day": "daily",
+          "day": "weekday",
           "time": "08:15",
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Mon\u2013Fri",
+          "notes": "Mon–Fri",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -2955,12 +2993,12 @@
         {
           "id": "parish_013-rosary-daily-1130",
           "type": "rosary",
-          "day": "daily",
+          "day": "weekday",
           "time": "11:30",
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Mon\u2013Fri",
+          "notes": "Mon–Fri",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -2976,7 +3014,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Morning Star Family Rosary \u2014 every Monday 6 PM",
+          "notes": "Morning Star Family Rosary — every Monday 6 PM",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -2992,13 +3030,17 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "1st Sunday of the month; Divine Mercy \u2014 after 11:00 AM Mass",
+          "notes": "1st Sunday of the month; Divine Mercy — after 11:00 AM Mass",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
           },
           "source": "manual_verification_2026-02",
-          "validated": true
+          "validated": true,
+          "recurrence": {
+            "type": "nth",
+            "week": 1
+          }
         },
         {
           "id": "parish_013-dev-czestochowa-2ndsun",
@@ -3008,13 +3050,17 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "2nd Sunday of the month; Our Lady of Czestochowa \u2014 2nd Sunday 3:00 PM",
+          "notes": "2nd Sunday of the month; Our Lady of Czestochowa — 2nd Sunday 3:00 PM",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
           },
           "source": "manual_verification_2026-02",
-          "validated": true
+          "validated": true,
+          "recurrence": {
+            "type": "nth",
+            "week": 2
+          }
         },
         {
           "id": "parish_013-anoint-4thsun",
@@ -3024,23 +3070,27 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "4th Sunday of the month; After Saturday Vigil and all Sunday Masses \u2014 4th Sunday of month",
+          "notes": "4th Sunday of the month; After Saturday Vigil and all Sunday Masses — 4th Sunday of month",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
           },
           "source": "manual_verification_2026-02",
-          "validated": true
+          "validated": true,
+          "recurrence": {
+            "type": "nth",
+            "week": 4
+          }
         },
         {
           "id": "parish_013-conf-wkday-post630",
           "type": "confession",
-          "day": "daily",
+          "day": "weekday",
           "time": "07:00",
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "After 6:30 AM Mass Mon\u2013Fri",
+          "notes": "After 6:30 AM Mass Mon–Fri",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -3051,12 +3101,12 @@
         {
           "id": "parish_013-conf-wkday-1045",
           "type": "confession",
-          "day": "daily",
+          "day": "weekday",
           "time": "10:45",
           "end_time": "11:45",
           "location_id": null,
           "language": "en",
-          "notes": "Mon\u2013Fri",
+          "notes": "Mon–Fri",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -3120,7 +3170,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Lenten Stations of the Cross \u2014 with school children",
+          "notes": "Lenten Stations of the Cross — with school children",
           "seasonal": {
             "is_seasonal": true,
             "season": "lent"
@@ -3136,7 +3186,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Lenten Stations of the Cross \u2014 evening",
+          "notes": "Lenten Stations of the Cross — evening",
           "seasonal": {
             "is_seasonal": true,
             "season": "lent"
@@ -3159,11 +3209,11 @@
           "Weekday significantly expanded: Mon/Tue/Thu/Fri at 6:30 AM & Noon; Wed at 6:30/8:45/Noon.",
           "Saturday 7:00 AM morning Mass added.",
           "Polish Masses: Wed 7 PM + 1st Friday 7 PM.",
-          "Adoration: Mon\u2013Fri 7 AM\u2013Noon; 1st Friday extended to 7 PM; 1st Saturday 7:30\u201311 AM.",
-          "Rosary: 3x daily Mon\u2013Fri (7, 8:15, 11:30 AM) + Monday Family Rosary 6 PM.",
+          "Adoration: Mon–Fri 7 AM–Noon; 1st Friday extended to 7 PM; 1st Saturday 7:30–11 AM.",
+          "Rosary: 3x daily Mon–Fri (7, 8:15, 11:30 AM) + Monday Family Rosary 6 PM.",
           "Devotions: Divine Mercy 1st Sunday + Our Lady of Czestochowa 2nd Sunday 3 PM.",
           "Anointing of the Sick: 4th Sunday after Vigil and all Sunday Masses.",
-          "Confession: after 6:30 AM Mass + 10:45\u201311:45 AM Mon\u2013Fri; Sat after 7 AM + 9\u201310 AM + 3\u20133:55 PM.",
+          "Confession: after 6:30 AM Mass + 10:45–11:45 AM Mon–Fri; Sat after 7 AM + 9–10 AM + 3–3:55 PM.",
           "Lenten Stations of the Cross: Fridays 1:15 PM (school) and 7:00 PM."
         ]
       },
@@ -3295,7 +3345,7 @@
           "end_time": null,
           "location_id": "st-agnes-church-dalton",
           "language": "en",
-          "notes": "Life Teen Mass \u2014 Academic Year Only",
+          "notes": "Life Teen Mass — Academic Year Only",
           "seasonal": {
             "is_seasonal": true,
             "season": "school_year"
@@ -3336,28 +3386,6 @@
           "validated": true
         },
         {
-          "id": "parish_016-dai-004",
-          "type": "daily_mass",
-          "time": "08:30",
-          "end_time": null,
-          "location_id": "st-agnes-church-dalton",
-          "language": "en",
-          "notes": null,
-          "seasonal": {
-            "is_seasonal": false,
-            "season": "year_round"
-          },
-          "source": "bulletin_2026-02",
-          "validated": true,
-          "days": [
-            "monday",
-            "tuesday",
-            "wednesday",
-            "thursday",
-            "friday"
-          ]
-        },
-        {
           "id": "parish_016-rosa-001",
           "type": "rosary",
           "day": "weekday",
@@ -3365,7 +3393,7 @@
           "end_time": null,
           "location_id": "st-agnes-church-dalton",
           "language": "en",
-          "notes": "Before Daily Mass, Monday\u2013Friday, Main Church",
+          "notes": "Before Daily Mass, Monday–Friday, Main Church",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -3388,6 +3416,86 @@
           },
           "source": "bulletin_2026-02",
           "validated": true
+        },
+        {
+          "id": "parish_016-dai-004-mon",
+          "type": "daily_mass",
+          "time": "08:30",
+          "end_time": null,
+          "location_id": "st-agnes-church-dalton",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true,
+          "day": "monday"
+        },
+        {
+          "id": "parish_016-dai-004-tue",
+          "type": "daily_mass",
+          "time": "08:30",
+          "end_time": null,
+          "location_id": "st-agnes-church-dalton",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true,
+          "day": "tuesday"
+        },
+        {
+          "id": "parish_016-dai-004-wed",
+          "type": "daily_mass",
+          "time": "08:30",
+          "end_time": null,
+          "location_id": "st-agnes-church-dalton",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true,
+          "day": "wednesday"
+        },
+        {
+          "id": "parish_016-dai-004-thu",
+          "type": "daily_mass",
+          "time": "08:30",
+          "end_time": null,
+          "location_id": "st-agnes-church-dalton",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true,
+          "day": "thursday"
+        },
+        {
+          "id": "parish_016-dai-004-fri",
+          "type": "daily_mass",
+          "time": "08:30",
+          "end_time": null,
+          "location_id": "st-agnes-church-dalton",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true,
+          "day": "friday"
         }
       ],
       "validation": {
@@ -3513,13 +3621,17 @@
           "end_time": null,
           "location_id": null,
           "language": "pl",
-          "notes": "Last Sunday of the month; Mass in Polish \u2014 last Sunday of the month",
+          "notes": "Last Sunday of the month; Mass in Polish — last Sunday of the month",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
           },
           "source": "manual_verification_2026-02",
-          "validated": true
+          "validated": true,
+          "recurrence": {
+            "type": "nth",
+            "week": "last"
+          }
         },
         {
           "id": "parish_017-mass-mon-0800",
@@ -3737,13 +3849,17 @@
           "end_time": null,
           "location_id": null,
           "language": "la",
-          "notes": "Lenten Traditional Latin Mass \u2014 1st Friday, March 6",
+          "notes": "Lenten Traditional Latin Mass — 1st Friday, March 6",
           "seasonal": {
             "is_seasonal": true,
             "season": "lent"
           },
           "source": "manual_verification_2026-02",
-          "validated": true
+          "validated": true,
+          "recurrence": {
+            "type": "nth",
+            "week": 1
+          }
         },
         {
           "id": "parish_017-mass-lent-tlm-mar19",
@@ -3753,7 +3869,7 @@
           "end_time": null,
           "location_id": null,
           "language": "la",
-          "notes": "Lenten Traditional Latin Mass \u2014 March 19",
+          "notes": "Lenten Traditional Latin Mass — March 19",
           "seasonal": {
             "is_seasonal": true,
             "season": "lent"
@@ -3776,8 +3892,8 @@
           "Wednesday weekday Mass is 6:00 PM (not 8 AM).",
           "Saturday 9:00 AM morning Mass added.",
           "Adoration after Friday 8 AM Mass added.",
-          "Confession: Saturday 3\u20133:45 PM (fixed); 30 min before Mon/Tue/Thu/Fri 8 AM Mass; after Wed 6 PM Mass.",
-          "Lenten TLM: March 6 (1st Friday) and March 19 at 6:00 PM \u2014 seasonal/lenten flagged."
+          "Confession: Saturday 3–3:45 PM (fixed); 30 min before Mon/Tue/Thu/Fri 8 AM Mass; after Wed 6 PM Mass.",
+          "Lenten TLM: March 6 (1st Friday) and March 19 at 6:00 PM — seasonal/lenten flagged."
         ]
       },
       "county": "Hampshire",
@@ -3935,7 +4051,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Liturgy of the Word \u2014 Communion Service",
+          "notes": "Liturgy of the Word — Communion Service",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -3983,7 +4099,7 @@
           "end_time": "19:30",
           "location_id": null,
           "language": "en",
-          "notes": "Lenten Stations of the Cross \u2014 Fridays during Lent",
+          "notes": "Lenten Stations of the Cross — Fridays during Lent",
           "seasonal": {
             "is_seasonal": true,
             "season": "lent"
@@ -4004,8 +4120,8 @@
           "Sunday expanded to 8:00 AM, 10:00 AM, 11:30 AM (was 8 + 10:30).",
           "Weekday: Mon/Tue/Fri 9:00 AM; Thursday Mass removed (not in bulletin).",
           "Wednesday is Communion Service (Liturgy of the Word), not Mass.",
-          "Confession corrected to Saturday 2:30\u20133:30 PM.",
-          "Lenten Stations of the Cross Fridays 6:00\u20137:30 PM added."
+          "Confession corrected to Saturday 2:30–3:30 PM.",
+          "Lenten Stations of the Cross Fridays 6:00–7:30 PM added."
         ]
       },
       "county": "Hampden",
@@ -4213,7 +4329,7 @@
           "end_time": "19:00",
           "location_id": "sacredheart-church-feedinghills",
           "language": "en",
-          "notes": "Lenten Confessions \u2014 Monday evenings during Lent",
+          "notes": "Lenten Confessions — Monday evenings during Lent",
           "seasonal": {
             "is_seasonal": true,
             "season": "lent"
@@ -4229,7 +4345,7 @@
           "end_time": null,
           "location_id": "sacredheart-church-feedinghills",
           "language": "en",
-          "notes": "Lenten Stations of the Cross \u2014 day/time as listed; assumed Fridays during Lent \u26a0\ufe0f verify",
+          "notes": "Lenten Stations of the Cross — day/time as listed; assumed Fridays during Lent ⚠️ verify",
           "seasonal": {
             "is_seasonal": true,
             "season": "lent"
@@ -4248,11 +4364,11 @@
           "Bulletin URL added.",
           "Two locations added: Church at 1065 Springfield St., Office at 1061 Springfield St.",
           "Sunday corrected to 8:30 AM & 11:00 AM (was 8 + 10).",
-          "Thursday Mass removed \u2014 not in bulletin.",
+          "Thursday Mass removed — not in bulletin.",
           "Saturday 9:00 AM morning Mass added.",
-          "Confession changed to 1st Saturday only, 3:00\u20133:30 PM (was every Saturday).",
-          "Lenten Confession: Monday evenings 6\u20137 PM during Lent.",
-          "Lenten Stations 9:30 AM \u2014 no day specified in bulletin; assumed Friday. \u26a0\ufe0f Flagged for confirmation."
+          "Confession changed to 1st Saturday only, 3:00–3:30 PM (was every Saturday).",
+          "Lenten Confession: Monday evenings 6–7 PM during Lent.",
+          "Lenten Stations 9:30 AM — no day specified in bulletin; assumed Friday. ⚠️ Flagged for confirmation."
         ]
       },
       "county": "Hampden",
@@ -4529,7 +4645,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Lenten Stations of the Cross \u2014 every Friday during Lent",
+          "notes": "Lenten Stations of the Cross — every Friday during Lent",
           "seasonal": {
             "is_seasonal": true,
             "season": "lent"
@@ -4545,7 +4661,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Lenten Holy Hour \u2014 March 18 only",
+          "notes": "Lenten Holy Hour — March 18 only",
           "seasonal": {
             "is_seasonal": true,
             "season": "lent"
@@ -4561,7 +4677,7 @@
           "end_time": "19:00",
           "location_id": null,
           "language": "en",
-          "notes": "Lenten Confessions \u2014 March 18, 25 & April 1 only",
+          "notes": "Lenten Confessions — March 18, 25 & April 1 only",
           "seasonal": {
             "is_seasonal": true,
             "season": "lent"
@@ -4581,11 +4697,11 @@
           "Address corrected to 256 State Street.",
           "Pastor updated to Fr. Michael Goodreau.",
           "Sunday 10:30 AM corrected to 10:45 AM.",
-          "Weekday Mass expanded to Mon\u2013Thu 8:30 AM (was Tue/Thu only).",
-          "Confession: Saturday 3\u20133:45 PM plus 30 min before every scheduled Mass.",
+          "Weekday Mass expanded to Mon–Thu 8:30 AM (was Tue/Thu only).",
+          "Confession: Saturday 3–3:45 PM plus 30 min before every scheduled Mass.",
           "Lenten: Stations of Cross Fridays 6:30 PM added.",
           "Lenten: Holy Hour Wed March 18 at 6:45 PM (one-time) added.",
-          "Lenten: Confessions Wed 5:30\u20137 PM on March 18, 25, April 1 added."
+          "Lenten: Confessions Wed 5:30–7 PM on March 18, 25, April 1 added."
         ]
       },
       "county": "Hampshire",
@@ -4743,7 +4859,11 @@
             "season": "year_round"
           },
           "source": "bulletin_2026-02",
-          "validated": true
+          "validated": true,
+          "recurrence": {
+            "type": "nth",
+            "week": 4
+          }
         },
         {
           "id": "parish_021-con-001",
@@ -4759,18 +4879,25 @@
             "season": "year_round"
           },
           "source": "bulletin_2026-02",
-          "validated": true
+          "validated": true,
+          "recurrence": {
+            "type": "nth",
+            "weeks": [
+              1,
+              3
+            ]
+          }
         }
       ],
       "special_events": [],
       "validation": {
         "status": "low_confidence",
-        "confidence_reason": "No bulletin available \u2014 data sourced from static website only. Schedule may not be current.",
+        "confidence_reason": "No bulletin available — data sourced from static website only. Schedule may not be current.",
         "last_checked": "2026-02-21",
         "bulletin_date": "2026-02",
-        "recommended_action": "Phone verification recommended \u2014 call 413-528-1157 to confirm current schedule before publishing.",
+        "recommended_action": "Phone verification recommended — call 413-528-1157 to confirm current schedule before publishing.",
         "discrepancies": [
-          "Phone corrected to 413-528-1157. Monday 7:00 AM Mass added. Thursday Spanish Mass removed \u2014 not in current bulletin. Adoration added: 4th Friday only, 7:30 AM-12:00 PM. Confession corrected: 1st and 3rd Saturday only (was every Saturday)."
+          "Phone corrected to 413-528-1157. Monday 7:00 AM Mass added. Thursday Spanish Mass removed — not in current bulletin. Adoration added: 4th Friday only, 7:30 AM-12:00 PM. Confession corrected: 1st and 3rd Saturday only (was every Saturday)."
         ]
       },
       "county": "Berkshire",
@@ -4860,7 +4987,7 @@
           "end_time": null,
           "location_id": "blessed-sacrament-church-greenfield",
           "language": "en",
-          "notes": "Vigil Mass \u2014 Blessed Sacrament Church",
+          "notes": "Vigil Mass — Blessed Sacrament Church",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -4909,65 +5036,6 @@
           "location_id": "blessed-sacrament-church-greenfield",
           "language": "en",
           "notes": "Blessed Sacrament Church",
-          "seasonal": {
-            "is_seasonal": false,
-            "season": "year_round"
-          },
-          "source": "bulletin_2026-02",
-          "validated": true
-        },
-        {
-          "id": "parish_022-dail-montue-0830",
-          "type": "daily_mass",
-          "days": [
-            "monday",
-            "tuesday"
-          ],
-          "time": "08:30",
-          "end_time": null,
-          "location_id": "blessed-sacrament-church-greenfield",
-          "language": "en",
-          "notes": "Blessed Sacrament Church",
-          "seasonal": {
-            "is_seasonal": false,
-            "season": "year_round"
-          },
-          "source": "bulletin_2026-02",
-          "validated": true
-        },
-        {
-          "id": "parish_022-dail-thufri-0830",
-          "type": "daily_mass",
-          "days": [
-            "thursday",
-            "friday"
-          ],
-          "time": "08:30",
-          "end_time": null,
-          "location_id": "holy-trinity-church-greenfield",
-          "language": "en",
-          "notes": "Holy Trinity Church",
-          "seasonal": {
-            "is_seasonal": false,
-            "season": "year_round"
-          },
-          "source": "bulletin_2026-02",
-          "validated": true
-        },
-        {
-          "id": "parish_022-dail-mttf-1205",
-          "type": "daily_mass",
-          "days": [
-            "monday",
-            "tuesday",
-            "thursday",
-            "friday"
-          ],
-          "time": "12:05",
-          "end_time": null,
-          "location_id": "holy-trinity-church-greenfield",
-          "language": "en",
-          "notes": "Holy Trinity Church \u2014 global schedule lists noon M/T/Th/F; per-church listing only confirms Wed noon; location assumed",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -5031,7 +5099,7 @@
           "end_time": null,
           "location_id": "blessed-sacrament-church-greenfield",
           "language": "en",
-          "notes": "Holy Day Vigil \u2014 Blessed Sacrament Church",
+          "notes": "Holy Day Vigil — Blessed Sacrament Church",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -5079,7 +5147,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Holy Day 6 PM \u2014 location not specified in bulletin",
+          "notes": "Holy Day 6 PM — location not specified in bulletin",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -5095,7 +5163,7 @@
           "end_time": "22:00",
           "location_id": "adoration-chapel-greenfield",
           "language": "en",
-          "notes": "Adoration Chapel, 221 Federal Street \u2014 open daily 6 AM\u201310 PM (not perpetual overnight)",
+          "notes": "Adoration Chapel, 221 Federal Street — open daily 6 AM–10 PM (not perpetual overnight)",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -5134,6 +5202,134 @@
           },
           "source": "bulletin_2026-02",
           "validated": true
+        },
+        {
+          "id": "parish_022-dail-montue-0830-mon",
+          "type": "daily_mass",
+          "time": "08:30",
+          "end_time": null,
+          "location_id": "blessed-sacrament-church-greenfield",
+          "language": "en",
+          "notes": "Blessed Sacrament Church",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true,
+          "day": "monday"
+        },
+        {
+          "id": "parish_022-dail-montue-0830-tue",
+          "type": "daily_mass",
+          "time": "08:30",
+          "end_time": null,
+          "location_id": "blessed-sacrament-church-greenfield",
+          "language": "en",
+          "notes": "Blessed Sacrament Church",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true,
+          "day": "tuesday"
+        },
+        {
+          "id": "parish_022-dail-thufri-0830-thu",
+          "type": "daily_mass",
+          "time": "08:30",
+          "end_time": null,
+          "location_id": "holy-trinity-church-greenfield",
+          "language": "en",
+          "notes": "Holy Trinity Church",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true,
+          "day": "thursday"
+        },
+        {
+          "id": "parish_022-dail-thufri-0830-fri",
+          "type": "daily_mass",
+          "time": "08:30",
+          "end_time": null,
+          "location_id": "holy-trinity-church-greenfield",
+          "language": "en",
+          "notes": "Holy Trinity Church",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true,
+          "day": "friday"
+        },
+        {
+          "id": "parish_022-dail-mttf-1205-mon",
+          "type": "daily_mass",
+          "time": "12:05",
+          "end_time": null,
+          "location_id": "holy-trinity-church-greenfield",
+          "language": "en",
+          "notes": "Holy Trinity Church — global schedule lists noon M/T/Th/F; per-church listing only confirms Wed noon; location assumed",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true,
+          "day": "monday"
+        },
+        {
+          "id": "parish_022-dail-mttf-1205-tue",
+          "type": "daily_mass",
+          "time": "12:05",
+          "end_time": null,
+          "location_id": "holy-trinity-church-greenfield",
+          "language": "en",
+          "notes": "Holy Trinity Church — global schedule lists noon M/T/Th/F; per-church listing only confirms Wed noon; location assumed",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true,
+          "day": "tuesday"
+        },
+        {
+          "id": "parish_022-dail-mttf-1205-thu",
+          "type": "daily_mass",
+          "time": "12:05",
+          "end_time": null,
+          "location_id": "holy-trinity-church-greenfield",
+          "language": "en",
+          "notes": "Holy Trinity Church — global schedule lists noon M/T/Th/F; per-church listing only confirms Wed noon; location assumed",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true,
+          "day": "thursday"
+        },
+        {
+          "id": "parish_022-dail-mttf-1205-fri",
+          "type": "daily_mass",
+          "time": "12:05",
+          "end_time": null,
+          "location_id": "holy-trinity-church-greenfield",
+          "language": "en",
+          "notes": "Holy Trinity Church — global schedule lists noon M/T/Th/F; per-church listing only confirms Wed noon; location assumed",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true,
+          "day": "friday"
         }
       ],
       "validation": {
@@ -5141,7 +5337,7 @@
         "last_checked": "2026-02-21",
         "bulletin_date": "2026-02",
         "discrepancies": [
-          "Two-church parish confirmed: Blessed Sacrament (221 Federal) and Holy Trinity (135 Main). Adoration Chapel at 221 Federal, open daily 6 AM-10 PM \u2014 corrected from perpetual_adoration/daily to adoration with hours. Addresses and contact updated. Wednesday confession 5:00-5:45 PM added. Sunday confessions removed. Confession Saturday end time corrected to 3:30 PM. First Saturday 8 AM added. Holy Day expanded: Vigil 6 PM (BS), 8:30 AM (BS), 12:05 PM (HT), 6 PM (location unspecified). DISCREPANCY: global schedule lists 12:05 PM masses M/T/Th/F but per-church section only confirms Wed noon at Holy Trinity \u2014 noon masses on M/T/Th/F entered at Holy Trinity with low-confidence note."
+          "Two-church parish confirmed: Blessed Sacrament (221 Federal) and Holy Trinity (135 Main). Adoration Chapel at 221 Federal, open daily 6 AM-10 PM — corrected from perpetual_adoration/daily to adoration with hours. Addresses and contact updated. Wednesday confession 5:00-5:45 PM added. Sunday confessions removed. Confession Saturday end time corrected to 3:30 PM. First Saturday 8 AM added. Holy Day expanded: Vigil 6 PM (BS), 8:30 AM (BS), 12:05 PM (HT), 6 PM (location unspecified). DISCREPANCY: global schedule lists 12:05 PM masses M/T/Th/F but per-church section only confirms Wed noon at Holy Trinity — noon masses on M/T/Th/F entered at Holy Trinity with low-confidence note."
         ]
       },
       "county": "Franklin",
@@ -5418,7 +5614,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Miraculous Medal Devotion \u2014 during/after Monday morning Mass",
+          "notes": "Miraculous Medal Devotion — during/after Monday morning Mass",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -5434,13 +5630,17 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "2nd Tuesday of the month; Rosary \u2014 2nd Tuesday of the month",
+          "notes": "2nd Tuesday of the month; Rosary — 2nd Tuesday of the month",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
           },
           "source": "manual_verification_2026-02",
-          "validated": true
+          "validated": true,
+          "recurrence": {
+            "type": "nth",
+            "week": 2
+          }
         },
         {
           "id": "parish_023-dev-rosary-4thtue",
@@ -5450,13 +5650,17 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "4th Tuesday of the month; Rosary \u2014 4th Tuesday of the month",
+          "notes": "4th Tuesday of the month; Rosary — 4th Tuesday of the month",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
           },
           "source": "manual_verification_2026-02",
-          "validated": true
+          "validated": true,
+          "recurrence": {
+            "type": "nth",
+            "week": 4
+          }
         },
         {
           "id": "parish_023-stat-fri-lent",
@@ -5466,7 +5670,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Lenten Stations of the Cross \u2014 every Friday during Lent",
+          "notes": "Lenten Stations of the Cross — every Friday during Lent",
           "seasonal": {
             "is_seasonal": true,
             "season": "lent"
@@ -5482,13 +5686,13 @@
           "SCRAPPED AND REBUILT per user.",
           "Bulletin URL added.",
           "Sunday 10:30 AM corrected to 11:00 AM (Family Mass).",
-          "Weekday Mass expanded to Mon\u2013Fri 8:00 AM.",
+          "Weekday Mass expanded to Mon–Fri 8:00 AM.",
           "1st Friday additional Mass at 1:00 PM added.",
-          "Confession: Sat 2:45\u20133:30 PM; Friday Drive Time 4:30\u20135:30 PM with Fr. Bill; 1st Friday 12:30\u201312:50 PM.",
+          "Confession: Sat 2:45–3:30 PM; Friday Drive Time 4:30–5:30 PM with Fr. Bill; 1st Friday 12:30–12:50 PM.",
           "Adoration: Fridays after 8 AM Mass until 9:00 AM; 1st Friday after 1 PM Mass until 3:00 PM.",
           "Miraculous Medal devotion during Monday morning Mass added.",
           "Rosary 2nd & 4th Tuesdays 6:00 PM added.",
-          "ADDED: Lenten Stations of the Cross Fridays 6:30 PM \u2014 confirmed via Our Lady of Grace bulletin."
+          "ADDED: Lenten Stations of the Cross Fridays 6:30 PM — confirmed via Our Lady of Grace bulletin."
         ]
       },
       "county": "Hampshire",
@@ -5698,11 +5902,11 @@
         "status": "manually_verified",
         "last_checked": "2026-02-21",
         "discrepancies": [
-          "Data confirmed consistent with v4 directory \u2014 minimal changes.",
+          "Data confirmed consistent with v4 directory — minimal changes.",
           "Bulletin URL added.",
-          "Adoration time corrected from 3:00\u20133:45 PM to 3:00\u20133:30 PM per bulletin.",
-          "Thursday weekday Mass removed \u2014 not listed in bulletin (Mon\u2013Wed, Fri only).",
-          "Stations of the Cross Friday 6:00 PM added \u2014 no seasonal marker in bulletin, treated as year-round."
+          "Adoration time corrected from 3:00–3:45 PM to 3:00–3:30 PM per bulletin.",
+          "Thursday weekday Mass removed — not listed in bulletin (Mon–Wed, Fri only).",
+          "Stations of the Cross Friday 6:00 PM added — no seasonal marker in bulletin, treated as year-round."
         ]
       },
       "county": "Hampden",
@@ -5839,7 +6043,7 @@
           "Sunday 9:30 AM confirmed.",
           "Weekday Mass confirmed as Tue & Thu 8:15 AM only.",
           "Confession: after Saturday 5:30 PM Mass.",
-          "NOTE: Bulletin referenced Lenten Stations of the Cross at Most Holy Redeemer Hadley (Fri 6:30 PM) and Holy Family South Deerfield (Fri 6:00 PM) \u2014 flagged for parishes 023 and 054 respectively."
+          "NOTE: Bulletin referenced Lenten Stations of the Cross at Most Holy Redeemer Hadley (Fri 6:30 PM) and Holy Family South Deerfield (Fri 6:00 PM) — flagged for parishes 023 and 054 respectively."
         ]
       },
       "county": "Hampshire",
@@ -6022,9 +6226,9 @@
           "Pastor updated to Rev. John Gawienowski.",
           "Saturday Vigil 4:00 PM added (was missing).",
           "Sunday corrected to 8:00 AM & 10:30 AM (was 9:00 AM only).",
-          "Weekday Mass expanded to Mon\u2013Thu 8:30 AM (was Wed 9:00 AM only).",
-          "Confession: Saturday 3:00\u20133:30 PM.",
-          "SKIPPED: One-time Adoration Feb 23 \u2014 non-recurring event not added."
+          "Weekday Mass expanded to Mon–Thu 8:30 AM (was Wed 9:00 AM only).",
+          "Confession: Saturday 3:00–3:30 PM.",
+          "SKIPPED: One-time Adoration Feb 23 — non-recurring event not added."
         ]
       },
       "county": "Hampshire",
@@ -6271,10 +6475,10 @@
           "Bulletin URL added.",
           "Address updated to 1945 Northampton Street.",
           "Pastor updated to Rev. Duy Le.",
-          "Sunday corrected to 8:30 AM & 10:30 AM (was 7:30/9:30/11:30 with Spanish \u2014 Spanish not listed in bulletin).",
-          "Weekday corrected to 6:45 AM Mon\u2013Fri (was 8:00 AM).",
+          "Sunday corrected to 8:30 AM & 10:30 AM (was 7:30/9:30/11:30 with Spanish — Spanish not listed in bulletin).",
+          "Weekday corrected to 6:45 AM Mon–Fri (was 8:00 AM).",
           "Legal Holiday Mass 8:00 AM added.",
-          "Monday Evening Adoration/Rosary/Meditation 6:00\u20137:00 PM added.",
+          "Monday Evening Adoration/Rosary/Meditation 6:00–7:00 PM added.",
           "Rosary before every Mass added as standing note."
         ]
       },
@@ -6587,7 +6791,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Mon\u2013Sat before 8:30 AM Mass; not on holy days or holidays",
+          "notes": "Mon–Sat before 8:30 AM Mass; not on holy days or holidays",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -6635,7 +6839,7 @@
           "end_time": null,
           "location_id": null,
           "language": "pl",
-          "notes": "Lenten Fridays only \u2014 Polish",
+          "notes": "Lenten Fridays only — Polish",
           "seasonal": {
             "is_seasonal": true,
             "season": "lent"
@@ -6648,16 +6852,16 @@
         "status": "verified",
         "last_checked": "2026-02-21",
         "sources": [
-          "bulletin_2026-02 \u2014 ourladyofthecross.com/news/bulletin"
+          "bulletin_2026-02 — ourladyofthecross.com/news/bulletin"
         ],
         "discrepancies": [
-          "Phone corrected: 413-536-8832 \u2192 413-532-5661.",
-          "Confession before Mass: end time removed \u2014 bulletin lists 8:00 AM only, not a range.",
+          "Phone corrected: 413-536-8832 → 413-532-5661.",
+          "Confession before Mass: end time removed — bulletin lists 8:00 AM only, not a range.",
           "Confession Mon-Sat consolidated to single entry with note about holy days exception.",
-          "Sat afternoon confession: 3:00\u20133:45 PM \u2192 3:15 PM (no end time listed in bulletin).",
-          "ADDED: Divine Mercy Chaplet Mon\u2013Sat 7:50 AM with Rosary at 8:05 AM.",
-          "ADDED: Lenten Stations of the Cross \u2014 Fri noon (English) and Fri 4:00 PM (Polish).",
-          "SKIPPED: Lenten Penance Service Mar 8 \u2014 one-time event."
+          "Sat afternoon confession: 3:00–3:45 PM → 3:15 PM (no end time listed in bulletin).",
+          "ADDED: Divine Mercy Chaplet Mon–Sat 7:50 AM with Rosary at 8:05 AM.",
+          "ADDED: Lenten Stations of the Cross — Fri noon (English) and Fri 4:00 PM (Polish).",
+          "SKIPPED: Lenten Penance Service Mar 8 — one-time event."
         ]
       },
       "county": "Hampden",
@@ -6727,7 +6931,7 @@
           "end_time": null,
           "location_id": null,
           "language": "es",
-          "notes": "Vigil Mass \u2014 Spanish",
+          "notes": "Vigil Mass — Spanish",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -6903,7 +7107,7 @@
           "end_time": null,
           "location_id": "st-jerome-church-holyoke",
           "language": "en",
-          "notes": "Legal holidays only \u2014 St. Patrick's Chapel; replaces 12:15 PM",
+          "notes": "Legal holidays only — St. Patrick's Chapel; replaces 12:15 PM",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -6967,7 +7171,7 @@
           "end_time": "22:00",
           "location_id": "st-jerome-church-holyoke",
           "language": "en",
-          "notes": "1st Fridays only \u2014 St. Patrick's Chapel",
+          "notes": "1st Fridays only — St. Patrick's Chapel",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -6980,16 +7184,16 @@
         "status": "verified",
         "last_checked": "2026-02-21",
         "sources": [
-          "bulletin_2026-02 \u2014 parishesonline.com/organization/st-jerome-parish-1040"
+          "bulletin_2026-02 — parishesonline.com/organization/st-jerome-parish-1040"
         ],
         "discrepancies": [
           "Address updated to rectory: 169 Hampden Street.",
-          "Fri 7:00 PM Spanish Mass removed \u2014 not in bulletin.",
+          "Fri 7:00 PM Spanish Mass removed — not in bulletin.",
           "Fri confession changed from every Friday to 1st Fridays only.",
-          "ADDED: Sat 5:00\u20135:45 PM Confession at Immaculate Conception Chapel.",
-          "Adoration: Wed 9\u201312 and Thu 9\u201311:45 removed; replaced with 1st Fridays 5\u201310 PM at St. Patrick's Chapel.",
+          "ADDED: Sat 5:00–5:45 PM Confession at Immaculate Conception Chapel.",
+          "Adoration: Wed 9–12 and Thu 9–11:45 removed; replaced with 1st Fridays 5–10 PM at St. Patrick's Chapel.",
           "ADDED: Legal holiday Mass 9:00 AM at St. Patrick's Chapel.",
-          "SKIPPED: St. Patrick Novena Mar 9\u201317 \u2014 one-time annual event."
+          "SKIPPED: St. Patrick Novena Mar 9–17 — one-time annual event."
         ]
       },
       "county": "Hampden",
@@ -7295,7 +7499,7 @@
           "end_time": null,
           "location_id": "immaculate-conception-church-indian-orchard",
           "language": "pl",
-          "notes": "Holy Day of Obligation \u2014 Polish/English",
+          "notes": "Holy Day of Obligation — Polish/English",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -7372,20 +7576,20 @@
         "status": "verified",
         "last_checked": "2026-02-21",
         "sources": [
-          "bulletin_2026-02 \u2014 parishesonline.com/organization/immaculate-conception-church-01151"
+          "bulletin_2026-02 — parishesonline.com/organization/immaculate-conception-church-01151"
         ],
         "discrepancies": [
           "Address added: 25 Parker Street, Indian Orchard, MA 01151.",
-          "Vigil time corrected: 4:15 PM \u2192 4:00 PM.",
-          "Sunday English Mass corrected: 8:45 AM \u2192 8:30 AM.",
-          "Sunday Polish Mass corrected: 10:00 AM \u2192 10:15 AM.",
-          "Mon/Tue daily Mass corrected: 7:45 AM \u2192 8:00 AM.",
+          "Vigil time corrected: 4:15 PM → 4:00 PM.",
+          "Sunday English Mass corrected: 8:45 AM → 8:30 AM.",
+          "Sunday Polish Mass corrected: 10:00 AM → 10:15 AM.",
+          "Mon/Tue daily Mass corrected: 7:45 AM → 8:00 AM.",
           "ADDED: Thu & Fri 6:00 PM Daily Mass (English/Polish).",
           "ADDED: Holy Day Masses 8:00 AM and 6:00 PM.",
           "ADDED: Saturday Rosary 3:30 PM (English).",
           "ADDED: Sunday Rosary 9:45 AM (Polish).",
-          "ADDED: Saturday Confession 3:30\u20133:55 PM.",
-          "Adoration corrected: bad entry (8 PM\u20132 PM) \u2192 Wed 8:00 AM\u20132:00 PM."
+          "ADDED: Saturday Confession 3:30–3:55 PM.",
+          "Adoration corrected: bad entry (8 PM–2 PM) → Wed 8:00 AM–2:00 PM."
         ]
       },
       "county": "Hampden",
@@ -7437,7 +7641,7 @@
         "website": "https://www.StMaryLOS.com",
         "website_validated": false,
         "office_hours": "Mon. - Thurs. 9:00 a.m. - 12:00 p.m.",
-        "notes": "Oratory located behind St. Mary's Church, Lee. Open Mon\u2013Fri 8 AM\u201311 PM, Sat\u2013Sun 9 AM\u201311 PM for private prayer and adoration."
+        "notes": "Oratory located behind St. Mary's Church, Lee. Open Mon–Fri 8 AM–11 PM, Sat–Sun 9 AM–11 PM for private prayer and adoration."
       },
       "staff": {
         "pastor": "Rev. Matthew Guidi",
@@ -7586,23 +7790,27 @@
             "season": "year_round"
           },
           "source": "bulletin_2026-02",
-          "validated": true
+          "validated": true,
+          "recurrence": {
+            "type": "nth",
+            "week": 1
+          }
         }
       ],
       "validation": {
         "status": "verified",
         "last_checked": "2026-02-21",
         "sources": [
-          "bulletin_2026-02 \u2014 stmarylos.com/publications"
+          "bulletin_2026-02 — stmarylos.com/publications"
         ],
         "discrepancies": [
-          "ADDED: Stockbridge location (St. Joseph Church) \u2014 Sunday 8:30 AM Mass.",
+          "ADDED: Stockbridge location (St. Joseph Church) — Sunday 8:30 AM Mass.",
           "ADDED: Mon, Tue, Thu 8:00 AM Daily Mass at Lee.",
-          "ADDED: 1st Monday Adoration 6:30 AM\u20138:00 PM.",
+          "ADDED: 1st Monday Adoration 6:30 AM–8:00 PM.",
           "Friday Mass note added: held at St. Mary's School during school year.",
-          "Confession end time corrected: 4:00 PM \u2192 3:45 PM.",
-          "NOTE: Oratory behind St. Mary's Lee open daily for private adoration \u2014 logged in contact notes, not as a scheduled service.",
-          "Holy Days schedule noted as inside bulletin \u2014 no specific times listed; not added."
+          "Confession end time corrected: 4:00 PM → 3:45 PM.",
+          "NOTE: Oratory behind St. Mary's Lee open daily for private adoration — logged in contact notes, not as a scheduled service.",
+          "Holy Days schedule noted as inside bulletin — no specific times listed; not added."
         ]
       },
       "county": "Berkshire",
@@ -7768,7 +7976,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Communion Service \u2014 St. Ann Family Center",
+          "notes": "Communion Service — St. Ann Family Center",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -7798,10 +8006,10 @@
         "status": "verified",
         "last_checked": "2026-02-21",
         "sources": [
-          "bulletin_2026-02 \u2014 avptriparish.org"
+          "bulletin_2026-02 — avptriparish.org"
         ],
         "discrepancies": [
-          "ADDED: Mon\u2013Thu 7:00 AM Daily Mass at St. Ann Family Center.",
+          "ADDED: Mon–Thu 7:00 AM Daily Mass at St. Ann Family Center.",
           "ADDED: Friday 7:00 AM Communion Service at St. Ann Family Center.",
           "Confession end time added: 3:30 PM."
         ]
@@ -7871,11 +8079,11 @@
         "status": "verified",
         "last_checked": "2026-02-21",
         "sources": [
-          "bulletin_2026-02 \u2014 avptriparish.org"
+          "bulletin_2026-02 — avptriparish.org"
         ],
         "discrepancies": [
           "Corrupt daily_mass entry (no day) removed.",
-          "Confession 'after Saturday Mass' removed \u2014 not listed in bulletin.",
+          "Confession 'after Saturday Mass' removed — not listed in bulletin.",
           "Only Sat 5:30 PM Vigil confirmed for this site."
         ]
       },
@@ -7944,10 +8152,10 @@
         "status": "verified",
         "last_checked": "2026-02-21",
         "sources": [
-          "bulletin_2026-02 \u2014 avptriparish.org"
+          "bulletin_2026-02 — avptriparish.org"
         ],
         "discrepancies": [
-          "4th Sunday Confession (no time) removed \u2014 not listed in bulletin.",
+          "4th Sunday Confession (no time) removed — not listed in bulletin.",
           "Only Sunday 8:30 AM Mass confirmed for this site."
         ]
       },
@@ -7957,7 +8165,7 @@
     },
     {
       "id": "parish_035",
-      "name": "St. Mary\u2019s Parish",
+      "name": "St. Mary’s Parish",
       "town": "Longmeadow",
       "state": "MA",
       "zip": "01106",
@@ -7968,7 +8176,7 @@
       "locations": [
         {
           "id": "st-mary-s-church-longmeadow",
-          "name": "St. Mary\u2019s Church",
+          "name": "St. Mary’s Church",
           "type": "church",
           "address": "519 Longmeadow Street, 01106",
           "city": "Longmeadow",
@@ -8168,7 +8376,11 @@
             "season": "year_round"
           },
           "source": "bulletin_2026-02",
-          "validated": true
+          "validated": true,
+          "recurrence": {
+            "type": "nth",
+            "week": 3
+          }
         },
         {
           "id": "parish_035-dai-3fri",
@@ -8184,7 +8396,11 @@
             "season": "year_round"
           },
           "source": "bulletin_2026-02",
-          "validated": true
+          "validated": true,
+          "recurrence": {
+            "type": "nth",
+            "week": 3
+          }
         },
         {
           "id": "parish_035-hod-0700",
@@ -8258,7 +8474,7 @@
           "end_time": "20:00",
           "location_id": null,
           "language": "en",
-          "notes": "Lenten Mondays only \u2014 following the 6:30 PM Novena Mass",
+          "notes": "Lenten Mondays only — following the 6:30 PM Novena Mass",
           "seasonal": {
             "is_seasonal": true,
             "season": "lent"
@@ -8351,15 +8567,15 @@
         "status": "verified",
         "last_checked": "2026-02-21",
         "sources": [
-          "bulletin_2026-02 \u2014 stmarylong.org/bulletin"
+          "bulletin_2026-02 — stmarylong.org/bulletin"
         ],
         "discrepancies": [
           "ADDED: Holy Day Masses 7:00 AM, 9:00 AM, 6:00 PM.",
-          "ADDED: Lenten Monday Confession 7:00\u20138:00 PM (seasonal).",
+          "ADDED: Lenten Monday Confession 7:00–8:00 PM (seasonal).",
           "ADDED: Lenten Friday Stations of the Cross 6:30 PM (seasonal).",
-          "REMOVED: Separate miraculous_medal entry \u2014 merged into Mon evening Mass note.",
-          "REMOVED: Duplicate Friday rosary entry \u2014 merged into single adoration entry with rosary note.",
-          "REMOVED: Separate 1st Saturday rosary entry \u2014 merged into Mass note.",
+          "REMOVED: Separate miraculous_medal entry — merged into Mon evening Mass note.",
+          "REMOVED: Duplicate Friday rosary entry — merged into single adoration entry with rosary note.",
+          "REMOVED: Separate 1st Saturday rosary entry — merged into Mass note.",
           "All other services confirmed unchanged."
         ]
       },
@@ -8635,7 +8851,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Perpetual Adoration Chapel \u2014 scheduled adorers; livestream at ctkchapelludlow.com",
+          "notes": "Perpetual Adoration Chapel — scheduled adorers; livestream at ctkchapelludlow.com",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -8651,7 +8867,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Mon\u2013Sat: Rosary at 6:25 AM before 7:00 AM Mass; Divine Mercy Chaplet after Mass",
+          "notes": "Mon–Sat: Rosary at 6:25 AM before 7:00 AM Mass; Divine Mercy Chaplet after Mass",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -8678,12 +8894,12 @@
         {
           "id": "parish_036-con-wkday",
           "type": "confession",
-          "day": "monday",
+          "day": "weekday",
           "time": "06:30",
           "end_time": "07:00",
           "location_id": null,
           "language": "en",
-          "notes": "Mon\u2013Fri before 7:00 AM Mass; English and Polish",
+          "notes": "Mon–Fri before 7:00 AM Mass; English and Polish",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -8711,8 +8927,8 @@
           "id": "parish_036-con-sat2",
           "type": "confession",
           "day": "saturday",
-          "time": null,
-          "end_time": null,
+          "time": "19:15",
+          "end_time": "19:45",
           "location_id": null,
           "language": "en",
           "notes": "Following the 6:30 PM Saturday Mass",
@@ -8721,7 +8937,8 @@
             "season": "year_round"
           },
           "source": "bulletin_2026-02",
-          "validated": true
+          "validated": true,
+          "time_is_inferred": true
         },
         {
           "id": "parish_036-stat-lent-1",
@@ -8731,7 +8948,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Lenten Fridays \u2014 English/Polish (Droga Krzy\u017cowa)",
+          "notes": "Lenten Fridays — English/Polish (Droga Krzyżowa)",
           "seasonal": {
             "is_seasonal": true,
             "season": "lent"
@@ -8743,17 +8960,18 @@
           "id": "parish_036-stat-lent-2",
           "type": "stations_of_cross",
           "day": "friday",
-          "time": null,
-          "end_time": null,
+          "time": "18:15",
+          "end_time": "18:45",
           "location_id": null,
           "language": "en",
-          "notes": "Lenten Fridays \u2014 immediately following 5:30 PM Mass",
+          "notes": "Lenten Fridays — immediately following 5:30 PM Mass",
           "seasonal": {
             "is_seasonal": true,
             "season": "lent"
           },
           "source": "bulletin_2026-02",
-          "validated": true
+          "validated": true,
+          "time_is_inferred": true
         },
         {
           "id": "parish_036-gorz-lent",
@@ -8763,7 +8981,7 @@
           "end_time": null,
           "location_id": null,
           "language": "pl",
-          "notes": "Lenten Sundays \u2014 Rosary 1:30 PM followed by Gorzkie \u017bale (Lenten Lamentation) at 2:00 PM",
+          "notes": "Lenten Sundays — Rosary 1:30 PM followed by Gorzkie Żale (Lenten Lamentation) at 2:00 PM",
           "seasonal": {
             "is_seasonal": true,
             "season": "lent"
@@ -8776,18 +8994,18 @@
         "status": "verified",
         "last_checked": "2026-02-21",
         "sources": [
-          "bulletin_2026-02 \u2014 parishesonline.com/organization/christ-the-king-church-01056"
+          "bulletin_2026-02 — parishesonline.com/organization/christ-the-king-church-01056"
         ],
         "discrepancies": [
-          "Weekend Mass schedule retained from v4 \u2014 bulletin confirms Sat 6:30 PM and weekday 7 AM but does not re-list full schedule.",
-          "Tue 6:00 PM separate 'Miraculous Medal Novena Mass' removed \u2014 bulletin confirms novena is prayed at the 7:00 AM Tue Mass instead.",
+          "Weekend Mass schedule retained from v4 — bulletin confirms Sat 6:30 PM and weekday 7 AM but does not re-list full schedule.",
+          "Tue 6:00 PM separate 'Miraculous Medal Novena Mass' removed — bulletin confirms novena is prayed at the 7:00 AM Tue Mass instead.",
           "Weekday confession end time corrected to 7:00 AM (before Mass, not 6:50 AM).",
-          "Sat confession end time removed for post-Mass entry \u2014 time is not fixed.",
-          "ADDED: Rosary 6:25 AM Mon\u2013Sat before Mass + Divine Mercy after Mass.",
+          "Sat confession end time removed for post-Mass entry — time is not fixed.",
+          "ADDED: Rosary 6:25 AM Mon–Sat before Mass + Divine Mercy after Mass.",
           "ADDED: Lenten Stations of the Cross Fri 1:00 PM and after 5:30 PM Mass.",
-          "ADDED: Lenten Gorzkie \u017bale (Lamentation) Sun 2:00 PM with Rosary 1:30 PM (Polish devotion).",
-          "SKIPPED: Wed Rosary & Divine Mercy Feb 25 \u2014 one-time event.",
-          "SKIPPED: Wed 10\u201311 AM prayer for priests \u2014 ongoing but informal, not a liturgical service."
+          "ADDED: Lenten Gorzkie Żale (Lamentation) Sun 2:00 PM with Rosary 1:30 PM (Polish devotion).",
+          "SKIPPED: Wed Rosary & Divine Mercy Feb 25 — one-time event.",
+          "SKIPPED: Wed 10–11 AM prayer for priests — ongoing but informal, not a liturgical service."
         ]
       },
       "county": "Hampden",
@@ -9006,7 +9224,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Lenten Fridays only \u2014 Bilingual Mass (replaces or supplements regular Fri schedule)",
+          "notes": "Lenten Fridays only — Bilingual Mass (replaces or supplements regular Fri schedule)",
           "seasonal": {
             "is_seasonal": true,
             "season": "lent"
@@ -9022,7 +9240,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Lenten Fridays only \u2014 Bilingual; immediately following 5:30 PM Mass",
+          "notes": "Lenten Fridays only — Bilingual; immediately following 5:30 PM Mass",
           "seasonal": {
             "is_seasonal": true,
             "season": "lent"
@@ -9035,15 +9253,15 @@
         "status": "verified",
         "last_checked": "2026-02-21",
         "sources": [
-          "bulletin_2026-02 \u2014 church-bulletin.org/?id=928"
+          "bulletin_2026-02 — church-bulletin.org/?id=928"
         ],
         "discrepancies": [
           "All services confirmed exactly as in v4.",
-          "ADDED: Parochial Vicar \u2014 Friar Luiz De Lima Rangel, OFM Conv.",
+          "ADDED: Parochial Vicar — Friar Luiz De Lima Rangel, OFM Conv.",
           "Email updated: fatima7987@charter.net (confirmed from bulletin).",
           "ADDED: Lenten Friday 5:30 PM Bilingual Mass.",
           "ADDED: Lenten Friday Stations of the Cross after 6 PM (Bilingual).",
-          "SKIPPED: Lenten Retreat Feb 21\u201325 \u2014 one-time event."
+          "SKIPPED: Lenten Retreat Feb 21–25 — one-time event."
         ]
       },
       "county": "Hampden",
@@ -9327,16 +9545,16 @@
         "status": "verified",
         "last_checked": "2026-02-21",
         "sources": [
-          "bulletin_2026-02 \u2014 sponsors.bonventure.net/?page=1680"
+          "bulletin_2026-02 — sponsors.bonventure.net/?page=1680"
         ],
         "discrepancies": [
           "ADDED: Holy Day Vigil 5:30 PM, Holy Day Mass 8:30 AM and 7:00 PM.",
           "Email confirmed: info@stelizabethludlow.org.",
-          "REMOVED: 2nd Wed Adoration 8:15 AM\u20133:00 PM \u2014 not in bulletin.",
-          "REMOVED: 4th Thu Adoration 6:30\u20137:30 PM \u2014 not in bulletin.",
-          "REMOVED: 1st Sat Adoration 2:00\u20133:30 PM \u2014 not in bulletin.",
+          "REMOVED: 2nd Wed Adoration 8:15 AM–3:00 PM — not in bulletin.",
+          "REMOVED: 4th Thu Adoration 6:30–7:30 PM — not in bulletin.",
+          "REMOVED: 1st Sat Adoration 2:00–3:30 PM — not in bulletin.",
           "All Masses confirmed unchanged.",
-          "Confession confirmed: Sat 2:30\u20133:30 PM."
+          "Confession confirmed: Sat 2:30–3:30 PM."
         ]
       },
       "county": "Hampden",
@@ -9389,7 +9607,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Vigil Mass \u2014 time carried from prior data, bulletin not explicit",
+          "notes": "Vigil Mass — time carried from prior data, bulletin not explicit",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -9405,7 +9623,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Carried from prior data \u2014 bulletin not explicit",
+          "notes": "Carried from prior data — bulletin not explicit",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -9469,7 +9687,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Miraculous Medal Novena \u2014 during 8:00 AM Tuesday Mass",
+          "notes": "Miraculous Medal Novena — during 8:00 AM Tuesday Mass",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -9485,7 +9703,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "St. Peregrine Novena \u2014 during 7:00 PM Friday Mass",
+          "notes": "St. Peregrine Novena — during 7:00 PM Friday Mass",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -9501,7 +9719,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Lenten Stations of the Cross \u2014 Fridays during Lent",
+          "notes": "Lenten Stations of the Cross — Fridays during Lent",
           "seasonal": {
             "is_seasonal": true,
             "season": "lent"
@@ -9522,7 +9740,7 @@
           "Address confirmed as 22 Green Street, Monson.",
           "Pastor updated to Fr. John J. Brennan (shared with parish_007).",
           "Weekday: Tue 8:00 AM + Fri 7:00 PM confirmed.",
-          "Weekend times carried from prior data \u2014 bulletin did not list explicit weekend schedule.",
+          "Weekend times carried from prior data — bulletin did not list explicit weekend schedule.",
           "Confession: Saturday 3:00 PM.",
           "Miraculous Medal Novena during Tuesday 8:00 AM Mass.",
           "St. Peregrine Novena during Friday 7:00 PM Mass added.",
@@ -9580,7 +9798,7 @@
           "end_time": null,
           "location_id": "st-elizabeth-of-hungary-church-north-adams",
           "language": "en",
-          "notes": "Vigil Mass \u2014 livestreamed on Facebook & YouTube",
+          "notes": "Vigil Mass — livestreamed on Facebook & YouTube",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -9637,27 +9855,6 @@
           "validated": true
         },
         {
-          "id": "parish_041-dai-mon",
-          "type": "daily_mass",
-          "time": "08:00",
-          "end_time": null,
-          "location_id": "st-elizabeth-of-hungary-church-north-adams",
-          "language": "en",
-          "notes": null,
-          "seasonal": {
-            "is_seasonal": false,
-            "season": "year_round"
-          },
-          "source": "bulletin_2026-02",
-          "validated": true,
-          "days": [
-            "monday",
-            "tuesday",
-            "thursday",
-            "friday"
-          ]
-        },
-        {
           "id": "parish_041-com-web-001",
           "type": "communion_service",
           "day": "wednesday",
@@ -9665,7 +9862,7 @@
           "end_time": null,
           "location_id": "st-elizabeth-of-hungary-church-north-adams",
           "language": "en",
-          "notes": "Communion Service \u2014 not Mass",
+          "notes": "Communion Service — not Mass",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -9681,7 +9878,7 @@
           "end_time": null,
           "location_id": "st-elizabeth-of-hungary-church-north-adams",
           "language": "en",
-          "notes": "Mon., Tues., Thurs., Fri. \u2014 after 8:00 AM Mass",
+          "notes": "Mon., Tues., Thurs., Fri. — after 8:00 AM Mass",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -9713,7 +9910,7 @@
           "end_time": null,
           "location_id": "st-elizabeth-of-hungary-church-north-adams",
           "language": "en",
-          "notes": "First Saturday \u2014 followed by Rosary at 7:30 AM and Mass at 8:00 AM",
+          "notes": "First Saturday — followed by Rosary at 7:30 AM and Mass at 8:00 AM",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -9729,7 +9926,7 @@
           "end_time": null,
           "location_id": "st-elizabeth-of-hungary-church-north-adams",
           "language": "en",
-          "notes": "First Saturday Rosary \u2014 after 7:00 AM confession",
+          "notes": "First Saturday Rosary — after 7:00 AM confession",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -9752,6 +9949,70 @@
           },
           "source": "bulletin_2026-02",
           "validated": true
+        },
+        {
+          "id": "parish_041-dai-mon-mon",
+          "type": "daily_mass",
+          "time": "08:00",
+          "end_time": null,
+          "location_id": "st-elizabeth-of-hungary-church-north-adams",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true,
+          "day": "monday"
+        },
+        {
+          "id": "parish_041-dai-mon-tue",
+          "type": "daily_mass",
+          "time": "08:00",
+          "end_time": null,
+          "location_id": "st-elizabeth-of-hungary-church-north-adams",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true,
+          "day": "tuesday"
+        },
+        {
+          "id": "parish_041-dai-mon-thu",
+          "type": "daily_mass",
+          "time": "08:00",
+          "end_time": null,
+          "location_id": "st-elizabeth-of-hungary-church-north-adams",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true,
+          "day": "thursday"
+        },
+        {
+          "id": "parish_041-dai-mon-fri",
+          "type": "daily_mass",
+          "time": "08:00",
+          "end_time": null,
+          "location_id": "st-elizabeth-of-hungary-church-north-adams",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true,
+          "day": "friday"
         }
       ],
       "special_events": [],
@@ -9760,7 +10021,7 @@
         "last_checked": "2026-02-21",
         "bulletin_date": "2026-02",
         "discrepancies": [
-          "Mon/Tue/Thu 8AM daily masses added (only Friday was in JSON). Weekday confession added Mon/Tue/Thu/Fri 8:30 AM after mass. First Saturday program added: confession 7AM, rosary 7:30AM, mass 8AM. Vague daily adoration entry removed \u2014 not confirmed in bulletin. Address cleaned up. Livestream notes added to Sat vigil and 10:45 Sunday."
+          "Mon/Tue/Thu 8AM daily masses added (only Friday was in JSON). Weekday confession added Mon/Tue/Thu/Fri 8:30 AM after mass. First Saturday program added: confession 7AM, rosary 7:30AM, mass 8AM. Vague daily adoration entry removed — not confirmed in bulletin. Address cleaned up. Livestream notes added to Sat vigil and 10:45 Sunday."
         ]
       },
       "county": "Berkshire",
@@ -10045,7 +10306,7 @@
           "end_time": null,
           "location_id": "seas-church-northampton",
           "language": "en",
-          "notes": "Lenten Stations of the Cross \u2014 Fridays during Lent",
+          "notes": "Lenten Stations of the Cross — Fridays during Lent",
           "seasonal": {
             "is_seasonal": true,
             "season": "lent"
@@ -10061,7 +10322,7 @@
           "end_time": null,
           "location_id": "seas-church-northampton",
           "language": "en",
-          "notes": "Lenten Holy Hour \u2014 follows Stations of the Cross",
+          "notes": "Lenten Holy Hour — follows Stations of the Cross",
           "seasonal": {
             "is_seasonal": true,
             "season": "lent"
@@ -10083,7 +10344,7 @@
           "Sunday 9:30 AM Children's Mass (Chapel) and 12:30 PM Spanish Mass (Chapel) added.",
           "Sunday 11:00 AM added at Church.",
           "Weekday Mass corrected to 7:30 AM Mon/Tue/Wed + 12:30 PM Friday (was 8 AM Tue-Fri).",
-          "Thursday Mass and Thursday Adoration removed \u2014 not in bulletin.",
+          "Thursday Mass and Thursday Adoration removed — not in bulletin.",
           "Holy Day masses added: 5:30 PM Vigil (Chapel) and 7:30 AM (Church).",
           "Confession: Friday 1:10 PM at Church; Saturday 3:15 PM at Church.",
           "Lenten: Stations of the Cross Fridays 5:00 PM + Holy Hour 6:00 PM at Church."
@@ -10526,7 +10787,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Lenten Fridays only \u2014 with Exposition of the Blessed Sacrament",
+          "notes": "Lenten Fridays only — with Exposition of the Blessed Sacrament",
           "seasonal": {
             "is_seasonal": true,
             "season": "lent"
@@ -10542,7 +10803,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Lenten Thursdays only \u2014 Bible Study",
+          "notes": "Lenten Thursdays only — Bible Study",
           "seasonal": {
             "is_seasonal": true,
             "season": "lent"
@@ -10555,19 +10816,19 @@
         "status": "verified",
         "last_checked": "2026-02-21",
         "sources": [
-          "bulletin_2026-02 \u2014 pilotbulletins.net/detail/?ID=9421"
+          "bulletin_2026-02 — pilotbulletins.net/detail/?ID=9421"
         ],
         "discrepancies": [
           "Bulletin URL added: pilotbulletins.net/detail/?ID=9421.",
-          "Daily Mass corrected: Mon/Wed/Fri \u2192 Mon\u2013Thu (year-round); Fri added as Lenten only.",
-          "ADDED: Mon & Wed Adoration 5:30\u20138:00 PM with Benediction (year-round).",
+          "Daily Mass corrected: Mon/Wed/Fri → Mon–Thu (year-round); Fri added as Lenten only.",
+          "ADDED: Mon & Wed Adoration 5:30–8:00 PM with Benediction (year-round).",
           "ADDED: Holy Day Vigil 5:00 PM and Holy Day Noon Mass.",
           "ADDED: Lenten Wed Confession 5:30 PM.",
           "ADDED: Lenten Fri Stations of the Cross + Exposition 6:15 PM.",
           "ADDED: Lenten Thu Bible Study 5:30 PM.",
-          "Confession end time removed \u2014 bulletin lists 3:00 PM only.",
-          "Wed Bible study after Mass removed \u2014 replaced with Lenten Thu Bible Study.",
-          "SKIPPED: Lenten Friday Simple Supper 5:30 PM \u2014 social event, not liturgical."
+          "Confession end time removed — bulletin lists 3:00 PM only.",
+          "Wed Bible study after Mass removed — replaced with Lenten Thu Bible Study.",
+          "SKIPPED: Lenten Friday Simple Supper 5:30 PM — social event, not liturgical."
         ]
       },
       "county": "Franklin",
@@ -10810,14 +11071,14 @@
         "status": "verified",
         "last_checked": "2026-02-21",
         "sources": [
-          "bulletin_2026-02 \u2014 church-bulletin.org/?id=925"
+          "bulletin_2026-02 — church-bulletin.org/?id=925"
         ],
         "discrepancies": [
           "ADDED: Holy Day Masses 9:00 AM and 6:00 PM.",
           "ADDED: Tuesday Miraculous Medal Devotion at 9:00 AM Mass.",
           "Confession note updated: in the sacristy; also by appointment.",
-          "SKIPPED: Knights of Columbus 4th Wed 7 PM \u2014 social/fraternal, not liturgical.",
-          "SKIPPED: Bingo every Friday \u2014 social event."
+          "SKIPPED: Knights of Columbus 4th Wed 7 PM — social/fraternal, not liturgical.",
+          "SKIPPED: Bingo every Friday — social event."
         ]
       },
       "county": "Hampden",
@@ -11048,7 +11309,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Lenten Wednesdays only \u2014 Queen of Peace Mass; Rosary at 5:00 PM",
+          "notes": "Lenten Wednesdays only — Queen of Peace Mass; Rosary at 5:00 PM",
           "seasonal": {
             "is_seasonal": true,
             "season": "lent"
@@ -11064,7 +11325,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Lenten Wednesdays only \u2014 before Queen of Peace Mass",
+          "notes": "Lenten Wednesdays only — before Queen of Peace Mass",
           "seasonal": {
             "is_seasonal": true,
             "season": "lent"
@@ -11077,15 +11338,15 @@
         "status": "verified",
         "last_checked": "2026-02-21",
         "sources": [
-          "bulletin_2026-02 \u2014 parishesonline.com/organization/sacred-heart-church-01201"
+          "bulletin_2026-02 — parishesonline.com/organization/sacred-heart-church-01201"
         ],
         "discrepancies": [
-          "Church address corrected: 196 Elm St \u2192 191 Elm Street.",
+          "Church address corrected: 196 Elm St → 191 Elm Street.",
           "Office address added: 56 Newell Street, Pittsfield MA 01201.",
           "Email added: pinkchurch@aol.com.",
           "ADDED: Friday 9:00 AM Communion Service.",
-          "ADDED: Saturday Confession 3:00\u20133:30 PM.",
-          "ADDED: Friday Adoration 9:30 AM\u2013Noon in Parish Center Chapel.",
+          "ADDED: Saturday Confession 3:00–3:30 PM.",
+          "ADDED: Friday Adoration 9:30 AM–Noon in Parish Center Chapel.",
           "ADDED: Lenten Friday Stations of the Cross 3:00 PM.",
           "ADDED: Lenten Wednesday Queen of Peace Mass 5:30 PM with Rosary 5:00 PM."
         ]
@@ -11258,7 +11519,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "1st Saturday Mass \u2014 Parish Center Chapel",
+          "notes": "1st Saturday Mass — Parish Center Chapel",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -11322,7 +11583,7 @@
           "end_time": "09:00",
           "location_id": null,
           "language": "en",
-          "notes": "1st Friday Holy Hour \u2014 Parish Center Chapel",
+          "notes": "1st Friday Holy Hour — Parish Center Chapel",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -11338,7 +11599,7 @@
           "end_time": "09:00",
           "location_id": null,
           "language": "en",
-          "notes": "1st Saturday Holy Hour \u2014 Parish Center Chapel",
+          "notes": "1st Saturday Holy Hour — Parish Center Chapel",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -11354,7 +11615,7 @@
           "end_time": "14:00",
           "location_id": null,
           "language": "en",
-          "notes": "Chapel open for private prayer \u2014 Parish Center (building across from church)",
+          "notes": "Chapel open for private prayer — Parish Center (building across from church)",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -11370,7 +11631,7 @@
           "end_time": "14:00",
           "location_id": null,
           "language": "en",
-          "notes": "Chapel open for private prayer \u2014 Parish Center (building across from church)",
+          "notes": "Chapel open for private prayer — Parish Center (building across from church)",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -11386,7 +11647,7 @@
           "end_time": "14:00",
           "location_id": null,
           "language": "en",
-          "notes": "Chapel open for private prayer \u2014 Parish Center (building across from church)",
+          "notes": "Chapel open for private prayer — Parish Center (building across from church)",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -11402,7 +11663,7 @@
           "end_time": "14:00",
           "location_id": null,
           "language": "en",
-          "notes": "Chapel open for private prayer \u2014 Parish Center (building across from church)",
+          "notes": "Chapel open for private prayer — Parish Center (building across from church)",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -11415,18 +11676,18 @@
         "status": "verified",
         "last_checked": "2026-02-21",
         "sources": [
-          "bulletin_2026-02 \u2014 parishesonline.com/organization/st-charles-church-01201"
+          "bulletin_2026-02 — parishesonline.com/organization/st-charles-church-01201"
         ],
         "discrepancies": [
-          "ADDED: Mon, Tue, Wed Daily Mass 9:00 AM (Parish Center Chapel) \u2014 were missing.",
-          "Sat Daily Mass 9:00 AM removed \u2014 not in bulletin (Sat has Vigil only).",
+          "ADDED: Mon, Tue, Wed Daily Mass 9:00 AM (Parish Center Chapel) — were missing.",
+          "Sat Daily Mass 9:00 AM removed — not in bulletin (Sat has Vigil only).",
           "Corrupt first_saturday duplicate entry removed and replaced with proper daily_mass entry.",
-          "ADDED: 1st Friday Confession 8:00\u20138:30 AM.",
-          "ADDED: 1st Saturday Confession 8:00\u20138:30 AM.",
-          "ADDED: 1st Friday Holy Hour 8:00\u20139:00 AM (Parish Center Chapel).",
-          "ADDED: 1st Saturday Holy Hour 8:00\u20139:00 AM (Parish Center Chapel).",
+          "ADDED: 1st Friday Confession 8:00–8:30 AM.",
+          "ADDED: 1st Saturday Confession 8:00–8:30 AM.",
+          "ADDED: 1st Friday Holy Hour 8:00–9:00 AM (Parish Center Chapel).",
+          "ADDED: 1st Saturday Holy Hour 8:00–9:00 AM (Parish Center Chapel).",
           "Email added: stcharlespittsfield@gmail.com.",
-          "ADDED: Chapel open hours Mon/Tue/Wed/Fri 9:30 AM\u20132:00 PM after daily Mass (Parish Center)."
+          "ADDED: Chapel open hours Mon/Tue/Wed/Fri 9:30 AM–2:00 PM after daily Mass (Parish Center)."
         ]
       },
       "county": "Berkshire",
@@ -11712,9 +11973,9 @@
         "last_checked": "2026-02-21",
         "pdf_version": "Jan 20, 2026",
         "discrepancies": [
-          "Added weekday confession, stations of cross, vespers from stjoepittsfield.com. Mass times retained from PDF \u2014 need full website scrape."
+          "Added weekday confession, stations of cross, vespers from stjoepittsfield.com. Mass times retained from PDF — need full website scrape."
         ],
-        "deferred_reason": "Bulletin PDF not copy-able \u2014 to be manually entered by user. Deferred 2026-02-21."
+        "deferred_reason": "Bulletin PDF not copy-able — to be manually entered by user. Deferred 2026-02-21."
       },
       "county": "Berkshire",
       "clergy": [],
@@ -11855,7 +12116,7 @@
         "discrepancies": [
           "From saintmarkspittsfield.org. No weekday mass times listed on homepage. Spanish and African masses confirmed."
         ],
-        "deferred_reason": "Bulletin PDF not copy-able \u2014 to be manually entered by user. Deferred 2026-02-21."
+        "deferred_reason": "Bulletin PDF not copy-able — to be manually entered by user. Deferred 2026-02-21."
       },
       "county": "Berkshire",
       "clergy": [],
@@ -11956,7 +12217,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Currently suspended \u2014 check bulletin for resumption",
+          "notes": "Currently suspended — check bulletin for resumption",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -11972,7 +12233,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Currently suspended \u2014 check bulletin for resumption",
+          "notes": "Currently suspended — check bulletin for resumption",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -12017,13 +12278,13 @@
         "status": "verified",
         "last_checked": "2026-02-21",
         "sources": [
-          "bulletin_2026-02 \u2014 church-bulletin.org/?id=939"
+          "bulletin_2026-02 — church-bulletin.org/?id=939"
         ],
         "discrepancies": [
           "Bulletin URL added: church-bulletin.org/?id=939.",
           "ADDED: Monday 8:00 AM Daily Mass (currently suspended per bulletin).",
-          "ADDED: Sunday Confession 7:30\u20138:00 AM.",
-          "Daily masses (Mon & Fri) noted as currently suspended \u2014 retained in data with notice."
+          "ADDED: Sunday Confession 7:30–8:00 AM.",
+          "Daily masses (Mon & Fri) noted as currently suspended — retained in data with notice."
         ]
       },
       "county": "Hampden",
@@ -12253,7 +12514,7 @@
           "end_time": "19:00",
           "location_id": null,
           "language": "en",
-          "notes": "Confessions during Adoration 6:15\u20136:45 PM",
+          "notes": "Confessions during Adoration 6:15–6:45 PM",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -12266,12 +12527,12 @@
         "status": "verified",
         "last_checked": "2026-02-21",
         "sources": [
-          "bulletin_2026-02 \u2014 parishesonline.com/organization/our-lady-of-the-valley-church-1257"
+          "bulletin_2026-02 — parishesonline.com/organization/our-lady-of-the-valley-church-1257"
         ],
         "discrepancies": [
           "Email added: our.lady.valley@gmail.com.",
-          "Friday Confession time CORRECTED: 6:15\u20136:45 AM \u2192 6:15\u20136:45 PM (evening, not morning).",
-          "ADDED: Friday Adoration 6:00\u20137:00 PM.",
+          "Friday Confession time CORRECTED: 6:15–6:45 AM → 6:15–6:45 PM (evening, not morning).",
+          "ADDED: Friday Adoration 6:00–7:00 PM.",
           "All other services confirmed unchanged."
         ]
       },
@@ -12482,7 +12743,7 @@
           "id": "parish_053-open",
           "type": "adoration",
           "day": "daily",
-          "time": null,
+          "time": "08:00",
           "end_time": "17:00",
           "location_id": null,
           "language": "en",
@@ -12492,7 +12753,8 @@
             "season": "year_round"
           },
           "source": "bulletin_2026-02",
-          "validated": true
+          "validated": true,
+          "time_is_inferred": true
         },
         {
           "id": "parish_053-stat-lent",
@@ -12502,7 +12764,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Lenten Fridays only \u2014 rotates between St. Joseph, St. John's, and St. Christopher's. Held at St. Joseph on Feb 27, Mar 13, Mar 27",
+          "notes": "Lenten Fridays only — rotates between St. Joseph, St. John's, and St. Christopher's. Held at St. Joseph on Feb 27, Mar 13, Mar 27",
           "seasonal": {
             "is_seasonal": true,
             "season": "lent"
@@ -12515,16 +12777,16 @@
         "status": "verified",
         "last_checked": "2026-02-21",
         "sources": [
-          "bulletin_2026-02 \u2014 stjosephparishma.com/bulletin"
+          "bulletin_2026-02 — stjosephparishma.com/bulletin"
         ],
         "discrepancies": [
           "Bulletin URL added: stjosephparishma.com/bulletin.",
-          "Phone corrected: 625-6405 \u2192 413-625-6405.",
-          "Daily Mass corrected: Mon\u2013Fri 9 AM \u2192 Mon/Tue/Thu/Fri/Sat 9 AM; Wed moved to 5:30 PM.",
+          "Phone corrected: 625-6405 → 413-625-6405.",
+          "Daily Mass corrected: Mon–Fri 9 AM → Mon/Tue/Thu/Fri/Sat 9 AM; Wed moved to 5:30 PM.",
           "ADDED: Saturday 9:00 AM Daily Mass.",
-          "ADDED: Lenten Stations of the Cross Fri 5:30 PM \u2014 rotates among cluster churches.",
-          "Confession retained from v4 \u2014 not contradicted by bulletin.",
-          "NOTE: Lenten Stations rotate between St. Joseph, St. John's, and St. Christopher's \u2014 possible cluster parish relationship."
+          "ADDED: Lenten Stations of the Cross Fri 5:30 PM — rotates among cluster churches.",
+          "Confession retained from v4 — not contradicted by bulletin.",
+          "NOTE: Lenten Stations rotate between St. Joseph, St. John's, and St. Christopher's — possible cluster parish relationship."
         ]
       },
       "county": "Franklin",
@@ -12816,18 +13078,18 @@
         "status": "verified",
         "last_checked": "2026-02-21",
         "sources": [
-          "bulletin_2026-02 \u2014 parishesonline.com/organization/holy-family-roman-catholic-parish-01373"
+          "bulletin_2026-02 — parishesonline.com/organization/holy-family-roman-catholic-parish-01373"
         ],
         "discrepancies": [
-          "Phone corrected: 665-3254 \u2192 413-665-3254.",
+          "Phone corrected: 665-3254 → 413-665-3254.",
           "Email added: Holyfamilysd29@gmail.com.",
           "ADDED: St. Mark's Mission Sunday 9:00 AM (second location).",
           "ADDED: Holy Day Masses 8:00 AM and 6:00 PM.",
-          "Adoration MOVED: Friday Noon\u20136:00 PM \u2192 Wednesday 5:00\u20136:00 PM with Confession and Benediction.",
-          "Confession: Sat 3:00\u20133:45 PM end time dropped (bulletin lists 3:00 PM only); Wed 5:00 PM added.",
-          "Friday Confession during adoration REMOVED \u2014 now Wednesday.",
-          "Friday Benediction REMOVED \u2014 now Wednesday.",
-          "NOTE: St. Mark's Mission exact address unknown \u2014 needs follow-up."
+          "Adoration MOVED: Friday Noon–6:00 PM → Wednesday 5:00–6:00 PM with Confession and Benediction.",
+          "Confession: Sat 3:00–3:45 PM end time dropped (bulletin lists 3:00 PM only); Wed 5:00 PM added.",
+          "Friday Confession during adoration REMOVED — now Wednesday.",
+          "Friday Benediction REMOVED — now Wednesday.",
+          "NOTE: St. Mark's Mission exact address unknown — needs follow-up."
         ]
       },
       "county": "Franklin",
@@ -13131,7 +13393,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Lenten Stations of the Cross \u2014 Fridays during Lent",
+          "notes": "Lenten Stations of the Cross — Fridays during Lent",
           "seasonal": {
             "is_seasonal": true,
             "season": "lent"
@@ -13151,8 +13413,8 @@
           "Sunday expanded to 7:00 AM, 9:00 AM, 11:00 AM (was 8:00 + 10:30).",
           "Weekday corrected to 7:00 AM Mon/Tue/Thu/Fri; Wednesday is Communion Service (not Mass).",
           "Holy Day: Vigil 5:30 PM + 7:00 AM + 5:30 PM on day.",
-          "Confession confirmed Saturday 3:00\u20133:45 PM.",
-          "Adoration: Mondays 3:00\u20134:30 PM + 1st Fridays 11:30 AM\u20134:30 PM added.",
+          "Confession confirmed Saturday 3:00–3:45 PM.",
+          "Adoration: Mondays 3:00–4:30 PM + 1st Fridays 11:30 AM–4:30 PM added.",
           "Lenten Stations of the Cross Fridays 5:00 PM added."
         ]
       },
@@ -13434,12 +13696,12 @@
           "Bulletin URL added.",
           "Address corrected to 9 East Parkview Drive.",
           "Sunday expanded to 8:00 AM & 10:30 AM (was 9:30 AM only).",
-          "Weekday expanded to Mon\u2013Fri 8:00 AM.",
+          "Weekday expanded to Mon–Fri 8:00 AM.",
           "1st Saturday 8:00 AM Mass added.",
-          "Confession: Saturday 3:30\u20133:45 PM, also by appointment.",
+          "Confession: Saturday 3:30–3:45 PM, also by appointment.",
           "Adoration: Friday after 8 AM Mass + Saturday after 4 PM Mass.",
           "Rosary: Thursday after 8 AM Mass + Saturday 3:20 PM before Mass.",
-          "NOTE: Bulletin also references Rosary at IHM Granby 3rd Thursday 6:30 PM \u2014 belongs to parish_020."
+          "NOTE: Bulletin also references Rosary at IHM Granby 3rd Thursday 6:30 PM — belongs to parish_020."
         ]
       },
       "county": "Hampshire",
@@ -13872,7 +14134,7 @@
         "discrepancies": [
           "No website. 449 Plainfield St. Needs phone/bulletin verification."
         ],
-        "confidence_reason": "No bulletin URL available \u2014 data retained from prior source, unverified."
+        "confidence_reason": "No bulletin URL available — data retained from prior source, unverified."
       },
       "county": "Hampden",
       "clergy": []
@@ -14085,7 +14347,7 @@
         "discrepancies": [
           "No website. 40 Waverly St. Needs phone/bulletin verification."
         ],
-        "confidence_reason": "No bulletin URL available \u2014 data retained from prior source, unverified."
+        "confidence_reason": "No bulletin URL available — data retained from prior source, unverified."
       },
       "county": "Hampden",
       "clergy": []
@@ -14614,7 +14876,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "Holy Day of Obligation \u2014 English",
+          "notes": "Holy Day of Obligation — English",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -14630,7 +14892,7 @@
           "end_time": null,
           "location_id": null,
           "language": "es",
-          "notes": "Holy Day of Obligation \u2014 Spanish",
+          "notes": "Holy Day of Obligation — Spanish",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -14646,7 +14908,7 @@
           "end_time": "16:00",
           "location_id": null,
           "language": "en",
-          "notes": "Chaplet of Divine Mercy at 3:00 PM \u00b7 Rosary 3:30 PM \u00b7 Benediction",
+          "notes": "Chaplet of Divine Mercy at 3:00 PM · Rosary 3:30 PM · Benediction",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -14723,20 +14985,20 @@
         "status": "verified",
         "last_checked": "2026-02-21",
         "sources": [
-          "bulletin_2026-02 \u2014 holynamespringfieldma.org"
+          "bulletin_2026-02 — holynamespringfieldma.org"
         ],
         "discrepancies": [
           "Address CORRECTED to 323 Dickinson Street (was blank/wrong).",
           "Phone updated to 413-733-5823.",
           "Website updated to holynamespringfieldma.org.",
-          "Vigil Mass CORRECTED: 4:00 PM \u2192 4:30 PM.",
+          "Vigil Mass CORRECTED: 4:00 PM → 4:30 PM.",
           "Sunday Masses: 8:30 AM, 10:30 AM (Family), 12:30 PM Spanish.",
-          "Weekday Mass CORRECTED to 8:15 AM (Mon\u2013Sat).",
+          "Weekday Mass CORRECTED to 8:15 AM (Mon–Sat).",
           "Holy Day Masses ADDED: 8:15 AM, 5:30 PM English, 7:00 PM Spanish.",
-          "Adoration MOVED: Wed 4\u20135 PM \u2192 Tue 1:00\u20134:00 PM with full programme.",
+          "Adoration MOVED: Wed 4–5 PM → Tue 1:00–4:00 PM with full programme.",
           "ADDED: Lenten Stations Fri 6 PM English + 7 PM Spanish.",
           "ADDED: 1st Saturday Blue Army devotion.",
-          "NOTE: Holy Thursday, Good Friday, Holy Saturday triduum services noted but not stored as recurring \u2014 Lenten/triduum only."
+          "NOTE: Holy Thursday, Good Friday, Holy Saturday triduum services noted but not stored as recurring — Lenten/triduum only."
         ]
       },
       "county": "Hampden",
@@ -14899,22 +15161,6 @@
           "validated": true
         },
         {
-          "id": "parish_062-ros-wkdy",
-          "type": "rosary",
-          "day": "monday",
-          "time": "08:30",
-          "end_time": null,
-          "location_id": null,
-          "language": "en",
-          "notes": "Mon\u2013Fri excluding Thursday; before Mass",
-          "seasonal": {
-            "is_seasonal": false,
-            "season": "year_round"
-          },
-          "source": "bulletin_2026-02",
-          "validated": true
-        },
-        {
           "id": "parish_062-con-sat",
           "type": "confession",
           "day": "saturday",
@@ -14934,8 +15180,8 @@
           "id": "parish_062-soc-fri",
           "type": "stations_of_cross",
           "day": "friday",
-          "time": null,
-          "end_time": null,
+          "time": "09:45",
+          "end_time": "10:15",
           "location_id": null,
           "language": "en",
           "notes": "After 9:00 AM Mass",
@@ -14944,22 +15190,91 @@
             "season": "lent"
           },
           "source": "bulletin_2026-02",
-          "validated": true
+          "validated": true,
+          "time_is_inferred": true
+        },
+        {
+          "id": "parish_062-ros-wkdy-mon",
+          "type": "rosary",
+          "day": "monday",
+          "time": "09:15",
+          "end_time": "09:45",
+          "location_id": null,
+          "language": "en",
+          "notes": "Mon–Fri excluding Thursday; before Mass",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true,
+          "time_is_inferred": true
+        },
+        {
+          "id": "parish_062-ros-wkdy-tue",
+          "type": "rosary",
+          "day": "tuesday",
+          "time": "09:15",
+          "end_time": "09:45",
+          "location_id": null,
+          "language": "en",
+          "notes": "Mon–Fri excluding Thursday; before Mass",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true,
+          "time_is_inferred": true
+        },
+        {
+          "id": "parish_062-ros-wkdy-wed",
+          "type": "rosary",
+          "day": "wednesday",
+          "time": "09:15",
+          "end_time": "09:45",
+          "location_id": null,
+          "language": "en",
+          "notes": "Mon–Fri excluding Thursday; before Mass",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true,
+          "time_is_inferred": true
+        },
+        {
+          "id": "parish_062-ros-wkdy-fri",
+          "type": "rosary",
+          "day": "friday",
+          "time": "09:15",
+          "end_time": "09:45",
+          "location_id": null,
+          "language": "en",
+          "notes": "Mon–Fri excluding Thursday; before Mass",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true,
+          "time_is_inferred": true
         }
       ],
       "validation": {
         "status": "verified",
         "last_checked": "2026-02-21",
         "sources": [
-          "bulletin_2026-02 \u2014 mmohspringfield.org/bulletins"
+          "bulletin_2026-02 — mmohspringfield.org/bulletins"
         ],
         "discrepancies": [
-          "ADDED: Mon\u2013Fri Daily Mass 9:00 AM (excl. Thursday).",
-          "ADDED: Mon\u2013Fri Rosary/Adoration 8:30 AM (excl. Thursday).",
+          "ADDED: Mon–Fri Daily Mass 9:00 AM (excl. Thursday).",
+          "ADDED: Mon–Fri Rosary/Adoration 8:30 AM (excl. Thursday).",
           "ADDED: Lenten Friday Stations after 9:00 AM Mass.",
           "Confession end time added: 3:30 PM.",
           "Sunday 10:00 AM language corrected to ASL.",
-          "REMOVED: Friday-only Mass (now Mon\u2013Fri excl. Thu)."
+          "REMOVED: Friday-only Mass (now Mon–Fri excl. Thu)."
         ]
       },
       "county": "Hampden",
@@ -15157,7 +15472,7 @@
           "end_time": null,
           "location_id": null,
           "language": "en",
-          "notes": "St. Anthony Novena \u2014 October through June",
+          "notes": "St. Anthony Novena — October through June",
           "seasonal": {
             "is_seasonal": true,
             "season": "school_year"
@@ -15202,14 +15517,14 @@
         "status": "verified",
         "last_checked": "2026-02-21",
         "sources": [
-          "bulletin_2026-02 \u2014 parishesonline.com/organization/our-lady-of-mount-carmel-church-01105"
+          "bulletin_2026-02 — parishesonline.com/organization/our-lady-of-mount-carmel-church-01105"
         ],
         "discrepancies": [
           "ADDED: Mon, Tue, Wed Daily Mass 12:10 PM (was Fri only).",
           "ADDED: Holy Day Vigil 6:00 PM and Holy Day 12:10 PM.",
-          "ADDED: St. Anthony Novena Tuesday 6:30 PM (Oct\u2013Jun).",
-          "ADDED: Holy Hour Thursday 3:30 PM (Aug\u2013Jun).",
-          "Confession confirmed: Sat 3:15\u20133:45 PM.",
+          "ADDED: St. Anthony Novena Tuesday 6:30 PM (Oct–Jun).",
+          "ADDED: Holy Hour Thursday 3:30 PM (Aug–Jun).",
+          "Confession confirmed: Sat 3:15–3:45 PM.",
           "REMOVED: 'also by appointment' note."
         ]
       },
@@ -15490,13 +15805,13 @@
         "status": "verified",
         "last_checked": "2026-02-21",
         "sources": [
-          "bulletin_2026-02 \u2014 parishesonline.com/organization/sacred-heart-church-01104"
+          "bulletin_2026-02 — parishesonline.com/organization/sacred-heart-church-01104"
         ],
         "discrepancies": [
-          "Pastor UPDATED: Rev. Ryan Rooney \u2192 Co-Pastors Msgr. Connelly & Msgr. Farland.",
+          "Pastor UPDATED: Rev. Ryan Rooney → Co-Pastors Msgr. Connelly & Msgr. Farland.",
           "ADDED: Holy Day Vigil 5:15 PM, Holy Day 9:00 AM & 5:15 PM.",
           "All Masses and Confessions confirmed.",
-          "SKIPPED: Feb 22 special event \u2014 one-time only."
+          "SKIPPED: Feb 22 special event — one-time only."
         ]
       },
       "county": "Hampden",
@@ -15731,7 +16046,7 @@
           "Website confirmed accessible; schedule cross-reference pending",
           "Hampden batch: not yet harvested from website/bulletin."
         ],
-        "confidence_reason": "No bulletin URL available \u2014 data retained from prior source, unverified."
+        "confidence_reason": "No bulletin URL available — data retained from prior source, unverified."
       },
       "county": "Hampden",
       "clergy": []
@@ -15768,7 +16083,7 @@
         ],
         "website": "https://stcatherinespringfield.org",
         "website_validated": true,
-        "office_hours": "Mon\u2013Thu 9:00 AM\u20132:00 PM; Fri closed"
+        "office_hours": "Mon–Thu 9:00 AM–2:00 PM; Fri closed"
       },
       "staff": {
         "pastor": "Rev. Jeffrey Ballou",
@@ -15952,26 +16267,10 @@
           "validated": true
         },
         {
-          "id": "parish_066-ros-wkdy",
-          "type": "rosary",
-          "day": "monday",
-          "time": null,
-          "end_time": null,
-          "location_id": null,
-          "language": "en",
-          "notes": "Rosary & Divine Mercy Chaplet after Daily Mass (Mon\u2013Thu)",
-          "seasonal": {
-            "is_seasonal": false,
-            "season": "year_round"
-          },
-          "source": "bulletin_2026-02",
-          "validated": true
-        },
-        {
           "id": "parish_066-ador-thu",
           "type": "adoration",
           "day": "thursday",
-          "time": null,
+          "time": "08:45",
           "end_time": "19:00",
           "location_id": null,
           "language": "en",
@@ -15981,23 +16280,92 @@
             "season": "year_round"
           },
           "source": "bulletin_2026-02",
-          "validated": true
+          "validated": true,
+          "time_is_inferred": true
+        },
+        {
+          "id": "parish_066-ros-wkdy-mon",
+          "type": "rosary",
+          "day": "monday",
+          "time": "08:45",
+          "end_time": "09:15",
+          "location_id": null,
+          "language": "en",
+          "notes": "Rosary & Divine Mercy Chaplet after Daily Mass (Mon–Thu)",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true,
+          "time_is_inferred": true
+        },
+        {
+          "id": "parish_066-ros-wkdy-tue",
+          "type": "rosary",
+          "day": "tuesday",
+          "time": "08:45",
+          "end_time": "09:15",
+          "location_id": null,
+          "language": "en",
+          "notes": "Rosary & Divine Mercy Chaplet after Daily Mass (Mon–Thu)",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true,
+          "time_is_inferred": true
+        },
+        {
+          "id": "parish_066-ros-wkdy-wed",
+          "type": "rosary",
+          "day": "wednesday",
+          "time": "08:45",
+          "end_time": "09:15",
+          "location_id": null,
+          "language": "en",
+          "notes": "Rosary & Divine Mercy Chaplet after Daily Mass (Mon–Thu)",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true,
+          "time_is_inferred": true
+        },
+        {
+          "id": "parish_066-ros-wkdy-thu",
+          "type": "rosary",
+          "day": "thursday",
+          "time": "08:45",
+          "end_time": "09:15",
+          "location_id": null,
+          "language": "en",
+          "notes": "Rosary & Divine Mercy Chaplet after Daily Mass (Mon–Thu)",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true,
+          "time_is_inferred": true
         }
       ],
       "validation": {
         "status": "verified",
         "last_checked": "2026-02-21",
         "sources": [
-          "bulletin_2026-02 \u2014 parishesonline.com/organization/st-catherine-of-siena-parish-01129"
+          "bulletin_2026-02 — parishesonline.com/organization/st-catherine-of-siena-parish-01129"
         ],
         "discrepancies": [
           "Address ADDED: 1023 Parker Street, Springfield MA 01129.",
-          "Office hours added: Mon\u2013Thu 9 AM\u20132 PM; Fri closed.",
+          "Office hours added: Mon–Thu 9 AM–2 PM; Fri closed.",
           "ADDED: Holy Day Vigil 6:00 PM and Holy Day 8:00 AM & 6:00 PM.",
-          "Confession CORRECTED: 3:00\u20133:45 PM \u2192 2:30\u20133:45 PM.",
-          "ADDED: Rosary & Divine Mercy Chaplet after Daily Mass (Mon\u2013Thu).",
+          "Confession CORRECTED: 3:00–3:45 PM → 2:30–3:45 PM.",
+          "ADDED: Rosary & Divine Mercy Chaplet after Daily Mass (Mon–Thu).",
           "ADDED: Thursday Adoration after 8:00 AM Mass until 7:00 PM.",
-          "SKIPPED: Book Club Tue & Wednesdays with Deacon Jack \u2014 not liturgical services."
+          "SKIPPED: Book Club Tue & Wednesdays with Deacon Jack — not liturgical services."
         ]
       },
       "county": "Hampden",
@@ -16006,7 +16374,7 @@
     },
     {
       "id": "parish_067",
-      "name": "St. Michael\u2019s Cathedral Parish",
+      "name": "St. Michael’s Cathedral Parish",
       "town": "Springfield",
       "state": "MA",
       "zip": "01103",
@@ -16017,7 +16385,7 @@
       "locations": [
         {
           "id": "st-michael-s-cathedral-church-springfield",
-          "name": "St. Michael\u2019s Cathedral Church",
+          "name": "St. Michael’s Cathedral Church",
           "type": "church",
           "address": "260 State Street, Springfield, MA 01103",
           "city": "Springfield",
@@ -16099,7 +16467,7 @@
           "end_time": null,
           "location_id": null,
           "language": "es",
-          "notes": "Misa en Espa\u00f1ol",
+          "notes": "Misa en Español",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -16227,13 +16595,17 @@
           "end_time": "12:10",
           "location_id": null,
           "language": "en",
-          "notes": "2nd Thursday of month \u2014 following Pro-Life Vigil, before 12:10 PM Mass",
+          "notes": "2nd Thursday of month — following Pro-Life Vigil, before 12:10 PM Mass",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
           },
           "source": "bulletin_2026-02",
-          "validated": true
+          "validated": true,
+          "recurrence": {
+            "type": "nth",
+            "week": 2
+          }
         },
         {
           "id": "parish_067-ador-tue",
@@ -16255,8 +16627,8 @@
           "id": "parish_067-soc-fri-en",
           "type": "stations_of_cross",
           "day": "friday",
-          "time": null,
-          "end_time": null,
+          "time": "12:55",
+          "end_time": "13:25",
           "location_id": null,
           "language": "en",
           "notes": "Immediately following 12:10 PM Mass",
@@ -16265,7 +16637,8 @@
             "season": "lent"
           },
           "source": "bulletin_2026-02",
-          "validated": true
+          "validated": true,
+          "time_is_inferred": true
         },
         {
           "id": "parish_067-soc-fri-es",
@@ -16288,10 +16661,10 @@
         "status": "verified",
         "last_checked": "2026-02-21",
         "sources": [
-          "bulletin_2026-02 \u2014 stmichaelscathedralspfld.org/bulletins"
+          "bulletin_2026-02 — stmichaelscathedralspfld.org/bulletins"
         ],
         "discrepancies": [
-          "Address CORRECTED: 254 \u2192 260 State Street.",
+          "Address CORRECTED: 254 → 260 State Street.",
           "Email added: stmichaelscathedral@diospringfield.org.",
           "REMOVED: 1st Friday 7:30 AM Mass (not in bulletin).",
           "REMOVED: Weekday Rosary 11:45 AM (not in bulletin).",
@@ -16751,7 +17124,7 @@
         "discrepancies": [
           "No website. 235 Dwight Rd. Needs phone/bulletin verification."
         ],
-        "confidence_reason": "No bulletin URL available \u2014 data retained from prior source, unverified."
+        "confidence_reason": "No bulletin URL available — data retained from prior source, unverified."
       },
       "county": "Hampden",
       "clergy": []
@@ -17090,7 +17463,7 @@
         "office_hours": "Tues. - Fri. 9:30 a.m. - 3:30 p.m."
       },
       "staff": {
-        "pastor": "Rev. Sean O\u2019Mannion",
+        "pastor": "Rev. Sean O’Mannion",
         "additional": []
       },
       "services": [
@@ -17438,20 +17811,20 @@
           "bulletin_2026-02"
         ],
         "discrepancies": [
-          "Weekday Mass time CORRECTED: Tue\u2013Fri 17:30 confirmed (was correct).",
-          "Confession Tue\u2013Fri CORRECTED: 16:45\u201317:15 confirmed.",
+          "Weekday Mass time CORRECTED: Tue–Fri 17:30 confirmed (was correct).",
+          "Confession Tue–Fri CORRECTED: 16:45–17:15 confirmed.",
           "Holy Day Mass ADDED: 'as announced' note.",
           "REMOVED: Pro Life Novena Saturday.",
           "REMOVED: St. Jude Novena Wednesday.",
           "REMOVED: Divine Mercy Friday.",
-          "NOTE: Parish address still missing \u2014 needs follow-up."
+          "NOTE: Parish address still missing — needs follow-up."
         ]
       },
       "county": "Franklin",
       "clergy": [
         {
           "title": "Pastor",
-          "name": "Rev. Se\u00e1n O'Mannion"
+          "name": "Rev. Seán O'Mannion"
         }
       ]
     },
@@ -17675,10 +18048,10 @@
         "status": "verified",
         "last_checked": "2026-02-21",
         "sources": [
-          "bulletin_2026-02 \u2014 parishesonline.com/organization/our-lady-of-peace-church-01376"
+          "bulletin_2026-02 — parishesonline.com/organization/our-lady-of-peace-church-01376"
         ],
         "discrepancies": [
-          "Address CORRECTED: 80 \u2192 90 Seventh Street.",
+          "Address CORRECTED: 80 → 90 Seventh Street.",
           "ADDED: Holy Day Vigil 6:00 PM and Holy Day 8:00 AM.",
           "ADDED: Wednesday Rosary 11:30 AM.",
           "ADDED: Friday Stations of the Cross 11:30 AM (Lent only)."
@@ -17720,7 +18093,7 @@
         ],
         "website": "https://www.warecatholic.org",
         "website_validated": false,
-        "office_hours": "Mon & Wed 9am\u201312pm; Fri closed"
+        "office_hours": "Mon & Wed 9am–12pm; Fri closed"
       },
       "staff": {
         "pastor": "Rev. Piotr Pawlus",
@@ -17864,8 +18237,8 @@
           "id": "parish_074-con-fri",
           "type": "confession",
           "day": "friday",
-          "time": null,
-          "end_time": null,
+          "time": "08:45",
+          "end_time": "09:15",
           "location_id": null,
           "language": "en",
           "notes": "Following 8:00 AM Mass",
@@ -17874,24 +18247,25 @@
             "season": "year_round"
           },
           "source": "bulletin_2026-02",
-          "validated": true
+          "validated": true,
+          "time_is_inferred": true
         }
       ],
       "validation": {
         "status": "low_confidence",
         "last_checked": "2026-02-21",
-        "confidence_reason": "Mass schedule not available from bulletin \u2014 only confession times confirmed. Mass data retained from prior source but unverified.",
+        "confidence_reason": "Mass schedule not available from bulletin — only confession times confirmed. Mass data retained from prior source but unverified.",
         "sources": [
-          "bulletin_2026-02 \u2014 partial"
+          "bulletin_2026-02 — partial"
         ],
         "discrepancies": [
           "Phone confirmed: 413-967-5913. Secondary phone: 413-967-4963.",
           "Email added: allsaintschurch17@gmail.com.",
-          "Office hours added: Mon & Wed 9am\u201312pm; Fri closed.",
+          "Office hours added: Mon & Wed 9am–12pm; Fri closed.",
           "ADDED: Parochial Vicar Rev. Fr. Joel Philip.",
           "Confession UPDATED from bulletin: Sat 3:00 PM at St. Mary's, Fri after 8:00 AM Mass.",
-          "REMOVED: Sat 3:00\u20133:30 PM (replaced), 'Or by appointment' note dropped.",
-          "NOTE: Mass schedule not confirmed \u2014 bulletin did not include it.",
+          "REMOVED: Sat 3:00–3:30 PM (replaced), 'Or by appointment' note dropped.",
+          "NOTE: Mass schedule not confirmed — bulletin did not include it.",
           "NOTE: Parish shares bulletin with St. Mary's Ware (parish_075)."
         ]
       },
@@ -17931,7 +18305,7 @@
         ],
         "website": "https://www.warecatholic.org",
         "website_validated": false,
-        "office_hours": "Mon & Wed 9am\u201312pm; Fri closed"
+        "office_hours": "Mon & Wed 9am–12pm; Fri closed"
       },
       "staff": {
         "pastor": "Rev. Piotr Pawlus",
@@ -18059,8 +18433,8 @@
           "id": "parish_075-conf-bul-9377",
           "type": "confession",
           "day": "saturday",
-          "time": null,
-          "end_time": null,
+          "time": "18:15",
+          "end_time": "18:45",
           "location_id": null,
           "language": "en",
           "notes": "After 5:30pm Mass, or by appointment",
@@ -18069,21 +18443,22 @@
             "season": "year_round"
           },
           "source": "website_2026-02",
-          "validated": true
+          "validated": true,
+          "time_is_inferred": true
         }
       ],
       "validation": {
         "status": "low_confidence",
         "last_checked": "2026-02-21",
-        "confidence_reason": "Mass schedule not available from bulletin \u2014 existing data retained from prior source but unverified.",
+        "confidence_reason": "Mass schedule not available from bulletin — existing data retained from prior source but unverified.",
         "sources": [
-          "bulletin_2026-02 \u2014 partial (shared with All Saints, Ware)"
+          "bulletin_2026-02 — partial (shared with All Saints, Ware)"
         ],
         "discrepancies": [
           "Email added: stmaryschurch60@gmail.com.",
-          "Office hours added: Mon & Wed 9am\u201312pm; Fri closed.",
+          "Office hours added: Mon & Wed 9am–12pm; Fri closed.",
           "Parochial Vicar added: Rev. Fr. Joel Philip.",
-          "NOTE: Mass schedule unconfirmed \u2014 bulletin did not include it.",
+          "NOTE: Mass schedule unconfirmed — bulletin did not include it.",
           "NOTE: Shares rectory, pastor, and bulletin with All Saints Ware (parish_074)."
         ]
       },
@@ -18784,7 +19159,7 @@
           "end_time": null,
           "location_id": null,
           "language": "es",
-          "notes": "Misa en Espa\u00f1ol",
+          "notes": "Misa en Español",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -19027,7 +19402,7 @@
           "Website confirmed accessible; schedule cross-reference pending",
           "Hampden batch: not yet harvested from website/bulletin."
         ],
-        "confidence_reason": "No bulletin URL available \u2014 data retained from prior source, unverified."
+        "confidence_reason": "No bulletin URL available — data retained from prior source, unverified."
       },
       "county": "Hampden",
       "clergy": []
@@ -19435,7 +19810,7 @@
           "MANUALLY VERIFIED by user. No Wed Mass. Tue 7am only.",
           "Thompson Chapel Sun 7:30pm academic year."
         ],
-        "confidence_reason": "No bulletin available \u2014 data sourced from static website only. Schedule may not be current."
+        "confidence_reason": "No bulletin available — data sourced from static website only. Schedule may not be current."
       },
       "county": "Berkshire",
       "clergy": [],
