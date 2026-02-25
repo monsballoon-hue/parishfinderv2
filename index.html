@@ -2381,6 +2381,44 @@
     .map-chip { padding: 4px 8px; font-size: 0.68rem; }
   }
 
+  /* ── PWA INSTALL BANNER ── */
+  .install-banner {
+    background: linear-gradient(135deg, #243260 0%, #1a2744 100%);
+    display: flex; align-items: center; gap: 8px;
+    padding: 7px 16px; font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.75rem; color: rgba(255,255,255,0.85);
+    border-bottom: 1px solid rgba(201,168,76,0.25);
+    position: relative; z-index: 98;
+  }
+  .install-banner .ib-icon { color: var(--gold); font-size: 0.85rem; flex-shrink: 0; }
+  .install-banner .ib-text { flex: 1; min-width: 0; line-height: 1.3; }
+  .install-banner .ib-text strong { color: #fff; }
+  .install-banner .ib-text .ib-hint {
+    font-size: 0.68rem; opacity: 0.7; margin-left: 4px;
+  }
+  .install-banner .ib-action {
+    background: var(--gold); color: var(--navy); border: none;
+    padding: 5px 14px; border-radius: 14px; font-weight: 700;
+    font-size: 0.72rem; cursor: pointer; white-space: nowrap;
+    flex-shrink: 0; transition: background 0.15s;
+  }
+  .install-banner .ib-action:hover { background: var(--gold-light); }
+  .install-banner .ib-close {
+    background: transparent; border: none; color: rgba(255,255,255,0.4);
+    font-size: 1.1rem; cursor: pointer; padding: 2px 4px; flex-shrink: 0;
+    line-height: 1; transition: color 0.15s;
+  }
+  .install-banner .ib-close:hover { color: rgba(255,255,255,0.8); }
+  /* iOS share icon inline */
+  .install-banner .ios-share-icon {
+    display: inline-block; width: 14px; height: 14px; vertical-align: -2px;
+    margin: 0 1px;
+  }
+  @media (min-width: 769px) {
+    .install-banner { padding: 7px 24px; font-size: 0.78rem; justify-content: center; }
+    .install-banner .ib-text { flex: none; }
+  }
+
 </style>
 </head>
 <body>
@@ -2405,6 +2443,7 @@
   <button class="app-tab" data-view="yc" onclick="switchAppView('yc')"><span class="tab-icon">✦</span>YC Events</button>
   <button class="app-tab" data-view="map" onclick="switchAppView('map')"><span class="tab-icon">🗺</span>Map</button>
 </nav>
+<div id="installBannerSlot"></div>
 
 <!-- ══════ CHURCHES VIEW ══════ -->
 <div class="app-view active" id="viewChurches">
@@ -6689,42 +6728,94 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-// PWA Install Prompt
-let deferredInstallPrompt = null;
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredInstallPrompt = e;
-  showInstallBanner();
-});
+// PWA Install Banner — platform-aware, slim, dismissible
+(function initInstallBanner() {
+  // Don't show if already running as installed PWA
+  if (window.matchMedia('(display-mode: standalone)').matches) return;
+  if (window.navigator.standalone === true) return; // iOS standalone
 
-function showInstallBanner() {
-  if (document.getElementById('pwaInstallBanner')) return;
-  const banner = document.createElement('div');
-  banner.id = 'pwaInstallBanner';
-  banner.innerHTML = `
-    <div style="position:fixed;bottom:0;left:0;right:0;background:var(--navy);color:#fff;padding:12px 20px;display:flex;align-items:center;gap:12px;z-index:9999;box-shadow:0 -4px 20px rgba(0,0,0,0.3);font-family:'Source Sans 3',sans-serif;">
-      <span style="font-size:1.5rem;color:var(--gold);">✝</span>
-      <div style="flex:1;font-size:0.85rem;"><strong>Install Mass Finder</strong><br><span style="opacity:0.7;font-size:0.78rem;">Add to home screen for quick access</span></div>
-      <button onclick="installPWA()" style="background:var(--gold);color:var(--navy);border:none;padding:8px 18px;border-radius:20px;font-weight:700;font-size:0.82rem;cursor:pointer;white-space:nowrap;">Install</button>
-      <button onclick="dismissInstallBanner()" style="background:transparent;border:none;color:rgba(255,255,255,0.5);font-size:1.3rem;cursor:pointer;padding:4px 8px;">✕</button>
+  // Don't show if user dismissed recently (30-day cookie)
+  if (document.cookie.split('; ').some(c => c.startsWith('pf_install_dismissed='))) return;
+
+  const slot = document.getElementById('installBannerSlot');
+  if (!slot) return;
+
+  const ua = navigator.userAgent || '';
+  const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const isSafari = isIOS && /Safari/i.test(ua) && !/CriOS|FxiOS|OPiOS|EdgiOS/.test(ua);
+  const isAndroid = /Android/i.test(ua);
+  const isChrome = /Chrome/i.test(ua) && !/Edge|OPR|Brave/i.test(ua);
+
+  // iOS Safari: manual "Add to Home Screen" instructions
+  if (isIOS) {
+    // Only show in Safari (other iOS browsers can't install PWAs)
+    if (!isSafari) return;
+    const shareIcon = `<svg class="ios-share-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M5 10l7-7 7 7"/><path d="M5 17h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1v-2a1 1 0 011-1z"/></svg>`;
+    slot.innerHTML = `<div class="install-banner" id="installBanner">
+      <span class="ib-icon">✝</span>
+      <span class="ib-text"><strong>Install Mass Finder</strong><span class="ib-hint">— tap ${shareIcon} then "Add to Home Screen"</span></span>
+      <button class="ib-close" onclick="dismissInstall()" aria-label="Dismiss">✕</button>
     </div>`;
-  document.body.appendChild(banner);
-}
-
-function installPWA() {
-  if (deferredInstallPrompt) {
-    deferredInstallPrompt.prompt();
-    deferredInstallPrompt.userChoice.then(() => { deferredInstallPrompt = null; });
+    return;
   }
-  dismissInstallBanner();
-}
 
-function dismissInstallBanner() {
-  const b = document.getElementById('pwaInstallBanner');
-  if (b) b.remove();
-}
+  // Android Chrome: use beforeinstallprompt when available
+  if (isAndroid && isChrome) {
+    let deferredPrompt = null;
 
-window.addEventListener('appinstalled', () => { dismissInstallBanner(); });
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      slot.innerHTML = `<div class="install-banner" id="installBanner">
+        <span class="ib-icon">✝</span>
+        <span class="ib-text"><strong>Install Mass Finder</strong><span class="ib-hint">— quick access from your home screen</span></span>
+        <button class="ib-action" id="ibInstallBtn">Install</button>
+        <button class="ib-close" onclick="dismissInstall()" aria-label="Dismiss">✕</button>
+      </div>`;
+
+      document.getElementById('ibInstallBtn').addEventListener('click', () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then(() => { deferredPrompt = null; dismissInstall(); });
+        }
+      });
+    });
+
+    window.addEventListener('appinstalled', () => { dismissInstall(); });
+    return;
+  }
+
+  // Desktop: show subtle install hint only if beforeinstallprompt fires
+  let deferredPromptDesktop = null;
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPromptDesktop = e;
+    slot.innerHTML = `<div class="install-banner" id="installBanner">
+      <span class="ib-icon">✝</span>
+      <span class="ib-text"><strong>Install Mass Finder</strong><span class="ib-hint">— as a desktop app for quick access</span></span>
+      <button class="ib-action" id="ibInstallBtnD">Install</button>
+      <button class="ib-close" onclick="dismissInstall()" aria-label="Dismiss">✕</button>
+    </div>`;
+
+    document.getElementById('ibInstallBtnD').addEventListener('click', () => {
+      if (deferredPromptDesktop) {
+        deferredPromptDesktop.prompt();
+        deferredPromptDesktop.userChoice.then(() => { deferredPromptDesktop = null; dismissInstall(); });
+      }
+    });
+  });
+
+  window.addEventListener('appinstalled', () => { dismissInstall(); });
+})();
+
+function dismissInstall() {
+  const b = document.getElementById('installBanner');
+  if (b) b.parentElement.innerHTML = '';
+  // Set 30-day dismissal cookie
+  const d = new Date(); d.setDate(d.getDate() + 30);
+  document.cookie = 'pf_install_dismissed=1;expires=' + d.toUTCString() + ';path=/;SameSite=Lax';
+}
+window.dismissInstall = dismissInstall;
 </script>
 
 </body>
