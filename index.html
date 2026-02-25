@@ -3175,15 +3175,6 @@ function timeToMinutes(t) {
   return h * 60 + m;
 }
 
-function fmt12(t) {
-  if (!t) return '—';
-  let [h, m] = t.split(':').map(Number);
-  const ampm = h >= 12 ? 'PM' : 'AM';
-  if (h > 12) h -= 12;
-  if (h === 0) h = 12;
-  return m === 0 ? `${h} ${ampm}` : `${h}:${m.toString().padStart(2,'0')} ${ampm}`;
-}
-
 function refreshSoon() {
   if (userLat === null) return;
   document.getElementById('happeningSoon').style.display = '';
