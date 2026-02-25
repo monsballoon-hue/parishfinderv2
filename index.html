@@ -3387,7 +3387,7 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
       <span class="county-badge"><button class="fav-btn${isFav ? ' favorited' : ''}" onclick="event.stopPropagation(); toggleFavorite('${p.id}', this);" title="${isFav ? 'Remove from favorites' : 'Add to favorites'}">${isFav ? '❤️' : '🤍'}</button> ${confBadge}</span>
       ${confWarn}
     </div>
-    <div class="card-meta">${accessBadge}${contactDrawer}${bulletinLink}${distHtml}${directionsBtn}<button class="share-btn" onclick="event.stopPropagation(); shareParish('${p.id}', this);" title="Copy link to this church">📋 Copy Link</button>${multiSite}</div>
+    <div class="card-meta">${accessBadge}${contactDrawer}${bulletinLink}${distHtml}${directionsBtn}<button class="share-btn" onclick="event.stopPropagation(); shareParish('${p.id}', this);" title="Share this church">📋 Share</button>${multiSite}</div>
     <div class="card-body">
       ${renderYCLiteralEvents(p)}
       ${lentWrapped}${massWrapped}${confWrapped}${adorWrapped}${devotWrapped}${otherWrapped}
@@ -3547,6 +3547,8 @@ function updateClearFiltersBtn() {
   if (btn) btn.style.display = isAnyFilterActive() ? '' : 'none';
 }
 
+var _deepLinkParishId = null; // captured before render can strip it
+
 function syncUrlParams() {
   const params = new URLSearchParams();
   if (searchInput.value.trim()) params.set('q', searchInput.value.trim());
@@ -3556,6 +3558,8 @@ function syncUrlParams() {
   if (langFilterEl.value)       params.set('lang', langFilterEl.value);
   if (activeCategory)           params.set('cat', activeCategory);
   if (activeSubtype)            params.set('sub', activeSubtype);
+  // Preserve deep link parish param during initial load
+  if (_deepLinkParishId) params.set('parish', _deepLinkParishId);
   const str = params.toString();
   history.replaceState(null, '', str ? '?' + str : location.pathname);
 }
@@ -3708,6 +3712,8 @@ function haversine(lat1, lng1, lat2, lng2) {
 // Apply URL params if present (before initial render)
 (function applyUrlParams() {
   const p = new URLSearchParams(location.search);
+  // Capture deep link parish before render/syncUrlParams can strip it
+  if (p.get('parish')) _deepLinkParishId = p.get('parish');
   if (p.get('q'))      searchInput.value = p.get('q');
   if (p.get('county')) countyFilter.value = p.get('county');
   if (p.get('day'))    dayFilterEl.value = p.get('day');
@@ -4373,28 +4379,44 @@ function shareParish(parishId, btnEl) {
   const base = window.location.origin + window.location.pathname;
   const shareUrl = base + '?parish=' + encodeURIComponent(parishId);
 
+  // Find parish name for share sheet
+  const parish = parishes.find(p => p.id === parishId);
+  const loc = parish && parish.locations && parish.locations[0];
+  const churchName = (loc && loc.name) ? loc.name : (parish ? parish.name : 'Church');
+
   function showCopied() {
     if (btnEl) {
       btnEl.classList.add('copied');
-      btnEl.textContent = '✓ Copied!';
-      setTimeout(() => { btnEl.classList.remove('copied'); btnEl.textContent = '📋 Copy Link'; }, 1800);
+      btnEl.textContent = '✓ Shared!';
+      setTimeout(() => { btnEl.classList.remove('copied'); btnEl.textContent = '📋 Share'; }, 1800);
     }
   }
 
   function fallbackCopy() {
-    const ta = document.createElement('textarea');
-    ta.value = shareUrl;
-    ta.style.position = 'fixed';
-    ta.style.left = '-9999px';
-    document.body.appendChild(ta);
-    ta.select();
-    try { document.execCommand('copy'); showCopied(); }
-    catch(e) { prompt('Copy this link:', shareUrl); }
-    document.body.removeChild(ta);
+    if (navigator.clipboard && navigator.clipboard.writeText && window.isSecureContext) {
+      navigator.clipboard.writeText(shareUrl).then(showCopied).catch(() => {
+        prompt('Copy this link:', shareUrl);
+      });
+    } else {
+      const ta = document.createElement('textarea');
+      ta.value = shareUrl;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); showCopied(); }
+      catch(e) { prompt('Copy this link:', shareUrl); }
+      document.body.removeChild(ta);
+    }
   }
 
-  if (navigator.clipboard && navigator.clipboard.writeText && window.isSecureContext) {
-    navigator.clipboard.writeText(shareUrl).then(showCopied).catch(fallbackCopy);
+  // Use native share sheet on mobile if available
+  if (navigator.share) {
+    navigator.share({
+      title: churchName + ' — Mass Finder',
+      text: 'Check out ' + churchName + ' on Mass Finder',
+      url: shareUrl,
+    }).then(showCopied).catch(() => { /* user cancelled share */ });
   } else {
     fallbackCopy();
   }
@@ -4402,9 +4424,8 @@ function shareParish(parishId, btnEl) {
 
 // Handle ?parish=xxx deep link on load
 (function handleParishDeepLink() {
-  const p = new URLSearchParams(location.search);
-  const pid = p.get('parish');
-  if (!pid) return;
+  if (!_deepLinkParishId) return;
+  const pid = _deepLinkParishId;
   // Wait for DOM to settle after render
   setTimeout(() => {
     const card = document.querySelector(`[data-parish-id="${pid}"]`);
@@ -4412,7 +4433,12 @@ function shareParish(parishId, btnEl) {
       card.scrollIntoView({ behavior: 'smooth', block: 'center' });
       card.style.transition = 'box-shadow 0.3s';
       card.style.boxShadow = '0 0 0 3px var(--gold), 0 0 20px rgba(201,168,76,0.3)';
-      setTimeout(() => { card.style.boxShadow = ''; }, 3500);
+      setTimeout(() => {
+        card.style.boxShadow = '';
+        // Clear deep link param from URL after highlight fades
+        _deepLinkParishId = null;
+        syncUrlParams();
+      }, 3500);
     }
   }, 400);
 })();
@@ -4625,8 +4651,7 @@ function renderNowView() {
 
       let status = null;
       if (nowMin >= svcMin && nowMin <= endMin) status = 'now';
-      else if (minsAway > 0 && minsAway <= 180) status = 'soon';
-      else if (minsAway > 0) status = 'later';
+      else if (minsAway > 0 && minsAway <= 90) status = 'soon';
 
       if (!status) continue;
 
@@ -4638,6 +4663,8 @@ function renderNowView() {
           if (svcLoc && svcLoc.lat) { svcLat = svcLoc.lat; svcLng = svcLoc.lng; }
         }
         dist = haversine(userLat, userLng, svcLat, svcLng);
+        // With location active: only show within 10 miles
+        if (dist > 10) continue;
       }
 
       let displayName = (primaryLoc && primaryLoc.name) || p.name;
@@ -4651,18 +4678,33 @@ function renderNowView() {
     }
   }
 
-  // Sort: now first, then soon (by minsAway), then later. Within each: by distance if available
+  // Sort: now first, then soon (by minsAway). Within each: by distance if available
   results.sort((a, b) => {
-    const statusRank = { now: 0, soon: 1, later: 2 };
+    const statusRank = { now: 0, soon: 1 };
     if (statusRank[a.status] !== statusRank[b.status]) return statusRank[a.status] - statusRank[b.status];
     if (a.status === 'now' && b.status === 'now') return (a.dist || 999) - (b.dist || 999);
     return a.minsAway - b.minsAway || (a.dist || 999) - (b.dist || 999);
   });
 
+  // Without location: limit to 3 per service type category to keep it tight
+  let displayResults = results;
+  if (userLat === null) {
+    const catCounts = {};
+    displayResults = results.filter(r => {
+      let cat = 'other';
+      if (r.svc.type === 'sunday_mass' || r.svc.type === 'daily_mass') cat = 'mass';
+      else if (r.svc.type === 'confession') cat = 'confession';
+      else if (r.svc.type === 'adoration' || r.svc.type === 'holy_hour') cat = 'adoration';
+      catCounts[cat] = (catCounts[cat] || 0) + 1;
+      return catCounts[cat] <= 3;
+    });
+  }
+
   const container = document.getElementById('nowTimeline');
 
-  if (!results.length) {
-    container.innerHTML = `<div class="now-empty"><div class="cross">✝</div><p>No services happening or scheduled for today.</p></div>`;
+  if (!displayResults.length) {
+    const noLocNote = userLat === null ? '<br><small style="color:#999;">Enable location for nearby results.</small>' : '';
+    container.innerHTML = `<div class="now-empty"><div class="cross">✝</div><p>No services happening or starting within 90 minutes.${noLocNote}</p></div>`;
   } else {
     let html = '';
     let lastStatus = '';
@@ -4670,9 +4712,9 @@ function renderNowView() {
       stations_of_cross:'Stations', adoration:'Adoration', holy_hour:'Holy Hour', rosary:'Rosary',
       divine_mercy:'Divine Mercy', devotion:'Devotion', communion_service:'Communion', novena:'Novena' };
 
-    for (const r of results.slice(0, 50)) {
+    for (const r of displayResults) {
       if (r.status !== lastStatus) {
-        const labels = { now: 'Happening Now', soon: 'Starting Soon', later: 'Later Today' };
+        const labels = { now: 'Happening Now', soon: 'Starting Soon' };
         html += `<div class="now-section-label">${labels[r.status] || r.status}</div>`;
         lastStatus = r.status;
       }
@@ -4748,7 +4790,7 @@ function initMap() {
   mapInitialized = true;
 
   // Center on western MA
-  appMap = L.map('mapContainer', { zoomControl: true }).setView([42.25, -72.65], 9);
+  appMap = L.map('mapContainer', { zoomControl: true, tap: true, tapTolerance: 20 }).setView([42.18, -72.60], 10);
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap contributors',
@@ -4812,11 +4854,11 @@ function renderMapMarkers() {
     const color = mapFilter ? (markerColors[mapFilter] || markerColors.default) : markerColors.default;
 
     const marker = L.circleMarker([loc.lat, loc.lng], {
-      radius: 7,
+      radius: 12,
       fillColor: color,
       fillOpacity: 0.85,
       color: '#fff',
-      weight: 1.5,
+      weight: 2,
     }).addTo(appMap);
 
     marker.bindPopup(`
@@ -4824,7 +4866,11 @@ function renderMapMarkers() {
       <div class="popup-town">${p.town}, MA · ${p.county} County</div>
       <div class="popup-services">${svcSummary.join(' · ')}</div>
       <span class="popup-link" onclick="switchAppView('churches'); setTimeout(() => scrollToParish('${p.id}'), 200);">View Details →</span>
-    `);
+    `, { closeButton: true, minWidth: 180 });
+
+    // Enlarge on hover for desktop discoverability
+    marker.on('mouseover', function() { this.setRadius(16); this.setStyle({ weight: 3 }); });
+    marker.on('mouseout', function() { if (!this.isPopupOpen()) { this.setRadius(12); this.setStyle({ weight: 2 }); } });
 
     mapMarkers.push(marker);
   }
