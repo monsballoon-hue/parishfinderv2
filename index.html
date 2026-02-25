@@ -268,6 +268,24 @@
     font-weight: 400;
     letter-spacing: 0.04em;
   }
+  /* WP1-1B: Multi-site sibling locations */
+  .also-at {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.55);
+    margin-top: 2px;
+    margin-bottom: 2px;
+    font-style: italic;
+    padding-right: 70px;
+    line-height: 1.3;
+  }
+  /* WP1-1C: Location label on service lines for multi-site parishes */
+  .svc-location-label {
+    font-size: 0.72rem;
+    color: #888;
+    margin-left: 4px;
+    font-weight: 400;
+    white-space: nowrap;
+  }
   .county-badge {
     position: absolute;
     top: 14px;
@@ -1532,7 +1550,7 @@
 <div class="controls-bar">
   <div class="controls-inner controls-row-1">
     <div class="search-wrap">
-      <input type="text" id="searchInput" placeholder="Search parish or town…" autocomplete="off">
+      <input type="text" id="searchInput" placeholder="Search by name or town…" autocomplete="off">
     </div>
     <select id="countyFilter" style="display:none">
       <option value="">All Counties</option>
@@ -1591,17 +1609,17 @@
 
 <div class="add-parish-strip" id="addParishStrip" style="cursor:pointer;" onclick="toggleAddParish(event)">
   <div class="strip-text">
-    <strong>Don't see your parish?</strong> <span id="addParishHint" style="color:rgba(255,255,255,0.6);font-size:0.8rem;">Tap to expand</span>
+    <strong>Don't see your church?</strong> <span id="addParishHint" style="color:rgba(255,255,255,0.6);font-size:0.8rem;">Tap to expand</span>
     <div id="addParishBody" style="display:none;margin-top:6px;">Submit a request to have it added to the directory — include as much detail as you have and the data team will verify and publish it.</div>
   </div>
-  <button class="add-parish-btn" id="addParishBtn" style="display:none;" onclick="openNewParish()">+ Add My Parish</button>
+  <button class="add-parish-btn" id="addParishBtn" style="display:none;" onclick="openNewParish()">+ Add My Church</button>
 </div>
 
 
 
 <main>
   <div class="parish-grid" id="parishGrid">
-    <div class="loading">Loading parishes…</div>
+    <div class="loading">Loading churches…</div>
   </div>
 </main>
 
@@ -1766,7 +1784,9 @@ function serviceMatchesType(svc, categoryFilter, subtypeFilter) {
 function parishMatchesSearch(p, q) {
   if (!q) return true;
   const svcNotes = (p.services || []).map(s => s.notes || '').join(' ');
-  const s = `${p.name} ${p.town} ${p.county} ${svcNotes}`.toLowerCase();
+  // WP1: Include location/church names in search index
+  const locNames = (p.locations || []).map(l => l.name || '').join(' ');
+  const s = `${p.name} ${locNames} ${p.town} ${p.county} ${svcNotes}`.toLowerCase();
   return q.toLowerCase().split(' ').every(w => s.includes(w));
 }
 
@@ -1801,10 +1821,10 @@ function collapseServiceDays(services) {
     return !(days.length === 1 && COLLAPSIBLE_DAYS.has(days[0]));
   });
 
-  // Group collapsible by signature: type|time|end_time|language|notes
+  // Group collapsible by signature: type|time|end_time|language|notes|seasonal|location_id
   const buckets = new Map();
   for (const svc of collapsible) {
-    const sig = `${svc.type}|${svc.time||''}|${svc.end_time||''}|${svc.language||'en'}|${svc.notes||''}|${(svc.seasonal&&svc.seasonal.season)||''}`;
+    const sig = `${svc.type}|${svc.time||''}|${svc.end_time||''}|${svc.language||'en'}|${svc.notes||''}|${(svc.seasonal&&svc.seasonal.season)||''}|${svc.location_id||''}`;
     if (!buckets.has(sig)) buckets.set(sig, { proto: svc, days: [] });
     buckets.get(sig).days.push(getDays(svc)[0]);
   }
@@ -1929,7 +1949,7 @@ function wrapCollapsible(sectionKey, title, icon, innerHtml, filteredServices, c
 }
 
 
-function renderServiceSection(title, icon, services, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter) {
+function renderServiceSection(title, icon, services, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite) {
   const filtered = services.filter(s =>
     serviceMatchesDay(s, dayFilter) &&
     serviceMatchesTime(s, timeFilter) &&
@@ -1976,7 +1996,10 @@ function renderServiceSection(title, icon, services, dayFilter, timeFilter, cate
       const showLabel = label.toLowerCase() !== title.toLowerCase();
       const typeTag = showLabel ? `<span class="svc-type-tag">${label}</span>` : '';
       const note    = svc.notes;
-      return { timeStr, lang, season, typeTag, note };
+      // WP1-1C: Location label for multi-site parishes
+      const locLabel = (isMultiSite && svc.location_id && locMap && locMap[svc.location_id])
+        ? `<span class="svc-location-label">&middot; ${locMap[svc.location_id].name}</span>` : '';
+      return { timeStr, lang, season, typeTag, note, locLabel };
     };
 
     let timesHtml;
@@ -1985,7 +2008,7 @@ function renderServiceSection(title, icon, services, dayFilter, timeFilter, cate
       timesHtml = `<span class="svc-inline">${
         svcs.map(svc => {
           const e = entryHtml(svc);
-          return `<span class="svc-t">${e.timeStr}${e.typeTag}${e.lang}${e.season}</span>`;
+          return `<span class="svc-t">${e.timeStr}${e.locLabel}${e.typeTag}${e.lang}${e.season}</span>`;
         }).join('<span class="svc-sep">·</span>')
       }</span>`;
     } else {
@@ -1994,7 +2017,7 @@ function renderServiceSection(title, icon, services, dayFilter, timeFilter, cate
         svcs.map(svc => {
           const e = entryHtml(svc);
           const noteHtml = e.note ? `<span class="svc-note-line">${e.note}</span>` : '';
-          return `<span class="svc-stack-row"><span class="svc-t">${e.timeStr}</span>${e.typeTag}${e.lang}${e.season}${noteHtml}</span>`;
+          return `<span class="svc-stack-row"><span class="svc-t">${e.timeStr}</span>${e.locLabel}${e.typeTag}${e.lang}${e.season}${noteHtml}</span>`;
         }).join('')
       }</span>`;
     }
@@ -2012,15 +2035,15 @@ function renderServiceSection(title, icon, services, dayFilter, timeFilter, cate
 }
 
 // Renders Mass section with holy day entries pinned at bottom behind a sub-divider
-function renderMassSectionWithHolyDays(services, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter) {
+function renderMassSectionWithHolyDays(services, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite) {
   const HOLYDAY_DAYS = ['holyday', 'holyday_eve'];
 
   // Split into regular (excluding lenten) and holy day services
   const regular  = services.filter(s => !HOLYDAY_DAYS.includes(s.day) && !(s.seasonal && s.seasonal.season === 'lent'));
   const holydays = services.filter(s => HOLYDAY_DAYS.includes(s.day));
 
-  const regularSect  = renderServiceSection('Mass', 'mass', regular,   dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter);
-  const holydaySect  = renderServiceSection('Mass', 'mass', holydays,  dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter);
+  const regularSect  = renderServiceSection('Mass', 'mass', regular,   dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite);
+  const holydaySect  = renderServiceSection('Mass', 'mass', holydays,  dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite);
 
   if (!regularSect && !holydaySect) return '';
 
@@ -2040,7 +2063,7 @@ function renderMassSectionWithHolyDays(services, dayFilter, timeFilter, category
 }
 
 // Renders a dedicated Lenten Services section aggregating all seasonal=lent services
-function renderLentenSection(allServices, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter) {
+function renderLentenSection(allServices, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite) {
   const lentSvcs = allServices.filter(s => s.seasonal && s.seasonal.season === 'lent');
   if (!lentSvcs.length) return '';
 
@@ -2076,7 +2099,10 @@ function renderLentenSection(allServices, dayFilter, timeFilter, categoryFilter,
       const typeTag = `<span class="svc-type-tag">${label}</span>`;
       const lang    = svc.language && svc.language !== 'en'
         ? `<span class="lang-tag">${LANG_LABELS[svc.language]||svc.language}</span>` : '';
-      return `<span class="svc-stack-row"><span class="svc-t">${timeStr}</span>${typeTag}${lang}${svc.notes ? `<span class="svc-note-line">${svc.notes}</span>` : ''}</span>`;
+      // WP1-1C: Location label for multi-site parishes
+      const locLabel = (isMultiSite && svc.location_id && locMap && locMap[svc.location_id])
+        ? `<span class="svc-location-label">&middot; ${locMap[svc.location_id].name}</span>` : '';
+      return `<span class="svc-stack-row"><span class="svc-t">${timeStr}</span>${locLabel}${typeTag}${lang}${svc.notes ? `<span class="svc-note-line">${svc.notes}</span>` : ''}</span>`;
     };
 
     return `<li class="service-row">
@@ -2130,8 +2156,8 @@ function getVerifiedBadge(p) {
 
   const configs = {
     green:  { icon: '✓', cls: 'status-green', tip: `Verified${dateLabel}` },
-    yellow: { icon: '–', cls: 'status-yellow', tip: `Needs review${dateLabel} — confirm times with parish` },
-    orange: { icon: '!', cls: 'status-orange', tip: `Low confidence${dateLabel} — verify times directly with parish` },
+    yellow: { icon: '–', cls: 'status-yellow', tip: `Needs review${dateLabel} — confirm times with the church` },
+    orange: { icon: '!', cls: 'status-orange', tip: `Low confidence${dateLabel} — verify times directly with the church` },
     red:    { icon: '?', cls: 'status-red',    tip: 'Not yet verified' },
   };
   const { icon, cls, tip } = configs[tier];
@@ -2151,13 +2177,13 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
 
   const isLowConf = p.validation && (p.validation.status === 'low_confidence');
 
-  const massSect  = renderMassSectionWithHolyDays(groups.mass, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter);
-  const confSect  = renderServiceSection('Confession', 'confession', groups.confession, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter);
-  const adorSect  = renderServiceSection('Adoration & Prayer', 'adoration', groups.adoration, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter);
-  const devotSect = renderServiceSection('Devotions', 'devotion', groups.devotion, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter);
-  const otherSect = renderServiceSection('Other Services', 'other', groups.other, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter);
+  const massSect  = renderMassSectionWithHolyDays(groups.mass, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite);
+  const confSect  = renderServiceSection('Confession', 'confession', groups.confession, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite);
+  const adorSect  = renderServiceSection('Adoration & Prayer', 'adoration', groups.adoration, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite);
+  const devotSect = renderServiceSection('Devotions', 'devotion', groups.devotion, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite);
+  const otherSect = renderServiceSection('Other Services', 'other', groups.other, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite);
   // Lenten section always renders if lent services exist (independent of any filter)
-  const lentSect  = renderLentenSection(p.services || [], dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter);
+  const lentSect  = renderLentenSection(p.services || [], dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite);
 
   // Pre-filter services for summaries (mirrors renderServiceSection's internal filter)
   const svcFilter = (s) =>
@@ -2192,7 +2218,35 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   const otherWrapped = wrapCollapsible('other',      'Other Services',   'other',      otherSect, otherFiltered, otherCollapsed);
 
   const loc = p.locations && p.locations[0];
-  const addr = loc && loc.address ? loc.address : `${p.name}, ${p.town}, MA`;
+
+  // WP1-1A: Derive church display name from primary location
+  let churchName = (loc && loc.name) ? loc.name : p.name;
+  // Edge case: strip trailing "Church" if name already contains Cathedral/Basilica
+  if (/Cathedral|Basilica/i.test(churchName)) {
+    churchName = churchName.replace(/\s+Church$/i, '');
+  }
+
+  // WP1-1B: Multi-site detection & sibling churches
+  const worshipSites = (p.locations || []).filter(l =>
+    ['church', 'chapel', 'mission'].includes(l.type)
+  );
+  const isMultiSite = worshipSites.length > 1;
+  let alsoAtHtml = '';
+  if (isMultiSite) {
+    const siblings = worshipSites.slice(1);
+    const siblingText = siblings.map(s => {
+      const cityLabel = (s.city && s.city.toLowerCase() !== (p.town||'').toLowerCase())
+        ? `, ${s.city}` : '';
+      return `${s.name}${cityLabel}`;
+    }).join(' &middot; ');
+    alsoAtHtml = `<div class="also-at">Also at: ${siblingText}</div>`;
+  }
+
+  // WP1-1C: Build location lookup map for service-level labels
+  const locMap = {};
+  (p.locations || []).forEach(l => { locMap[l.id] = l; });
+
+  const addr = loc && loc.address ? loc.address : `${churchName}, ${p.town}, MA`;
   const mapsUrl = /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent) && !window.MSStream
     ? `https://maps.apple.com/?q=${encodeURIComponent(addr)}`
     : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addr)}`;
@@ -2203,8 +2257,7 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
     ? `<span class="dist-badge${distMiles <= 5 ? ' near' : ''}">${distMiles.toFixed(1)} mi</span>`
     : '';
 
-  const multiSite = p.locations && p.locations.filter(l => l.type === 'church').length > 1
-    ? `<span class="meta-item">${p.locations.filter(l=>l.type==='church').length} locations</span>` : '';
+  const multiSite = ''; // WP1-1B: replaced by alsoAtHtml in card header
 
   const bulletinLink = p.bulletin_url
     ? `<a class="bulletin-link" href="${p.bulletin_url}" target="_blank" rel="noopener">Bulletin</a>` : '';
@@ -2242,11 +2295,12 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   const confBadge = getVerifiedBadge(p);
 
   const confWarn = isLowConf
-    ? `<div class="confidence-warn">Schedule unverified — confirm times with parish</div>` : '';
+    ? `<div class="confidence-warn">Schedule unverified — confirm times with the church</div>` : '';
 
   return `<article class="parish-card${isLowConf ? ' low-confidence' : ''}">
     <div class="card-header">
-      <h2>${p.name}</h2>
+      <h2>${churchName}</h2>
+      ${alsoAtHtml}
       <div class="card-location">${p.town}, MA &middot; ${p.county} County</div>
       <span class="county-badge">${confBadge}</span>
       ${confWarn}
@@ -2268,7 +2322,7 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
     if (!resp.ok) throw new Error('HTTP ' + resp.status);
     PARISH_DATA = await resp.json();
   } catch(e) {
-    document.body.innerHTML = '<div style="padding:2rem;text-align:center;color:red;font-size:1.2rem;">Error loading parish data. Please refresh the page.<br><small>' + e.message + '</small></div>';
+    document.body.innerHTML = '<div style="padding:2rem;text-align:center;color:red;font-size:1.2rem;">Error loading data. Please refresh the page.<br><small>' + e.message + '</small></div>';
     return;
   }
 
@@ -2290,7 +2344,7 @@ let activeSubtype  = '';
 
 // Stats
 const totalSvc = parishes.reduce((n,p) => n + (p.services||[]).length, 0);
-document.getElementById('headerBadge').textContent   = `${parishes.length} Parishes · ${totalSvc} Services`;
+document.getElementById('headerBadge').textContent   = `${parishes.length} Churches · ${totalSvc} Services`;
 
 const CAT_LABELS = { mass: 'Mass type', confession: 'When', adoration: 'Type', devotion: 'Devotion' };
 
@@ -2366,7 +2420,7 @@ function render() {
   var html = filtered.map(function(p) {
     return renderParishCard(p, day, time, cat, subtype, lang, getDistMiles(p));
   }).join('');
-  grid.innerHTML = html || '<div class="no-results"><div class="cross">✝</div><p>No parishes found matching your filters.</p></div>';
+  grid.innerHTML = html || '<div class="no-results"><div class="cross">✝</div><p>No churches found matching your filters.</p></div>';
 
   const shown = filtered.length;
   resultsCount.textContent = shown + ' of ' + parishes.length + ' shown';
@@ -2576,15 +2630,22 @@ function refreshSoon() {
   const results = [];
 
   for (const p of parishes) {
-    const loc = p.locations && p.locations[0];
-    if (!loc || !loc.lat) continue;
-    const dist = haversine(userLat, userLng, loc.lat, loc.lng);
-    if (dist > soonRadiusMiles) continue;
+    const primaryLoc = p.locations && p.locations[0];
+    if (!primaryLoc || !primaryLoc.lat) continue;
 
     for (const svc of (p.services || [])) {
       if (!svcMatchesMode(svc)) continue;
       const svcMin = timeToMinutes(svc.time);
       if (svcMin === null) continue;
+
+      // WP1-1E: Use specific building coords for multi-site distance calc
+      let svcLat = primaryLoc.lat, svcLng = primaryLoc.lng;
+      if (svc.location_id) {
+        const svcLoc = (p.locations || []).find(l => l.id === svc.location_id);
+        if (svcLoc && svcLoc.lat) { svcLat = svcLoc.lat; svcLng = svcLoc.lng; }
+      }
+      const dist = haversine(userLat, userLng, svcLat, svcLng);
+      if (dist > soonRadiusMiles) continue;
 
       const svcDay = svc.day;
       const isWeekday = todayIdx >= 1 && todayIdx <= 5; // Mon-Fri
@@ -2618,10 +2679,31 @@ function refreshSoon() {
     const minsLabel = minsAway === 0 ? 'Starting now'
       : minsAway <= 5 ? 'In a few minutes'
       : `In ${minsAway} min`;
-    const loc = p.locations[0];
+
+    // WP1-1E: Use correct building name/address for multi-site parishes
+    let displayName, displayTown, directionsAddr;
+    if (svc.location_id) {
+      const svcLoc = (p.locations || []).find(l => l.id === svc.location_id);
+      if (svcLoc) {
+        displayName = svcLoc.name;
+        displayTown = svcLoc.city || p.town;
+        directionsAddr = svcLoc.address || (p.locations[0] && p.locations[0].address) || `${displayName}, ${displayTown}, MA`;
+      }
+    }
+    if (!displayName) {
+      const primaryLoc = p.locations && p.locations[0];
+      displayName = (primaryLoc && primaryLoc.name) ? primaryLoc.name : p.name;
+      // Strip trailing "Church" if name contains Cathedral/Basilica
+      if (/Cathedral|Basilica/i.test(displayName)) {
+        displayName = displayName.replace(/\s+Church$/i, '');
+      }
+      displayTown = p.town;
+      directionsAddr = (primaryLoc && primaryLoc.address) || `${displayName}, ${p.town}, MA`;
+    }
+
     const mapsUrl = /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent) && !window.MSStream
-      ? `https://maps.apple.com/?q=${encodeURIComponent(loc.address || p.name + ', ' + p.town + ', MA')}`
-      : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(loc.address || p.name + ', ' + p.town + ', MA')}`;
+      ? `https://maps.apple.com/?q=${encodeURIComponent(directionsAddr)}`
+      : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(directionsAddr)}`;
     const typeLabel = (soonMode !== 'mass')
       ? `<div class="soon-card-type">${SVCTYPE_SHORT[svc.type] || svc.type.replace(/_/g,' ')}</div>` : '';
     const isLenten = svc.seasonal && svc.seasonal.is_seasonal && svc.seasonal.season === 'lent';
@@ -2629,8 +2711,8 @@ function refreshSoon() {
       <div class="soon-card-time">${svc.time ? fmt12(svc.time) : 'Soon'}</div>
       <div class="soon-card-starts">${minsLabel}</div>
       ${typeLabel}
-      <div class="soon-card-parish">${p.name}</div>
-      <div class="soon-card-town">${p.town}</div>
+      <div class="soon-card-parish">${displayName}</div>
+      <div class="soon-card-town">${displayTown}</div>
       <div class="soon-card-dist">${dist.toFixed(1)} mi</div>
     </a>`;
   }).join('');
@@ -2821,7 +2903,7 @@ window.toggleAddParish  = toggleAddParish;
   <!-- HEADER -->
   <div class="mhdr">
     <div class="mhdr-left">
-      <h2>Reconcile Parish Listing</h2>
+      <h2>Reconcile Listing</h2>
       <div class="mhdr-parish" id="mParishName"></div>
     </div>
     <button class="mhdr-close" onclick="closeReconcile()">×</button>
@@ -2942,10 +3024,10 @@ window.toggleAddParish  = toggleAddParish;
         <div class="fg">
           <label>Source <span class="req">*</span></label>
           <select id="fd_source">
-            <option value="bulletin">Parish bulletin</option>
-            <option value="website">Parish website</option>
+            <option value="bulletin">Bulletin</option>
+            <option value="website">Church website</option>
             <option value="attended">I attended this service</option>
-            <option value="phone">Called the parish office</option>
+            <option value="phone">Called the church office</option>
             <option value="other">Other</option>
           </select>
         </div>
@@ -3072,7 +3154,7 @@ window.toggleAddParish  = toggleAddParish;
           </select>
         </div>
         <div class="fg span2">
-          <label>Location / church building (if multi-site parish)</label>
+          <label>Location / church building (if multiple sites)</label>
           <select id="fa_location"></select>
         </div>
         <div class="fg span2">
@@ -3089,10 +3171,10 @@ window.toggleAddParish  = toggleAddParish;
         <div class="fg">
           <label>Source <span class="req">*</span></label>
           <select id="fa_source">
-            <option value="bulletin">Parish bulletin</option>
-            <option value="website">Parish website</option>
+            <option value="bulletin">Bulletin</option>
+            <option value="website">Church website</option>
             <option value="attended">I attended this service</option>
-            <option value="phone">Called the parish office</option>
+            <option value="phone">Called the church office</option>
             <option value="other">Other</option>
           </select>
         </div>
@@ -3262,8 +3344,14 @@ function openReconcile(parishId) {
   _flagDays       = new Set();
   _addDays        = new Set();
 
+  // WP1: Display church name in reconcile header
+  const recLoc = _currentParish.locations && _currentParish.locations[0];
+  let recChurchName = (recLoc && recLoc.name) ? recLoc.name : _currentParish.name;
+  if (/Cathedral|Basilica/i.test(recChurchName)) {
+    recChurchName = recChurchName.replace(/\s+Church$/i, '');
+  }
   document.getElementById('mParishName').textContent =
-    _currentParish.name + ' — ' + _currentParish.town + ', MA';
+    recChurchName + ' — ' + _currentParish.town + ', MA';
 
   // reset tabs
   switchTab('flag');
@@ -3497,7 +3585,7 @@ function formatReconcileEmail(payload) {
 
 function formatNewParishEmail(payload) {
   const lines = [];
-  lines.push(`New parish request: ${payload.name}`);
+  lines.push(`New church request: ${payload.name}`);
   lines.push(`Ref: ${payload.ref_id}`);
   lines.push(`Submitted: ${payload.submitted_at}`);
   lines.push('');
@@ -3629,14 +3717,14 @@ function submitReconcile() {
 
   <div class="mhdr">
     <div class="mhdr-left">
-      <h2>Request a Parish Listing</h2>
+      <h2>Request a Church Listing</h2>
       <div class="mhdr-parish">Diocese of Springfield, Massachusetts</div>
     </div>
     <button class="mhdr-close" onclick="closeNewParish()">×</button>
   </div>
 
   <div class="np-intro">
-    Know of a parish that's missing? Share what you have — even just a name and a bulletin link is enough. The data team handles the rest.
+    Know of a church that's missing? Share what you have — even just a name and a bulletin link is enough. The data team handles the rest.
   </div>
 
   <div class="mbody" id="npFormBody">
@@ -3645,15 +3733,15 @@ function submitReconcile() {
       <div class="fsection-title">Parish info</div>
       <div class="fsection-body fgrid cols1">
         <div class="fg">
-          <label>Parish name <span class="req">*</span></label>
+          <label>Church name <span class="req">*</span></label>
           <input type="text" id="np_name" >
         </div>
         <div class="fg">
-          <label>Parish website</label>
-          <input type="url" id="np_website" placeholder="https://www.parishname.org">
+          <label>Church website</label>
+          <input type="url" id="np_website" placeholder="https://www.churchname.org">
         </div>
         <div class="fg">
-          <label>Bulletin link <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:0.78rem;color:#888">(parishesonline.com, church-bulletin.org, or parish site — most helpful)</span></label>
+          <label>Bulletin link <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:0.78rem;color:#888">(parishesonline.com, church-bulletin.org, or church site — most helpful)</span></label>
           <input type="url" id="np_bulletin_url" placeholder="https://church-bulletin.org/?id=XXXX">
         </div>
         <div class="fg">
