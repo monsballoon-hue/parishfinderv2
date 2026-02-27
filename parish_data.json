@@ -3,8 +3,8 @@
     "schema_version": "v3",
     "source": "Diocese of Springfield, MA - Online Directory",
     "extracted_date": "2026-02-19",
-    "total_parishes": 74,
-    "total_services": 1083,
+    "total_parishes": 79,
+    "total_services": 1129,
     "service_types_found": {
       "daily_mass": 396,
       "sunday_mass": 291,
@@ -22555,6 +22555,1042 @@
       "is_mission": false,
       "mission_of": null,
       "clergy": []
+    },
+    {
+      "id": "parish_fake_001",
+      "name": "St. Catherine of Siena Parish",
+      "town": "Westfield",
+      "state": "MA",
+      "zip": "01085",
+      "established": "1892",
+      "is_mission": false,
+      "mission_of": null,
+      "status": "active",
+      "locations": [
+        {
+          "id": "st-catherine-westfield",
+          "name": "St. Catherine of Siena Church",
+          "type": "church",
+          "address": "170 Elm Street, Westfield, MA 01085",
+          "city": "Westfield",
+          "state": "MA",
+          "zip": "01085",
+          "is_accessible": true,
+          "lat": 42.126,
+          "lng": -72.748,
+          "short_name": "St. Catherine's"
+        }
+      ],
+      "contact": {
+        "phone": "413-555-0101",
+        "emails": [
+          "office@stcatherinewestfield.org"
+        ],
+        "website": "https://www.stcatherinewestfield.org",
+        "website_validated": false,
+        "office_hours": "Mon-Fri 9:00 AM - 3:00 PM",
+        "bulletin_url": null
+      },
+      "staff": [
+        "pastor"
+      ],
+      "county": "Hampden",
+      "services": [
+        {
+          "id": "pf1-smass-sat-1600",
+          "type": "sunday_mass",
+          "day": "saturday",
+          "time": "16:00",
+          "end_time": null,
+          "location_id": "st-catherine-westfield",
+          "language": "en",
+          "notes": "Vigil Mass",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf1-smass-sun-0730",
+          "type": "sunday_mass",
+          "day": "sunday",
+          "time": "07:30",
+          "end_time": null,
+          "location_id": "st-catherine-westfield",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf1-smass-sun-0930",
+          "type": "sunday_mass",
+          "day": "sunday",
+          "time": "09:30",
+          "end_time": null,
+          "location_id": "st-catherine-westfield",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf1-smass-sun-1130",
+          "type": "sunday_mass",
+          "day": "sunday",
+          "time": "11:30",
+          "end_time": null,
+          "location_id": "st-catherine-westfield",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf1-dmass-mon-0700",
+          "type": "daily_mass",
+          "day": "monday",
+          "time": "07:00",
+          "end_time": null,
+          "location_id": "st-catherine-westfield",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf1-dmass-tue-0700",
+          "type": "daily_mass",
+          "day": "tuesday",
+          "time": "07:00",
+          "end_time": null,
+          "location_id": "st-catherine-westfield",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf1-dmass-wed-0700",
+          "type": "daily_mass",
+          "day": "wednesday",
+          "time": "07:00",
+          "end_time": null,
+          "location_id": "st-catherine-westfield",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf1-dmass-thu-0700",
+          "type": "daily_mass",
+          "day": "thursday",
+          "time": "07:00",
+          "end_time": null,
+          "location_id": "st-catherine-westfield",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf1-dmass-fri-0700",
+          "type": "daily_mass",
+          "day": "friday",
+          "time": "07:00",
+          "end_time": null,
+          "location_id": "st-catherine-westfield",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf1-dmass-thu-1210",
+          "type": "daily_mass",
+          "day": "thursday",
+          "time": "12:10",
+          "end_time": null,
+          "location_id": "st-catherine-westfield",
+          "language": "en",
+          "notes": "Noontime Mass",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf1-conf-sat-1500",
+          "type": "confession",
+          "day": "saturday",
+          "time": "15:00",
+          "end_time": "15:45",
+          "location_id": "st-catherine-westfield",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf1-conf-thu-1800",
+          "type": "confession",
+          "day": "thursday",
+          "time": "18:00",
+          "end_time": "19:00",
+          "location_id": "st-catherine-westfield",
+          "language": "en",
+          "notes": "Evening confessions",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf1-ador-thu-1500",
+          "type": "adoration",
+          "day": "thursday",
+          "time": "15:00",
+          "end_time": "18:00",
+          "location_id": "st-catherine-westfield",
+          "language": "en",
+          "notes": "Exposition of the Blessed Sacrament",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf1-rosary-thu-1430",
+          "type": "rosary",
+          "day": "thursday",
+          "time": "14:30",
+          "end_time": null,
+          "location_id": "st-catherine-westfield",
+          "language": "en",
+          "notes": "Before adoration",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf1-stations-fri-1900",
+          "type": "stations_of_cross",
+          "day": "friday",
+          "time": "19:00",
+          "end_time": null,
+          "location_id": "st-catherine-westfield",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": true,
+            "season": "lent"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        }
+      ],
+      "special_events": [
+        {
+          "id": "pf1-evt-soup",
+          "title": "Lenten Soup Supper",
+          "category": "social",
+          "day": "friday",
+          "time": "18:00",
+          "frequency": "weekly",
+          "notes": "Simple meal before Stations of the Cross",
+          "seasonal": {
+            "is_seasonal": true,
+            "season": "lent"
+          }
+        },
+        {
+          "id": "pf1-evt-bible",
+          "title": "Lectio Divina",
+          "category": "educational",
+          "day": "wednesday",
+          "time": "19:00",
+          "frequency": "weekly",
+          "notes": "In the parish hall",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          }
+        }
+      ],
+      "validation": {
+        "status": "verified",
+        "last_checked": "2026-02-20",
+        "source": "bulletin_2026-02",
+        "recommended_action": null
+      }
+    },
+    {
+      "id": "parish_fake_002",
+      "name": "Immaculate Heart of Mary Parish",
+      "town": "Westfield",
+      "state": "MA",
+      "zip": "01085",
+      "established": "1955",
+      "is_mission": false,
+      "mission_of": null,
+      "status": "active",
+      "locations": [
+        {
+          "id": "ihm-westfield",
+          "name": "Immaculate Heart of Mary Church",
+          "type": "church",
+          "address": "256 Orange Street, Westfield, MA 01085",
+          "city": "Westfield",
+          "state": "MA",
+          "zip": "01085",
+          "is_accessible": true,
+          "lat": 42.1285,
+          "lng": -72.752,
+          "short_name": "IHM"
+        }
+      ],
+      "contact": {
+        "phone": "413-555-0202",
+        "emails": [
+          "parish@ihmwestfield.org"
+        ],
+        "website": "https://www.ihmwestfield.org",
+        "website_validated": false,
+        "office_hours": "Mon-Thu 9:00 AM - 4:00 PM",
+        "bulletin_url": null
+      },
+      "staff": [
+        "pastor"
+      ],
+      "county": "Hampden",
+      "services": [
+        {
+          "id": "pf2-smass-sat-1700",
+          "type": "sunday_mass",
+          "day": "saturday",
+          "time": "17:00",
+          "end_time": null,
+          "location_id": "ihm-westfield",
+          "language": "en",
+          "notes": "Vigil",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf2-smass-sun-0830",
+          "type": "sunday_mass",
+          "day": "sunday",
+          "time": "08:30",
+          "end_time": null,
+          "location_id": "ihm-westfield",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf2-smass-sun-1100",
+          "type": "sunday_mass",
+          "day": "sunday",
+          "time": "11:00",
+          "end_time": null,
+          "location_id": "ihm-westfield",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf2-dmass-weekday-0800",
+          "type": "daily_mass",
+          "day": "weekday",
+          "time": "08:00",
+          "end_time": null,
+          "location_id": "ihm-westfield",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf2-dmass-thu-1730",
+          "type": "daily_mass",
+          "day": "thursday",
+          "time": "17:30",
+          "end_time": null,
+          "location_id": "ihm-westfield",
+          "language": "en",
+          "notes": "Evening Mass",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf2-conf-sat-1530",
+          "type": "confession",
+          "day": "saturday",
+          "time": "15:30",
+          "end_time": "16:45",
+          "location_id": "ihm-westfield",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf2-conf-thu-1630",
+          "type": "confession",
+          "day": "thursday",
+          "time": "16:30",
+          "end_time": "17:15",
+          "location_id": "ihm-westfield",
+          "language": "en",
+          "notes": "Before evening Mass",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf2-ador-wed-0900",
+          "type": "adoration",
+          "day": "wednesday",
+          "time": "09:00",
+          "end_time": "17:00",
+          "location_id": "ihm-westfield",
+          "language": "en",
+          "notes": "All-day exposition",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf2-rosary-daily",
+          "type": "rosary",
+          "day": "weekday",
+          "time": "07:30",
+          "end_time": null,
+          "location_id": "ihm-westfield",
+          "language": "en",
+          "notes": "Before daily Mass",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf2-divmercy-thu-1500",
+          "type": "divine_mercy",
+          "day": "thursday",
+          "time": "15:00",
+          "end_time": null,
+          "location_id": "ihm-westfield",
+          "language": "en",
+          "notes": "3 o'clock prayer",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        }
+      ],
+      "special_events": [
+        {
+          "id": "pf2-evt-mens",
+          "title": "Men's Faith Group",
+          "category": "fellowship",
+          "day": "thursday",
+          "time": "06:00",
+          "frequency": "weekly",
+          "notes": "Breakfast and discussion in parish center",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          }
+        }
+      ],
+      "validation": {
+        "status": "verified",
+        "last_checked": "2026-02-22",
+        "source": "bulletin_2026-02",
+        "recommended_action": null
+      }
+    },
+    {
+      "id": "parish_fake_003",
+      "name": "St. Brendan the Navigator Parish",
+      "town": "Southampton",
+      "state": "MA",
+      "zip": "01073",
+      "established": "1920",
+      "is_mission": false,
+      "mission_of": null,
+      "status": "active",
+      "locations": [
+        {
+          "id": "st-brendan-southampton",
+          "name": "St. Brendan Church",
+          "type": "church",
+          "address": "42 College Highway, Southampton, MA 01073",
+          "city": "Southampton",
+          "state": "MA",
+          "zip": "01073",
+          "is_accessible": true,
+          "lat": 42.229,
+          "lng": -72.73,
+          "short_name": "St. Brendan's"
+        }
+      ],
+      "contact": {
+        "phone": "413-555-0303",
+        "emails": [
+          "info@stbrendanparish.org"
+        ],
+        "website": "https://www.stbrendanparish.org",
+        "website_validated": false,
+        "office_hours": "Tue-Fri 9:00 AM - 1:00 PM",
+        "bulletin_url": null
+      },
+      "staff": [
+        "pastor"
+      ],
+      "county": "Hampshire",
+      "services": [
+        {
+          "id": "pf3-smass-sat-1630",
+          "type": "sunday_mass",
+          "day": "saturday",
+          "time": "16:30",
+          "end_time": null,
+          "location_id": "st-brendan-southampton",
+          "language": "en",
+          "notes": "Vigil Mass",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf3-smass-sun-0900",
+          "type": "sunday_mass",
+          "day": "sunday",
+          "time": "09:00",
+          "end_time": null,
+          "location_id": "st-brendan-southampton",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf3-smass-sun-1100",
+          "type": "sunday_mass",
+          "day": "sunday",
+          "time": "11:00",
+          "end_time": null,
+          "location_id": "st-brendan-southampton",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf3-dmass-tue-0900",
+          "type": "daily_mass",
+          "day": "tuesday",
+          "time": "09:00",
+          "end_time": null,
+          "location_id": "st-brendan-southampton",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf3-dmass-thu-0900",
+          "type": "daily_mass",
+          "day": "thursday",
+          "time": "09:00",
+          "end_time": null,
+          "location_id": "st-brendan-southampton",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf3-conf-sat-1545",
+          "type": "confession",
+          "day": "saturday",
+          "time": "15:45",
+          "end_time": "16:15",
+          "location_id": "st-brendan-southampton",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf3-ador-thu-0930",
+          "type": "adoration",
+          "day": "thursday",
+          "time": "09:30",
+          "end_time": "12:00",
+          "location_id": "st-brendan-southampton",
+          "language": "en",
+          "notes": "Following morning Mass",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf3-stations-fri-1830",
+          "type": "stations_of_cross",
+          "day": "friday",
+          "time": "18:30",
+          "end_time": null,
+          "location_id": "st-brendan-southampton",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": true,
+            "season": "lent"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        }
+      ],
+      "special_events": [],
+      "validation": {
+        "status": "verified",
+        "last_checked": "2026-02-18",
+        "source": "bulletin_2026-02",
+        "recommended_action": null
+      }
+    },
+    {
+      "id": "parish_fake_004",
+      "name": "Our Lady of Mount Carmel Parish",
+      "town": "Easthampton",
+      "state": "MA",
+      "zip": "01027",
+      "established": "1903",
+      "is_mission": false,
+      "mission_of": null,
+      "status": "active",
+      "locations": [
+        {
+          "id": "olmc-easthampton",
+          "name": "Our Lady of Mount Carmel Church",
+          "type": "church",
+          "address": "55 Payson Avenue, Easthampton, MA 01027",
+          "city": "Easthampton",
+          "state": "MA",
+          "zip": "01027",
+          "is_accessible": true,
+          "lat": 42.267,
+          "lng": -72.668,
+          "short_name": "Mt. Carmel"
+        }
+      ],
+      "contact": {
+        "phone": "413-555-0404",
+        "emails": [
+          "olmc@mtcarmelparish.org"
+        ],
+        "website": "https://www.mtcarmelparish.org",
+        "website_validated": false,
+        "office_hours": "Mon-Fri 9:00 AM - 2:00 PM",
+        "bulletin_url": null
+      },
+      "staff": [
+        "pastor"
+      ],
+      "county": "Hampshire",
+      "services": [
+        {
+          "id": "pf4-smass-sat-1600",
+          "type": "sunday_mass",
+          "day": "saturday",
+          "time": "16:00",
+          "end_time": null,
+          "location_id": "olmc-easthampton",
+          "language": "en",
+          "notes": "Vigil Mass",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf4-smass-sun-0800",
+          "type": "sunday_mass",
+          "day": "sunday",
+          "time": "08:00",
+          "end_time": null,
+          "location_id": "olmc-easthampton",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf4-smass-sun-1030",
+          "type": "sunday_mass",
+          "day": "sunday",
+          "time": "10:30",
+          "end_time": null,
+          "location_id": "olmc-easthampton",
+          "language": "en",
+          "notes": "Choir Mass",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf4-smass-sun-1200-es",
+          "type": "sunday_mass",
+          "day": "sunday",
+          "time": "12:00",
+          "end_time": null,
+          "location_id": "olmc-easthampton",
+          "language": "es",
+          "notes": "Misa en español",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf4-dmass-weekday-0730",
+          "type": "daily_mass",
+          "day": "weekday",
+          "time": "07:30",
+          "end_time": null,
+          "location_id": "olmc-easthampton",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf4-conf-sat-1430",
+          "type": "confession",
+          "day": "saturday",
+          "time": "14:30",
+          "end_time": "15:30",
+          "location_id": "olmc-easthampton",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf4-conf-thu-1900",
+          "type": "confession",
+          "day": "thursday",
+          "time": "19:00",
+          "end_time": "20:00",
+          "location_id": "olmc-easthampton",
+          "language": "en",
+          "notes": "Extended evening confessions",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf4-ador-fri-0800",
+          "type": "adoration",
+          "day": "friday",
+          "time": "08:00",
+          "end_time": "17:00",
+          "location_id": "olmc-easthampton",
+          "language": "en",
+          "notes": "All-day Friday adoration",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf4-holyhour-thu-1900",
+          "type": "holy_hour",
+          "day": "thursday",
+          "time": "19:00",
+          "end_time": "20:00",
+          "location_id": "olmc-easthampton",
+          "language": "en",
+          "notes": "Includes Benediction",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf4-novena-wed-1830",
+          "type": "novena",
+          "day": "wednesday",
+          "time": "18:30",
+          "end_time": null,
+          "location_id": "olmc-easthampton",
+          "language": "en",
+          "notes": "Miraculous Medal Novena",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        }
+      ],
+      "special_events": [
+        {
+          "id": "pf4-evt-fish",
+          "title": "Lenten Fish Fry",
+          "category": "social",
+          "day": "friday",
+          "time": "17:00",
+          "frequency": "weekly",
+          "notes": "Parish hall, $12/plate",
+          "seasonal": {
+            "is_seasonal": true,
+            "season": "lent"
+          }
+        }
+      ],
+      "validation": {
+        "status": "verified",
+        "last_checked": "2026-02-21",
+        "source": "bulletin_2026-02",
+        "recommended_action": null
+      }
+    },
+    {
+      "id": "parish_fake_005",
+      "name": "Sacred Heart of Jesus Parish",
+      "town": "Granville",
+      "state": "MA",
+      "zip": "01034",
+      "established": "1871",
+      "is_mission": false,
+      "mission_of": null,
+      "status": "active",
+      "locations": [
+        {
+          "id": "sacred-heart-granville",
+          "name": "Sacred Heart of Jesus Church",
+          "type": "church",
+          "address": "218 Main Road, Granville, MA 01034",
+          "city": "Granville",
+          "state": "MA",
+          "zip": "01034",
+          "is_accessible": false,
+          "lat": 42.07,
+          "lng": -72.864,
+          "short_name": "Sacred Heart"
+        }
+      ],
+      "contact": {
+        "phone": "413-555-0505",
+        "emails": [
+          "sacredheart@granvillecatholic.org"
+        ],
+        "website": null,
+        "website_validated": false,
+        "office_hours": "By appointment",
+        "bulletin_url": null
+      },
+      "staff": [
+        "pastor"
+      ],
+      "county": "Hampden",
+      "services": [
+        {
+          "id": "pf5-smass-sun-0900",
+          "type": "sunday_mass",
+          "day": "sunday",
+          "time": "09:00",
+          "end_time": null,
+          "location_id": "sacred-heart-granville",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf5-dmass-thu-0800",
+          "type": "daily_mass",
+          "day": "thursday",
+          "time": "08:00",
+          "end_time": null,
+          "location_id": "sacred-heart-granville",
+          "language": "en",
+          "notes": null,
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        },
+        {
+          "id": "pf5-conf-thu-0730",
+          "type": "confession",
+          "day": "thursday",
+          "time": "07:30",
+          "end_time": "07:50",
+          "location_id": "sacred-heart-granville",
+          "language": "en",
+          "notes": "Before Mass",
+          "seasonal": {
+            "is_seasonal": false,
+            "season": "year_round"
+          },
+          "source": "bulletin_2026-02",
+          "validated": true
+        }
+      ],
+      "special_events": [],
+      "validation": {
+        "status": "verified",
+        "last_checked": "2026-02-15",
+        "source": "bulletin_2026-02",
+        "recommended_action": null
+      }
     }
   ],
   "yc_events": [
