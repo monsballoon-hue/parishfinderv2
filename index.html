@@ -349,6 +349,16 @@
     font-weight: 500;
   }
 
+  /* Visitation hours bar */
+  .visitation-bar {
+    padding: 5px 16px;
+    background: rgba(201,168,76,0.10);
+    border-bottom: 1px solid rgba(201,168,76,0.18);
+    font-size: 0.74rem;
+    color: #6b5a28;
+    line-height: 1.4;
+  }
+
   .card-meta {
     padding: 6px 16px;
     background: var(--warm-gray);
@@ -529,6 +539,20 @@
     font-size: 0.65rem;
     font-weight: 700;
     color: #8a6a00;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-left: 3px;
+    vertical-align: middle;
+  }
+  .rite-tag {
+    display: inline-block;
+    background: rgba(128,0,32,0.08);
+    border: 1px solid rgba(128,0,32,0.22);
+    border-radius: 3px;
+    padding: 0 4px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #800020;
     text-transform: uppercase;
     letter-spacing: 0.03em;
     margin-left: 3px;
@@ -3000,9 +3024,13 @@ function renderServiceSection(title, icon, services, dayFilter, timeFilter, cate
     const anyNote = svcs.some(s => s.notes);
 
     const entryHtml = svc => {
-      const timeStr = fmtTimeRange(svc);
+      const timePrefix = svc.time_is_inferred ? '~' : '';
+      const timeStr = timePrefix + fmtTimeRange(svc);
+      const timeTitle = svc.time_is_inferred ? ' title="Time is approximate — check bulletin to confirm"' : '';
       const lang    = svc.language && svc.language !== 'en'
         ? `<span class="lang-tag" title="${LANG_NAMES[svc.language]||svc.language}">${LANG_LABELS[svc.language]||svc.language}</span>` : '';
+      const rite    = svc.rite === 'tridentine'
+        ? '<span class="rite-tag" title="Traditional Latin Mass">TLM</span>' : '';
       const season  = svc.seasonal && svc.seasonal.is_seasonal && SEASON_LABELS[svc.seasonal.season]
         ? `<span class="seasonal-tag">${SEASON_LABELS[svc.seasonal.season]}</span>` : '';
       const label   = SERVICE_LABELS[svc.type] || (svc.type || 'Service').replace(/_/g,' ');
@@ -3014,7 +3042,7 @@ function renderServiceSection(title, icon, services, dayFilter, timeFilter, cate
         ? `<span class="svc-location-label">&middot; ${locMap[svc.location_id].name}</span>` : '';
       // WP3: YC badge on linked services
       const ycTag = ycServiceIds.has(svc.id) ? '<span class="svc-yc-tag">YC</span>' : '';
-      return { timeStr, lang, season, typeTag, note, locLabel, ycTag };
+      return { timeStr, timeTitle, lang, rite, season, typeTag, note, locLabel, ycTag };
     };
 
     let timesHtml;
@@ -3023,7 +3051,7 @@ function renderServiceSection(title, icon, services, dayFilter, timeFilter, cate
       timesHtml = `<span class="svc-inline">${
         svcs.map(svc => {
           const e = entryHtml(svc);
-          return `<span class="svc-t">${e.timeStr}${e.locLabel}${e.typeTag}${e.lang}${e.season}${e.ycTag}</span>`;
+          return `<span class="svc-t"${e.timeTitle}>${e.timeStr}${e.locLabel}${e.typeTag}${e.lang}${e.rite}${e.season}${e.ycTag}</span>`;
         }).join('<span class="svc-sep">·</span>')
       }</span>`;
     } else {
@@ -3032,7 +3060,7 @@ function renderServiceSection(title, icon, services, dayFilter, timeFilter, cate
         svcs.map(svc => {
           const e = entryHtml(svc);
           const noteHtml = e.note ? `<span class="svc-note-line">${e.note}</span>` : '';
-          return `<span class="svc-stack-row"><span class="svc-t">${e.timeStr}</span>${e.locLabel}${e.typeTag}${e.lang}${e.season}${e.ycTag}${noteHtml}</span>`;
+          return `<span class="svc-stack-row"><span class="svc-t"${e.timeTitle}>${e.timeStr}</span>${e.locLabel}${e.typeTag}${e.lang}${e.rite}${e.season}${e.ycTag}${noteHtml}</span>`;
         }).join('')
       }</span>`;
     }
@@ -3109,16 +3137,20 @@ function renderLentenSection(allServices, dayFilter, timeFilter, categoryFilter,
     svcs.sort((a, b) => (a.time || '99:99').localeCompare(b.time || '99:99'));
 
     const entryHtml = svc => {
-      const timeStr = fmtTimeRange(svc);
+      const timePrefix = svc.time_is_inferred ? '~' : '';
+      const timeStr = timePrefix + fmtTimeRange(svc);
+      const timeTitle = svc.time_is_inferred ? ' title="Time is approximate — check bulletin to confirm"' : '';
       const label   = SERVICE_LABELS[svc.type] || (svc.type || 'Service').replace(/_/g,' ');
       const typeTag = `<span class="svc-type-tag">${label}</span>`;
       const lang    = svc.language && svc.language !== 'en'
         ? `<span class="lang-tag">${LANG_LABELS[svc.language]||svc.language}</span>` : '';
+      const rite    = svc.rite === 'tridentine'
+        ? '<span class="rite-tag" title="Traditional Latin Mass">TLM</span>' : '';
       // WP1-1C: Location label for multi-site parishes
       const locLabel = (isMultiSite && svc.location_id && locMap && locMap[svc.location_id])
         ? `<span class="svc-location-label">&middot; ${locMap[svc.location_id].name}</span>` : '';
       const ycTag = ycServiceIds.has(svc.id) ? '<span class="svc-yc-tag">YC</span>' : '';
-      return `<span class="svc-stack-row"><span class="svc-t">${timeStr}</span>${locLabel}${typeTag}${lang}${ycTag}${svc.notes ? `<span class="svc-note-line">${svc.notes}</span>` : ''}</span>`;
+      return `<span class="svc-stack-row"><span class="svc-t"${timeTitle}>${timeStr}</span>${locLabel}${typeTag}${lang}${rite}${ycTag}${svc.notes ? `<span class="svc-note-line">${svc.notes}</span>` : ''}</span>`;
     };
 
     return `<li class="service-row">
@@ -3603,6 +3635,8 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
     if (cl.name) contactRows.push(`<div class="contact-row"><span class="contact-row-label">${cl.title || 'Clergy'}</span><span class="contact-row-val">${cl.name}</span></div>`);
   }
   if (c.notes) contactRows.push(`<div class="contact-row"><span class="contact-row-label">Notes</span><span class="contact-row-val">${c.notes}</span></div>`);
+  // 2E: Accessibility notes
+  if (loc && loc.accessibility_notes) contactRows.push(`<div class="contact-row"><span class="contact-row-label">Access</span><span class="contact-row-val" style="font-style:italic;font-size:0.72rem;">${loc.accessibility_notes}</span></div>`);
 
   const contactDrawer = contactRows.length
     ? `<button class="contact-toggle-btn" onclick="toggleContact(this)">Contact</button>
@@ -3611,7 +3645,10 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   // Pastor name for card footer — find first clergy with "Pastor" or "Rector" title
   const pastorClergy = clergy.find(cl => cl.name && /pastor|rector/i.test(cl.title || ''));
   const pastorFooter = pastorClergy
-    ? `<span class="pastor-name">${pastorClergy.name}</span>` : `<span></span>`;
+    ? `<span class="pastor-name">${pastorClergy.name}</span>`
+    : (clergy.length === 0
+      ? '<span class="pastor-name" style="font-style:italic;opacity:0.7;">Contact parish</span>'
+      : `<span></span>`);
 
   // Accessibility badge
   const accessBadge = (loc && loc.is_accessible)
@@ -3648,6 +3685,7 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
       <span class="county-badge"><button class="fav-btn${isFav ? ' favorited' : ''}" onclick="event.stopPropagation(); toggleFavorite('${p.id}', this);" title="${isFav ? 'Remove from favorites' : 'Add to favorites'}">${isFav ? '❤️' : '🤍'}</button> ${confBadge}</span>
       ${confWarn}
     </div>
+    ${p.visitation && p.visitation.hours_note ? `<div class="visitation-bar">🕊 Open for prayer: ${p.visitation.hours_note}</div>` : ''}
     <div class="card-meta">${accessBadge}${contactDrawer}${bulletinLink}${distHtml}${directionsBtn}<button class="share-btn" onclick="event.stopPropagation(); shareParish('${p.id}', this);" title="Share this church">📋 Share</button>${multiSite}</div>
     <div class="card-body">
       ${renderYCLiteralEvents(p)}
@@ -4694,7 +4732,10 @@ function renderNowView() {
 
     const SVCTYPE_SHORT = { confession:'Confession', mass:'Mass', sunday_mass:'Mass', daily_mass:'Mass',
       stations_of_cross:'Stations', adoration:'Adoration', holy_hour:'Holy Hour', rosary:'Rosary',
-      divine_mercy:'Divine Mercy', devotion:'Devotion', communion_service:'Communion', novena:'Novena' };
+      divine_mercy:'Divine Mercy', devotion:'Devotion', communion_service:'Communion', novena:'Novena',
+      holy_thursday_mass:'Holy Thu Mass', good_friday_service:'Good Friday', easter_vigil_mass:'Easter Vigil',
+      divine_mercy_chaplet:'Divine Mercy', devotional:'Devotion', gorzkie_zale:'Gorzkie \u017Bale',
+      bible_study:'Bible Study', mens_group:"Men's Group", social_event:'Social Event' };
     const SECTION_LIMIT = 3;
 
     function renderItem(r) {
@@ -4706,12 +4747,14 @@ function renderNowView() {
       const isLenten = r.svc.seasonal && r.svc.seasonal.season === 'lent';
       const itemClass = r.status === 'now' ? ' happening' : (isLenten ? ' lent-item' : '');
       const typeLabel = SVCTYPE_SHORT[r.svc.type] || (r.svc.type || 'Service').replace(/_/g, ' ');
+      const riteTag = r.svc.rite === 'tridentine' ? ' <span class="rite-tag" title="Traditional Latin Mass">TLM</span>' : '';
+      const timePrefix = r.svc.time_is_inferred ? '~' : '';
       const distHtml = r.dist !== null
         ? `<span class="now-item-dist${r.dist <= 5 ? ' near' : ''}">${r.dist.toFixed(1)} mi</span>` : '';
 
       return `<div class="now-item${itemClass}" onclick="switchAppView('churches'); setTimeout(() => scrollToParish('${r.p.id}'), 200);">
-        <div class="now-item-time"><div class="time-big">${fmt12(r.svc.time)}</div>${minsLabel}</div>
-        <div class="now-item-info"><div class="item-type">${typeLabel}</div><div class="item-name">${r.displayName}</div><div class="item-location">${r.p.town}, MA</div></div>
+        <div class="now-item-time"><div class="time-big"${r.svc.time_is_inferred ? ' title="Time is approximate"' : ''}>${timePrefix}${fmt12(r.svc.time)}</div>${minsLabel}</div>
+        <div class="now-item-info"><div class="item-type">${typeLabel}${riteTag}</div><div class="item-name">${r.displayName}</div><div class="item-location">${r.p.town}, MA</div></div>
         ${distHtml}
       </div>`;
     }
