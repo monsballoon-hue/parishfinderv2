@@ -3086,12 +3086,18 @@ function wrapCollapsible(sectionKey, title, icon, innerHtml, filteredServices, c
 }
 
 
-// 4B: Determine if a service is happening now or starting soon
+// 4B DEBUG: Override current time for testing. Set via browser console:
+//   window._debugTime = { day: 'sunday', hour: 9, minute: 45 };
+//   window._renderFn();
+// Clear with: window._debugTime = null; window._renderFn();
+window._debugTime = null;
+
 function getSvcTimeStatus(svc) {
   if (!svc.time || !svc.day) return { status: null, minsAway: null };
 
   const now = new Date();
-  const currentDay = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'][now.getDay()];
+  const debug = window._debugTime;
+  const currentDay = debug ? debug.day : ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'][now.getDay()];
 
   const svcDays = Array.isArray(svc.day) ? svc.day : [svc.day];
   const dayMatches = svcDays.some(d =>
@@ -3102,7 +3108,7 @@ function getSvcTimeStatus(svc) {
 
   const [h, m] = svc.time.split(':').map(Number);
   const svcMins = h * 60 + m;
-  const nowMins = now.getHours() * 60 + now.getMinutes();
+  const nowMins = debug ? (debug.hour * 60 + debug.minute) : (now.getHours() * 60 + now.getMinutes());
 
   let endMins = svcMins + 60;
   if (svc.end_time) {
