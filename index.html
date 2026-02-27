@@ -1068,14 +1068,20 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
-    padding: 8px 20px;
+    padding: 12px 20px 14px;
+    margin-bottom: 16px;
+    border-radius: 8px;
     font-family: 'Source Sans 3', sans-serif;
-    font-size: 0.82rem;
+    font-size: 0.84rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.15s;
   }
   .featured-banner:hover { filter: brightness(1.05); }
+  .featured-banner.banner-active {
+    box-shadow: 0 0 0 2px var(--gold), 0 2px 12px rgba(0,0,0,0.2);
+  }
+  .featured-banner.banner-active .banner-action { text-decoration: none; }
   .featured-banner .banner-action {
     font-size: 0.74rem;
     font-weight: 700;
@@ -2838,9 +2844,16 @@ function applySimpleMode() {
     btn.classList.toggle('active', isSimpleMode);
     btn.innerHTML = isSimpleMode ? '☰ Full' : '☰ Simple';
   }
-  // When entering simple mode, lock to churches view and clear full-mode filters
+  // When entering simple mode, lock to churches view, request location, sort by proximity
   if (isSimpleMode) {
     if (typeof switchAppView === 'function') switchAppView('churches');
+    // Request location and sort by proximity for simple mode users
+    if (typeof requestLocation === 'function' && (!window.userLat || window.userLat === null)) {
+      requestLocation();
+    }
+    if (typeof setSortMode === 'function' && window.userLat) {
+      setSortMode('proximity');
+    }
   }
 }
 
@@ -3816,9 +3829,9 @@ function getVerifiedBadge(p) {
 
   // No validation data at all
   if (!val) return buildVerifyBadge('red', '?', 'Unknown', {
-    title: 'Not Yet Checked',
-    rows: ['This parish has not been verified yet.'],
-    action: 'Times may be outdated — confirm with the parish before visiting.',
+    title: 'Not Yet Verified',
+    rows: ['We haven\'t checked this parish\'s schedule yet.'],
+    action: 'Call ahead to confirm times. You can help — tap "Report" to share what you know!',
   });
 
   // Parse source to determine how it was verified
@@ -3848,11 +3861,11 @@ function getVerifiedBadge(p) {
   if (val.bulletin_date) {
     const [yr, mo] = val.bulletin_date.split('-');
     const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    dateLabel = months[parseInt(mo,10)-1] + ' ' + yr;
+    dateLabel = months[parseInt(mo,10)-1] + ' \'' + yr.slice(2);
   } else if (val.last_checked) {
     const d = new Date(val.last_checked);
     const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    dateLabel = months[d.getMonth()] + ' ' + d.getFullYear();
+    dateLabel = months[d.getMonth()] + ' \'' + String(d.getFullYear()).slice(2);
   }
 
   const status = val.status;
@@ -3867,70 +3880,70 @@ function getVerifiedBadge(p) {
 
     // Fresh (< 3 months)
     if (monthsOld < 3) {
-      const shortDate = dateLabel ? dateLabel.replace(/\b20(\d\d)/, "'$1") : '';
+      const shortDate = dateLabel || '';
       return buildVerifyBadge('green', '✓', shortDate || 'Verified', {
         title: '✓ Schedule Verified',
         rows: [
           `<strong>How:</strong> ${howChecked}`,
-          dateLabel ? `<strong>When:</strong> ${dateLabel}` : '',
+          dateLabel ? `<strong>As of:</strong> ${dateLabel}` : '',
           sourceUrl ? `<strong>Source:</strong> <a href="${sourceUrl.startsWith('http') ? sourceUrl : 'https://' + sourceUrl}" target="_blank" rel="noopener" style="color:var(--navy);text-decoration:underline;">${sourceUrl.replace(/^https?:\/\//, '').split('/')[0]}</a>` : '',
         ].filter(Boolean),
-        action: 'These times should be accurate. Still a good idea to check the bulletin before a first visit.',
+        action: 'Times should be accurate as of the date listed. Confirm with the parish bulletin before a first visit.',
       });
     }
     // Aging (3-6 months)
     else if (monthsOld < 6) {
-      const shortDateY = dateLabel ? dateLabel.replace(/\b20(\d\d)/, "'$1") : '';
+      const shortDateY = dateLabel || '';
       return buildVerifyBadge('yellow', '–', shortDateY || 'Review', {
-        title: 'Schedule May Need a Refresh',
+        title: 'Verified a Few Months Ago',
         rows: [
           `<strong>How:</strong> ${howChecked}`,
-          dateLabel ? `<strong>Last checked:</strong> ${dateLabel} (${monthsOld} months ago)` : '',
+          dateLabel ? `<strong>As of:</strong> ${dateLabel}` : '',
         ].filter(Boolean),
-        action: 'Times are probably still accurate, but check the bulletin to be safe.',
+        action: 'Times were accurate as of the date listed — worth a quick check with the parish to confirm.',
       });
     }
     // Stale (6+ months)
     else {
-      return buildVerifyBadge('orange', '!', 'Stale', {
-        title: 'Schedule May Be Outdated',
+      return buildVerifyBadge('orange', '!', 'Older', {
+        title: 'Checked a While Ago',
         rows: [
           `<strong>How:</strong> ${howChecked}`,
-          dateLabel ? `<strong>Last checked:</strong> ${dateLabel} (${monthsOld}+ months ago)` : '',
+          dateLabel ? `<strong>As of:</strong> ${dateLabel}` : '',
         ].filter(Boolean),
-        action: 'Please confirm times with the parish before visiting — schedules may have changed.',
+        action: 'Times were accurate when checked — confirm with the parish as schedules may have updated since then.',
       });
     }
   }
   // Needs verification / deferred
   else if (status === 'needs_verification' || status === 'deferred') {
-    return buildVerifyBadge('yellow', '–', 'Review', {
-      title: 'Schedule Needs Review',
+    return buildVerifyBadge('yellow', '–', 'Pending', {
+      title: 'Awaiting Verification',
       rows: [
-        'We have service times listed but haven\'t been able to confirm them recently.',
+        'We have times listed but haven\'t confirmed them recently.',
         dateLabel ? `<strong>Data from:</strong> ${dateLabel}` : '',
       ].filter(Boolean),
-      action: 'Double-check times with the parish before visiting. Tap "Report" below to help us verify!',
+      action: 'Give the parish a call to confirm. You can help us out — tap "Report" to share what you know!',
     });
   }
   // Low confidence
   else if (status === 'low_confidence') {
-    return buildVerifyBadge('orange', '!', 'Unverified', {
-      title: 'Times May Not Be Accurate',
+    return buildVerifyBadge('orange', '!', 'Unconfirmed', {
+      title: 'Not Yet Confirmed',
       rows: [
-        'We pulled these times from an older source and haven\'t confirmed them.',
+        'These times are from an older source and haven\'t been confirmed yet.',
         dateLabel ? `<strong>Source date:</strong> ${dateLabel}` : '',
         val.recommended_action ? `<strong>Note:</strong> ${val.recommended_action}` : '',
       ].filter(Boolean),
-      action: 'Please call the parish or check their bulletin before visiting. Help us by tapping "Report" below!',
+      action: 'Check the parish bulletin or give them a call before visiting. Help us by tapping "Report"!',
     });
   }
   // Fallback
   else {
     return buildVerifyBadge('red', '?', 'Unknown', {
-      title: 'Not Yet Checked',
-      rows: ['This parish has not been verified yet.'],
-      action: 'Confirm times directly with the parish. Help us by submitting a report!',
+      title: 'Not Yet Verified',
+      rows: ['We haven\'t checked this parish\'s schedule yet.'],
+      action: 'Call ahead to confirm times. You can help — tap "Report" to share what you know!',
     });
   }
 }
@@ -4368,6 +4381,20 @@ function render() {
     if (favFilterActive && !favorites.has(p.id)) return false;
     if (!parishMatchesSearch(p, q)) return false;
     if (county && p.county !== county) return false;
+    // Seasonal banner filter (lent/triduum)
+    if (seasonalBannerFilter) {
+      if (seasonalBannerFilter === 'lent') {
+        const hasLenten = (p.services||[]).some(s =>
+          isServiceActive(s) && s.seasonal && s.seasonal.season === 'lent' && isCurrentSeason(s)
+        );
+        if (!hasLenten) return false;
+      } else if (seasonalBannerFilter === 'triduum') {
+        const hasTriduum = (p.services||[]).some(s =>
+          isServiceActive(s) && ['holy_thursday_mass','good_friday_service','easter_vigil_mass'].includes(s.type)
+        );
+        if (!hasTriduum) return false;
+      }
+    }
     // 5A: Simple mode filtering
     if (isSimpleMode && simpleFilter) {
       const sGroup = SERVICE_TYPE_GROUPS[simpleFilter];
@@ -4473,22 +4500,24 @@ function render() {
         isServiceActive(s) && ['holy_thursday_mass','good_friday_service','easter_vigil_mass'].includes(s.type)
       ));
       if (hasTriduum) {
-        bannerHtml += `<div class="featured-banner banner-triduum" onclick="document.querySelector('[data-cat=mass]').click(); document.querySelector('[data-sub=holy_thursday_mass],[data-sub=good_friday_service],[data-sub=easter_vigil_mass]')?.click();">
+        const isTriActive = seasonalBannerFilter === 'triduum';
+        bannerHtml += `<div class="featured-banner banner-triduum${isTriActive ? ' banner-active' : ''}" onclick="filterSeasonalServices('triduum');">
           ✟ Holy Week Services — Holy Thursday · Good Friday · Easter Vigil
-          <span class="banner-action">View Triduum Services →</span>
+          <span class="banner-action">${isTriActive ? '✕ Clear Filter' : 'Find Nearby →'}</span>
         </div>`;
       }
     }
 
     // Lent banner (during Lent, unless Holy Week banner is already showing)
     if (isLentNow && !isHolyWeek) {
-      const hasLenten = parishes.some(p => (p.services||[]).some(s =>
+      const lentenParishCount = parishes.filter(p => (p.services||[]).some(s =>
         isServiceActive(s) && s.seasonal && s.seasonal.season === 'lent' && isCurrentSeason(s)
-      ));
-      if (hasLenten) {
-        bannerHtml += `<div class="featured-banner banner-lent" onclick="document.querySelector('[data-cat=devotion]').click();">
-          ✟ Lenten Services Available — Stations, Confessions & More
-          <span class="banner-action">View Lenten Services →</span>
+      )).length;
+      if (lentenParishCount > 0) {
+        const isLentActive = seasonalBannerFilter === 'lent';
+        bannerHtml += `<div class="featured-banner banner-lent${isLentActive ? ' banner-active' : ''}" onclick="filterSeasonalServices('lent');">
+          ✟ Lenten Services at ${lentenParishCount} Parishes — Stations, Confessions, Adoration &amp; More
+          <span class="banner-action">${isLentActive ? '✕ Clear Filter' : 'Find Nearby →'}</span>
         </div>`;
       }
     }
@@ -4966,9 +4995,38 @@ function clearAllFilters() {
   categoryChips.querySelectorAll('[data-cat]').forEach(c => c.classList.toggle('active', c.dataset.cat === ''));
   activeCategory = '';
   activeSubtype = '';
+  seasonalBannerFilter = '';
   subfilterBar.style.display = 'none';
   subtypeChips.innerHTML = '';
   setQuickActive(null);
+  render();
+}
+
+// 5: Seasonal banner filter — shows only parishes with seasonal services, sorted by proximity
+var seasonalBannerFilter = ''; // '' | 'lent' | 'triduum'
+function filterSeasonalServices(season) {
+  // Toggle off if already active
+  if (seasonalBannerFilter === season) {
+    seasonalBannerFilter = '';
+    render();
+    return;
+  }
+  seasonalBannerFilter = season;
+  // Request location if needed for proximity sort
+  if (userLat === null) requestLocation();
+  sortMode = 'proximity';
+  document.querySelectorAll('.sort-btn').forEach(b => b.classList.toggle('active', b.dataset.sort === 'proximity'));
+  document.getElementById('sortToggle').classList.add('location-ready');
+  // Clear other filters so we get a clean seasonal view
+  searchInput.value = '';
+  countyFilter.value = '';
+  dayFilterEl.value = '';
+  langFilterEl.value = '';
+  if (timeFilterEl) timeFilterEl.value = '';
+  categoryChips.querySelectorAll('[data-cat]').forEach(c => c.classList.toggle('active', c.dataset.cat === ''));
+  activeCategory = '';
+  activeSubtype = '';
+  subfilterBar.style.display = 'none';
   render();
 }
 
@@ -5703,6 +5761,7 @@ window.toggleVerifyDetail = toggleVerifyDetail;
 window.toggleShowAll     = toggleShowAll;
 window.toggleSimpleMode  = toggleSimpleMode;
 window.setSimpleFilter   = setSimpleFilter;
+window.filterSeasonalServices = filterSeasonalServices;
 
 })();
 </script>
