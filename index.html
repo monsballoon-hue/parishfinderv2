@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%231a2744'/%3E%3Crect x='40' y='10' width='20' height='80' rx='4' fill='%23c9a84c'/%3E%3Crect x='14' y='30' width='72' height='20' rx='4' fill='%23c9a84c'/%3E%3C/svg%3E">
-<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/icon192.png">
 <link rel="manifest" href="/manifest.json">
-<link rel="apple-touch-icon" href="/icon-192.png">
-<link rel="apple-touch-icon" sizes="192x192" href="/icon-192.png">
-<link rel="apple-touch-icon-precomposed" href="/icon-192.png">
+<link rel="apple-touch-icon" href="/icon192.png">
+<link rel="apple-touch-icon" sizes="192x192" href="/icon192.png">
+<link rel="apple-touch-icon-precomposed" href="/icon192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mass Finder">
@@ -309,12 +309,12 @@
   }
 
   .card-header {
-    padding: 14px 16px 12px;
+    padding: 12px 14px 10px;
     background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 10px;
+    gap: 8px;
   }
   .card-header-text {
     flex: 1 1 0%;
@@ -324,14 +324,14 @@
   }
   .card-header h2 {
     font-family: 'Playfair Display', serif;
-    font-size: 1.25rem;
+    font-size: 1.05rem;
     font-weight: 600;
     color: #fff;
-    line-height: 1.25;
-    margin-bottom: 4px;
+    line-height: 1.2;
+    margin-bottom: 2px;
   }
   .card-location {
-    font-size: 0.94rem;
+    font-size: 0.78rem;
     color: var(--gold-light);
     font-weight: 400;
     letter-spacing: 0.04em;
@@ -361,12 +361,11 @@
     font-size: 0.72rem;
     font-weight: 600;
     line-height: 1;
-    z-index: 10;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 5px;
     flex-wrap: nowrap;
-    margin-top: 2px;
+    margin-top: 1px;
   }
   /* Override verified-badge when it lives inside .county-badge (card header) */
   .county-badge .verified-badge {
@@ -374,10 +373,11 @@
     background: rgba(255,255,255,0.12);
     border: 1px solid rgba(255,255,255,0.25);
     padding: 2px 8px;
-    z-index: 10;
+    position: relative;
+    z-index: 1;
   }
   .county-badge .verified-badge.open {
-    z-index: 201;
+    z-index: 9999;
   }
   .confidence-warn {
     margin-top: 6px;
@@ -400,15 +400,20 @@
   }
 
   .card-meta {
-    padding: 6px 16px;
+    padding: 6px 14px;
     background: var(--warm-gray);
     border-bottom: 1px solid var(--border);
     display: flex;
-    flex-wrap: wrap;
-    gap: 6px 14px;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 6px 10px;
     font-size: 0.9rem;
     color: var(--text-light);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
+  .card-meta::-webkit-scrollbar { display: none; }
   .card-meta a { color: var(--navy); text-decoration: none; font-weight: 500; }
   .card-meta a:hover { color: var(--gold); text-decoration: underline; }
   .meta-item { display: flex; align-items: center; gap: 4px; }
@@ -589,6 +594,18 @@
     padding-left: 8px;
     margin-left: -8px;
     border-radius: 0 4px 4px 0;
+  }
+  /* When live/soon services are inside colored special sections, suppress the left bar */
+  .service-section.lenten .svc-row-now,
+  .service-section.lenten .svc-row-soon,
+  .service-section.yc-events-section .svc-row-now,
+  .service-section.yc-events-section .svc-row-soon,
+  .service-section.events .svc-row-now,
+  .service-section.events .svc-row-soon {
+    border-left: none;
+    padding-left: 0;
+    margin-left: 0;
+    background: none;
   }
   .svc-now-label {
     display: inline-flex;
@@ -793,7 +810,7 @@
     border-radius: 10px;
     box-shadow: var(--shadow-lg);
     padding: 12px 14px;
-    z-index: 300;
+    z-index: 10000;
     min-width: 230px;
     max-width: 290px;
     text-align: left;
@@ -1093,8 +1110,8 @@
   body.simple-mode .svc-collapse-body .service-section-title { display: flex !important; }
   body.simple-mode .service-row { font-size: 1.1rem; }
   body.simple-mode .svc-day { font-size: 1.05rem; }
-  body.simple-mode .card-header h2 { font-size: 1.38rem; }
-  body.simple-mode .card-location { font-size: 1.04rem; }
+  body.simple-mode .card-header h2 { font-size: 1.15rem; }
+  body.simple-mode .card-location { font-size: 0.88rem; }
   body.simple-mode .card-meta { font-size: 1.0rem; }
   body.simple-mode .card-footer { font-size: 0.95rem; }
   body.simple-mode .service-section-title { font-size: 0.92rem; }
@@ -1129,7 +1146,7 @@
     .simple-filters { padding: 10px 14px; }
     .simple-filter-btn { min-width: 100px; font-size: 0.95rem; padding: 12px 16px; }
     /* B2: Reduce h2 size on mobile to prevent overflow into fav/verify buttons */
-    .card-header h2 { font-size: 1.13rem; }
+    .card-header h2 { font-size: 0.98rem; }
   }
   @media (max-width: 520px) {
     :root { --header-height: 40px; --tab-bar-height: 42px; }
@@ -2162,6 +2179,65 @@
   }
   .share-btn:hover { border-color: var(--navy); color: var(--navy); }
   .share-btn.copied { background: var(--green); color: #fff; border-color: var(--green); }
+
+  /* Card meta overflow menu */
+  .card-meta-overflow {
+    position: relative;
+    display: inline-flex;
+    margin-left: auto;
+  }
+  .card-meta-overflow-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 26px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: #fff;
+    font-size: 1rem;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 1px;
+    line-height: 1;
+    padding: 0;
+    font-family: inherit;
+  }
+  .card-meta-overflow-btn:hover { border-color: var(--navy); color: var(--navy); background: var(--warm-gray); }
+  .card-meta-overflow-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    margin-top: 4px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: var(--shadow-lg);
+    z-index: 200;
+    min-width: 130px;
+    padding: 4px 0;
+  }
+  .card-meta-overflow.open .card-meta-overflow-menu { display: block; }
+  .card-meta-overflow-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    padding: 8px 14px;
+    border: none;
+    background: none;
+    font-family: inherit;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--text);
+    cursor: pointer;
+    text-align: left;
+    white-space: nowrap;
+  }
+  .card-meta-overflow-item:hover { background: var(--warm-gray); }
+  .card-meta-overflow-item.copied { color: var(--green); font-weight: 600; }
 
   /* ── ACCESSIBILITY BADGE ── */
   .access-badge {
@@ -5417,10 +5493,18 @@ function buildVerifyBadge(tier, icon, label, detail) {
 function toggleVerifyDetail(el) {
   // Close any other open badges
   document.querySelectorAll('.verify-badge.open').forEach(b => {
-    if (b !== el) b.classList.remove('open');
+    if (b !== el) {
+      b.classList.remove('open');
+      // Reset parent card z-index
+      const parentCard = b.closest('.parish-card');
+      if (parentCard) parentCard.style.zIndex = '';
+    }
   });
   const isOpening = !el.classList.contains('open');
   el.classList.toggle('open');
+  // Elevate parent card z-index so fixed popup isn't clipped
+  const parentCard = el.closest('.parish-card');
+  if (parentCard) parentCard.style.zIndex = isOpening ? '9998' : '';
   // B4 fix: position the fixed detail panel relative to the badge on open
   // E6 fix: clamp to bottom viewport; flip above badge if needed
   if (isOpening) {
@@ -5460,7 +5544,11 @@ function toggleVerifyDetail(el) {
 // Close verify detail on outside click
 document.addEventListener('click', function(e) {
   if (!e.target.closest('.verify-badge')) {
-    document.querySelectorAll('.verify-badge.open').forEach(b => b.classList.remove('open'));
+    document.querySelectorAll('.verify-badge.open').forEach(b => {
+      b.classList.remove('open');
+      const parentCard = b.closest('.parish-card');
+      if (parentCard) parentCard.style.zIndex = '';
+    });
   }
 });
 
@@ -5686,13 +5774,13 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
       <div class="card-header-text">
         <h2>${churchName}</h2>
         ${alsoAtHtml}
-        <div class="card-location">${p.town}, MA &middot; ${p.county} County</div>
+        <div class="card-location">${p.town}, ${p.state || 'MA'}</div>
         ${confWarn}
       </div>
       <span class="county-badge">${distHtml}<button class="fav-btn${isFav ? ' favorited' : ''}" onclick="event.stopPropagation(); toggleFavorite('${p.id}', this);" title="${isFav ? 'Remove from favorites' : 'Add to favorites'}">${isFav ? '❤️' : '🤍'}</button> ${confBadge}</span>
     </div>
     ${p.visitation && p.visitation.hours_note ? `<div class="visitation-bar">🕊 Open for prayer: ${p.visitation.hours_note}</div>` : ''}
-    <div class="card-meta">${accessBadge}${contactDrawer}${bulletinLink}${directionsBtn}<button class="share-btn" onclick="event.stopPropagation(); shareParish('${p.id}', this);" title="Share this church">📋 Share</button><button class="print-btn" onclick="event.stopPropagation(); printParish('${p.id}');" title="Print this parish">🖨</button>${multiSite}</div>
+    <div class="card-meta">${accessBadge}${contactDrawer}${bulletinLink}${directionsBtn}<span class="card-meta-overflow"><button class="card-meta-overflow-btn" onclick="event.stopPropagation(); toggleCardOverflow(this.parentElement);" title="More actions">⋯</button><div class="card-meta-overflow-menu"><button class="card-meta-overflow-item" onclick="event.stopPropagation(); shareParish('${p.id}', this); toggleCardOverflow(this.closest('.card-meta-overflow'));">📋 Share</button><button class="card-meta-overflow-item" onclick="event.stopPropagation(); printParish('${p.id}'); toggleCardOverflow(this.closest('.card-meta-overflow'));">🖨 Print</button></div></span></div>
     <div class="card-body">
       ${categoryFilter === '__lenten_only__' ? (
         lentWrapped +
@@ -6063,7 +6151,7 @@ function render() {
         '<div class="fav-section-header" data-fav-toggle="header">' +
           '<span class="fav-section-header-label">\u2764\uFE0F Your Churches (' + favParishes.length + ')</span>' +
           '<span style="display:flex;align-items:center;gap:8px;">' +
-            '<button class="fav-share-btn" onclick="event.stopPropagation(); shareFavorites(this);" title="Share your favorites as a link">🔗</button>' +
+            '' +
             '<span class="fav-section-toggle"><span class="chevron" id="favSectionChevron">\u25BC</span> <span id="favToggleLabel">Expand</span></span>' +
           '</span>' +
         '</div>' +
@@ -6390,7 +6478,7 @@ function requestLocation() {
     () => {
       locationStatus = 'denied';
     },
-    { timeout: 8000 }
+    { timeout: 10000, enableHighAccuracy: false, maximumAge: 300000 }
   );
 }
 
@@ -6403,12 +6491,19 @@ try {
     navigator.permissions.query({ name: 'geolocation' }).then(function(result) {
       if (result.state === 'granted') {
         requestLocation();
+      } else if (result.state === 'prompt') {
+        // Permissions API available but not yet decided — request will show prompt
+        requestLocation();
       } else {
         initLocationBanner();
       }
-    }).catch(function() { initLocationBanner(); });
+    }).catch(function() {
+      // Permissions API threw — fall back to direct request (Safari)
+      requestLocation();
+    });
   } else {
-    initLocationBanner();
+    // No Permissions API (Safari) — request directly; browser shows its own prompt
+    requestLocation();
   }
 } catch(e) {
   initLocationBanner();
@@ -6798,8 +6893,9 @@ function shareParish(parishId, btnEl) {
   function showCopied() {
     if (btnEl) {
       btnEl.classList.add('copied');
+      const origText = btnEl.textContent;
       btnEl.textContent = '✓ Shared!';
-      setTimeout(() => { btnEl.classList.remove('copied'); btnEl.textContent = '📋 Share'; }, 1800);
+      setTimeout(() => { btnEl.classList.remove('copied'); btnEl.textContent = origText; }, 1800);
     }
   }
 
@@ -6850,6 +6946,21 @@ function printParish(parishId) {
   const s = document.getElementById('printSingleCard');
   if (s) s.remove();
 }
+
+// Card meta overflow menu
+function toggleCardOverflow(el) {
+  // Close all other open menus first
+  document.querySelectorAll('.card-meta-overflow.open').forEach(m => {
+    if (m !== el) m.classList.remove('open');
+  });
+  el.classList.toggle('open');
+}
+// Close overflow menus on outside click
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.card-meta-overflow')) {
+    document.querySelectorAll('.card-meta-overflow.open').forEach(m => m.classList.remove('open'));
+  }
+});
 
 // Handle ?parish=xxx deep link on load
 (function handleParishDeepLink() {
@@ -8049,6 +8160,7 @@ window.setSortMode       = setSortMode;
 window.toggleContact     = toggleContact;
 window.shareParish       = shareParish;
 window.printParish       = printParish;
+window.toggleCardOverflow = toggleCardOverflow;
 window.shareFavorites    = shareFavorites;
 window.scrollToParish   = scrollToParish;
 window.switchAppView    = switchAppView;
@@ -8146,6 +8258,17 @@ function renderHowTo() {
       '<h3>Welcome to Mass Finder</h3>' +
       '<p>Find Mass, Confession, Adoration, and more across Western Massachusetts</p>' +
     '</div>' +
+
+    '<div class="howto-tip">' +
+      '<div class="howto-tip-icon">\uD83D\uDCCD</div>' +
+      '<div class="howto-tip-text"><strong>Pro tip:</strong> Allow location access and churches sort by distance automatically. Share a filtered view with friends using the \uD83D\uDD17 Share View button.</div>' +
+    '</div>' +
+
+    '<div class="howto-tip">' +
+      '<div class="howto-tip-icon">\uD83D\uDCF2</div>' +
+      '<div class="howto-tip-text"><strong>Install the app:</strong> Add Mass Finder to your home screen for quick access. On iPhone, tap the share icon \u2192 \u201CAdd to Home Screen.\u201D On Android, tap the Install banner.</div>' +
+    '</div>' +
+
     '<div class="howto-steps">' +
 
       '<div class="howto-step">' +
@@ -8188,16 +8311,6 @@ function renderHowTo() {
         '<div class="howto-step-icon">\uD83D\uDEA9</div>' +
         '<div class="howto-step-title">Report &amp; Contribute</div>' +
         '<div class="howto-step-desc">See something wrong? Tap <strong>Report</strong> on any card to flag inaccurate times. Use <strong>+ Add A Church</strong> to suggest new listings.</div>' +
-      '</div>' +
-
-      '<div class="howto-tip">' +
-        '<div class="howto-tip-icon">\uD83D\uDCCD</div>' +
-        '<div class="howto-tip-text"><strong>Pro tip:</strong> Allow location access and churches sort by distance automatically. Share a filtered view with friends using the \uD83D\uDD17 Share View button.</div>' +
-      '</div>' +
-
-      '<div class="howto-tip">' +
-        '<div class="howto-tip-icon">\uD83D\uDCF2</div>' +
-        '<div class="howto-tip-text"><strong>Install the app:</strong> Add Mass Finder to your home screen for quick access. On iPhone, tap the share icon \u2192 \u201CAdd to Home Screen.\u201D On Android, tap the Install banner.</div>' +
       '</div>' +
 
     '</div>';
