@@ -2183,7 +2183,7 @@
   .share-btn:hover { border-color: var(--navy); color: var(--navy); }
   .share-btn.copied { background: var(--green); color: #fff; border-color: var(--green); }
 
-  /* Card meta overflow menu */
+  /* Card meta overflow menu — portal rendered at body level */
   .card-meta-overflow {
     position: relative;
     display: inline-flex;
@@ -2208,7 +2208,7 @@
     font-family: inherit;
   }
   .card-meta-overflow-btn:hover { border-color: var(--navy); color: var(--navy); background: var(--warm-gray); }
-  .card-meta-overflow-menu {
+  #overflowPortal {
     display: none;
     position: fixed;
     background: #fff;
@@ -2219,7 +2219,7 @@
     min-width: 130px;
     padding: 4px 0;
   }
-  .card-meta-overflow.open .card-meta-overflow-menu { display: block; }
+  #overflowPortal.open { display: block; }
   .card-meta-overflow-item {
     display: flex;
     align-items: center;
@@ -3848,6 +3848,7 @@
 <a href="#parishGrid" class="skip-link" style="position:absolute;left:-9999px;top:0;z-index:10000;background:var(--navy);color:#fff;padding:8px 16px;font-weight:700;text-decoration:none;">Skip to content</a>
 <style>.skip-link:focus{left:0;}</style>
 <div id="verifyPortal"></div>
+<div id="overflowPortal"></div>
 
 
 <header onclick="window.scrollTo({top:0,behavior:'smooth'})">
@@ -3974,6 +3975,7 @@
       <button class="chip" data-cat="devotion">Devotions</button>
     </div>
     <button class="fav-chip" id="favFilterChip" onclick="toggleFavFilter()" aria-label="Filter by favorites" aria-pressed="false">❤️ Favorites</button>
+    <button class="location-enable-btn" id="locationEnableBtn" onclick="requestLocation()" style="display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:16px;border:1.5px solid var(--green);background:rgba(45,106,79,0.08);color:var(--green);font-size:0.72rem;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap;">📍 Enable Location</button>
     <div class="sort-toggle" id="sortToggle" role="group" aria-label="Sort order">
       <button class="sort-btn active" data-sort="proximity" id="sortProximity" title="Sort by distance" aria-label="Sort by distance" onclick="setSortMode('proximity')">Near</button>
       <button class="sort-btn" data-sort="alpha" id="sortAlpha" title="Sort A→Z" aria-label="Sort alphabetically" onclick="setSortMode('alpha')">A→Z</button>
@@ -5768,7 +5770,7 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
       <span class="county-badge">${distHtml}<button class="fav-btn${isFav ? ' favorited' : ''}" onclick="event.stopPropagation(); toggleFavorite('${p.id}', this);" title="${isFav ? 'Remove from favorites' : 'Add to favorites'}">${isFav ? '❤️' : '🤍'}</button> ${confBadge}</span>
     </div>
     ${p.visitation && p.visitation.hours_note ? `<div class="visitation-bar">🕊 Open for prayer: ${p.visitation.hours_note}</div>` : ''}
-    <div class="card-meta">${accessBadge}${contactBtn}${bulletinLink}${directionsBtn}<span class="card-meta-overflow"><button class="card-meta-overflow-btn" onclick="event.stopPropagation(); toggleCardOverflow(this.parentElement);" title="More actions">⋯</button><div class="card-meta-overflow-menu"><button class="card-meta-overflow-item" onclick="event.stopPropagation(); shareParish('${p.id}', this); toggleCardOverflow(this.closest('.card-meta-overflow'));">📋 Share</button><button class="card-meta-overflow-item" onclick="event.stopPropagation(); printParish('${p.id}'); toggleCardOverflow(this.closest('.card-meta-overflow'));">🖨 Print</button></div></span></div>
+    <div class="card-meta">${accessBadge}${contactBtn}${bulletinLink}${directionsBtn}<span class="card-meta-overflow"><button class="card-meta-overflow-btn" onclick="event.stopPropagation(); toggleCardOverflow(this, '${p.id}');" title="More actions">⋯</button></span></div>
     ${contactDrawerBody}
     <div class="card-body">
       ${categoryFilter === '__lenten_only__' ? (
@@ -6450,8 +6452,12 @@ var sortMode = 'alpha'; // 'proximity' | 'alpha'  — proximity only when locati
 
 function requestLocation() {
   if (!navigator.geolocation) {
+    locationStatus = 'unavailable';
+    updateLocationUI();
     return;
   }
+  locationStatus = 'requesting';
+  updateLocationUI();
   navigator.geolocation.getCurrentPosition(
     pos => {
       userLat = pos.coords.latitude;
@@ -6460,6 +6466,7 @@ function requestLocation() {
       sortMode = 'proximity';
       document.getElementById('sortToggle').classList.add('location-ready');
       document.querySelectorAll('.sort-btn').forEach(b => b.classList.toggle('active', b.dataset.sort === 'proximity'));
+      updateLocationUI();
       renderYCEvents();
       render();
       if (currentView === 'now') {
@@ -6472,38 +6479,57 @@ function requestLocation() {
         }).addTo(appMap).bindPopup('You are here');
       }
     },
-    () => {
-      locationStatus = 'denied';
+    err => {
+      console.warn('Geolocation error:', err.code, err.message);
+      locationStatus = err.code === 1 ? 'denied' : 'error';
+      updateLocationUI();
     },
     { timeout: 10000, enableHighAccuracy: false, maximumAge: 300000 }
   );
 }
 
-// Passive location attempt on load (no prompt shown if permission not already granted)
-function initLocationBanner() {
-  // Happening Soon section removed from visible UI — just attempt passive location
+// Update all location-related UI elements
+function updateLocationUI() {
+  var nowBtn = document.getElementById('nowLocationBtn');
+  var enableBtn = document.getElementById('locationEnableBtn');
+  if (nowBtn) {
+    if (locationStatus === 'granted') {
+      nowBtn.textContent = '📍 Location Active';
+      nowBtn.style.opacity = '0.7';
+    } else if (locationStatus === 'requesting') {
+      nowBtn.textContent = '📍 Locating…';
+    } else {
+      nowBtn.textContent = '📍 Enable Location';
+      nowBtn.style.opacity = '';
+    }
+  }
+  if (enableBtn) {
+    enableBtn.style.display = locationStatus === 'granted' ? 'none' : '';
+  }
 }
+
+// Passive location attempt on load
+function initLocationBanner() {
+  // Don't auto-request — wait for user tap
+}
+
+// Safari doesn't have Permissions API — must use user gesture
+// Chrome/Firefox can check permission state first
 try {
   if (navigator.permissions) {
     navigator.permissions.query({ name: 'geolocation' }).then(function(result) {
       if (result.state === 'granted') {
+        // Already granted — safe to auto-request
         requestLocation();
-      } else if (result.state === 'prompt') {
-        // Permissions API available but not yet decided — request will show prompt
-        requestLocation();
-      } else {
-        initLocationBanner();
       }
+      // If 'prompt' or 'denied', don't auto-request — wait for user tap
     }).catch(function() {
-      // Permissions API threw — fall back to direct request (Safari)
-      requestLocation();
+      // Permissions API threw (Safari) — don't auto-request
     });
-  } else {
-    // No Permissions API (Safari) — request directly; browser shows its own prompt
-    requestLocation();
   }
+  // If no Permissions API (Safari) — don't auto-request, user must tap
 } catch(e) {
-  initLocationBanner();
+  // Silently fail
 }
 
 // ═══════════════════════════════════════════════════
@@ -6946,29 +6972,34 @@ function printParish(parishId) {
   if (s) s.remove();
 }
 
-// Card meta overflow menu
-function toggleCardOverflow(el) {
-  // Close all other open menus first
-  document.querySelectorAll('.card-meta-overflow.open').forEach(m => {
-    if (m !== el) m.classList.remove('open');
-  });
-  el.classList.toggle('open');
-  // Position the menu using fixed coords
-  if (el.classList.contains('open')) {
-    var btn = el.querySelector('.card-meta-overflow-btn');
-    var menu = el.querySelector('.card-meta-overflow-menu');
-    if (btn && menu) {
-      var r = btn.getBoundingClientRect();
-      menu.style.top = (r.bottom + 4) + 'px';
-      menu.style.right = (window.innerWidth - r.right) + 'px';
-      menu.style.left = 'auto';
-    }
-  }
+// Card meta overflow menu — portal approach
+var _activeOverflowBtn = null;
+function closeOverflowPortal() {
+  var portal = document.getElementById('overflowPortal');
+  portal.classList.remove('open');
+  portal.innerHTML = '';
+  _activeOverflowBtn = null;
 }
-// Close overflow menus on outside click
+function toggleCardOverflow(btn, parishId) {
+  var portal = document.getElementById('overflowPortal');
+  // If clicking same button, close
+  if (_activeOverflowBtn === btn) { closeOverflowPortal(); return; }
+  _activeOverflowBtn = btn;
+  // Populate portal
+  portal.innerHTML =
+    '<button class="card-meta-overflow-item" onclick="event.stopPropagation(); shareParish(\'' + parishId + '\', this); closeOverflowPortal();">📋 Share</button>' +
+    '<button class="card-meta-overflow-item" onclick="event.stopPropagation(); printParish(\'' + parishId + '\'); closeOverflowPortal();">🖨 Print</button>';
+  // Position below button
+  var r = btn.getBoundingClientRect();
+  portal.style.top = (r.bottom + 4) + 'px';
+  portal.style.right = (window.innerWidth - r.right) + 'px';
+  portal.style.left = 'auto';
+  portal.classList.add('open');
+}
+// Close overflow on outside click
 document.addEventListener('click', function(e) {
-  if (!e.target.closest('.card-meta-overflow')) {
-    document.querySelectorAll('.card-meta-overflow.open').forEach(m => m.classList.remove('open'));
+  if (!e.target.closest('.card-meta-overflow-btn') && !e.target.closest('#overflowPortal')) {
+    closeOverflowPortal();
   }
 });
 
@@ -8170,7 +8201,8 @@ window.setSortMode       = setSortMode;
 window.toggleContact     = toggleContact;
 window.shareParish       = shareParish;
 window.printParish       = printParish;
-window.toggleCardOverflow = toggleCardOverflow;
+window.toggleCardOverflow  = toggleCardOverflow;
+window.closeOverflowPortal = closeOverflowPortal;
 window.shareFavorites    = shareFavorites;
 window.scrollToParish   = scrollToParish;
 window.switchAppView    = switchAppView;
