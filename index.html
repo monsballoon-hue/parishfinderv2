@@ -181,13 +181,13 @@
     gap: 6px;
   }
   .chip {
-    padding: 5px 12px;
+    padding: 6px 14px;
     border-radius: 20px;
     border: 1px solid rgba(255,255,255,0.2);
     background: transparent;
     color: rgba(255,255,255,0.7);
     font-family: 'Source Sans 3', sans-serif;
-    font-size: 0.8rem;
+    font-size: 0.88rem;
     cursor: pointer;
     transition: all 0.15s;
     white-space: nowrap;
@@ -284,7 +284,7 @@
   }
   .card-header h2 {
     font-family: 'Playfair Display', serif;
-    font-size: 1.0rem;
+    font-size: 1.15rem;
     font-weight: 600;
     color: #fff;
     line-height: 1.25;
@@ -292,7 +292,7 @@
     padding-right: 130px;
   }
   .card-location {
-    font-size: 0.8rem;
+    font-size: 0.88rem;
     color: var(--gold-light);
     font-weight: 400;
     letter-spacing: 0.04em;
@@ -368,7 +368,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 6px 14px;
-    font-size: 0.78rem;
+    font-size: 0.84rem;
     color: var(--text-light);
   }
   .card-meta a { color: var(--navy); text-decoration: none; font-weight: 500; }
@@ -383,13 +383,13 @@
   }
   .phone-link:hover { color: var(--gold); text-decoration-color: var(--gold); }
 
-  .card-body { padding: 10px 16px 12px; flex: 1; }
+  .card-body { padding: 14px 18px 14px; flex: 1; }
 
   /* SERVICE SECTIONS */
-  .service-section { margin-bottom: 10px; }
+  .service-section { margin-bottom: 14px; }
   .service-section:last-child { margin-bottom: 0; }
   .service-section-title {
-    font-size: 0.7rem;
+    font-size: 0.78rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -403,7 +403,7 @@
   }
 
   /* COLLAPSIBLE SERVICE SECTIONS */
-  .svc-collapse { margin-bottom: 10px; }
+  .svc-collapse { margin-bottom: 14px; }
   .svc-collapse:last-child { margin-bottom: 0; }
   .svc-collapse-header {
     display: flex;
@@ -426,7 +426,7 @@
   }
   .svc-collapse.open .svc-collapse-chevron { transform: rotate(90deg); }
   .svc-collapse-label {
-    font-size: 0.7rem;
+    font-size: 0.78rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -480,16 +480,16 @@
     display: grid;
     grid-template-columns: 96px 1fr;
     gap: 0 6px;
-    padding: 3px 0;
-    font-size: 0.82rem;
-    line-height: 1.45;
+    padding: 5px 0;
+    font-size: 0.92rem;
+    line-height: 1.55;
     color: var(--text);
     align-items: start;
   }
   .svc-day {
     font-weight: 600;
     color: var(--navy);
-    font-size: 0.78rem;
+    font-size: 0.88rem;
     word-break: break-word;
     hyphens: none;
     padding-top: 1px;
@@ -532,6 +532,34 @@
     display: inline;
   }
   .service-detail { color: var(--text-light); font-size: 0.78rem; }
+  /* 4B: Now/Soon service row highlighting */
+  .svc-row-now {
+    background: rgba(45, 106, 79, 0.08);
+    border-left: 3px solid var(--green);
+    padding-left: 8px;
+    margin-left: -8px;
+    border-radius: 0 4px 4px 0;
+  }
+  .svc-row-soon {
+    background: rgba(232, 168, 56, 0.08);
+    border-left: 3px solid #e8a838;
+    padding-left: 8px;
+    margin-left: -8px;
+    border-radius: 0 4px 4px 0;
+  }
+  .svc-now-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-left: 6px;
+  }
+  .svc-soon-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: #d4920a;
+    margin-left: 6px;
+  }
   .lang-tag {
     display: inline-block;
     background: var(--gold-pale);
@@ -589,7 +617,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 0.74rem;
+    font-size: 0.8rem;
     color: var(--mid-gray);
   }
   .pastor-name { font-style: italic; }
@@ -2018,7 +2046,7 @@
     max-width: 180px;
     padding: 12px 14px;
     font-family: 'Source Sans 3', sans-serif;
-    font-size: 0.82rem;
+    font-size: 0.9rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -3058,6 +3086,142 @@ function wrapCollapsible(sectionKey, title, icon, innerHtml, filteredServices, c
 }
 
 
+// 4B: Determine if a service is happening now or starting soon
+function getSvcTimeStatus(svc) {
+  if (!svc.time || !svc.day) return { status: null, minsAway: null };
+
+  const now = new Date();
+  const currentDay = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'][now.getDay()];
+
+  const svcDays = Array.isArray(svc.day) ? svc.day : [svc.day];
+  const dayMatches = svcDays.some(d =>
+    d === currentDay || d === 'daily' || d === 'weekday' ||
+    (d === 'monday_friday' && now.getDay() >= 1 && now.getDay() <= 5)
+  );
+  if (!dayMatches) return { status: null, minsAway: null };
+
+  const [h, m] = svc.time.split(':').map(Number);
+  const svcMins = h * 60 + m;
+  const nowMins = now.getHours() * 60 + now.getMinutes();
+
+  let endMins = svcMins + 60;
+  if (svc.end_time) {
+    const [eh, em] = svc.end_time.split(':').map(Number);
+    endMins = eh * 60 + em;
+  }
+
+  if (nowMins >= svcMins && nowMins < endMins) {
+    return { status: 'now', minsAway: 0 };
+  }
+  const minsUntil = svcMins - nowMins;
+  if (minsUntil > 0 && minsUntil <= 60) {
+    return { status: 'soon', minsAway: minsUntil };
+  }
+  return { status: null, minsAway: null };
+}
+
+// 4C: Strip redundant info from service notes
+function cleanNote(note, svcType, day, season) {
+  if (!note) return '';
+
+  const SERVICE_LABELS_LOCAL = {
+    'sunday_mass':'Mass', 'daily_mass':'Mass', 'confession':'Confession',
+    'adoration':'Adoration', 'holy_hour':'Holy Hour', 'perpetual_adoration':'Perp. Adoration',
+    'benediction':'Benediction', 'rosary':'Rosary', 'divine_mercy':'Divine Mercy',
+    'stations_of_cross':'Stations of the Cross', 'stations_of_the_cross':'Stations of the Cross',
+    'bible_study':'Bible Study', 'devotion':'Devotion', 'devotional':'Devotion',
+    'divine_mercy_chaplet':'Divine Mercy Chaplet', 'communion_service':'Communion Service',
+  };
+
+  const DAY_VARIANTS = {
+    monday:['mondays','monday'], tuesday:['tuesdays','tuesday'],
+    wednesday:['wednesdays','wednesday'], thursday:['thursdays','thursday'],
+    friday:['fridays','friday'], saturday:['saturdays','saturday'],
+    sunday:['sundays','sunday']
+  };
+
+  const LANG_PREFIXES = ['Polish','Spanish','French','Latin','Vietnamese','Portuguese'];
+
+  let cleaned = note;
+  const typeLabel = SERVICE_LABELS_LOCAL[svcType] || (svcType || '').replace(/_/g, ' ');
+
+  // Build type variants
+  const typeVars = new Set([typeLabel.toLowerCase()]);
+  if (!typeLabel.endsWith('s')) typeVars.add(typeLabel.toLowerCase() + 's');
+  if (svcType === 'confession') { typeVars.add('confessions'); typeVars.add('reconciliation'); }
+  if (svcType && svcType.includes('stations')) { typeVars.add('stations of the cross'); typeVars.add('stations'); }
+  if (svcType === 'bible_study') typeVars.add('bible study');
+  if (svcType === 'adoration') typeVars.add('eucharistic adoration');
+
+  const sortedVars = [...typeVars].sort((a,b) => b.length - a.length);
+
+  // Strip language prefix + type
+  let detectedLang = '';
+  for (const lp of LANG_PREFIXES) {
+    for (const tv of sortedVars) {
+      const combo = lp.toLowerCase() + ' ' + tv;
+      if (cleaned.toLowerCase().startsWith(combo)) {
+        cleaned = cleaned.slice(combo.length).replace(/^[\s\u2014\u2013\-,.:;]+/, '');
+        detectedLang = lp;
+        break;
+      }
+    }
+    if (detectedLang) break;
+  }
+
+  // Strip "Lenten" + type, or just type from start
+  if (!detectedLang) {
+    for (const prefix of ['lenten ', '']) {
+      for (const tv of sortedVars) {
+        const pattern = prefix + tv;
+        if (cleaned.toLowerCase().startsWith(pattern)) {
+          cleaned = cleaned.slice(pattern.length).replace(/^[\s\u2014\u2013\-,.:;]+/, '');
+          break;
+        }
+      }
+    }
+  }
+
+  // Strip leading dash
+  cleaned = cleaned.replace(/^[\s\u2014\u2013\-]+/, '');
+
+  // Strip season references
+  if (season === 'lent') {
+    cleaned = cleaned.replace(/\s*during Lent\b/gi, '');
+    cleaned = cleaned.replace(/\s*of Lent\b/gi, '');
+    cleaned = cleaned.replace(/\bLenten season\b/gi, '');
+    cleaned = cleaned.replace(/\bLenten\b/gi, '');
+  }
+
+  // Strip day references
+  const dayList = Array.isArray(day) ? day : (day ? [day] : []);
+  for (const d of dayList) {
+    if (DAY_VARIANTS[d]) {
+      for (const dp of DAY_VARIANTS[d]) {
+        cleaned = cleaned.replace(new RegExp('\\b' + dp + '\\b', 'gi'), '');
+      }
+    }
+  }
+
+  // Strip filler
+  cleaned = cleaned.replace(/\bevery\b/gi, '');
+
+  // Cleanup punctuation artifacts
+  cleaned = cleaned.replace(/[\s\u2014\u2013\-,.:;]+$/g, '');
+  cleaned = cleaned.replace(/^[\s\u2014\u2013\-,.:;]+/g, '');
+  cleaned = cleaned.replace(/\s+/g, ' ').trim();
+
+  // Re-add language prefix if it was stripped
+  if (detectedLang && !cleaned) return detectedLang;
+  if (detectedLang && cleaned) return detectedLang + ' \u2014 ' + cleaned;
+
+  // If what's left is very short and generic, hide entirely
+  if (cleaned.length <= 3) return '';
+
+  return cleaned;
+}
+
+
 function renderServiceSection(title, icon, services, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite) {
   const filtered = services.filter(s =>
     isCurrentSeason(s) &&
@@ -3093,8 +3257,11 @@ function renderServiceSection(title, icon, services, dayFilter, timeFilter, cate
     // Sort services within day by time
     svcs.sort((a, b) => (a.time || '99:99').localeCompare(b.time || '99:99'));
 
-    // Decide layout: stack if any entry has a note; inline otherwise
-    const anyNote = svcs.some(s => s.notes);
+    // Decide layout: stack if any entry has a note after cleaning; inline otherwise
+    const anyNote = svcs.some(s => {
+      const svcSeason = (s.seasonal && s.seasonal.season) || '';
+      return !!cleanNote(s.notes, s.type, s.day, svcSeason);
+    });
 
     const entryHtml = svc => {
       const timePrefix = svc.time_is_inferred ? '~' : '';
@@ -3109,36 +3276,58 @@ function renderServiceSection(title, icon, services, dayFilter, timeFilter, cate
       const label   = SERVICE_LABELS[svc.type] || (svc.type || 'Service').replace(/_/g,' ');
       const showLabel = label.toLowerCase() !== title.toLowerCase();
       const typeTag = showLabel ? `<span class="svc-type-tag">${label}</span>` : '';
-      const note    = svc.notes;
+      // 4C: Clean redundant info from notes
+      const svcSeason = (svc.seasonal && svc.seasonal.season) || '';
+      const note    = cleanNote(svc.notes, svc.type, svc.day, svcSeason);
       // WP1-1C: Location label for multi-site parishes
       const locLabel = (isMultiSite && svc.location_id && locMap && locMap[svc.location_id])
         ? `<span class="svc-location-label">&middot; ${locMap[svc.location_id].short_name || locMap[svc.location_id].name}</span>` : '';
       // WP3: YC badge on linked services
       const ycTag = ycServiceIds.has(svc.id) ? '<span class="svc-yc-tag">YC</span>' : '';
-      return { timeStr, timeTitle, lang, rite, season, typeTag, note, locLabel, ycTag };
+      // 4B: Now/Soon status
+      const timeStatus = getSvcTimeStatus(svc);
+      const nowLabel = timeStatus.status === 'now'
+        ? '<span class="svc-now-label">Now</span>'
+        : (timeStatus.status === 'soon'
+          ? `<span class="svc-soon-label">In ${timeStatus.minsAway} min</span>`
+          : '');
+      const rowClass = timeStatus.status === 'now' ? ' svc-row-now'
+        : (timeStatus.status === 'soon' ? ' svc-row-soon' : '');
+      return { timeStr, timeTitle, lang, rite, season, typeTag, note, locLabel, ycTag, nowLabel, rowClass };
     };
 
     let timesHtml;
+    // For inline layout, determine the most urgent rowClass across all svcs in the day-group
+    let groupRowClass = '';
     if (!anyNote) {
       // Inline: "8 AM · 10:30 AM · Noon"
+      const entries = svcs.map(svc => ({ svc, e: entryHtml(svc) }));
+      // Pick most urgent status for the <li> row class
+      for (const { e } of entries) {
+        if (e.rowClass === ' svc-row-now') { groupRowClass = ' svc-row-now'; break; }
+        if (e.rowClass === ' svc-row-soon') groupRowClass = ' svc-row-soon';
+      }
       timesHtml = `<span class="svc-inline">${
-        svcs.map(svc => {
-          const e = entryHtml(svc);
-          return `<span class="svc-t"${e.timeTitle}>${e.timeStr}${e.locLabel}${e.typeTag}${e.lang}${e.rite}${e.season}${e.ycTag}</span>`;
+        entries.map(({ e }) => {
+          return `<span class="svc-t"${e.timeTitle}>${e.timeStr}${e.locLabel}${e.typeTag}${e.lang}${e.rite}${e.season}${e.ycTag}${e.nowLabel}</span>`;
         }).join('<span class="svc-sep">·</span>')
       }</span>`;
     } else {
-      // Stacked: one entry per line, note beneath
+      // Stacked: one entry per line, note beneath — apply rowClass per svc-stack-row
+      const entries = svcs.map(svc => ({ svc, e: entryHtml(svc) }));
+      for (const { e } of entries) {
+        if (e.rowClass === ' svc-row-now') { groupRowClass = ' svc-row-now'; break; }
+        if (e.rowClass === ' svc-row-soon') groupRowClass = ' svc-row-soon';
+      }
       timesHtml = `<span class="svc-stack">${
-        svcs.map(svc => {
-          const e = entryHtml(svc);
+        entries.map(({ e }) => {
           const noteHtml = e.note ? `<span class="svc-note-line">${e.note}</span>` : '';
-          return `<span class="svc-stack-row"><span class="svc-t"${e.timeTitle}>${e.timeStr}</span>${e.locLabel}${e.typeTag}${e.lang}${e.rite}${e.season}${e.ycTag}${noteHtml}</span>`;
+          return `<span class="svc-stack-row"><span class="svc-t"${e.timeTitle}>${e.timeStr}</span>${e.locLabel}${e.typeTag}${e.lang}${e.rite}${e.season}${e.ycTag}${e.nowLabel}${noteHtml}</span>`;
         }).join('')
       }</span>`;
     }
 
-    return `<li class="service-row">
+    return `<li class="service-row${groupRowClass}">
       <span class="svc-day">${dayStr || 'Varies'}</span>
       <span class="svc-times">${timesHtml}</span>
     </li>`;
@@ -3223,12 +3412,31 @@ function renderLentenSection(allServices, dayFilter, timeFilter, categoryFilter,
       const locLabel = (isMultiSite && svc.location_id && locMap && locMap[svc.location_id])
         ? `<span class="svc-location-label">&middot; ${locMap[svc.location_id].short_name || locMap[svc.location_id].name}</span>` : '';
       const ycTag = ycServiceIds.has(svc.id) ? '<span class="svc-yc-tag">YC</span>' : '';
-      return `<span class="svc-stack-row"><span class="svc-t"${timeTitle}>${timeStr}</span>${locLabel}${typeTag}${lang}${rite}${ycTag}${svc.notes ? `<span class="svc-note-line">${svc.notes}</span>` : ''}</span>`;
+      // 4C: Clean redundant info from lenten notes
+      const note = cleanNote(svc.notes, svc.type, svc.day, 'lent');
+      // 4B: Now/Soon status
+      const timeStatus = getSvcTimeStatus(svc);
+      const nowLabel = timeStatus.status === 'now'
+        ? '<span class="svc-now-label">Now</span>'
+        : (timeStatus.status === 'soon'
+          ? `<span class="svc-soon-label">In ${timeStatus.minsAway} min</span>`
+          : '');
+      const rowClass = timeStatus.status === 'now' ? ' svc-row-now'
+        : (timeStatus.status === 'soon' ? ' svc-row-soon' : '');
+      return { html: `<span class="svc-stack-row"><span class="svc-t"${timeTitle}>${timeStr}</span>${locLabel}${typeTag}${lang}${rite}${ycTag}${nowLabel}${note ? `<span class="svc-note-line">${note}</span>` : ''}</span>`, rowClass };
     };
 
-    return `<li class="service-row">
+    // Determine most urgent status for the row
+    const entries = svcs.map(entryHtml);
+    let groupRowClass = '';
+    for (const e of entries) {
+      if (e.rowClass === ' svc-row-now') { groupRowClass = ' svc-row-now'; break; }
+      if (e.rowClass === ' svc-row-soon') groupRowClass = ' svc-row-soon';
+    }
+
+    return `<li class="service-row${groupRowClass}">
       <span class="svc-day">${dayStr || 'Varies'}</span>
-      <span class="svc-times"><span class="svc-stack">${svcs.map(entryHtml).join('')}</span></span>
+      <span class="svc-times"><span class="svc-stack">${entries.map(e => e.html).join('')}</span></span>
     </li>`;
   }).join('');
 
