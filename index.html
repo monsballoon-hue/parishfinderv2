@@ -18,10 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.Default.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
 <style>
   :root {
     --navy: #1a2744;
@@ -458,24 +455,6 @@
     padding-left: 0;
     margin-left: 0;
   }
-  /* Holy Week section crimson accent */
-  .svc-collapse--holy_week .svc-collapse-header { border-bottom-color: #e8b8b8; }
-  .svc-collapse--holy_week .svc-collapse-label { color: #8b1a1a; }
-  .svc-collapse--holy_week .svc-collapse-chevron { color: #8b1a1a; }
-  .svc-collapse--holy_week .svc-collapse-summary { color: #8b1a1a; }
-  .svc-collapse--holy_week.open {
-    background: rgba(139,26,26,0.10);
-    border-left: 3px solid #8b1a1a;
-    padding-left: 10px;
-    margin-left: -10px;
-    border-radius: 0 6px 6px 0;
-  }
-  .svc-collapse--holy_week.open .svc-collapse-header { border-bottom-color: rgba(139,26,26,0.2); }
-  .svc-collapse--holy_week.open .svc-collapse-body .service-section.holy-week {
-    border-left: none;
-    padding-left: 0;
-    margin-left: 0;
-  }
   .service-list { list-style: none; margin: 0; padding: 0; }
   .service-row {
     display: grid;
@@ -815,26 +794,6 @@
     background: #f5eeff;
     border-color: #c9a0e0;
     color: #7c4fa0;
-  }
-
-  /* Holy Week section — crimson/red treatment */
-  .service-section.holy-week {
-    border-left: 3px solid #8b1a1a;
-    padding-left: 10px;
-    margin-left: -10px;
-  }
-  .service-section.holy-week .service-section-title {
-    color: #8b1a1a;
-    border-bottom-color: #e8b8b8;
-  }
-  .service-section.holy-week .service-section-title span.icon-holy-week {
-    color: #8b1a1a;
-    margin-right: 4px;
-  }
-  .service-section.holy-week .seasonal-tag {
-    background: #fef0f0;
-    border-color: #e0a0a0;
-    color: #8b1a1a;
   }
 
   /* YC Events section — warm amber treatment (mirrors Lenten purple) */
@@ -2224,56 +2183,6 @@
   }
   .map-chip:hover { border-color: var(--gold); }
   .map-chip.active { background: var(--navy); border-color: var(--navy); color: #fff; }
-
-  /* Marker Cluster overrides */
-  .marker-cluster-small, .marker-cluster-medium, .marker-cluster-large {
-    background: rgba(26, 39, 68, 0.25);
-  }
-  .marker-cluster-small div, .marker-cluster-medium div, .marker-cluster-large div {
-    background: var(--navy);
-    color: #fff;
-    font-family: 'Source Sans 3', sans-serif;
-    font-weight: 700;
-    font-size: 0.8rem;
-  }
-
-  /* Radius dropdown (shared by Now view & Map view) */
-  .radius-select {
-    padding: 4px 8px;
-    border-radius: 14px;
-    border: 1.5px solid var(--gold);
-    background: var(--gold-pale);
-    color: var(--navy);
-    font-family: 'Source Sans 3', sans-serif;
-    font-size: 0.72rem;
-    font-weight: 600;
-    cursor: pointer;
-    -webkit-appearance: none;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%231a2744'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 8px center;
-    padding-right: 22px;
-  }
-  .radius-select:focus { outline: 2px solid var(--gold); }
-
-  .map-radius-select {
-    padding: 5px 10px;
-    border-radius: 16px;
-    border: 1px solid var(--border);
-    background: #fff;
-    color: var(--text);
-    font-family: 'Source Sans 3', sans-serif;
-    font-size: 0.75rem;
-    font-weight: 600;
-    cursor: pointer;
-    -webkit-appearance: none;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23333'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 8px center;
-    padding-right: 22px;
-  }
   .leaflet-popup-content {
     font-family: 'Source Sans 3', sans-serif;
     font-size: 0.85rem;
@@ -2334,53 +2243,6 @@
   .fav-chip.visible { display: inline-flex; align-items: center; gap: 4px; }
   .fav-chip:hover { background: rgba(255,255,255,0.1); color: #fff; }
   .fav-chip.active { background: #e8a838; border-color: #e8a838; color: var(--navy); font-weight: 600; }
-
-  /* Find My Mass compact mode */
-  .find-mass-btn {
-    padding: 5px 12px;
-    border-radius: 20px;
-    border: 1px solid rgba(255,255,255,0.2);
-    background: transparent;
-    color: rgba(255,255,255,0.7);
-    font-family: 'Source Sans 3', sans-serif;
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: all 0.15s;
-    white-space: nowrap;
-  }
-  .find-mass-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
-  .find-mass-btn.active { background: var(--gold); border-color: var(--gold); color: var(--navy); font-weight: 600; }
-  .fml-table { width: 100%; border-collapse: collapse; }
-  .fml-table th {
-    text-align: left;
-    font-size: 0.68rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-light);
-    padding: 6px 8px;
-    border-bottom: 2px solid var(--border);
-    white-space: nowrap;
-  }
-  .fml-table td {
-    padding: 9px 8px;
-    font-size: 0.85rem;
-    border-bottom: 1px solid var(--border);
-    vertical-align: middle;
-  }
-  .fml-table tr { cursor: pointer; transition: background 0.1s; }
-  .fml-table tr:hover { background: var(--gold-pale); }
-  .fml-day { color: var(--text-light); font-size: 0.78rem; white-space: nowrap; }
-  .fml-time { font-weight: 700; color: var(--navy); white-space: nowrap; }
-  .fml-name { font-weight: 600; color: var(--navy); }
-  .fml-town { color: var(--text-light); font-size: 0.78rem; white-space: nowrap; }
-  .fml-dist { font-weight: 600; color: var(--green); font-size: 0.78rem; white-space: nowrap; text-align: right; }
-  .fml-lang { font-size: 0.68rem; background: var(--gold-pale); border: 1px solid var(--gold); color: var(--navy); padding: 1px 6px; border-radius: 8px; font-weight: 600; }
-  .fml-type { font-size: 0.68rem; color: var(--text-light); }
-  .fml-wrapper { background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 6px rgba(0,0,0,0.08); }
-  @media (max-width: 520px) {
-    .fml-table th, .fml-table td { padding: 7px 5px; font-size: 0.78rem; }
-    .fml-name { max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  }
 
   /* ── RESPONSIVE OVERRIDES ── */
   @media (max-width: 520px) {
@@ -2524,7 +2386,6 @@
       <button class="chip" data-cat="devotion">Devotions</button>
     </div>
     <button class="fav-chip" id="favFilterChip" onclick="toggleFavFilter()">❤️ Favorites</button>
-    <button class="find-mass-btn" id="findMassBtn" onclick="toggleFindMass()">🔍 Find a Mass</button>
     <div class="sort-toggle" id="sortToggle">
       <button class="sort-btn active" data-sort="proximity" id="sortProximity" title="Sort by distance" onclick="setSortMode('proximity')">Near</button>
       <button class="sort-btn" data-sort="alpha" id="sortAlpha" title="Sort A→Z" onclick="setSortMode('alpha')">A→Z</button>
@@ -2559,13 +2420,6 @@
     <div class="now-header">
       <h2>What's Happening</h2>
       <button class="now-location-btn" id="nowLocationBtn" onclick="requestLocation()">📍 Enable Location</button>
-      <select class="radius-select" id="nowRadiusSelect" onchange="setFilterRadius(this.value)" style="display:none;" title="Distance radius">
-        <option value="5">5 mi</option>
-        <option value="10" selected>10 mi</option>
-        <option value="15">15 mi</option>
-        <option value="25">25 mi</option>
-        <option value="50">50 mi</option>
-      </select>
     </div>
     <div class="now-filter-pills" id="nowFilterPills">
       <button class="now-pill active" data-now-mode="all" onclick="setNowMode('all')">All</button>
@@ -2598,13 +2452,6 @@
       <button class="map-chip" data-map-cat="mass" onclick="setMapFilter('mass')">Mass</button>
       <button class="map-chip" data-map-cat="confession" onclick="setMapFilter('confession')">Confession</button>
       <button class="map-chip" data-map-cat="devotion" onclick="setMapFilter('devotion')">Devotions</button>
-      <select class="map-radius-select" id="mapRadiusSelect" onchange="setFilterRadius(this.value)" style="display:none;" title="Distance radius">
-        <option value="5">5 mi</option>
-        <option value="10">10 mi</option>
-        <option value="15">15 mi</option>
-        <option value="25" selected>25 mi</option>
-        <option value="50">50 mi</option>
-      </select>
     </div>
     <div id="mapContainer"></div>
   </div>
@@ -2669,8 +2516,7 @@ const SERVICE_LABELS = {
   miraculous_medal:'Miraculous Medal', novena:'Novena',
   stations_of_cross:'Stations of the Cross', stations_of_the_cross:'Stations of the Cross',
   anointing_of_sick:'Anointing of the Sick', communion_service:'Communion Service',
-  holy_thursday_mass:'Mass of the Lord\'s Supper', good_friday_service:'Passion of the Lord',
-  easter_vigil_mass:'Easter Vigil Mass', devotion:'Devotion',
+  devotion:'Devotion',
 };
 
 const DAY_LABELS = {
@@ -2683,7 +2529,7 @@ const DAY_LABELS = {
 };
 
 const SEASON_LABELS = {
-  lent:'Lent', holy_week:'Holy Week', advent:'Advent', school_year:'School Year', summer:'Summer',
+  lent:'Lent', advent:'Advent', school_year:'School Year', summer:'Summer',
 };
 
 const LANG_NAMES = {
@@ -2695,7 +2541,7 @@ const LANG_LABELS = {
 };
 
 const SERVICE_TYPE_GROUPS = {
-  mass:       ['sunday_mass','daily_mass','communion_service','holy_thursday_mass','good_friday_service','easter_vigil_mass'],
+  mass:       ['sunday_mass','daily_mass','communion_service'],
   confession: ['confession'],
   devotion:   ['adoration','holy_hour','perpetual_adoration','benediction',
                'rosary','divine_mercy','miraculous_medal','novena',
@@ -2981,7 +2827,7 @@ function collapseServiceDays(services) {
 
 // Card-level grouping: keeps adoration separate from devotion for display
 const CARD_TYPE_GROUPS = {
-  mass:       ['sunday_mass','daily_mass','communion_service','holy_thursday_mass','good_friday_service','easter_vigil_mass'],
+  mass:       ['sunday_mass','daily_mass','communion_service'],
   confession: ['confession'],
   adoration:  ['adoration','holy_hour','perpetual_adoration','benediction'],
   devotion:   ['rosary','divine_mercy','miraculous_medal','novena',
@@ -3174,8 +3020,8 @@ function renderServiceSection(title, icon, services, dayFilter, timeFilter, cate
 function renderMassSectionWithHolyDays(services, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite) {
   const HOLYDAY_DAYS = ['holyday', 'holyday_eve'];
 
-  // Split into regular (excluding lenten and holy week) and holy day services
-  const regular  = services.filter(s => !HOLYDAY_DAYS.includes(s.day) && !(s.seasonal && s.seasonal.season === 'lent') && !(s.seasonal && s.seasonal.season === 'holy_week'));
+  // Split into regular (excluding lenten) and holy day services
+  const regular  = services.filter(s => !HOLYDAY_DAYS.includes(s.day) && !(s.seasonal && s.seasonal.season === 'lent'));
   const holydays = services.filter(s => HOLYDAY_DAYS.includes(s.day));
 
   const regularSect  = renderServiceSection('Mass', 'mass', regular,   dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite);
@@ -3254,49 +3100,6 @@ function renderLentenSection(allServices, dayFilter, timeFilter, categoryFilter,
   </div>`;
 }
 
-// Renders a dedicated Holy Week section aggregating all seasonal=holy_week services
-function renderHolyWeekSection(allServices, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite) {
-  const hwSvcs = allServices.filter(s => s.seasonal && s.seasonal.season === 'holy_week' && isCurrentSeason(s));
-  if (!hwSvcs.length) return '';
-
-  const filtered = hwSvcs.filter(s =>
-    serviceMatchesDay(s, dayFilter) &&
-    serviceMatchesTime(s, timeFilter) &&
-    serviceMatchesType(s, categoryFilter, subtypeFilter) &&
-    (!langFilter || s.language === langFilter)
-  );
-  if (!filtered.length) return '';
-
-  // Sort by Triduum liturgical order
-  const triduumOrder = { holy_thursday_mass: 0, good_friday_service: 1, easter_vigil_mass: 2 };
-  filtered.sort((a, b) => {
-    const oa = triduumOrder[a.type] !== undefined ? triduumOrder[a.type] : 3;
-    const ob = triduumOrder[b.type] !== undefined ? triduumOrder[b.type] : 3;
-    if (oa !== ob) return oa - ob;
-    return (a.time || '99:99').localeCompare(b.time || '99:99');
-  });
-
-  const rows = filtered.map(svc => {
-    const timeStr = fmtTimeRange(svc);
-    const label = SERVICE_LABELS[svc.type] || svc.type.replace(/_/g, ' ');
-    const typeTag = `<span class="svc-type-tag">${label}</span>`;
-    const lang = svc.language && svc.language !== 'en'
-      ? `<span class="lang-tag">${LANG_LABELS[svc.language] || svc.language}</span>` : '';
-    const locLabel = (isMultiSite && svc.location_id && locMap && locMap[svc.location_id])
-      ? `<span class="svc-location-label">&middot; ${locMap[svc.location_id].name}</span>` : '';
-    const dayLabel = svc.day ? (DAY_LABELS[svc.day] || svc.day) : '';
-    return `<li class="service-row">
-      <span class="svc-day">${dayLabel}</span>
-      <span class="svc-times"><span class="svc-stack"><span class="svc-stack-row"><span class="svc-t">${timeStr}</span>${locLabel}${typeTag}${lang}${svc.notes ? `<span class="svc-note-line">${svc.notes}</span>` : ''}</span></span></span>
-    </li>`;
-  }).join('');
-
-  return `<div class="service-section holy-week">
-    <div class="service-section-title"><span class="icon-holy-week">✝</span> Sacred Triduum</div>
-    <ul class="service-list">${rows}</ul>
-  </div>`;
-}
-
 // WP2-2C: Render special_events (one-time events) on parish cards
 function renderSpecialEvents(p) {
   if (!p.special_events || !p.special_events.length) return '';
@@ -3304,47 +3107,94 @@ function renderSpecialEvents(p) {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  // Show future/today events, OR recurring events whose season is still active
+  // DAY_ABBR map for recurring events that use 'day' field instead of 'date'
+  const DAY_ABBR = {
+    sunday: 'Sun', monday: 'Mon', tuesday: 'Tue', wednesday: 'Wed',
+    thursday: 'Thu', friday: 'Fri', saturday: 'Sat'
+  };
+
+  // Show events that are:
+  //  1) dated in the future, OR
+  //  2) recurring (frequency = weekly/monthly) with an active season or year_round, OR
+  //  3) seasonal-recurrence events (old schema) whose season is active
   const upcoming = p.special_events.filter(evt => {
-    if (!evt.date) return false;
-    // Recurring seasonal events: show if season is currently active
+    // Old schema: recurrence object with seasonal type
     if (evt.recurrence && evt.recurrence.type === 'seasonal' && evt.recurrence.season) {
       const fakeSvc = { seasonal: { is_seasonal: true, season: evt.recurrence.season } };
       return isCurrentSeason(fakeSvc);
     }
-    const evtDate = new Date(evt.date + 'T00:00:00');
-    return evtDate >= today;
-  }).sort((a, b) => a.date.localeCompare(b.date) || (a.time || '').localeCompare(b.time || ''));
+    // New schema: frequency-based recurring events (weekly/monthly)
+    if (evt.frequency === 'weekly' || evt.frequency === 'monthly') {
+      // If seasonal, check if season is active; otherwise always show
+      if (evt.seasonal && evt.seasonal.is_seasonal && evt.seasonal.season !== 'year_round') {
+        const fakeSvc = { seasonal: evt.seasonal };
+        return isCurrentSeason(fakeSvc);
+      }
+      return true;
+    }
+    // Date-based events: show if date is today or future
+    if (evt.date) {
+      const evtDate = new Date(evt.date + 'T00:00:00');
+      return evtDate >= today;
+    }
+    // Annual/one-time events with seasonal info but no date: show if season active
+    if (evt.seasonal && evt.seasonal.is_seasonal && evt.seasonal.season !== 'year_round') {
+      const fakeSvc = { seasonal: evt.seasonal };
+      return isCurrentSeason(fakeSvc);
+    }
+    // Fallback: skip events with no date and no recurrence/frequency
+    return false;
+  }).sort((a, b) => {
+    // Sort: dated events by date, then recurring events at the end
+    const aDate = a.date || 'zzzz';
+    const bDate = b.date || 'zzzz';
+    return aDate.localeCompare(bDate) || (a.time || '').localeCompare(b.time || '');
+  });
 
   if (!upcoming.length) return '';
 
   const rows = upcoming.map(evt => {
-    const isRecurring = evt.recurrence && evt.recurrence.type === 'seasonal';
+    const isOldRecurring = evt.recurrence && evt.recurrence.type === 'seasonal';
+    const isNewRecurring = evt.frequency === 'weekly' || evt.frequency === 'monthly';
 
     let dateStr;
-    if (isRecurring && evt.recurrence.days && evt.recurrence.days.length) {
-      // Show recurring schedule: "Fri, Sat, Sun"
+    if (isOldRecurring && evt.recurrence.days && evt.recurrence.days.length) {
+      // Old schema recurring: "Fri, Sat, Sun"
       const dayAbbrs = evt.recurrence.days.map(d => d.charAt(0).toUpperCase() + d.slice(1,3));
       dateStr = dayAbbrs.join(', ');
-    } else {
+    } else if (isNewRecurring && evt.day) {
+      // New schema recurring: show day abbreviation + frequency
+      const abbr = DAY_ABBR[evt.day] || (evt.day.charAt(0).toUpperCase() + evt.day.slice(1,3));
+      dateStr = evt.frequency === 'monthly' ? `${abbr} (monthly)` : abbr;
+    } else if (evt.date) {
       // Format date: "Mar 18"
       const d = new Date(evt.date + 'T12:00:00'); // noon to avoid timezone shift
       const month = d.toLocaleString('en-US', { month: 'short' });
       const day = d.getDate();
       dateStr = `${month} ${day}`;
+    } else {
+      dateStr = 'See notes';
     }
 
-    const timeStr = evt.time ? fmt12(evt.time) : '';
-    const endStr = evt.end_time ? ` – ${fmt12(evt.end_time)}` : '';
-    const label = SERVICE_LABELS[evt.type] || evt.type.replace(/_/g, ' ');
-    const note = evt.notes ? ` — ${evt.notes}` : ` — ${label}`;
+    // Normalize time — some new-schema events have freetext times like "after 9:00 AM Mass"
+    const isStandardTime = evt.time && /^\d{1,2}:\d{2}$/.test(evt.time);
+    const timeStr = isStandardTime ? fmt12(evt.time) : (evt.time || '');
+    const endStr = (evt.end_time && isStandardTime) ? ` – ${fmt12(evt.end_time)}` : '';
 
-    // Calendar button for non-recurring events with a time
+    // Build label: prefer title, fall back to SERVICE_LABELS lookup, then format type/category
+    const evtType = evt.type || evt.category || '';
+    const label = evt.title
+      || SERVICE_LABELS[evtType]
+      || (evtType ? evtType.replace(/_/g, ' ') : 'Event');
+    const note = evt.notes ? ` — ${evt.notes}` : (evt.title ? '' : ` — ${label}`);
+    const displayLabel = evt.title ? `<strong>${evt.title}</strong>` : `<strong>${label}</strong>`;
+
+    // Calendar button for dated events with a standard time
     let calHtml = '';
-    if (!isRecurring && evt.date && evt.time) {
+    if (!isOldRecurring && !isNewRecurring && evt.date && isStandardTime) {
       const loc0 = p.locations && p.locations[0];
       const evtLoc = (loc0 && loc0.name ? loc0.name : p.name) + ', ' + (p.town || '') + ', MA';
-      const evtTitle = (evt.notes || label) + ' at ' + (loc0 ? loc0.name : p.name);
+      const evtTitle = (evt.title || evt.notes || label) + ' at ' + (loc0 ? loc0.name : p.name);
       const icsUrl = generateICS(evtTitle, evt.date, evt.time, evt.end_time, evtLoc, '');
       const gcalUrl = generateGCalURL(evtTitle, evt.date, evt.time, evt.end_time, evtLoc, '');
       calHtml = `<span class="cal-dropdown"><button class="special-event-cal" onclick="event.stopPropagation(); toggleCalDropdown(this);">📅</button><div class="cal-dropdown-menu"><a href="${gcalUrl}" target="_blank" rel="noopener">Google Calendar</a><a href="${icsUrl}" download="event.ics">Download .ics</a></div></span>`;
@@ -3352,7 +3202,7 @@ function renderSpecialEvents(p) {
 
     return `<li class="special-event-row">
       <span class="special-event-date">${dateStr}</span>
-      <span class="special-event-detail">${timeStr}${endStr}${note}</span>
+      <span class="special-event-detail">${displayLabel} ${timeStr}${endStr}${note}</span>
       ${calHtml}
     </li>`;
   }).join('');
@@ -3596,7 +3446,6 @@ var ycActiveThisWeek = new Set(); // parish_ids with a YC event this week (Sun-S
 var ycLiteralEventsByParish = {}; // parish_id → array of upcoming YC events without service_id
 var favorites = new Set(); // WP-Favorites: parish IDs the user has favorited
 var favFilterActive = false;
-var findMassMode = false;
 
 function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, distMiles) {
   const groups = groupServices(p.services || []);
@@ -3648,7 +3497,6 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   const otherSect = renderServiceSection('Other Services', 'other', groups.other, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite);
   // Lenten section always renders if lent services exist (independent of any filter)
   const lentSect  = renderLentenSection(p.services || [], dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite);
-  const hwSect    = renderHolyWeekSection(p.services || [], dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite);
 
   // Pre-filter services for summaries (mirrors renderServiceSection's internal filter)
   const svcFilter = (s) =>
@@ -3663,7 +3511,6 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   const devotFiltered = groups.devotion.filter(svcFilter);
   const otherFiltered = groups.other.filter(svcFilter);
   const lentFiltered  = (p.services || []).filter(s => s.seasonal && s.seasonal.season === 'lent' && isCurrentSeason(s) && serviceMatchesDay(s, dayFilter) && serviceMatchesTime(s, timeFilter) && serviceMatchesType(s, categoryFilter, subtypeFilter) && (!langFilter || s.language === langFilter));
-  const hwFiltered    = (p.services || []).filter(s => s.seasonal && s.seasonal.season === 'holy_week' && isCurrentSeason(s) && serviceMatchesDay(s, dayFilter) && serviceMatchesTime(s, timeFilter) && serviceMatchesType(s, categoryFilter, subtypeFilter) && (!langFilter || s.language === langFilter));
 
   // Determine collapse state: expanded (false) vs collapsed (true)
   // Defaults: Mass + Confession expanded; rest collapsed
@@ -3674,7 +3521,6 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   const adorCollapsed  = !(categoryFilter === 'devotion' || hasSearch);
   const devotCollapsed = !(categoryFilter === 'devotion' || hasSearch);
   const lentCollapsed  = false; // WP9: expanded by default when pinned to top
-  const hwCollapsed    = false; // Holy Week: expanded by default
   const otherCollapsed = !hasSearch;
 
   // Wrap each in collapsible
@@ -3683,7 +3529,6 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   const adorWrapped  = wrapCollapsible('adoration',  'Adoration & Prayer','adoration', adorSect,  adorFiltered,  adorCollapsed);
   const devotWrapped = wrapCollapsible('devotion',   'Devotions',        'devotion',   devotSect, devotFiltered, devotCollapsed);
   const lentWrapped  = wrapCollapsible('lent',       'Lenten Services',  'lent',       lentSect,  lentFiltered,  lentCollapsed);
-  const hwWrapped    = wrapCollapsible('holy_week',  'Sacred Triduum',   'holy_week',  hwSect,    hwFiltered,    hwCollapsed);
   const otherWrapped = wrapCollapsible('other',      'Other Services',   'other',      otherSect, otherFiltered, otherCollapsed);
 
   const addr = loc && loc.address ? loc.address : `${churchName}, ${p.town}, MA`;
@@ -3769,7 +3614,7 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
     <div class="card-meta">${accessBadge}${contactDrawer}${bulletinLink}${distHtml}${directionsBtn}<button class="share-btn" onclick="event.stopPropagation(); shareParish('${p.id}', this);" title="Share this church">📋 Share</button>${multiSite}</div>
     <div class="card-body">
       ${renderYCLiteralEvents(p)}
-      ${lentWrapped}${hwWrapped}${massWrapped}${confWrapped}${adorWrapped}${devotWrapped}${otherWrapped}
+      ${lentWrapped}${massWrapped}${confWrapped}${adorWrapped}${devotWrapped}${otherWrapped}
       ${renderSpecialEvents(p)}
     </div>
     <div class="card-footer">
@@ -4005,14 +3850,9 @@ function render() {
     });
   }
 
-  var html = '';
-  if (findMassMode) {
-    html = renderFindMassResults(filtered, day, time, lang);
-  } else {
-    html = filtered.map(function(p) {
-      return renderParishCard(p, day, time, cat, subtype, lang, getDistMiles(p));
-    }).join('');
-  }
+  var html = filtered.map(function(p) {
+    return renderParishCard(p, day, time, cat, subtype, lang, getDistMiles(p));
+  }).join('');
   grid.innerHTML = html || '<div class="no-results"><div class="cross">✝</div><p>No churches found matching your filters.</p></div>';
 
   const shown = filtered.length;
@@ -4030,13 +3870,6 @@ categoryChips.addEventListener('click', e => {
   chip.classList.add('active');
   activeCategory = chip.dataset.cat;
   activeSubtype  = '';
-
-  // Exit Find Mass mode if user manually picks a different category
-  if (findMassMode && activeCategory !== 'mass') {
-    findMassMode = false;
-    const fmBtn = document.getElementById('findMassBtn');
-    if (fmBtn) { fmBtn.classList.remove('active'); fmBtn.textContent = '🔍 Find a Mass'; }
-  }
 
   if (activeCategory && SUBTYPES[activeCategory]) {
     buildSubChips(activeCategory);
@@ -4154,13 +3987,7 @@ function requestLocation() {
         L.circleMarker([userLat, userLng], {
           radius: 8, fillColor: '#4285F4', fillOpacity: 0.9, color: '#fff', weight: 2
         }).addTo(appMap).bindPopup('You are here');
-        renderMapMarkers();
       }
-      // Show radius dropdowns
-      var nowRad = document.getElementById('nowRadiusSelect');
-      var mapRad = document.getElementById('mapRadiusSelect');
-      if (nowRad) nowRad.style.display = '';
-      if (mapRad) mapRad.style.display = '';
     },
     () => {
       locationStatus = 'denied';
@@ -4489,12 +4316,6 @@ function clearAllFilters() {
   activeSubtype = '';
   subfilterBar.style.display = 'none';
   subtypeChips.innerHTML = '';
-  // Exit Find Mass mode
-  if (findMassMode) {
-    findMassMode = false;
-    const fmBtn = document.getElementById('findMassBtn');
-    if (fmBtn) { fmBtn.classList.remove('active'); fmBtn.textContent = '🔍 Find a Mass'; }
-  }
   setQuickActive(null);
   render();
 }
@@ -4644,106 +4465,6 @@ function updateFavChip() {
   }
 }
 
-function toggleFindMass() {
-  findMassMode = !findMassMode;
-  const btn = document.getElementById('findMassBtn');
-  if (btn) {
-    btn.classList.toggle('active', findMassMode);
-    btn.textContent = findMassMode ? '✕ Exit Mass Finder' : '🔍 Find a Mass';
-  }
-  if (findMassMode) {
-    // Auto-select Mass category
-    activeCategory = 'mass';
-    activeSubtype = '';
-    categoryChips.querySelectorAll('[data-cat]').forEach(c => c.classList.toggle('active', c.dataset.cat === 'mass'));
-    subfilterBar.style.display = 'none';
-  }
-  render();
-}
-
-function renderFindMassResults(filtered, dayFilter, timeFilter, langFilter) {
-  // Require at least a day selection before showing results
-  if (!dayFilter) {
-    return '<div class="fml-wrapper" style="padding:32px 20px;text-align:center;">'
-      + '<div style="font-size:1.4rem;margin-bottom:8px;">🔍</div>'
-      + '<div style="font-weight:700;color:var(--navy);font-size:1rem;margin-bottom:6px;">Find a Mass</div>'
-      + '<div style="color:var(--text-light);font-size:0.85rem;">Select a <strong>day</strong> from the filter above to find Masses near you.</div>'
-      + '</div>';
-  }
-
-  const MASS_TYPES = ['sunday_mass','daily_mass','communion_service','holy_thursday_mass','good_friday_service','easter_vigil_mass'];
-  const rows = [];
-
-  for (const p of filtered) {
-    const dist = getDistMiles(p);
-    const loc = p.locations && p.locations[0];
-    let churchName = (loc && loc.name) ? loc.name : p.name;
-    if (/Cathedral|Basilica/i.test(churchName)) churchName = churchName.replace(/\s+Church$/i, '');
-
-    for (const svc of (p.services || [])) {
-      if (!MASS_TYPES.includes(svc.type)) continue;
-      if (!isCurrentSeason(svc)) continue;
-      if (!serviceMatchesDay(svc, dayFilter)) continue;
-      if (!serviceMatchesTime(svc, timeFilter)) continue;
-      if (langFilter && svc.language !== langFilter) continue;
-      if (!svc.time) continue;
-
-      const days = getDays(svc);
-      const dayStr = fmtDays(days);
-      rows.push({ p, svc, dist, churchName, dayStr, days });
-    }
-  }
-
-  // Sort: by distance if location active, otherwise by time
-  if (userLat !== null) {
-    rows.sort((a, b) => {
-      const dd = (a.dist || 999) - (b.dist || 999);
-      if (Math.abs(dd) > 0.5) return dd;
-      return (a.svc.time || '').localeCompare(b.svc.time || '');
-    });
-  } else {
-    rows.sort((a, b) => (a.svc.time || '').localeCompare(b.svc.time || ''));
-  }
-
-  // Limit to top 3
-  const topRows = rows.slice(0, 3);
-
-  if (!topRows.length) {
-    return '<div class="fml-wrapper" style="padding:24px 20px;text-align:center;">'
-      + '<div class="cross" style="font-size:1.2rem;margin-bottom:6px;">✝</div>'
-      + '<div style="color:var(--text-light);font-size:0.85rem;">No Masses found for that day/time. Try adjusting your filters.</div>'
-      + '</div>';
-  }
-
-  let html = '<div class="fml-wrapper"><table class="fml-table"><tbody>';
-
-  for (const r of topRows) {
-    const timeStr = fmt12(r.svc.time);
-    const lang = (r.svc.language && r.svc.language !== 'en')
-      ? ' <span class="fml-lang">' + (LANG_LABELS[r.svc.language] || r.svc.language) + '</span>' : '';
-    const typeNote = (r.svc.type !== 'sunday_mass' && r.svc.type !== 'daily_mass')
-      ? ' <span class="fml-type">' + (SERVICE_LABELS[r.svc.type] || '') + '</span>' : '';
-    const distStr = (userLat !== null && r.dist !== null)
-      ? '<span class="fml-dist">' + r.dist.toFixed(1) + ' mi</span>' : '';
-
-    html += '<tr onclick="toggleFindMass(); setTimeout(() => scrollToParish(\'' + r.p.id + '\'), 150);">';
-    html += '<td style="width:1%"><span class="fml-time">' + timeStr + '</span></td>';
-    html += '<td><span class="fml-name">' + r.churchName + '</span> <span class="fml-town">' + r.p.town + '</span>' + lang + typeNote + '</td>';
-    if (distStr) html += '<td style="width:1%;text-align:right">' + distStr + '</td>';
-    html += '</tr>';
-  }
-
-  html += '</tbody></table></div>';
-
-  if (rows.length > 3) {
-    html += '<div style="text-align:center;padding:8px;color:var(--text-light);font-size:0.75rem;">'
-      + 'Showing top 3 of ' + rows.length + ' results'
-      + '</div>';
-  }
-
-  return html;
-}
-
 loadFavorites();
 
 // ═══════════════════════════════════════════════════
@@ -4803,16 +4524,13 @@ function renderNowView() {
 
   // Update location button state
   const locBtn = document.getElementById('nowLocationBtn');
-  const nowRadiusSel = document.getElementById('nowRadiusSelect');
   if (locBtn) {
     if (userLat !== null) {
       locBtn.textContent = '📍 Location Active';
       locBtn.classList.add('active');
-      if (nowRadiusSel) nowRadiusSel.style.display = '';
     } else {
       locBtn.textContent = '📍 Enable Location';
       locBtn.classList.remove('active');
-      if (nowRadiusSel) nowRadiusSel.style.display = 'none';
     }
   }
 
@@ -4842,7 +4560,7 @@ function renderNowView() {
 
   function svcMatchesNowMode(svc) {
     if (nowMode === 'all') return true;
-    if (nowMode === 'mass') return svc.type === 'sunday_mass' || svc.type === 'daily_mass' || svc.type === 'holy_thursday_mass' || svc.type === 'good_friday_service' || svc.type === 'easter_vigil_mass';
+    if (nowMode === 'mass') return svc.type === 'sunday_mass' || svc.type === 'daily_mass';
     if (nowMode === 'confession') return svc.type === 'confession';
     if (nowMode === 'adoration') return svc.type === 'adoration' || svc.type === 'holy_hour';
     if (nowMode === 'seasonal') return svc.seasonal && svc.seasonal.is_seasonal && isCurrentSeason(svc);
@@ -4881,8 +4599,8 @@ function renderNowView() {
           if (svcLoc && svcLoc.lat) { svcLat = svcLoc.lat; svcLng = svcLoc.lng; }
         }
         dist = haversine(userLat, userLng, svcLat, svcLng);
-        // With location active: only show within filterRadius miles
-        if (dist > filterRadius) continue;
+        // With location active: only show within 10 miles
+        if (dist > 10) continue;
       }
 
       let displayName = (primaryLoc && primaryLoc.name) || p.name;
@@ -5194,20 +4912,6 @@ function renderYCView() {
 var appMap = null;
 var mapMarkers = [];
 var mapFilter = '';
-var mapClusterGroup = null;
-var filterRadius = 10; // default miles for What's Now; map default is 25
-
-function setFilterRadius(val) {
-  filterRadius = parseInt(val, 10);
-  // Sync both dropdowns
-  var nowSel = document.getElementById('nowRadiusSelect');
-  var mapSel = document.getElementById('mapRadiusSelect');
-  if (nowSel) nowSel.value = filterRadius;
-  if (mapSel) mapSel.value = filterRadius;
-  // Re-render affected views
-  if (currentView === 'now') renderNowView();
-  if (mapInitialized && appMap) renderMapMarkers();
-}
 
 function initMap() {
   if (mapInitialized) return;
@@ -5221,16 +4925,6 @@ function initMap() {
     maxZoom: 18,
   }).addTo(appMap);
 
-  // Init marker cluster group
-  mapClusterGroup = L.markerClusterGroup({
-    maxClusterRadius: 40,
-    spiderfyOnMaxZoom: true,
-    showCoverageOnHover: false,
-    zoomToBoundsOnClick: true,
-    disableClusteringAtZoom: 15
-  });
-  appMap.addLayer(mapClusterGroup);
-
   // Invalidate size after view becomes visible
   setTimeout(() => { appMap.invalidateSize(); }, 200);
 
@@ -5241,8 +4935,6 @@ function initMap() {
     L.circleMarker([userLat, userLng], {
       radius: 8, fillColor: '#4285F4', fillOpacity: 0.9, color: '#fff', weight: 2
     }).addTo(appMap).bindPopup('You are here');
-    var mapRad = document.getElementById('mapRadiusSelect');
-    if (mapRad) mapRad.style.display = '';
   }
 }
 
@@ -5250,7 +4942,7 @@ function renderMapMarkers() {
   if (!appMap) return;
 
   // Clear existing
-  if (mapClusterGroup) mapClusterGroup.clearLayers();
+  mapMarkers.forEach(m => appMap.removeLayer(m));
   mapMarkers = [];
 
   const markerColors = {
@@ -5273,13 +4965,6 @@ function renderMapMarkers() {
     }
 
     const loc = p.locations[0];
-
-    // Distance radius filter (only when location is active)
-    if (userLat !== null) {
-      const dist = haversine(userLat, userLng, loc.lat, loc.lng);
-      if (dist > filterRadius) continue;
-    }
-
     let churchName = loc.name || p.name;
     if (/Cathedral|Basilica/i.test(churchName)) churchName = churchName.replace(/\s+Church$/i, '');
 
@@ -5302,7 +4987,7 @@ function renderMapMarkers() {
       fillOpacity: 0.85,
       color: '#fff',
       weight: 2,
-    });
+    }).addTo(appMap);
 
     marker.bindPopup(`
       <h3>${churchName}</h3>
@@ -5316,7 +5001,6 @@ function renderMapMarkers() {
     marker.on('mouseout', function() { if (!this.isPopupOpen()) { this.setRadius(12); this.setStyle({ weight: 2 }); } });
 
     mapMarkers.push(marker);
-    mapClusterGroup.addLayer(marker);
   }
 }
 
@@ -5340,10 +5024,8 @@ window.setNowMode       = setNowMode;
 window.toggleNowOverflow = toggleNowOverflow;
 window.renderYCView     = renderYCView;
 window.setMapFilter     = setMapFilter;
-window.setFilterRadius  = setFilterRadius;
 window.toggleFavorite   = toggleFavorite;
 window.toggleFavFilter  = toggleFavFilter;
-window.toggleFindMass   = toggleFindMass;
 window.shareCurrentView  = shareCurrentView;
 window.toggleVerifyDetail = toggleVerifyDetail;
 
