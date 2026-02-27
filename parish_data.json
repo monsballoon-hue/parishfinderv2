@@ -88,7 +88,8 @@
           "zip": "01220",
           "is_accessible": null,
           "lat": 42.6237,
-          "lng": -73.1176
+          "lng": -73.1176,
+          "short_name": "Notre Dame"
         },
         {
           "id": "st-stanislaus-church-adams",
@@ -100,7 +101,8 @@
           "zip": "01220",
           "is_accessible": null,
           "lat": 42.6237,
-          "lng": -73.1176
+          "lng": -73.1176,
+          "short_name": "St. Stan's"
         },
         {
           "id": "st-marys-church-adams",
@@ -112,7 +114,8 @@
           "zip": "01225",
           "is_accessible": null,
           "lat": 42.6237,
-          "lng": -73.1176
+          "lng": -73.1176,
+          "short_name": "St. Mary's"
         }
       ],
       "contact": {
@@ -4497,7 +4500,8 @@
           "is_accessible": true,
           "lat": 42.4736,
           "lng": -73.166,
-          "accessibility_notes": "Hearing assist devices available — inquire at sacristy"
+          "accessibility_notes": "Hearing assist devices available — inquire at sacristy",
+          "short_name": "St. Agnes"
         },
         {
           "id": "st-patricks-chapel-hinsdale",
@@ -4509,7 +4513,8 @@
           "zip": "01235",
           "is_accessible": null,
           "lat": 42.4373,
-          "lng": -73.1215
+          "lng": -73.1215,
+          "short_name": "St. Patrick's"
         }
       ],
       "contact": {
@@ -5828,7 +5833,8 @@
           "type": "church",
           "address": "1065 Springfield Street, Feeding Hills, MA 01030",
           "lat": 42.07,
-          "lng": -72.675
+          "lng": -72.675,
+          "short_name": "Sacred Heart"
         },
         {
           "id": "sacredheart-office-feedinghills",
@@ -5836,7 +5842,8 @@
           "type": "office",
           "address": "1061 Springfield Street, Feeding Hills, MA 01030",
           "lat": 42.07,
-          "lng": -72.6752
+          "lng": -72.6752,
+          "short_name": "Parish Center"
         },
         {
           "id": "sacredheart-rectory-feedinghills",
@@ -6620,7 +6627,8 @@
           "type": "church",
           "address": "221 Federal Street, Greenfield, MA 01301",
           "lat": 42.5876,
-          "lng": -72.5987
+          "lng": -72.5987,
+          "short_name": "BSC"
         },
         {
           "id": "holy-trinity-church-greenfield",
@@ -6628,7 +6636,8 @@
           "type": "church",
           "address": "135 Main Street, Greenfield, MA 01301",
           "lat": 42.588,
-          "lng": -72.601
+          "lng": -72.601,
+          "short_name": "HTC"
         },
         {
           "id": "adoration-chapel-greenfield",
@@ -6637,7 +6646,8 @@
           "address": "221 Federal Street, Greenfield, MA 01301",
           "notes": "Located at Blessed Sacrament Church site. Open daily 6 AM-10 PM. Additional coverage being sought.",
           "lat": 42.5876,
-          "lng": -72.5987
+          "lng": -72.5987,
+          "short_name": "PAC"
         },
         {
           "id": "blessed-trinity-pastoral-center",
@@ -6713,7 +6723,6 @@
           "location_id": "holy-trinity-church-greenfield",
           "language": "en",
           "rite": "novus_ordo",
-          "notes": "Holy Trinity Church",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -6730,7 +6739,6 @@
           "location_id": "holy-trinity-church-greenfield",
           "language": "en",
           "rite": "novus_ordo",
-          "notes": "Holy Trinity Church",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -6747,7 +6755,6 @@
           "location_id": "blessed-sacrament-church-greenfield",
           "language": "en",
           "rite": "novus_ordo",
-          "notes": "Blessed Sacrament Church",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -6764,7 +6771,6 @@
           "location_id": "blessed-sacrament-church-greenfield",
           "language": "en",
           "rite": "novus_ordo",
-          "notes": "Blessed Sacrament Church",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -6781,7 +6787,6 @@
           "location_id": "blessed-sacrament-church-greenfield",
           "language": "en",
           "rite": "novus_ordo",
-          "notes": "Blessed Sacrament Church",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -6798,7 +6803,6 @@
           "location_id": "holy-trinity-church-greenfield",
           "language": "en",
           "rite": "novus_ordo",
-          "notes": "Holy Trinity Church",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -6832,7 +6836,6 @@
           "location_id": "blessed-sacrament-church-greenfield",
           "language": "en",
           "rite": "novus_ordo",
-          "notes": "Blessed Sacrament Church (per 'Our Sacraments' section; overrides per-church listing which said HTC)",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -6849,7 +6852,6 @@
           "location_id": "blessed-sacrament-church-greenfield",
           "language": "en",
           "rite": "novus_ordo",
-          "notes": "Blessed Sacrament Church (per 'Our Sacraments' section; overrides per-church listing which said HTC)",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -6866,7 +6868,6 @@
           "location_id": "holy-trinity-church-greenfield",
           "language": "en",
           "rite": "novus_ordo",
-          "notes": "Holy Trinity Church",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -6883,7 +6884,6 @@
           "location_id": "holy-trinity-church-greenfield",
           "language": "en",
           "rite": "novus_ordo",
-          "notes": "Holy Trinity Church",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -6900,7 +6900,6 @@
           "location_id": "holy-trinity-church-greenfield",
           "language": "en",
           "rite": "novus_ordo",
-          "notes": "Holy Trinity Church",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -6917,7 +6916,6 @@
           "location_id": "holy-trinity-church-greenfield",
           "language": "en",
           "rite": "novus_ordo",
-          "notes": "Holy Trinity Church",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -9400,7 +9398,8 @@
           "zip": "01238",
           "is_accessible": null,
           "lat": 42.304,
-          "lng": -73.248
+          "lng": -73.248,
+          "short_name": "St. Mary's"
         },
         {
           "id": "st-joseph-church-stockbridge",
@@ -9412,7 +9411,8 @@
           "zip": "01262",
           "is_accessible": null,
           "lat": 42.2818,
-          "lng": -73.3073
+          "lng": -73.3073,
+          "short_name": "St. Joseph's"
         }
       ],
       "contact": {
@@ -9611,7 +9611,8 @@
           "zip": "01240",
           "is_accessible": null,
           "lat": 42.3534,
-          "lng": -73.2854
+          "lng": -73.2854,
+          "short_name": "St. Ann's"
         },
         {
           "id": "st-vincent-de-paul-church-lenox-dale",
@@ -9623,7 +9624,8 @@
           "zip": "01242",
           "is_accessible": null,
           "lat": 42.3284,
-          "lng": -73.2665
+          "lng": -73.2665,
+          "short_name": "St. Vincent's"
         },
         {
           "id": "st-patrick-church-west-stockbridge",
@@ -9635,7 +9637,8 @@
           "zip": "01266",
           "is_accessible": null,
           "lat": 42.3454,
-          "lng": -73.3668
+          "lng": -73.3668,
+          "short_name": "St. Patrick's"
         },
         {
           "id": "st-ann-family-center-lenox",
@@ -9647,7 +9650,8 @@
           "zip": "01240",
           "is_accessible": null,
           "lat": 42.3534,
-          "lng": -73.2854
+          "lng": -73.2854,
+          "short_name": "Family Center"
         }
       ],
       "contact": {
@@ -9721,7 +9725,6 @@
           "end_time": null,
           "location_id": "st-ann-family-center-lenox",
           "language": "en",
-          "notes": "St. Ann Family Center",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -9737,7 +9740,6 @@
           "end_time": null,
           "location_id": "st-ann-family-center-lenox",
           "language": "en",
-          "notes": "St. Ann Family Center",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -9753,7 +9755,6 @@
           "end_time": null,
           "location_id": "st-ann-family-center-lenox",
           "language": "en",
-          "notes": "St. Ann Family Center",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -9769,7 +9770,6 @@
           "end_time": null,
           "location_id": "st-ann-family-center-lenox",
           "language": "en",
-          "notes": "St. Ann Family Center",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
@@ -11760,7 +11760,8 @@
           "zip": "01060",
           "is_accessible": null,
           "lat": 42.3209,
-          "lng": -72.6412
+          "lng": -72.6412,
+          "short_name": "Church"
         },
         {
           "id": "seas-chapel-florence",
@@ -11772,7 +11773,8 @@
           "zip": "01062",
           "is_accessible": null,
           "lat": 42.3209,
-          "lng": -72.6784
+          "lng": -72.6784,
+          "short_name": "Chapel"
         },
         {
           "id": "seas-office-florence",
@@ -14617,7 +14619,8 @@
           "state": "MA",
           "zip": "01340",
           "lat": 42.67,
-          "lng": -72.695
+          "lng": -72.695,
+          "short_name": "St. John's"
         },
         {
           "id": "st-christopher-church-charlemont",
@@ -14628,7 +14631,8 @@
           "state": "MA",
           "zip": "01339",
           "lat": 42.629,
-          "lng": -72.87
+          "lng": -72.87,
+          "short_name": "St. Christopher's"
         }
       ],
       "contact": {
@@ -14909,7 +14913,8 @@
           "zip": "01373",
           "is_accessible": null,
           "lat": 42.4773,
-          "lng": -72.6077
+          "lng": -72.6077,
+          "short_name": "Holy Family"
         },
         {
           "id": "st-marks-mission-south-deerfield",
@@ -14921,7 +14926,8 @@
           "zip": "01373",
           "is_accessible": null,
           "lat": 42.478,
-          "lng": -72.606
+          "lng": -72.606,
+          "short_name": "St. Mark's"
         }
       ],
       "contact": {
@@ -14995,7 +15001,6 @@
           "end_time": null,
           "location_id": "st-marks-mission-south-deerfield",
           "language": "en",
-          "notes": "St. Mark's Mission",
           "seasonal": {
             "is_seasonal": false,
             "season": "year_round"
