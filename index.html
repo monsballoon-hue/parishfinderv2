@@ -2011,6 +2011,169 @@
     color: rgba(255,255,255,0.5);
     margin-top: 3px;
   }
+  /* YC View — filters, series cards */
+  .yc-view-filters {
+    display: flex;
+    gap: 6px;
+    padding: 0 0 8px;
+  }
+  .yc-filter-btn {
+    background: transparent;
+    border: 1px solid var(--mid-gray);
+    color: var(--text-light);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .yc-filter-btn.active {
+    background: linear-gradient(135deg, #e8a838 0%, #d4831a 100%);
+    color: #1a1a2e;
+    border-color: #e8a838;
+  }
+  .yc-series-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .yc-series-card {
+    background: #fff;
+    border: 1px solid #e8dcc8;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .yc-series-header {
+    background: linear-gradient(135deg, #e8a838 0%, #d4831a 100%);
+    color: #1a1a2e;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .yc-series-header-info { flex: 1; min-width: 0; }
+  .yc-series-title {
+    font-size: 1.08rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 2px;
+  }
+  .yc-series-parish {
+    font-size: 0.84rem;
+    opacity: 0.75;
+    font-weight: 500;
+  }
+  .yc-series-dist {
+    font-size: 0.78rem;
+    font-weight: 700;
+    opacity: 0.7;
+    white-space: nowrap;
+  }
+  .yc-series-body {
+    padding: 14px 16px;
+  }
+  .yc-series-next {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .yc-series-next-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #b8860b;
+    flex-shrink: 0;
+  }
+  .yc-series-next-detail {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .yc-series-time {
+    font-size: 0.9rem;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .yc-series-social {
+    display: inline-block;
+    background: rgba(232,168,56,0.15);
+    color: #b8860b;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin: 4px 0;
+  }
+  .yc-series-desc {
+    font-size: 0.84rem;
+    color: var(--text-light);
+    line-height: 1.4;
+    margin: 6px 0;
+  }
+  .yc-series-note {
+    font-size: 0.78rem;
+    color: var(--mid-gray);
+    font-style: italic;
+    margin: 4px 0;
+  }
+  .yc-series-future {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px solid #f0ead6;
+  }
+  .yc-series-future strong { color: var(--text); font-weight: 600; }
+  .yc-series-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+  }
+  .yc-series-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid #e8dcc8;
+    background: #faf8f4;
+    color: var(--text);
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+  .yc-series-btn:hover { background: #f0ead6; }
+  .yc-series-btn.primary {
+    background: linear-gradient(135deg, #e8a838 0%, #d4831a 100%);
+    color: #1a1a2e;
+    border: none;
+    font-weight: 700;
+  }
+  .yc-series-flyer {
+    margin: 10px 0 6px;
+  }
+  .yc-series-flyer img {
+    max-width: 100%;
+    border-radius: 6px;
+    border: 1px solid #e8dcc8;
+  }
+  .yc-series-flyer a {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--navy);
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
   /* YC badge on parish cards — sits above the card header as its own strip */
   .parish-yc-banner {
     background: linear-gradient(135deg, #e8a838 0%, #d4831a 100%);
@@ -2689,7 +2852,13 @@
       <h2><span class="yc-badge" style="font-size:0.7rem;margin-right:6px;">YC</span> Young &amp; Catholic</h2>
       <span style="font-size:0.78rem;color:var(--text-light);" id="ycViewSubtitle"></span>
     </div>
-    <div class="now-timeline" id="ycViewTimeline"></div>
+    <div class="yc-view-filters" id="ycViewFilters">
+      <button class="yc-filter-btn active" data-yc-range="upcoming" onclick="setYcRange('upcoming')">All Upcoming</button>
+      <button class="yc-filter-btn" data-yc-range="week" onclick="setYcRange('week')">This Week</button>
+      <button class="yc-filter-btn" data-yc-range="month" onclick="setYcRange('month')">This Month</button>
+    </div>
+    <div id="ycViewMap" style="height:180px;border-radius:8px;margin:12px 0;display:none;"></div>
+    <div class="yc-series-grid" id="ycViewTimeline"></div>
   </div>
 </div>
 
@@ -3160,7 +3329,31 @@ function isServiceActive(svc) {
 
 function groupServices(services) {
   const groups = { mass:[], confession:[], adoration:[], devotion:[], community:[], other:[] };
+  // Pre-pass: remove cross-type duplicates in devotion family
+  // When devotion + a more specific type (divine_mercy, holy_hour, benediction) share same day+time,
+  // keep the specific type and drop the generic 'devotion' entry
+  const DEVOTION_SPECIFIC = new Set(['divine_mercy','holy_hour','benediction','divine_mercy_chaplet']);
+  const specificKeys = new Set();
   for (const svc of services) {
+    if (!isServiceActive(svc)) continue;
+    if (DEVOTION_SPECIFIC.has(svc.type)) {
+      const days = getDays(svc);
+      for (const d of (days.length ? days : [''])) {
+        specificKeys.add(`${d}|${svc.time || ''}`);
+      }
+    }
+  }
+  const filtered = services.filter(svc => {
+    if (!isServiceActive(svc)) return true; // let groupServices skip these below
+    if (svc.type !== 'devotion') return true;
+    const days = getDays(svc);
+    for (const d of (days.length ? days : [''])) {
+      if (specificKeys.has(`${d}|${svc.time || ''}`)) return false;
+    }
+    return true;
+  });
+
+  for (const svc of filtered) {
     if (!isServiceActive(svc)) continue;
     let placed = false;
     for (const [key, types] of Object.entries(CARD_TYPE_GROUPS)) {
@@ -3168,35 +3361,42 @@ function groupServices(services) {
     }
     if (!placed) groups.other.push(svc);
   }
-  // Deduplicate: when same type+day+time exists as both year_round and a seasonal variant,
-  // keep the year_round one and drop the seasonal duplicate (it's redundant)
+  // Deduplicate within each group:
+  // Remove exact duplicates (same type+day+time); prefer year_round over seasonal, prefer more notes
   for (const key of Object.keys(groups)) {
     const arr = groups[key];
     if (arr.length < 2) continue;
-    const yrKeys = new Set();
+    const seen = new Map(); // key -> best service
     for (const s of arr) {
       const sea = s.seasonal;
-      const isYR = !sea || !sea.is_seasonal || sea.season === 'year_round';
-      if (isYR) {
-        const days = getDays(s);
-        for (const d of (days.length ? days : [''])) {
-          yrKeys.add(`${s.type}|${d}|${s.time || ''}`);
+      const seasonTag = (sea && sea.is_seasonal && sea.season !== 'year_round') ? sea.season : 'yr';
+      const days = getDays(s);
+      const dayList = days.length ? days : [''];
+      for (const d of dayList) {
+        const k = `${s.type}|${d}|${s.time || ''}`;
+        if (!seen.has(k)) {
+          seen.set(k, s);
+        } else {
+          const existing = seen.get(k);
+          const exSea = existing.seasonal;
+          const exTag = (exSea && exSea.is_seasonal && exSea.season !== 'year_round') ? exSea.season : 'yr';
+          if (seasonTag === 'yr' && exTag !== 'yr') {
+            seen.set(k, s);
+          } else if (seasonTag === 'yr' && exTag === 'yr') {
+            const sInfo = (s.notes || '').length + (s.end_time ? 1 : 0);
+            const eInfo = (existing.notes || '').length + (existing.end_time ? 1 : 0);
+            if (sInfo > eInfo) seen.set(k, s);
+          }
         }
       }
     }
-    if (yrKeys.size > 0) {
-      groups[key] = arr.filter(s => {
-        const sea = s.seasonal;
-        const isYR = !sea || !sea.is_seasonal || sea.season === 'year_round';
-        if (isYR) return true; // always keep year_round
-        // Check if a year_round version covers this exact slot
-        const days = getDays(s);
-        for (const d of (days.length ? days : [''])) {
-          if (yrKeys.has(`${s.type}|${d}|${s.time || ''}`)) return false;
-        }
-        return true;
-      });
+    const winners = new Set(seen.values());
+    const unique = [];
+    const refs = new Set();
+    for (const s of arr) {
+      if (winners.has(s) && !refs.has(s)) { unique.push(s); refs.add(s); }
     }
+    groups[key] = unique;
   }
   return groups;
 }
@@ -5600,77 +5800,255 @@ updateClearFiltersBtn = function() {
 // YC EVENTS VIEW
 // ═══════════════════════════════════════════════════
 
+var ycRange = 'upcoming'; // 'upcoming' | 'week' | 'month'
+var ycMapInitialized = false;
+var ycMap = null;
+
+function setYcRange(range) {
+  ycRange = range;
+  document.querySelectorAll('[data-yc-range]').forEach(b =>
+    b.classList.toggle('active', b.dataset.ycRange === range)
+  );
+  renderYCView();
+}
+
 function renderYCView() {
   const ycEvents = (PARISH_DATA.yc_events || []);
   const today = new Date(); today.setHours(0,0,0,0);
 
+  // Date range filtering
+  let rangeEnd = null;
+  if (ycRange === 'week') {
+    rangeEnd = new Date(today);
+    rangeEnd.setDate(rangeEnd.getDate() + 7);
+  } else if (ycRange === 'month') {
+    rangeEnd = new Date(today);
+    rangeEnd.setMonth(rangeEnd.getMonth() + 1);
+  }
+
   const upcoming = ycEvents.filter(evt => {
     if (!evt.date) return false;
     const evtDate = new Date(evt.date + 'T00:00:00');
-    return evtDate >= today;
+    if (evtDate < today) return false;
+    if (rangeEnd && evtDate > rangeEnd) return false;
+    return true;
   }).sort((a,b) => a.date.localeCompare(b.date) || (a.time||'').localeCompare(b.time||''));
 
+  // Group into series (same title + same parish)
+  const seriesMap = new Map();
+  for (const evt of upcoming) {
+    const key = `${evt.parish_id}||${evt.title}`;
+    if (!seriesMap.has(key)) seriesMap.set(key, []);
+    seriesMap.get(key).push(evt);
+  }
+
   const subtitle = document.getElementById('ycViewSubtitle');
-  if (subtitle) subtitle.textContent = upcoming.length + ' upcoming event' + (upcoming.length !== 1 ? 's' : '');
+  if (subtitle) subtitle.textContent = seriesMap.size + ' event series · ' + upcoming.length + ' date' + (upcoming.length !== 1 ? 's' : '');
 
   const container = document.getElementById('ycViewTimeline');
-  if (!upcoming.length) {
-    container.innerHTML = '<div class="now-empty"><div class="cross">✝</div><p>No upcoming YC events.</p></div>';
+  if (!seriesMap.size) {
+    container.innerHTML = '<div class="now-empty"><div class="cross">✝</div><p>No ' + (ycRange === 'upcoming' ? 'upcoming' : ycRange === 'week' ? 'events this week' : 'events this month') + ' YC events.</p></div>';
     return;
   }
 
-  // Group by date
-  let html = '';
-  let lastDateStr = '';
-
-  for (const evt of upcoming) {
-    const d = new Date(evt.date + 'T12:00:00');
-    const dayName = d.toLocaleString('en-US', { weekday: 'long' });
-    const month = d.toLocaleString('en-US', { month: 'short' });
-    const dayNum = d.getDate();
-    const dateStr = `${dayName}, ${month} ${dayNum}`;
-
-    if (dateStr !== lastDateStr) {
-      html += `<div class="now-section-label" style="color:#b8860b;border-bottom-color:rgba(232,168,56,0.3);">${dateStr}</div>`;
-      lastDateStr = dateStr;
-    }
-
-    let placeName = '';
-    if (evt.venue_name) placeName = evt.venue_name;
-    else if (evt.parish_id) {
-      const ep = parishes.find(x => x.id === evt.parish_id);
-      if (ep && ep.locations && ep.locations[0]) placeName = ep.locations[0].name;
-    }
-
-    let distHtml = '';
-    if (userLat !== null && evt.parish_id) {
-      const ep = parishes.find(x => x.id === evt.parish_id);
+  // Build series data with distance for sorting
+  const seriesArr = [];
+  for (const [key, evts] of seriesMap) {
+    const first = evts[0];
+    let dist = Infinity;
+    if (userLat !== null && first.parish_id) {
+      const ep = parishes.find(x => x.id === first.parish_id);
       if (ep) {
-        const eLoc = evt.location_id
-          ? (ep.locations || []).find(l => l.id === evt.location_id)
+        const eLoc = first.location_id
+          ? (ep.locations || []).find(l => l.id === first.location_id)
           : (ep.locations && ep.locations[0]);
         if (eLoc && eLoc.lat) {
-          const evtDist = haversine(userLat, userLng, eLoc.lat, eLoc.lng);
-          distHtml = `<span class="now-item-dist${evtDist <= 5 ? ' near' : ''}">${evtDist.toFixed(1)} mi</span>`;
+          dist = haversine(userLat, userLng, eLoc.lat, eLoc.lng);
         }
       }
     }
+    seriesArr.push({ key, evts, dist, first });
+  }
 
-    const socialNote = evt.social ? ' · Social after' : '';
-    const noteText = evt.notes ? `<div style="font-size:0.72rem;color:var(--mid-gray);font-style:italic;margin-top:2px;">${evt.notes}</div>` : '';
+  // Sort by proximity if location available, otherwise by next date
+  if (userLat !== null) {
+    seriesArr.sort((a, b) => a.dist - b.dist);
+  }
 
-    html += `<div class="now-item yc-event" style="flex-wrap:wrap;">
-      <div class="now-item-time"><div class="time-big">${evt.time ? fmt12(evt.time) : ''}</div><span class="time-away">${evt.end_time ? '– ' + fmt12(evt.end_time) : ''}</span></div>
-      <div class="now-item-info"><div class="item-type" style="color:#e8a838;">${evt.type || 'Event'}${socialNote}</div><div class="item-name">${evt.title}</div><div class="item-location">${placeName}</div>${noteText}</div>
-      ${distHtml}
-      <div class="yc-item-actions">
-        ${evt.date && evt.time ? `<a class="yc-action-btn" href="${generateICS(evt.title, evt.date, evt.time, evt.end_time || null, placeName, evt.notes || '')}" download="${(evt.title||'event').replace(/[^a-zA-Z0-9]/g,'_')}.ics" onclick="event.stopPropagation();">📅 Add to Calendar</a>` : ''}
-        ${evt.parish_id ? `<button class="yc-action-btn" onclick="event.stopPropagation(); switchAppView('churches'); setTimeout(() => scrollToParish('${evt.parish_id}'), 400);">⛪ View Church</button>` : ''}
+  // Render series cards
+  let html = '';
+  for (const series of seriesArr) {
+    const { evts, dist, first } = series;
+    const next = evts[0];
+
+    // Parish info
+    let parishName = '', placeName = '', parishId = first.parish_id;
+    let loc = null;
+    if (parishId) {
+      const ep = parishes.find(x => x.id === parishId);
+      if (ep) {
+        parishName = ep.name;
+        loc = first.location_id
+          ? (ep.locations || []).find(l => l.id === first.location_id)
+          : (ep.locations && ep.locations[0]);
+        placeName = (loc && loc.name) || ep.name;
+      }
+    }
+    if (first.venue_name) placeName = first.venue_name;
+
+    // Distance badge
+    const distHtml = (dist < Infinity) ? `<span class="yc-series-dist">${dist.toFixed(1)} mi</span>` : '';
+
+    // Next date formatting
+    const nextDate = new Date(next.date + 'T12:00:00');
+    const nextDateStr = nextDate.toLocaleString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+
+    // Time
+    const timeStr = next.time ? fmt12(next.time) : '';
+    const endStr = next.end_time ? ` – ${fmt12(next.end_time)}` : '';
+
+    // Social tag
+    const socialHtml = next.social ? '<span class="yc-series-social">✦ Social after</span>' : '';
+
+    // Description (new field)
+    const descHtml = next.description ? `<div class="yc-series-desc">${next.description}</div>` : '';
+
+    // Notes
+    const noteHtml = next.notes ? `<div class="yc-series-note">${next.notes}</div>` : '';
+
+    // Flyer support (new field)
+    let flyerHtml = '';
+    if (next.flyer_url) {
+      const isPdf = next.flyer_url.toLowerCase().endsWith('.pdf');
+      if (isPdf) {
+        flyerHtml = `<div class="yc-series-flyer"><a href="${next.flyer_url}" target="_blank" rel="noopener">📄 View Event Flyer (PDF)</a></div>`;
+      } else {
+        flyerHtml = `<div class="yc-series-flyer"><img src="${next.flyer_url}" alt="${next.title} flyer" loading="lazy"></div>`;
+      }
+    }
+
+    // Future dates
+    let futureHtml = '';
+    if (evts.length > 1) {
+      const futureDates = evts.slice(1).map(e => {
+        const fd = new Date(e.date + 'T12:00:00');
+        return `${fd.toLocaleString('en-US', { month: 'short' })} ${fd.getDate()}`;
+      }).join(', ');
+      const freqLabel = evts.length >= 3 ? 'Monthly' : 'Recurring';
+      futureHtml = `<div class="yc-series-future"><strong>${freqLabel}</strong> · also ${futureDates}</div>`;
+    }
+
+    // Calendar URL for next event
+    const calLoc = placeName + (loc ? ', ' + (loc.address || '') : '');
+    let calBtn = '';
+    if (next.date && next.time) {
+      const icsUrl = generateICS(next.title, next.date, next.time, next.end_time || null, calLoc, next.notes || '');
+      calBtn = `<a class="yc-series-btn primary" href="${icsUrl}" download="${(next.title||'event').replace(/[^a-zA-Z0-9]/g,'_')}.ics" onclick="event.stopPropagation();">📅 Add to Calendar</a>`;
+    }
+
+    // Directions
+    const addr = loc ? loc.address : (first.venue_address || placeName);
+    const mapsUrl = /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)
+      ? `https://maps.apple.com/?q=${encodeURIComponent(addr)}`
+      : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addr)}`;
+    const directionsBtn = `<a class="yc-series-btn" href="${mapsUrl}" target="_blank" rel="noopener">📍 Directions</a>`;
+
+    // View church button
+    const churchBtn = parishId ? `<button class="yc-series-btn" onclick="event.stopPropagation(); switchAppView('churches'); setTimeout(() => scrollToParish('${parishId}'), 400);">⛪ View Church</button>` : '';
+
+    html += `<div class="yc-series-card">
+      <div class="yc-series-header">
+        <div class="yc-series-header-info">
+          <div class="yc-series-title">${next.title}</div>
+          <div class="yc-series-parish">${placeName}${parishName && placeName !== parishName ? ' · ' + parishName : ''}</div>
+        </div>
+        ${distHtml}
+      </div>
+      <div class="yc-series-body">
+        <div class="yc-series-next">
+          <span class="yc-series-next-label">Next</span>
+          <span class="yc-series-next-detail">${nextDateStr}</span>
+        </div>
+        <div class="yc-series-time">${timeStr}${endStr}</div>
+        ${socialHtml}
+        ${descHtml}
+        ${noteHtml}
+        ${flyerHtml}
+        ${futureHtml}
+        <div class="yc-series-actions">
+          ${calBtn}
+          ${directionsBtn}
+          ${churchBtn}
+        </div>
       </div>
     </div>`;
   }
 
   container.innerHTML = html;
+
+  // Initialize or update YC mini map
+  initYcMap(seriesArr);
+}
+
+function initYcMap(seriesArr) {
+  const mapEl = document.getElementById('ycViewMap');
+  if (!mapEl) return;
+  if (!seriesArr.length) { mapEl.style.display = 'none'; return; }
+
+  mapEl.style.display = 'block';
+
+  if (!ycMapInitialized) {
+    ycMap = L.map('ycViewMap', {
+      scrollWheelZoom: false,
+      zoomControl: true,
+      attributionControl: false,
+    }).setView([42.1, -72.6], 9);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      maxZoom: 18,
+    }).addTo(ycMap);
+    ycMapInitialized = true;
+  }
+
+  // Clear existing markers
+  ycMap.eachLayer(l => { if (l instanceof L.CircleMarker || l instanceof L.Marker) ycMap.removeLayer(l); });
+
+  const bounds = [];
+  const seen = new Set();
+  for (const { first } of seriesArr) {
+    const ep = parishes.find(x => x.id === first.parish_id);
+    if (!ep) continue;
+    const loc = first.location_id
+      ? (ep.locations || []).find(l => l.id === first.location_id)
+      : (ep.locations && ep.locations[0]);
+    if (!loc || !loc.lat) continue;
+    const locKey = `${loc.lat},${loc.lng}`;
+    if (seen.has(locKey)) continue;
+    seen.add(locKey);
+
+    const marker = L.circleMarker([loc.lat, loc.lng], {
+      radius: 9,
+      fillColor: '#e8a838',
+      fillOpacity: 0.9,
+      color: '#1a1a2e',
+      weight: 2,
+    }).addTo(ycMap);
+    marker.bindPopup(`<strong>${loc.name || ep.name}</strong><br>${first.title}`);
+    bounds.push([loc.lat, loc.lng]);
+  }
+
+  // Add user location
+  if (userLat) {
+    L.circleMarker([userLat, userLng], {
+      radius: 7, fillColor: '#4285F4', fillOpacity: 0.9, color: '#fff', weight: 2
+    }).addTo(ycMap).bindPopup('You are here');
+    bounds.push([userLat, userLng]);
+  }
+
+  if (bounds.length > 1) {
+    ycMap.fitBounds(bounds, { padding: [30, 30] });
+  } else if (bounds.length === 1) {
+    ycMap.setView(bounds[0], 12);
+  }
 }
 
 // ═══════════════════════════════════════════════════
@@ -5805,6 +6183,7 @@ window.switchAppView    = switchAppView;
 window.setNowMode       = setNowMode;
 window.toggleNowOverflow = toggleNowOverflow;
 window.renderYCView     = renderYCView;
+window.setYcRange       = setYcRange;
 window.setMapFilter     = setMapFilter;
 window.toggleFavorite   = toggleFavorite;
 window.toggleFavFilter  = toggleFavFilter;
