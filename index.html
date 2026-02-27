@@ -2451,22 +2451,34 @@
 
   /* ── TODAY VIEW V2 ─────────────────────────── */
   .today-section {
-    margin-bottom: 28px;
-    padding-bottom: 24px;
-    border-bottom: 1px solid var(--border);
+    margin-bottom: 32px;
+    padding-bottom: 28px;
+    border-bottom: 2px solid var(--border);
+    position: relative;
   }
   .today-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  /* Gold accent on section dividers */
+  .today-section::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 48px;
+    height: 2px;
+    background: var(--gold);
+  }
+  .today-section:last-child::after { display: none; }
   .today-section-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 10px;
+    margin-bottom: 14px;
     gap: 8px;
     flex-wrap: wrap;
   }
   .today-section-label {
     font-family: 'Playfair Display', serif;
-    font-size: 1.05rem;
+    font-size: 1.2rem;
     font-weight: 700;
     color: var(--navy);
     display: flex;
@@ -2474,105 +2486,73 @@
     gap: 8px;
   }
   .today-section-meta {
-    font-size: 0.75rem;
+    font-size: 0.82rem;
     color: var(--mid-gray);
     font-weight: 500;
   }
   .today-pulse {
     display: inline-block;
-    width: 8px;
-    height: 8px;
+    width: 9px;
+    height: 9px;
     border-radius: 50%;
     background: var(--green);
     animation: todayPulse 2s ease-in-out infinite;
+    flex-shrink: 0;
   }
   @keyframes todayPulse {
     0%, 100% { box-shadow: 0 0 0 0 rgba(45,106,79,0.5); }
-    50% { box-shadow: 0 0 0 6px rgba(45,106,79,0); }
+    50% { box-shadow: 0 0 0 7px rgba(45,106,79,0); }
   }
 
   /* Favorites onboarding nudge */
   .today-fav-nudge {
     background: linear-gradient(135deg, var(--gold-pale) 0%, #fff 100%);
     border: 1.5px dashed var(--gold);
-    border-radius: 10px;
-    padding: 20px 24px;
+    border-radius: 12px;
+    padding: 28px 28px;
     text-align: center;
   }
   .today-fav-nudge-icon {
-    font-size: 1.8rem;
-    margin-bottom: 8px;
+    font-size: 2rem;
+    margin-bottom: 10px;
     opacity: 0.7;
   }
   .today-fav-nudge-title {
     font-family: 'Playfair Display', serif;
-    font-size: 1.0rem;
+    font-size: 1.15rem;
     font-weight: 700;
     color: var(--navy);
-    margin-bottom: 4px;
+    margin-bottom: 6px;
   }
   .today-fav-nudge-text {
-    font-size: 0.84rem;
+    font-size: 0.92rem;
     color: var(--text-light);
-    line-height: 1.5;
-    margin-bottom: 12px;
+    line-height: 1.55;
+    margin-bottom: 16px;
+    max-width: 440px;
+    margin-left: auto;
+    margin-right: auto;
   }
   .today-fav-nudge-btn {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 9px 20px;
+    padding: 10px 24px;
     border-radius: 8px;
     border: none;
     background: var(--navy);
     color: #fff;
     font-family: 'Source Sans 3', sans-serif;
-    font-size: 0.85rem;
+    font-size: 0.92rem;
     font-weight: 700;
     cursor: pointer;
-    transition: background 0.15s;
+    transition: all 0.18s;
   }
-  .today-fav-nudge-btn:hover { background: var(--navy-light); }
+  .today-fav-nudge-btn:hover { background: var(--navy-light); transform: translateY(-1px); box-shadow: var(--shadow); }
 
-  /* Hour block grouping */
-  .today-hour-block {
-    margin-bottom: 12px;
-  }
-  .today-hour-label {
-    font-size: 0.68rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--mid-gray);
-    margin-bottom: 6px;
-    padding-bottom: 4px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .today-hour-label .hour-dot {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: var(--gold);
-    flex-shrink: 0;
-  }
-  .today-hour-items {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-  @media (min-width: 769px) {
-    .today-hour-items {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-    }
-  }
   /* Past services dimming */
   .now-item.past-service {
-    opacity: 0.45;
+    opacity: 0.4;
     pointer-events: none;
   }
   .now-item.past-service .time-big { text-decoration: line-through; }
@@ -2583,80 +2563,129 @@
     flex-direction: column;
     gap: 6px;
   }
+  @media (min-width: 769px) {
+    .tomorrow-compact {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 8px;
+    }
+    .tomorrow-compact .tomorrow-expand-btn,
+    .tomorrow-compact .tomorrow-overflow { grid-column: 1 / -1; }
+  }
   .tomorrow-item {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 8px 12px;
+    gap: 12px;
+    padding: 10px 14px;
     background: #fff;
     border: 1px solid var(--border);
     border-radius: 8px;
-    font-size: 0.85rem;
     color: var(--text);
-    transition: border-color 0.15s;
+    transition: all 0.18s;
     cursor: pointer;
   }
-  .tomorrow-item:hover { border-color: var(--gold-light); }
+  .tomorrow-item:hover { border-color: var(--gold-light); box-shadow: var(--shadow); transform: translateY(-1px); }
   .tomorrow-item-time {
     font-weight: 700;
     color: var(--navy);
-    font-size: 0.88rem;
-    min-width: 62px;
+    font-size: 1.0rem;
+    min-width: 68px;
     flex-shrink: 0;
   }
   .tomorrow-item-info { flex: 1; min-width: 0; }
   .tomorrow-item-type {
-    font-size: 0.62rem;
+    font-size: 0.7rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.06em;
     color: var(--mid-gray);
+    margin-bottom: 1px;
   }
   .tomorrow-item-name {
     font-weight: 600;
     color: var(--text);
-    font-size: 0.84rem;
-    line-height: 1.2;
+    font-size: 0.94rem;
+    line-height: 1.25;
   }
   .tomorrow-expand-btn {
-    display: block; width: 100%; padding: 8px; margin-top: 4px;
+    display: block; width: 100%; padding: 10px; margin-top: 4px;
     background: var(--warm-gray); border: 1px dashed var(--border); border-radius: 8px;
-    color: var(--navy); font-size: 0.76rem; font-weight: 600; cursor: pointer;
-    text-align: center;
+    color: var(--navy); font-size: 0.82rem; font-weight: 600; cursor: pointer;
+    text-align: center; font-family: 'Source Sans 3', sans-serif;
+    transition: background 0.15s;
   }
   .tomorrow-expand-btn:hover { background: #e8e4dc; }
 
   /* Parish group header within Today schedule */
   .today-parish-group {
-    margin-bottom: 16px;
+    margin-bottom: 20px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(26,39,68,0.05);
+    transition: box-shadow 0.2s;
+    animation: fadeUp 0.3s ease both;
   }
   .today-parish-group:last-child { margin-bottom: 0; }
+  .today-parish-group:hover { box-shadow: var(--shadow); }
   .today-parish-header {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
-    padding: 6px 12px;
+    gap: 10px;
+    padding: 10px 16px;
     background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
-    border-radius: 8px;
     color: #fff;
+    cursor: pointer;
+    transition: filter 0.15s;
   }
+  .today-parish-header:hover { filter: brightness(1.1); }
   .today-parish-name {
     font-family: 'Playfair Display', serif;
-    font-size: 0.92rem;
-    font-weight: 700;
+    font-size: 1.1rem;
+    font-weight: 600;
     flex: 1;
   }
   .today-parish-town {
-    font-size: 0.72rem;
+    font-size: 0.82rem;
     color: var(--gold-light);
     font-weight: 400;
+    letter-spacing: 0.03em;
   }
   .today-parish-items {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    padding-left: 4px;
+    padding: 8px 10px;
+  }
+  @media (min-width: 769px) {
+    .today-parish-items {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      padding: 10px 12px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .today-parish-items {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+  .today-parish-items .now-item {
+    border-radius: 6px;
+    border: 1px solid rgba(0,0,0,0.06);
+    background: var(--cream);
+  }
+  .today-parish-items .now-item:hover {
+    background: var(--warm-gray);
+    border-color: var(--gold-light);
+  }
+  .today-parish-items .now-item.happening {
+    background: #f0faf4;
+    border-color: rgba(45,106,79,0.2);
+    border-left: 3px solid var(--green);
+  }
+  .today-parish-items .now-item.lent-item {
+    background: #faf5ff;
+    border-color: rgba(124,79,160,0.15);
+    border-left: 3px solid #7c4fa0;
   }
 
   /* ── WHAT'S NOW VIEW (WP8) ── */
@@ -2680,13 +2709,13 @@
     color: var(--navy);
   }
   .now-location-btn {
-    padding: 6px 14px;
+    padding: 7px 16px;
     border-radius: 20px;
     border: 1.5px solid var(--gold);
     background: var(--gold-pale);
     color: var(--navy);
     font-family: 'Source Sans 3', sans-serif;
-    font-size: 0.78rem;
+    font-size: 0.84rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.15s;
@@ -2697,17 +2726,17 @@
   .now-filter-pills {
     display: flex;
     gap: 6px;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
     flex-wrap: wrap;
   }
   .now-pill {
-    padding: 6px 14px;
+    padding: 7px 16px;
     border-radius: 20px;
     border: 1.5px solid var(--border);
     background: #fff;
     color: var(--text);
     font-family: 'Source Sans 3', sans-serif;
-    font-size: 0.78rem;
+    font-size: 0.86rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.15s;
@@ -2716,21 +2745,21 @@
   .now-pill:hover { border-color: var(--gold); background: var(--gold-pale); }
   .now-pill.active { background: var(--navy); border-color: var(--navy); color: #fff; }
   .now-pill.seasonal-pill.active { background: #7c4fa0; border-color: #7c4fa0; }
-  .now-timeline { display: flex; flex-direction: column; gap: 6px; }
+  .now-timeline { display: flex; flex-direction: column; gap: 8px; }
   /* Desktop grid for Today and YC Events */
   @media (min-width: 769px) {
-    .now-view { max-width: 960px; margin: 0 auto; }
+    .now-view { max-width: 1080px; margin: 0 auto; }
     .now-timeline {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 10px;
     }
     .now-section-label { grid-column: 1 / -1; }
     .now-overflow-wrapper { grid-column: 1 / -1; display: none; }
     .now-overflow-wrapper.open {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 10px;
     }
     .now-expand-btn { grid-column: 1 / -1; }
     .now-empty { grid-column: 1 / -1; }
@@ -2739,65 +2768,68 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 10px 14px;
+    padding: 12px 16px;
     background: #fff;
     border: 1px solid var(--border);
     border-radius: 8px;
     cursor: pointer;
-    transition: box-shadow 0.15s, border-color 0.15s;
+    transition: all 0.18s;
     text-decoration: none;
     color: inherit;
   }
-  .now-item:hover { box-shadow: var(--shadow); border-color: var(--gold-light); }
+  .now-item:hover { box-shadow: var(--shadow); border-color: var(--gold-light); transform: translateY(-1px); }
   .now-item.happening { border-left: 3px solid var(--green); background: #f0faf4; }
   .now-item.yc-event { border-left: 3px solid #e8a838; background: #fffbf0; }
   .now-item.seasonal-item { border-left: 3px solid #7c4fa0; background: #faf5ff; }
   .now-item-time {
     flex-shrink: 0;
-    min-width: 58px;
+    min-width: 64px;
     text-align: center;
   }
   .now-item-time .time-big {
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 700;
     color: var(--navy);
     line-height: 1.1;
   }
   .now-item-time .time-status {
-    font-size: 0.65rem;
+    font-size: 0.7rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.04em;
     color: var(--green);
     margin-top: 2px;
+    display: block;
   }
   .now-item-time .time-away {
-    font-size: 0.65rem;
+    font-size: 0.7rem;
     color: var(--mid-gray);
     margin-top: 2px;
+    display: block;
   }
   .now-item-info { flex: 1; min-width: 0; }
   .now-item-info .item-type {
-    font-size: 0.65rem;
+    font-size: 0.72rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.06em;
     color: var(--mid-gray);
-    margin-bottom: 1px;
+    margin-bottom: 2px;
   }
   .now-item-info .item-name {
-    font-size: 0.88rem;
+    font-size: 0.98rem;
     font-weight: 600;
     color: var(--text);
-    line-height: 1.2;
+    line-height: 1.25;
   }
   .now-item-info .item-location {
-    font-size: 0.72rem;
+    font-size: 0.78rem;
     color: var(--text-light);
+    margin-top: 1px;
   }
   .now-item-dist {
     flex-shrink: 0;
-    font-size: 0.75rem;
+    font-size: 0.82rem;
     font-weight: 600;
     color: var(--mid-gray);
     text-align: right;
@@ -2809,13 +2841,15 @@
     color: var(--mid-gray);
   }
   .now-empty .cross { font-size: 2.5rem; margin-bottom: 10px; opacity: 0.25; }
+  .now-empty p { font-size: 0.94rem; line-height: 1.5; }
   .now-overflow-wrapper { display: none; }
   .now-overflow-wrapper.open { display: block; }
   .now-expand-btn {
-    display: block; width: 100%; padding: 10px; margin: 2px 0 8px;
+    display: block; width: 100%; padding: 11px; margin: 4px 0 8px;
     background: var(--warm-gray); border: 1px dashed var(--border); border-radius: 8px;
-    color: var(--navy); font-size: 0.78rem; font-weight: 600; cursor: pointer;
-    text-align: center; letter-spacing: 0.02em;
+    color: var(--navy); font-size: 0.84rem; font-weight: 600; cursor: pointer;
+    text-align: center; letter-spacing: 0.02em; font-family: 'Source Sans 3', sans-serif;
+    transition: background 0.15s;
   }
   .now-expand-btn:hover { background: #e8e4dc; }
   .yc-item-actions {
@@ -2830,14 +2864,17 @@
   }
   .yc-action-btn:hover { background: var(--warm-gray); }
   .now-section-label {
-    font-size: 0.72rem;
+    font-size: 0.78rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--mid-gray);
     margin: 16px 0 8px;
-    padding-bottom: 4px;
+    padding-bottom: 6px;
     border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 6px;
   }
   .now-section-label:first-child { margin-top: 0; }
 
@@ -6062,6 +6099,7 @@ function renderTodayFavSection() {
 
   let totalServices = 0;
   let html = '';
+  let groupIdx = 0;
 
   const favParishes = parishes.filter(p => favIds.includes(p.id));
 
@@ -6090,12 +6128,13 @@ function renderTodayFavSection() {
     todayServices.sort((a, b) => a.svcMin - b.svcMin);
     totalServices += todayServices.length;
 
-    html += `<div class="today-parish-group">`;
-    html += `<div class="today-parish-header" onclick="switchAppView('churches'); setTimeout(() => scrollToParish('${p.id}'), 400);" style="cursor:pointer;">`;
+    html += `<div class="today-parish-group" style="animation-delay:${groupIdx * 0.08}s">`;
+    html += `<div class="today-parish-header" onclick="switchAppView('churches'); setTimeout(() => scrollToParish('${p.id}'), 400);">`;
     html += `<span class="today-parish-name">${displayName}</span>`;
     html += `<span class="today-parish-town">${p.town}</span>`;
     html += `</div>`;
     html += `<div class="today-parish-items">`;
+    groupIdx++;
 
     for (const item of todayServices) {
       const { svc, isPast, isLive } = item;
@@ -6104,14 +6143,15 @@ function renderTodayFavSection() {
       let statusClass = '';
       if (isPast) statusClass = ' past-service';
       else if (isLive) statusClass = ' happening';
+      else if (isLenten) statusClass = ' lent-item';
 
       let statusHtml = '';
       if (isLive) statusHtml = '<span class="time-status">Now</span>';
-      else if (isPast) statusHtml = '<span class="time-away" style="text-decoration:line-through;">Done</span>';
+      else if (isPast) statusHtml = '<span class="time-away">Done</span>';
 
       const timeStr = fmt12(svc.time);
       const endStr = svc.end_time ? ` – ${fmt12(svc.end_time)}` : '';
-      const noteStr = svc.notes ? `<span style="font-size:0.72rem;color:var(--mid-gray);font-style:italic;margin-left:6px;">${svc.notes}</span>` : '';
+      const noteStr = svc.notes ? `<span class="svc-note-line" style="margin-left:6px;">${svc.notes}</span>` : '';
       const langTag = svc.language && svc.language !== 'en' ? ` <span class="lang-tag">${LANG_LABELS[svc.language] || svc.language}</span>` : '';
       const riteTag = svc.rite === 'tridentine' ? ' <span class="rite-tag">TLM</span>' : '';
 
@@ -6124,11 +6164,11 @@ function renderTodayFavSection() {
         }
       }
 
-      html += `<div class="now-item${statusClass}" style="padding:8px 12px;" onclick="switchAppView('churches'); setTimeout(() => scrollToParish('${p.id}'), 400);">
-        <div class="now-item-time" style="min-width:68px;"><div class="time-big" style="font-size:0.92rem;">${timeStr}</div>${statusHtml}</div>
+      html += `<div class="now-item${statusClass}" onclick="switchAppView('churches'); setTimeout(() => scrollToParish('${p.id}'), 400);">
+        <div class="now-item-time"><div class="time-big">${timeStr}</div>${statusHtml}</div>
         <div class="now-item-info">
           <div class="item-type">${typeLabel}${riteTag}${langTag}${locLabel}</div>
-          <div style="font-size:0.82rem;color:var(--text);">${timeStr}${endStr}${noteStr}</div>
+          <div class="item-name">${timeStr}${endStr}${noteStr}</div>
         </div>
       </div>`;
     }
@@ -6137,7 +6177,7 @@ function renderTodayFavSection() {
   }
 
   if (!html) {
-    html = `<div class="now-empty" style="padding:20px;"><p style="font-size:0.88rem;">No services scheduled at your favorited parishes today.</p></div>`;
+    html = `<div class="now-empty"><p>No services scheduled at your favorited parishes today.</p></div>`;
   }
 
   if (metaEl) {
