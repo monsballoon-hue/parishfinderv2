@@ -1795,192 +1795,6 @@
     gap: 3px;
   }
 
-  /* ── MOBILE HEADER HAMBURGER MENU ── */
-  .header-hamburger {
-    display: none;
-    background: none;
-    border: 1px solid rgba(201,168,76,0.3);
-    border-radius: 6px;
-    color: var(--gold-light);
-    font-size: 1.1rem;
-    cursor: pointer;
-    padding: 4px 8px;
-    line-height: 1;
-    flex-shrink: 0;
-    transition: all 0.15s;
-    position: relative;
-  }
-  .header-hamburger:hover { background: rgba(201,168,76,0.15); }
-  .header-hamburger:active { background: rgba(201,168,76,0.25); }
-  .hamburger-dropdown {
-    display: none;
-    position: absolute;
-    top: calc(100% + 6px);
-    right: 0;
-    background: var(--navy);
-    border: 1px solid rgba(201,168,76,0.25);
-    border-radius: 10px;
-    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
-    z-index: 110;
-    min-width: 220px;
-    padding: 6px 0;
-    animation: menuSlideIn 0.15s ease;
-  }
-  @keyframes menuSlideIn {
-    from { opacity: 0; transform: translateY(-6px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .hamburger-dropdown.open { display: block; }
-  .hamburger-dropdown button {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    padding: 11px 18px;
-    background: none;
-    border: none;
-    color: rgba(255,255,255,0.85);
-    font-family: 'Source Sans 3', sans-serif;
-    font-size: 0.88rem;
-    font-weight: 500;
-    cursor: pointer;
-    text-align: left;
-    transition: background 0.12s;
-  }
-  .hamburger-dropdown button:hover { background: rgba(255,255,255,0.08); }
-  .hamburger-dropdown button:active { background: rgba(255,255,255,0.12); }
-  .hamburger-dropdown button .menu-icon { font-size: 1rem; width: 22px; text-align: center; flex-shrink: 0; }
-  .hamburger-dropdown button .menu-label { flex: 1; }
-  .hamburger-dropdown button .menu-active-dot {
-    width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0;
-  }
-  .hamburger-dropdown .menu-divider {
-    height: 1px;
-    background: rgba(201,168,76,0.15);
-    margin: 4px 14px;
-  }
-
-  /* Desktop: hide hamburger, show normal buttons */
-  @media (max-width: 768px) {
-    .header-hamburger { display: flex; align-items: center; justify-content: center; margin-left: auto; }
-    .header-badge { display: none !important; }
-    .simple-toggle.desktop-only { display: none !important; }
-    .header-add-btn.desktop-only { display: none !important; }
-  }
-
-  /* ── INFOGRAPHIC TABS (Metrics / How-To) ── */
-  .info-tab-bar {
-    display: flex;
-    gap: 0;
-    background: rgba(255,255,255,0.08);
-    border-radius: 8px;
-    padding: 3px;
-    margin-left: auto;
-  }
-  .info-tab-btn {
-    padding: 5px 16px;
-    border: none;
-    border-radius: 6px;
-    background: transparent;
-    color: rgba(255,255,255,0.5);
-    font-family: 'Source Sans 3', sans-serif;
-    font-size: 0.78rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.15s;
-    white-space: nowrap;
-  }
-  .info-tab-btn:hover { color: rgba(255,255,255,0.8); }
-  .info-tab-btn.active {
-    background: var(--gold);
-    color: var(--navy);
-  }
-
-  /* How-To content styles */
-  .howto-body {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px 24px;
-  }
-  .howto-intro {
-    text-align: center;
-    margin-bottom: 20px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid #eae6df;
-  }
-  .howto-intro h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.2rem;
-    color: var(--navy);
-    margin-bottom: 4px;
-  }
-  .howto-intro p {
-    font-size: 0.85rem;
-    color: var(--text-light);
-  }
-  .howto-steps {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-  .howto-step {
-    background: #fff;
-    border: 1px solid #eae6df;
-    border-radius: 10px;
-    padding: 16px;
-    position: relative;
-    transition: transform 0.15s, box-shadow 0.15s;
-  }
-  .howto-step:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
-  .howto-step-num {
-    position: absolute;
-    top: -8px;
-    left: 14px;
-    background: var(--gold);
-    color: var(--navy);
-    font-family: 'Playfair Display', serif;
-    font-size: 0.72rem;
-    font-weight: 700;
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .howto-step-icon {
-    font-size: 1.4rem;
-    margin-bottom: 6px;
-  }
-  .howto-step-title {
-    font-size: 0.88rem;
-    font-weight: 700;
-    color: var(--navy);
-    margin-bottom: 4px;
-  }
-  .howto-step-desc {
-    font-size: 0.78rem;
-    color: var(--text-light);
-    line-height: 1.4;
-  }
-  .howto-tip {
-    grid-column: 1 / -1;
-    background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(201,168,76,0.03));
-    border: 1px solid rgba(201,168,76,0.2);
-    border-radius: 10px;
-    padding: 14px 18px;
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-  }
-  .howto-tip-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
-  .howto-tip-text { font-size: 0.82rem; color: var(--text); line-height: 1.45; }
-  .howto-tip-text strong { color: var(--navy); }
-  @media (max-width: 640px) {
-    .howto-steps { grid-template-columns: 1fr; }
-    .howto-body { padding: 14px 16px; }
-  }
-
   /* ── INFOGRAPHIC MODAL ── */
   .info-backdrop {
     display: none;
@@ -3462,6 +3276,181 @@
     .install-banner .ib-text { flex: none; }
   }
 
+  /* ── MOBILE HAMBURGER MENU ── */
+  .header-hamburger {
+    display: none;
+    position: relative;
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 6px;
+    color: var(--gold-light);
+    font-size: 1.15rem;
+    cursor: pointer;
+    padding: 5px 9px;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-left: auto;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+  .header-hamburger:active { background: rgba(201,168,76,0.3); }
+  .hamburger-menu {
+    display: none;
+    position: fixed;
+    top: 0; right: 0; bottom: 0; left: 0;
+    z-index: 500;
+  }
+  .hamburger-menu.open { display: block; }
+  .hamburger-menu-scrim {
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,0.3);
+    animation: fadeIn 0.12s ease;
+  }
+  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+  .hamburger-menu-panel {
+    position: absolute;
+    top: 52px;
+    right: 10px;
+    background: var(--navy);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 12px;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.5);
+    min-width: 230px;
+    padding: 8px 0;
+    animation: menuDropIn 0.15s ease;
+  }
+  @keyframes menuDropIn {
+    from { opacity: 0; transform: translateY(-8px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .hamburger-menu-panel .hm-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 12px 20px;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.85);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.1s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .hamburger-menu-panel .hm-item:active { background: rgba(255,255,255,0.12); }
+  .hamburger-menu-panel .hm-item .hm-icon {
+    width: 22px; text-align: center; font-size: 1rem; flex-shrink: 0; opacity: 0.7;
+  }
+  .hamburger-menu-panel .hm-item .hm-label { flex: 1; }
+  .hamburger-menu-panel .hm-divider {
+    height: 1px;
+    background: rgba(201,168,76,0.15);
+    margin: 6px 16px;
+  }
+
+  @media (max-width: 768px) {
+    .header-hamburger { display: block; }
+    .header-badge.desktop-hide { display: none !important; }
+    .simple-toggle.desktop-hide { display: none !important; }
+    .header-add-btn.desktop-hide { display: none !important; }
+  }
+
+  /* ── INFOGRAPHIC TABS (Metrics / How-To) ── */
+  .info-tab-bar {
+    display: flex;
+    gap: 0;
+    background: rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 3px;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+  .info-tab-btn {
+    padding: 5px 16px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: rgba(255,255,255,0.5);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .info-tab-btn:hover { color: rgba(255,255,255,0.8); }
+  .info-tab-btn.active {
+    background: var(--gold);
+    color: var(--navy);
+  }
+
+  /* How-To panel */
+  .howto-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 24px;
+  }
+  .howto-intro {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #eae6df;
+  }
+  .howto-intro h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+  .howto-intro p {
+    font-size: 0.85rem;
+    color: var(--text-light);
+  }
+  .howto-steps {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .howto-step {
+    background: #fff;
+    border: 1px solid #eae6df;
+    border-radius: 10px;
+    padding: 16px;
+    position: relative;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .howto-step:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
+  .howto-step-num {
+    position: absolute;
+    top: -8px; left: 14px;
+    background: var(--gold); color: var(--navy);
+    font-family: 'Playfair Display', serif;
+    font-size: 0.72rem; font-weight: 700;
+    width: 22px; height: 22px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .howto-step-icon { font-size: 1.4rem; margin-bottom: 6px; }
+  .howto-step-title { font-size: 0.88rem; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .howto-step-desc { font-size: 0.78rem; color: var(--text-light); line-height: 1.4; }
+  .howto-tip {
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(201,168,76,0.03));
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 10px;
+    padding: 14px 18px;
+    display: flex; align-items: flex-start; gap: 10px;
+  }
+  .howto-tip-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
+  .howto-tip-text { font-size: 0.82rem; color: var(--text); line-height: 1.45; }
+  .howto-tip-text strong { color: var(--navy); }
+  @media (max-width: 640px) {
+    .howto-steps { grid-template-columns: 1fr; }
+    .howto-body { padding: 14px 16px; }
+  }
+
 </style>
 </head>
 <body>
@@ -3474,33 +3463,36 @@
       <h1>Mass Finder</h1>
       <p>Catholic Services Directory</p>
     </div>
-    <div class="header-badge" id="headerBadge" onclick="event.stopPropagation(); openInfoModal('metrics');" style="cursor:pointer" title="View directory stats">Loading…</div>
-    <button class="simple-toggle desktop-only" id="simpleModeToggle" onclick="event.stopPropagation(); toggleSimpleMode();" title="Switch between Simple and Full view">☰ Simple</button>
-    <button class="header-add-btn desktop-only" id="headerAddBtn" onclick="event.stopPropagation(); openNewParish();" title="Add a church">+ Add A Church</button>
-    <button class="header-hamburger" id="headerHamburger" onclick="event.stopPropagation(); toggleHamburgerMenu();" aria-label="Menu">
-      ☰
-      <div class="hamburger-dropdown" id="hamburgerDropdown">
-        <button onclick="event.stopPropagation(); closeHamburgerMenu(); toggleSimpleMode();">
-          <span class="menu-icon">☰</span>
-          <span class="menu-label" id="menuSimpleLabel">Simple Mode</span>
-        </button>
-        <button onclick="event.stopPropagation(); closeHamburgerMenu(); openNewParish();">
-          <span class="menu-icon">+</span>
-          <span class="menu-label">Add A Church</span>
-        </button>
-        <div class="menu-divider"></div>
-        <button onclick="event.stopPropagation(); closeHamburgerMenu(); openInfoModal('howto');">
-          <span class="menu-icon">?</span>
-          <span class="menu-label">How To Use Mass Finder</span>
-        </button>
-        <button onclick="event.stopPropagation(); closeHamburgerMenu(); openInfoModal('metrics');">
-          <span class="menu-icon">📊</span>
-          <span class="menu-label">Metrics</span>
-        </button>
-      </div>
-    </button>
+    <div class="header-badge desktop-hide" id="headerBadge" onclick="event.stopPropagation(); openInfoModal('metrics');" style="cursor:pointer" title="View directory stats">Loading…</div>
+    <button class="simple-toggle desktop-hide" id="simpleModeToggle" onclick="event.stopPropagation(); toggleSimpleMode();" title="Switch between Simple and Full view">☰ Simple</button>
+    <button class="header-add-btn desktop-hide" id="headerAddBtn" onclick="event.stopPropagation(); openNewParish();" title="Add a church">+ Add A Church</button>
+    <div class="header-hamburger" id="headerHamburger" onclick="event.stopPropagation(); openHamburgerMenu();" aria-label="Menu">☰</div>
   </div>
 </header>
+
+<!-- MOBILE HAMBURGER MENU (separate overlay, no nested buttons) -->
+<div class="hamburger-menu" id="hamburgerMenu">
+  <div class="hamburger-menu-scrim" onclick="closeHamburgerMenu()"></div>
+  <div class="hamburger-menu-panel">
+    <button class="hm-item" id="hmSimple" onclick="closeHamburgerMenu(); toggleSimpleMode();">
+      <span class="hm-icon">☰</span>
+      <span class="hm-label" id="hmSimpleLabel">Simple Mode</span>
+    </button>
+    <button class="hm-item" onclick="closeHamburgerMenu(); openNewParish();">
+      <span class="hm-icon">+</span>
+      <span class="hm-label">Add A Church</span>
+    </button>
+    <div class="hm-divider"></div>
+    <button class="hm-item" onclick="closeHamburgerMenu(); openInfoModal('howto');">
+      <span class="hm-icon">?</span>
+      <span class="hm-label">How To Use Mass Finder</span>
+    </button>
+    <button class="hm-item" onclick="closeHamburgerMenu(); openInfoModal('metrics');">
+      <span class="hm-icon">📊</span>
+      <span class="hm-label">Metrics</span>
+    </button>
+  </div>
+</div>
 
 <!-- TAB BAR (WP8) -->
 <nav class="app-tab-bar" id="appTabBar">
@@ -7342,39 +7334,22 @@ window.filterSeasonalServices = filterSeasonalServices;
 
 <script>
 /* ── HAMBURGER MENU ── */
-function toggleHamburgerMenu() {
-  const dd = document.getElementById('hamburgerDropdown');
-  const isOpen = dd.classList.contains('open');
-  if (isOpen) {
-    closeHamburgerMenu();
-  } else {
-    dd.classList.add('open');
-    // Update simple mode label
-    const label = document.getElementById('menuSimpleLabel');
-    if (label) label.textContent = isSimpleMode ? 'Full Mode' : 'Simple Mode';
-    // Close on outside click
-    setTimeout(() => document.addEventListener('click', _closeHamburgerOnOutside, { once: true }), 10);
-  }
+function openHamburgerMenu() {
+  // Update simple mode label
+  var label = document.getElementById('hmSimpleLabel');
+  if (label) label.textContent = (typeof isSimpleMode !== 'undefined' && isSimpleMode) ? 'Full Mode' : 'Simple Mode';
+  document.getElementById('hamburgerMenu').classList.add('open');
 }
 function closeHamburgerMenu() {
-  document.getElementById('hamburgerDropdown').classList.remove('open');
+  document.getElementById('hamburgerMenu').classList.remove('open');
 }
-function _closeHamburgerOnOutside(e) {
-  const dd = document.getElementById('hamburgerDropdown');
-  if (dd.classList.contains('open') && !dd.contains(e.target)) {
-    closeHamburgerMenu();
-  }
-}
-window.toggleHamburgerMenu = toggleHamburgerMenu;
+window.openHamburgerMenu = openHamburgerMenu;
 window.closeHamburgerMenu = closeHamburgerMenu;
 
 /* ── INFOGRAPHIC MODAL WITH TABS ── */
-var currentInfoTab = 'metrics';
-
 function openInfoModal(tab) {
   tab = tab || 'metrics';
   switchInfoTab(tab);
-  if (tab === 'metrics') renderInfoGraphic();
   document.getElementById('infoBackdrop').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -7387,21 +7362,20 @@ document.getElementById('infoBackdrop').addEventListener('click', function(e) {
 });
 
 function switchInfoTab(tab) {
-  currentInfoTab = tab;
-  const metricsTab = document.getElementById('infoTabMetrics');
-  const howtoTab = document.getElementById('infoTabHowto');
-  const metricsBody = document.getElementById('infoBody');
-  const howtoBody = document.getElementById('howtoBody');
+  var metricsBtn  = document.getElementById('infoTabMetrics');
+  var howtoBtn    = document.getElementById('infoTabHowto');
+  var metricsBody = document.getElementById('infoBody');
+  var howtoBody   = document.getElementById('howtoBody');
 
   if (tab === 'metrics') {
-    metricsTab.classList.add('active');
-    howtoTab.classList.remove('active');
+    metricsBtn.classList.add('active');
+    howtoBtn.classList.remove('active');
     metricsBody.style.display = '';
     howtoBody.style.display = 'none';
     renderInfoGraphic();
   } else {
-    howtoTab.classList.add('active');
-    metricsTab.classList.remove('active');
+    howtoBtn.classList.add('active');
+    metricsBtn.classList.remove('active');
     metricsBody.style.display = 'none';
     howtoBody.style.display = '';
     renderHowTo();
@@ -7409,66 +7383,66 @@ function switchInfoTab(tab) {
 }
 
 function renderHowTo() {
-  document.getElementById('howtoBody').innerHTML = `
-    <div class="howto-intro">
-      <h3>Welcome to Mass Finder</h3>
-      <p>Find Mass, Confession, Adoration, and more across Western Massachusetts</p>
-    </div>
-    <div class="howto-steps">
+  document.getElementById('howtoBody').innerHTML =
+    '<div class="howto-intro">' +
+      '<h3>Welcome to Mass Finder</h3>' +
+      '<p>Find Mass, Confession, Adoration, and more across Western Massachusetts</p>' +
+    '</div>' +
+    '<div class="howto-steps">' +
 
-      <div class="howto-step">
-        <div class="howto-step-num">1</div>
-        <div class="howto-step-icon">🔍</div>
-        <div class="howto-step-title">Search &amp; Filter</div>
-        <div class="howto-step-desc">Type a church name, town, or pastor in the search bar. Use the day, time, and language dropdowns to narrow down exactly what you need.</div>
-      </div>
+      '<div class="howto-step">' +
+        '<div class="howto-step-num">1</div>' +
+        '<div class="howto-step-icon">\uD83D\uDD0D</div>' +
+        '<div class="howto-step-title">Search &amp; Filter</div>' +
+        '<div class="howto-step-desc">Type a church name, town, or pastor in the search bar. Use the day, time, and language dropdowns to narrow results.</div>' +
+      '</div>' +
 
-      <div class="howto-step">
-        <div class="howto-step-num">2</div>
-        <div class="howto-step-icon">⛪</div>
-        <div class="howto-step-title">Browse by Category</div>
-        <div class="howto-step-desc">Tap the chips — <strong>Mass</strong>, <strong>Confession</strong>, or <strong>Devotions</strong> — to filter the full directory. Subtypes appear for even more specificity.</div>
-      </div>
+      '<div class="howto-step">' +
+        '<div class="howto-step-num">2</div>' +
+        '<div class="howto-step-icon">\u26EA</div>' +
+        '<div class="howto-step-title">Browse by Category</div>' +
+        '<div class="howto-step-desc">Tap the chips \u2014 <strong>Mass</strong>, <strong>Confession</strong>, or <strong>Devotions</strong> \u2014 to filter the directory. Subtypes appear for more specificity.</div>' +
+      '</div>' +
 
-      <div class="howto-step">
-        <div class="howto-step-num">3</div>
-        <div class="howto-step-icon">☀️</div>
-        <div class="howto-step-title">Today View</div>
-        <div class="howto-step-desc">Switch to the <strong>Today</strong> tab to see what's happening right now and coming up next — sorted by time and proximity if you share your location.</div>
-      </div>
+      '<div class="howto-step">' +
+        '<div class="howto-step-num">3</div>' +
+        '<div class="howto-step-icon">\u2600\uFE0F</div>' +
+        '<div class="howto-step-title">Today View</div>' +
+        '<div class="howto-step-desc">Switch to the <strong>Today</strong> tab to see what\u2019s happening now and coming up next \u2014 sorted by time and proximity.</div>' +
+      '</div>' +
 
-      <div class="howto-step">
-        <div class="howto-step-num">4</div>
-        <div class="howto-step-icon">❤️</div>
-        <div class="howto-step-title">Favorite Churches</div>
-        <div class="howto-step-desc">Tap the heart on any church card to save it. Your favorites show up in the Today view so you always know what's on at your go-to parishes.</div>
-      </div>
+      '<div class="howto-step">' +
+        '<div class="howto-step-num">4</div>' +
+        '<div class="howto-step-icon">\u2764\uFE0F</div>' +
+        '<div class="howto-step-title">Favorite Churches</div>' +
+        '<div class="howto-step-desc">Tap the heart on any church card to save it. Favorites appear in the Today view so you always know what\u2019s on at your go-to churches.</div>' +
+      '</div>' +
 
-      <div class="howto-step">
-        <div class="howto-step-num">5</div>
-        <div class="howto-step-icon">☰</div>
-        <div class="howto-step-title">Simple Mode</div>
-        <div class="howto-step-desc">Too many options? Toggle <strong>Simple Mode</strong> for a cleaner view with just Mass &amp; Confession, Devotions, and Lenten services. Great for quick lookups.</div>
-      </div>
+      '<div class="howto-step">' +
+        '<div class="howto-step-num">5</div>' +
+        '<div class="howto-step-icon">\u2630</div>' +
+        '<div class="howto-step-title">Simple Mode</div>' +
+        '<div class="howto-step-desc">Too many options? Toggle <strong>Simple Mode</strong> for a cleaner view with just Mass &amp; Confession, Devotions, and Lenten services.</div>' +
+      '</div>' +
 
-      <div class="howto-step">
-        <div class="howto-step-num">6</div>
-        <div class="howto-step-icon">🚩</div>
-        <div class="howto-step-title">Report &amp; Contribute</div>
-        <div class="howto-step-desc">See something wrong? Tap <strong>Report</strong> on any church card to flag inaccurate times. You can also suggest new churches with the <strong>+ Add A Church</strong> button.</div>
-      </div>
+      '<div class="howto-step">' +
+        '<div class="howto-step-num">6</div>' +
+        '<div class="howto-step-icon">\uD83D\uDEA9</div>' +
+        '<div class="howto-step-title">Report &amp; Contribute</div>' +
+        '<div class="howto-step-desc">See something wrong? Tap <strong>Report</strong> on any card to flag inaccurate times. Use <strong>+ Add A Church</strong> to suggest new listings.</div>' +
+      '</div>' +
 
-      <div class="howto-tip">
-        <div class="howto-tip-icon">📍</div>
-        <div class="howto-tip-text"><strong>Pro tip:</strong> Allow location access and churches will sort by distance automatically. You can also share a filtered view with friends — just tap the 🔗 Share View button after applying your filters.</div>
-      </div>
+      '<div class="howto-tip">' +
+        '<div class="howto-tip-icon">\uD83D\uDCCD</div>' +
+        '<div class="howto-tip-text"><strong>Pro tip:</strong> Allow location access and churches sort by distance automatically. Share a filtered view with friends using the \uD83D\uDD17 Share View button.</div>' +
+      '</div>' +
 
-      <div class="howto-tip">
-        <div class="howto-tip-icon">📲</div>
-        <div class="howto-tip-text"><strong>Install the app:</strong> Add Mass Finder to your home screen for quick access. On iPhone, tap the share icon → "Add to Home Screen." On Android, tap the Install banner or use your browser menu.</div>
-      </div>
-    </div>
-  `;
+      '<div class="howto-tip">' +
+        '<div class="howto-tip-icon">\uD83D\uDCF2</div>' +
+        '<div class="howto-tip-text"><strong>Install the app:</strong> Add Mass Finder to your home screen for quick access. On iPhone, tap the share icon \u2192 \u201CAdd to Home Screen.\u201D On Android, tap the Install banner.</div>' +
+      '</div>' +
+
+    '</div>';
 }
 
 function renderInfoGraphic() {
