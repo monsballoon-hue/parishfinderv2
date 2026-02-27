@@ -323,13 +323,21 @@
     font-size: 0.72rem;
     font-weight: 600;
     line-height: 1;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
   }
   /* Override verified-badge when it lives inside .county-badge (card header) */
   .county-badge .verified-badge {
     font-size: 0.72rem;
-    background: transparent;
-    border: none;
-    padding: 0;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 2px 8px;
+    z-index: 10;
+  }
+  .county-badge .verified-badge.open {
+    z-index: 201;
   }
   .confidence-warn {
     margin-top: 6px;
@@ -638,7 +646,7 @@
     border-radius: 10px;
     box-shadow: var(--shadow-lg);
     padding: 12px 14px;
-    z-index: 60;
+    z-index: 200;
     min-width: 230px;
     max-width: 290px;
     text-align: left;
@@ -2371,9 +2379,11 @@
     </select>
     <select id="langFilter">
       <option value="">Any Language</option>
+      <option value="la">Latin (Traditional)</option>
       <option value="es">Spanish</option>
       <option value="pl">Polish</option>
       <option value="pt">Portuguese</option>
+      <option value="fr">French</option>
       <option value="vi">Vietnamese</option>
       <option value="asl">ASL</option>
     </select>
@@ -2517,36 +2527,47 @@ const SERVICE_LABELS = {
   stations_of_cross:'Stations of the Cross', stations_of_the_cross:'Stations of the Cross',
   anointing_of_sick:'Anointing of the Sick', communion_service:'Communion Service',
   devotion:'Devotion',
+  holy_thursday_mass:'Holy Thursday Mass', good_friday_service:'Good Friday Service',
+  easter_vigil_mass:'Easter Vigil Mass', divine_mercy_chaplet:'Divine Mercy Chaplet',
+  devotional:'Devotion', gorzkie_zale:'Gorzkie \u017Bale',
+  bible_study:'Bible Study', mens_group:"Men's Group", social_event:'Social Event',
 };
 
 const DAY_LABELS = {
   monday:'Mon', tuesday:'Tue', wednesday:'Wed', thursday:'Thu',
   friday:'Fri', saturday:'Sat', sunday:'Sun',
   first_friday:'1st Fri', first_saturday:'1st Sat',
+  first_sunday:'1st Sun', first_thursday:'1st Thu',
   holyday:'Holy Day', holyday_eve:'Holy Day Eve',
   weekday:'Weekday', daily:'Daily',
+  monday_friday:'Mon\u2013Fri', tuesday_friday:'Tue\u2013Fri',
+  Holy_Thursday:'Holy Thu', Good_Friday:'Good Fri', Easter_Vigil:'Easter Vigil',
+  civil_holiday:'Civil Holiday', lent:'Lent',
   '':'Varies',
 };
 
 const SEASON_LABELS = {
   lent:'Lent', advent:'Advent', school_year:'School Year', summer:'Summer',
+  academic_year:'Academic Year', holy_week:'Holy Week', year_round:'Year Round',
 };
 
 const LANG_NAMES = {
   en:'English', es:'Spanish', pl:'Polish', pt:'Portuguese',
-  vi:'Vietnamese', asl:'ASL', fr:'French', it:'Italian',
+  vi:'Vietnamese', asl:'ASL', fr:'French', it:'Italian', la:'Latin',
 };
 const LANG_LABELS = {
-  en:'EN', es:'ES', pl:'PL', pt:'PT', vi:'VI', asl:'ASL', fr:'FR', it:'IT',
+  en:'EN', es:'ES', pl:'PL', pt:'PT', vi:'VI', asl:'ASL', fr:'FR', it:'IT', la:'LA',
 };
 
 const SERVICE_TYPE_GROUPS = {
-  mass:       ['sunday_mass','daily_mass','communion_service'],
+  mass:       ['sunday_mass','daily_mass','communion_service','holy_thursday_mass','good_friday_service','easter_vigil_mass'],
   confession: ['confession'],
   devotion:   ['adoration','holy_hour','perpetual_adoration','benediction',
                'rosary','divine_mercy','miraculous_medal','novena',
                'stations_of_cross','stations_of_the_cross','anointing_of_sick',
-               'anointing','devotion','vespers','prayer_group'],
+               'anointing','devotion','vespers','prayer_group',
+               'divine_mercy_chaplet','devotional','gorzkie_zale'],
+  community:  ['bible_study','mens_group','social_event'],
 };
 
 function fmt12(t) {
@@ -2652,7 +2673,7 @@ function parishMatchesSearch(p, q) {
   if (!q) return true;
   const svcNotes = (p.services || []).map(s => s.notes || '').join(' ');
   const svcTypes = (p.services || []).map(s => {
-    const label = SERVICE_LABELS[s.type] || s.type.replace(/_/g, ' ');
+    const label = SERVICE_LABELS[s.type] || (s.type || 'Service').replace(/_/g, ' ');
     return label;
   }).join(' ');
   // WP1: Include location/church names in search index
@@ -2827,17 +2848,29 @@ function collapseServiceDays(services) {
 
 // Card-level grouping: keeps adoration separate from devotion for display
 const CARD_TYPE_GROUPS = {
-  mass:       ['sunday_mass','daily_mass','communion_service'],
+  mass:       ['sunday_mass','daily_mass','communion_service','holy_thursday_mass','good_friday_service','easter_vigil_mass'],
   confession: ['confession'],
   adoration:  ['adoration','holy_hour','perpetual_adoration','benediction'],
   devotion:   ['rosary','divine_mercy','miraculous_medal','novena',
                'stations_of_cross','stations_of_the_cross','anointing_of_sick',
-               'anointing','devotion','vespers','prayer_group'],
+               'anointing','devotion','vespers','prayer_group',
+               'divine_mercy_chaplet','devotional','gorzkie_zale'],
+  community:  ['bible_study','mens_group','social_event'],
 };
 
+function isServiceActive(svc) {
+  if (svc.status === 'inactive') return false;
+  if (svc.effective_date) {
+    const today = new Date().toISOString().slice(0, 10);
+    if (svc.effective_date > today) return false;
+  }
+  return true;
+}
+
 function groupServices(services) {
-  const groups = { mass:[], confession:[], adoration:[], devotion:[], other:[] };
+  const groups = { mass:[], confession:[], adoration:[], devotion:[], community:[], other:[] };
   for (const svc of services) {
+    if (!isServiceActive(svc)) continue;
     let placed = false;
     for (const [key, types] of Object.entries(CARD_TYPE_GROUPS)) {
       if (types.includes(svc.type)) { groups[key].push(svc); placed = true; break; }
@@ -2890,7 +2923,7 @@ function buildSectionSummary(sectionKey, filteredServices) {
     // List distinct service type labels
     const typeSet = new Set();
     filteredServices.forEach(s => {
-      const label = SERVICE_LABELS[s.type] || s.type.replace(/_/g,' ');
+      const label = SERVICE_LABELS[s.type] || (s.type || 'Service').replace(/_/g,' ');
       typeSet.add(label);
     });
     const types = [...typeSet].slice(0, 4);
@@ -2900,7 +2933,7 @@ function buildSectionSummary(sectionKey, filteredServices) {
   if (sectionKey === 'lent') {
     const typeSet = new Set();
     filteredServices.forEach(s => {
-      const label = SERVICE_LABELS[s.type] || s.type.replace(/_/g,' ');
+      const label = SERVICE_LABELS[s.type] || (s.type || 'Service').replace(/_/g,' ');
       typeSet.add(label);
     });
     const daySet = new Set();
@@ -2972,7 +3005,7 @@ function renderServiceSection(title, icon, services, dayFilter, timeFilter, cate
         ? `<span class="lang-tag" title="${LANG_NAMES[svc.language]||svc.language}">${LANG_LABELS[svc.language]||svc.language}</span>` : '';
       const season  = svc.seasonal && svc.seasonal.is_seasonal && SEASON_LABELS[svc.seasonal.season]
         ? `<span class="seasonal-tag">${SEASON_LABELS[svc.seasonal.season]}</span>` : '';
-      const label   = SERVICE_LABELS[svc.type] || svc.type.replace(/_/g,' ');
+      const label   = SERVICE_LABELS[svc.type] || (svc.type || 'Service').replace(/_/g,' ');
       const showLabel = label.toLowerCase() !== title.toLowerCase();
       const typeTag = showLabel ? `<span class="svc-type-tag">${label}</span>` : '';
       const note    = svc.notes;
@@ -3077,7 +3110,7 @@ function renderLentenSection(allServices, dayFilter, timeFilter, categoryFilter,
 
     const entryHtml = svc => {
       const timeStr = fmtTimeRange(svc);
-      const label   = SERVICE_LABELS[svc.type] || svc.type.replace(/_/g,' ');
+      const label   = SERVICE_LABELS[svc.type] || (svc.type || 'Service').replace(/_/g,' ');
       const typeTag = `<span class="svc-type-tag">${label}</span>`;
       const lang    = svc.language && svc.language !== 'en'
         ? `<span class="lang-tag">${LANG_LABELS[svc.language]||svc.language}</span>` : '';
@@ -3494,6 +3527,7 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   const confSect  = renderServiceSection('Confession', 'confession', groups.confession, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite);
   const adorSect  = renderServiceSection('Adoration & Prayer', 'adoration', groups.adoration, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite);
   const devotSect = renderServiceSection('Devotions', 'devotion', groups.devotion, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite);
+  const commSect  = renderServiceSection('Community', 'community', groups.community, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite);
   const otherSect = renderServiceSection('Other Services', 'other', groups.other, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite);
   // Lenten section always renders if lent services exist (independent of any filter)
   const lentSect  = renderLentenSection(p.services || [], dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite);
@@ -3509,6 +3543,7 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   const confFiltered  = groups.confession.filter(svcFilter);
   const adorFiltered  = groups.adoration.filter(svcFilter);
   const devotFiltered = groups.devotion.filter(svcFilter);
+  const commFiltered  = groups.community.filter(svcFilter);
   const otherFiltered = groups.other.filter(svcFilter);
   const lentFiltered  = (p.services || []).filter(s => s.seasonal && s.seasonal.season === 'lent' && isCurrentSeason(s) && serviceMatchesDay(s, dayFilter) && serviceMatchesTime(s, timeFilter) && serviceMatchesType(s, categoryFilter, subtypeFilter) && (!langFilter || s.language === langFilter));
 
@@ -3522,12 +3557,14 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   const devotCollapsed = !(categoryFilter === 'devotion' || hasSearch);
   const lentCollapsed  = false; // WP9: expanded by default when pinned to top
   const otherCollapsed = !hasSearch;
+  const commCollapsed  = !hasSearch;
 
   // Wrap each in collapsible
   const massWrapped  = wrapCollapsible('mass',      'Mass',              'mass',       massSect,  massFiltered,  massCollapsed);
   const confWrapped  = wrapCollapsible('confession', 'Confession',       'confession', confSect,  confFiltered,  confCollapsed);
   const adorWrapped  = wrapCollapsible('adoration',  'Adoration & Prayer','adoration', adorSect,  adorFiltered,  adorCollapsed);
   const devotWrapped = wrapCollapsible('devotion',   'Devotions',        'devotion',   devotSect, devotFiltered, devotCollapsed);
+  const commWrapped  = wrapCollapsible('community',  'Community',        'community',  commSect,  commFiltered,  commCollapsed);
   const lentWrapped  = wrapCollapsible('lent',       'Lenten Services',  'lent',       lentSect,  lentFiltered,  lentCollapsed);
   const otherWrapped = wrapCollapsible('other',      'Other Services',   'other',      otherSect, otherFiltered, otherCollapsed);
 
@@ -3552,7 +3589,7 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   const clergy = p.clergy || [];
   const contactRows = [];
   if (c.phone) contactRows.push(`<div class="contact-row"><span class="contact-row-label">Phone</span><span class="contact-row-val"><a href="tel:${c.phone.replace(/\D/g,'')}" class="phone-link">${c.phone}</a></span></div>`);
-  if (c.fax)   contactRows.push(`<div class="contact-row"><span class="contact-row-label">Fax</span><span class="contact-row-val">${c.fax}</span></div>`);
+
   if (c.emails && c.emails.length) {
     const emailList = c.emails.map(e => `<a href="mailto:${e}">${e}</a>`).join(', ');
     contactRows.push(`<div class="contact-row"><span class="contact-row-label">Email</span><span class="contact-row-val">${emailList}</span></div>`);
@@ -3614,7 +3651,7 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
     <div class="card-meta">${accessBadge}${contactDrawer}${bulletinLink}${distHtml}${directionsBtn}<button class="share-btn" onclick="event.stopPropagation(); shareParish('${p.id}', this);" title="Share this church">📋 Share</button>${multiSite}</div>
     <div class="card-body">
       ${renderYCLiteralEvents(p)}
-      ${lentWrapped}${massWrapped}${confWrapped}${adorWrapped}${devotWrapped}${otherWrapped}
+      ${lentWrapped}${massWrapped}${confWrapped}${adorWrapped}${devotWrapped}${commWrapped}${otherWrapped}
       ${renderSpecialEvents(p)}
     </div>
     <div class="card-footer">
@@ -3731,7 +3768,7 @@ window.addEventListener('scroll', function() {
     return;
   }
 
-const parishes      = PARISH_DATA.parishes;
+const parishes      = PARISH_DATA.parishes.filter(p => !(p.validation && p.validation.status === 'excluded'));
 const grid          = document.getElementById('parishGrid');
 const searchInput   = document.getElementById('searchInput');
 const countyFilter  = document.getElementById('countyFilter');
@@ -3748,7 +3785,7 @@ let activeCategory = '';
 let activeSubtype  = '';
 
 // Stats
-const totalSvc = parishes.reduce((n,p) => n + (p.services||[]).length, 0);
+const totalSvc = parishes.reduce((n,p) => n + (p.services||[]).filter(s => isServiceActive(s)).length, 0);
 document.getElementById('headerBadge').textContent   = `${parishes.length} Churches · ${totalSvc} Services`;
 
 const CAT_LABELS = { mass: 'Mass type', confession: 'When', adoration: 'Type', devotion: 'Devotion' };
@@ -3803,6 +3840,7 @@ function render() {
     if (county && p.county !== county) return false;
     if (day || time || cat || subtype || lang) {
       const hasMatch = (p.services||[]).some(s =>
+        isServiceActive(s) &&
         isCurrentSeason(s) &&
         serviceMatchesDay(s, day) &&
         serviceMatchesTime(s, time) &&
@@ -3851,7 +3889,12 @@ function render() {
   }
 
   var html = filtered.map(function(p) {
-    return renderParishCard(p, day, time, cat, subtype, lang, getDistMiles(p));
+    try {
+      return renderParishCard(p, day, time, cat, subtype, lang, getDistMiles(p));
+    } catch(e) {
+      console.error('Error rendering parish', p.id, e);
+      return '';
+    }
   }).join('');
   grid.innerHTML = html || '<div class="no-results"><div class="cross">✝</div><p>No churches found matching your filters.</p></div>';
 
@@ -4572,6 +4615,7 @@ function renderNowView() {
   for (const p of parishes) {
     const primaryLoc = p.locations && p.locations[0];
     for (const svc of (p.services || [])) {
+      if (!isServiceActive(svc)) continue;
       if (!svcMatchesNowMode(svc)) continue;
       if (!isCurrentSeason(svc)) continue;
       const svcMin = timeToMinutes(svc.time);
@@ -4661,7 +4705,7 @@ function renderNowView() {
 
       const isLenten = r.svc.seasonal && r.svc.seasonal.season === 'lent';
       const itemClass = r.status === 'now' ? ' happening' : (isLenten ? ' lent-item' : '');
-      const typeLabel = SVCTYPE_SHORT[r.svc.type] || r.svc.type.replace(/_/g, ' ');
+      const typeLabel = SVCTYPE_SHORT[r.svc.type] || (r.svc.type || 'Service').replace(/_/g, ' ');
       const distHtml = r.dist !== null
         ? `<span class="now-item-dist${r.dist <= 5 ? ' near' : ''}">${r.dist.toFixed(1)} mi</span>` : '';
 
@@ -4959,7 +5003,7 @@ function renderMapMarkers() {
     if (mapFilter) {
       const group = SERVICE_TYPE_GROUPS[mapFilter];
       if (group) {
-        const hasType = (p.services || []).some(s => group.includes(s.type) && isCurrentSeason(s));
+        const hasType = (p.services || []).some(s => isServiceActive(s) && group.includes(s.type) && isCurrentSeason(s));
         if (!hasType) continue;
       }
     }
@@ -4969,7 +5013,7 @@ function renderMapMarkers() {
     if (/Cathedral|Basilica/i.test(churchName)) churchName = churchName.replace(/\s+Church$/i, '');
 
     // Count services by type
-    const svcs = (p.services || []).filter(s => isCurrentSeason(s));
+    const svcs = (p.services || []).filter(s => isServiceActive(s) && isCurrentSeason(s));
     const massSvcs = svcs.filter(s => s.type === 'sunday_mass' || s.type === 'daily_mass').length;
     const confSvcs = svcs.filter(s => s.type === 'confession').length;
     const otherSvcs = svcs.length - massSvcs - confSvcs;
