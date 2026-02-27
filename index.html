@@ -9,7 +9,7 @@
 <link rel="apple-touch-icon" href="/icon192.png">
 <link rel="apple-touch-icon" sizes="192x192" href="/icon192.png">
 <link rel="apple-touch-icon-precomposed" href="/icon192.png">
-<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mass Finder">
 <meta name="theme-color" content="#1a2744">
@@ -801,10 +801,12 @@
   .verify-orange { background: rgba(192,85,10,0.1); color: #bf360c; border: 1px solid rgba(192,85,10,0.25); }
   .verify-red    { background: rgba(192,57,43,0.08); color: #c62828; border: 1px solid rgba(192,57,43,0.2); }
 
-  /* Expanded detail panel */
+  /* Expanded detail panel — rendered as body-level portal */
   .verify-detail {
     display: none;
-    position: fixed; /* B4 fix: fixed escapes overflow:hidden ancestors (e.g. fav-section-wrapper) */
+  }
+  #verifyPortal {
+    position: fixed;
     background: #fff;
     border: 1px solid var(--border);
     border-radius: 10px;
@@ -817,8 +819,9 @@
     white-space: normal;
     font-weight: 400;
     color: var(--text);
+    display: none;
   }
-  .verify-badge.open .verify-detail { display: block; }
+  #verifyPortal.open { display: block; }
   .verify-detail-title {
     font-size: 0.72rem; font-weight: 700; margin-bottom: 6px;
     display: flex; align-items: center; gap: 5px;
@@ -2207,15 +2210,12 @@
   .card-meta-overflow-btn:hover { border-color: var(--navy); color: var(--navy); background: var(--warm-gray); }
   .card-meta-overflow-menu {
     display: none;
-    position: absolute;
-    right: 0;
-    top: 100%;
-    margin-top: 4px;
+    position: fixed;
     background: #fff;
     border: 1px solid var(--border);
     border-radius: 8px;
     box-shadow: var(--shadow-lg);
-    z-index: 200;
+    z-index: 10000;
     min-width: 130px;
     padding: 4px 0;
   }
@@ -3847,6 +3847,7 @@
 <body>
 <a href="#parishGrid" class="skip-link" style="position:absolute;left:-9999px;top:0;z-index:10000;background:var(--navy);color:#fff;padding:8px 16px;font-weight:700;text-decoration:none;">Skip to content</a>
 <style>.skip-link:focus{left:0;}</style>
+<div id="verifyPortal"></div>
 
 
 <header onclick="window.scrollTo({top:0,behavior:'smooth'})">
@@ -4003,7 +4004,7 @@
 </div><!-- /viewChurches -->
 
 <!-- ══════ TODAY VIEW (V2) ══════ -->
-<div class="app-view" id="viewNow" role="tabpanel" aria-labelledby="tabNow">>
+<div class="app-view" id="viewNow" role="tabpanel" aria-labelledby="tabNow">
   <div class="now-view">
 
     <!-- SECTION 1: Live & Starting Soon (proximity) -->
@@ -5483,72 +5484,58 @@ function buildVerifyBadge(tier, icon, label, detail) {
   return `<span class="verify-badge ${cls}" onclick="event.stopPropagation(); toggleVerifyDetail(this);">
     <span class="verify-icon">${icon}</span>${label}
     <div class="verify-detail">
-      <div class="verify-detail-title">${detail.title}<button class="verify-detail-close" onclick="event.stopPropagation(); this.closest('.verify-badge').classList.remove('open');" title="Close">✕</button></div>
+      <div class="verify-detail-title">${detail.title}<button class="verify-detail-close" onclick="event.stopPropagation(); closeVerifyPortal();" title="Close">✕</button></div>
       ${detailRows}
       <div class="verify-detail-action">${detail.action}</div>
     </div>
   </span>`;
 }
 
+var _activeVerifyBadge = null;
+function closeVerifyPortal() {
+  var portal = document.getElementById('verifyPortal');
+  portal.classList.remove('open');
+  portal.innerHTML = '';
+  if (_activeVerifyBadge) { _activeVerifyBadge.classList.remove('open'); _activeVerifyBadge = null; }
+}
+
 function toggleVerifyDetail(el) {
-  // Close any other open badges
-  document.querySelectorAll('.verify-badge.open').forEach(b => {
-    if (b !== el) {
-      b.classList.remove('open');
-      // Reset parent card z-index
-      const parentCard = b.closest('.parish-card');
-      if (parentCard) parentCard.style.zIndex = '';
-    }
-  });
-  const isOpening = !el.classList.contains('open');
-  el.classList.toggle('open');
-  // Elevate parent card z-index so fixed popup isn't clipped
-  const parentCard = el.closest('.parish-card');
-  if (parentCard) parentCard.style.zIndex = isOpening ? '9998' : '';
-  // B4 fix: position the fixed detail panel relative to the badge on open
-  // E6 fix: clamp to bottom viewport; flip above badge if needed
-  if (isOpening) {
-    const detail = el.querySelector('.verify-detail');
-    if (detail) {
-      const rect = el.getBoundingClientRect();
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
-      // Temporarily show to measure height
-      detail.style.visibility = 'hidden';
-      detail.style.display = 'block';
-      const detailH = detail.offsetHeight;
-      detail.style.visibility = '';
-      // Check if there's room below the badge
-      const spaceBelow = vh - rect.bottom - 6;
-      if (spaceBelow >= detailH || spaceBelow > rect.top) {
-        // Place below, clamped to not overflow viewport bottom
-        detail.style.top = Math.min(rect.bottom + 6, vh - detailH - 6) + 'px';
-      } else {
-        // Flip above the badge
-        detail.style.top = Math.max(6, rect.top - detailH - 6) + 'px';
-      }
-      // Align right edge to badge right, but clamp to viewport
-      const rightFromRight = vw - rect.right;
-      detail.style.right = Math.max(6, rightFromRight) + 'px';
-      detail.style.left = 'auto';
-      // If it would overflow left edge, flip to left-aligned
-      const estLeft = rect.right - 290;
-      if (estLeft < 6) {
-        detail.style.left = Math.max(6, rect.left) + 'px';
-        detail.style.right = 'auto';
-      }
-    }
+  var portal = document.getElementById('verifyPortal');
+  // If clicking the same badge, close
+  if (_activeVerifyBadge === el) { closeVerifyPortal(); return; }
+  // Close any prior
+  if (_activeVerifyBadge) _activeVerifyBadge.classList.remove('open');
+  _activeVerifyBadge = el;
+  el.classList.add('open');
+  // Copy detail content into portal
+  var detail = el.querySelector('.verify-detail');
+  if (!detail) return;
+  portal.innerHTML = detail.innerHTML;
+  // Position portal relative to badge
+  var rect = el.getBoundingClientRect();
+  var vw = window.innerWidth;
+  var vh = window.innerHeight;
+  portal.classList.add('open');
+  var pH = portal.offsetHeight;
+  // Vertical: prefer below, flip above if no room
+  if (vh - rect.bottom - 8 >= pH) {
+    portal.style.top = (rect.bottom + 6) + 'px';
+  } else {
+    portal.style.top = Math.max(6, rect.top - pH - 6) + 'px';
+  }
+  // Horizontal: align right edge to badge right
+  var rightPx = vw - rect.right;
+  if (rect.right - 290 < 6) {
+    portal.style.left = '6px'; portal.style.right = 'auto';
+  } else {
+    portal.style.right = Math.max(6, rightPx) + 'px'; portal.style.left = 'auto';
   }
 }
 
 // Close verify detail on outside click
 document.addEventListener('click', function(e) {
-  if (!e.target.closest('.verify-badge')) {
-    document.querySelectorAll('.verify-badge.open').forEach(b => {
-      b.classList.remove('open');
-      const parentCard = b.closest('.parish-card');
-      if (parentCard) parentCard.style.zIndex = '';
-    });
+  if (!e.target.closest('.verify-badge') && !e.target.closest('#verifyPortal')) {
+    closeVerifyPortal();
   }
 });
 
@@ -5700,9 +5687,10 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   // 2E: Accessibility notes
   if (loc && loc.accessibility_notes) contactRows.push(`<div class="contact-row"><span class="contact-row-label">Access</span><span class="contact-row-val" style="font-style:italic;font-size:0.72rem;">${loc.accessibility_notes}</span></div>`);
 
-  const contactDrawer = contactRows.length
-    ? `<button class="contact-toggle-btn" onclick="toggleContact(this)">Contact</button>
-       <div class="contact-drawer">${contactRows.join('')}</div>` : '';
+  const contactBtn = contactRows.length
+    ? `<button class="contact-toggle-btn" onclick="toggleContact(this)">Contact</button>` : '';
+  const contactDrawerBody = contactRows.length
+    ? `<div class="contact-drawer">${contactRows.join('')}</div>` : '';
 
   // Pastor name for card footer — find first clergy with "Pastor" or "Rector" title
   const pastorClergy = clergy.find(cl => cl.name && /pastor|rector/i.test(cl.title || ''));
@@ -5780,7 +5768,8 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
       <span class="county-badge">${distHtml}<button class="fav-btn${isFav ? ' favorited' : ''}" onclick="event.stopPropagation(); toggleFavorite('${p.id}', this);" title="${isFav ? 'Remove from favorites' : 'Add to favorites'}">${isFav ? '❤️' : '🤍'}</button> ${confBadge}</span>
     </div>
     ${p.visitation && p.visitation.hours_note ? `<div class="visitation-bar">🕊 Open for prayer: ${p.visitation.hours_note}</div>` : ''}
-    <div class="card-meta">${accessBadge}${contactDrawer}${bulletinLink}${directionsBtn}<span class="card-meta-overflow"><button class="card-meta-overflow-btn" onclick="event.stopPropagation(); toggleCardOverflow(this.parentElement);" title="More actions">⋯</button><div class="card-meta-overflow-menu"><button class="card-meta-overflow-item" onclick="event.stopPropagation(); shareParish('${p.id}', this); toggleCardOverflow(this.closest('.card-meta-overflow'));">📋 Share</button><button class="card-meta-overflow-item" onclick="event.stopPropagation(); printParish('${p.id}'); toggleCardOverflow(this.closest('.card-meta-overflow'));">🖨 Print</button></div></span></div>
+    <div class="card-meta">${accessBadge}${contactBtn}${bulletinLink}${directionsBtn}<span class="card-meta-overflow"><button class="card-meta-overflow-btn" onclick="event.stopPropagation(); toggleCardOverflow(this.parentElement);" title="More actions">⋯</button><div class="card-meta-overflow-menu"><button class="card-meta-overflow-item" onclick="event.stopPropagation(); shareParish('${p.id}', this); toggleCardOverflow(this.closest('.card-meta-overflow'));">📋 Share</button><button class="card-meta-overflow-item" onclick="event.stopPropagation(); printParish('${p.id}'); toggleCardOverflow(this.closest('.card-meta-overflow'));">🖨 Print</button></div></span></div>
+    ${contactDrawerBody}
     <div class="card-body">
       ${categoryFilter === '__lenten_only__' ? (
         lentWrapped +
@@ -5933,10 +5922,18 @@ function toggleShowAll(btn, parishId) {
 (async function() {
   try {
     const resp = await fetch(PARISH_DATA_URL);
-    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    if (!resp.ok) throw new Error('HTTP ' + resp.status + ' fetching ' + PARISH_DATA_URL);
+    const contentType = resp.headers.get('content-type') || '';
+    if (!contentType.includes('json') && !contentType.includes('octet')) {
+      console.warn('parish_data.json returned unexpected content-type:', contentType);
+    }
     PARISH_DATA = await resp.json();
+    if (!PARISH_DATA || !Array.isArray(PARISH_DATA.parishes)) {
+      throw new Error('Invalid data format — missing parishes array. Got: ' + (PARISH_DATA ? JSON.stringify(Object.keys(PARISH_DATA)).slice(0,100) : 'null'));
+    }
   } catch(e) {
-    document.body.innerHTML = '<div style="padding:2rem;text-align:center;color:red;font-size:1.2rem;">Error loading data. Please refresh the page.<br><small>' + e.message + '</small></div>';
+    console.error('MassFinder data load error:', e);
+    document.body.innerHTML = '<div style="padding:2rem;text-align:center;color:red;font-size:1.2rem;">Error loading parish data. Please refresh the page.<br><small>' + e.message + '</small><br><br><small style="color:#666;">If this persists, ensure parish_data.json is deployed alongside index.html.</small></div>';
     return;
   }
 
@@ -6862,8 +6859,10 @@ function setSortMode(mode) {
 
 function toggleContact(btn) {
   btn.classList.toggle('open');
-  const drawer = btn.nextElementSibling;
-  if (drawer) drawer.classList.toggle('open');
+  // Drawer is now a sibling after .card-meta, not inside it
+  const cardMeta = btn.closest('.card-meta');
+  const drawer = cardMeta ? cardMeta.nextElementSibling : null;
+  if (drawer && drawer.classList.contains('contact-drawer')) drawer.classList.toggle('open');
 }
 
 function clearLocationSort() {
@@ -6954,6 +6953,17 @@ function toggleCardOverflow(el) {
     if (m !== el) m.classList.remove('open');
   });
   el.classList.toggle('open');
+  // Position the menu using fixed coords
+  if (el.classList.contains('open')) {
+    var btn = el.querySelector('.card-meta-overflow-btn');
+    var menu = el.querySelector('.card-meta-overflow-menu');
+    if (btn && menu) {
+      var r = btn.getBoundingClientRect();
+      menu.style.top = (r.bottom + 4) + 'px';
+      menu.style.right = (window.innerWidth - r.right) + 'px';
+      menu.style.left = 'auto';
+    }
+  }
 }
 // Close overflow menus on outside click
 document.addEventListener('click', function(e) {
@@ -8173,6 +8183,7 @@ window.toggleFavorite   = toggleFavorite;
 window.toggleFavFilter  = toggleFavFilter;
 window.shareCurrentView  = shareCurrentView;
 window.toggleVerifyDetail = toggleVerifyDetail;
+window.closeVerifyPortal  = closeVerifyPortal;
 window.toggleShowAll     = toggleShowAll;
 window.toggleSimpleMode  = toggleSimpleMode;
 window.setSimpleFilter   = setSimpleFilter;
