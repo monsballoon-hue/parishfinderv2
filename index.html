@@ -1172,12 +1172,12 @@
     border-bottom: 1px solid rgba(201,168,76,0.3);
   }
   .banner-triduum .banner-action { color: var(--gold-light); }
-  .banner-lent {
-    background: linear-gradient(135deg, #4a2264, #5c2d82);
-    color: #dcc8ed;
+  .banner-lent, .banner-seasonal {
+    background: var(--season-gradient, linear-gradient(135deg, #4a2264, #5c2d82));
+    color: var(--season-text, #dcc8ed);
     border-bottom: 1px solid rgba(201,168,76,0.2);
   }
-  .banner-lent .banner-action { color: var(--gold-light); }
+  .banner-lent .banner-action, .banner-seasonal .banner-action { color: var(--season-action, var(--gold-light)); }
   .banner-yc {
     background: linear-gradient(135deg, #7a5c00, #9a7200);
     color: #fff5d6;
@@ -4035,7 +4035,7 @@ function setSimpleFilter(cat) {
   simpleFilter = cat;
   // Tie 'lenten' simple button into the seasonal banner filter
   if (cat === 'lenten') {
-    seasonalBannerFilter = 'lent';
+    seasonalBannerFilter = 'seasonal';
   } else {
     seasonalBannerFilter = '';
   }
@@ -4291,6 +4291,47 @@ function isCurrentSeason(svc) {
     return (month === 4 && now.getDate() >= 16) || (month >= 5 && month <= 7);
   }
   return true; // unknown season = show
+}
+
+// Determine the current liturgical season for the banner (C5)
+function getCurrentLiturgicalSeason() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const today = new Date(year, now.getMonth(), now.getDate());
+
+  // Easter & related ranges
+  const easter = computeEaster(year);
+  const lent = getLentRange(year);
+  const palmSunday = new Date(easter); palmSunday.setDate(easter.getDate() - 7);
+  const holySaturday = new Date(easter); holySaturday.setDate(easter.getDate() - 1);
+  const pentecost = new Date(easter); pentecost.setDate(easter.getDate() + 49);
+
+  // Advent: 4 Sundays before Christmas through Dec 24
+  const christmas = new Date(year, 11, 25);
+  const christmasDay = christmas.getDay();
+  const fourthSunday = new Date(year, 11, 25 - christmasDay);
+  const adventStart = new Date(fourthSunday); adventStart.setDate(fourthSunday.getDate() - 21);
+  const adventEnd = new Date(year, 11, 24);
+
+  if (today >= palmSunday && today <= holySaturday) {
+    return { key: 'holy_week', label: 'Holy Week', color: '#522466', gradient: 'linear-gradient(135deg, #3d1f4e, #522466)',
+             textColor: '#e8d5f5', actionColor: 'var(--gold-light)', icon: '✟' };
+  }
+  if (today >= lent.start && today < palmSunday) {
+    return { key: 'lent', label: 'Lenten', color: '#5c2d82', gradient: 'linear-gradient(135deg, #4a2264, #5c2d82)',
+             textColor: '#dcc8ed', actionColor: 'var(--gold-light)', icon: '✟' };
+  }
+  if (today >= easter && today <= pentecost) {
+    return { key: 'easter', label: 'Easter', color: '#a68a2a', gradient: 'linear-gradient(135deg, #8a7020, #a68a2a)',
+             textColor: '#fff8e1', actionColor: '#fff', icon: '✦' };
+  }
+  if (today >= adventStart && today <= adventEnd) {
+    return { key: 'advent', label: 'Advent', color: '#2d4a7a', gradient: 'linear-gradient(135deg, #1e3a5f, #2d4a7a)',
+             textColor: '#c8d8f0', actionColor: '#e8d5f5', icon: '✦' };
+  }
+  // Ordinary Time
+  return { key: 'ordinary', label: 'Ordinary Time', color: '#3a7a3a', gradient: 'linear-gradient(135deg, #2a5e2a, #3a7a3a)',
+           textColor: '#d4ecd4', actionColor: '#fff', icon: '✦' };
 }
 
 // ─── RENDERING ───────────────────────────────────────────────────────────────
@@ -5725,13 +5766,14 @@ function render() {
     if (favFilterActive && !favorites.has(p.id)) return false;
     if (!parishMatchesSearch(p, q)) return false;
     if (county && p.county !== county) return false;
-    // Seasonal banner filter (lent/triduum)
+    // Seasonal banner filter (seasonal/triduum)
     if (seasonalBannerFilter) {
-      if (seasonalBannerFilter === 'lent') {
-        const hasLenten = (p.services||[]).some(s =>
-          isServiceActive(s) && s.seasonal && s.seasonal.season === 'lent' && isCurrentSeason(s)
+      if (seasonalBannerFilter === 'seasonal') {
+        const hasSeasonal = (p.services||[]).some(s =>
+          isServiceActive(s) && s.seasonal && s.seasonal.is_seasonal
+          && s.seasonal.season !== 'year_round' && isCurrentSeason(s)
         );
-        if (!hasLenten) return false;
+        if (!hasSeasonal) return false;
       } else if (seasonalBannerFilter === 'triduum') {
         const hasTriduum = (p.services||[]).some(s =>
           isServiceActive(s) && ['holy_thursday_mass','good_friday_service','easter_vigil_mass'].includes(s.type)
@@ -5946,21 +5988,24 @@ function render() {
         const isTriActive = seasonalBannerFilter === 'triduum';
         bannerHtml += `<div class="featured-banner banner-triduum${isTriActive ? ' banner-active' : ''}" onclick="filterSeasonalServices('triduum');">
           ✟ Holy Week Services — Holy Thursday · Good Friday · Easter Vigil
-          <span class="banner-action">${isTriActive ? '✕ Clear Filter' : 'Find Nearby →'}</span>
+          <span class="banner-action">${isTriActive ? 'Clear' : 'Nearby'}</span>
         </div>`;
       }
     }
 
-    // Lent banner (during Lent, unless Holy Week banner is already showing)
-    if (isLentNow && !isHolyWeek) {
-      const lentenParishCount = parishes.filter(p => (p.services||[]).some(s =>
-        isServiceActive(s) && s.seasonal && s.seasonal.season === 'lent' && isCurrentSeason(s)
+    // Seasonal services banner (C1–C5: generic, season-aware)
+    // Skip if Triduum banner is already showing (avoid double banner in Holy Week)
+    if (!isHolyWeek) {
+      const seasonInfo = getCurrentLiturgicalSeason();
+      const seasonalChurchCount = parishes.filter(p => (p.services||[]).some(s =>
+        isServiceActive(s) && s.seasonal && s.seasonal.is_seasonal
+        && s.seasonal.season !== 'year_round' && isCurrentSeason(s)
       )).length;
-      if (lentenParishCount > 0) {
-        const isLentActive = seasonalBannerFilter === 'lent';
-        bannerHtml += `<div class="featured-banner banner-lent${isLentActive ? ' banner-active' : ''}" onclick="filterSeasonalServices('lent');">
-          ✟ Lenten Services at ${lentenParishCount} Parishes — Stations, Confessions, Adoration &amp; More
-          <span class="banner-action">${isLentActive ? '✕ Clear Filter' : 'Find Nearby →'}</span>
+      if (seasonalChurchCount > 0) {
+        const isActive = seasonalBannerFilter === 'seasonal';
+        bannerHtml += `<div class="featured-banner banner-seasonal${isActive ? ' banner-active' : ''}" onclick="filterSeasonalServices('seasonal');" style="--season-gradient:${seasonInfo.gradient}; --season-text:${seasonInfo.textColor}; --season-action:${seasonInfo.actionColor};">
+          ${seasonInfo.icon} Seasonal Services at ${seasonalChurchCount} Churches
+          <span class="banner-action">${isActive ? 'Clear' : 'Nearby'}</span>
         </div>`;
       }
     }
@@ -6073,6 +6118,12 @@ applySimpleMode();
 
 // Load favorites before initial render so collapsed section appears immediately
 loadFavorites();
+
+// C5: Expose current liturgical season color as CSS custom property
+(function setSeasonColor() {
+  const season = getCurrentLiturgicalSeason();
+  document.documentElement.style.setProperty('--season-color', season.color);
+})();
 
 // Initial render
 renderYCEvents();
@@ -6451,7 +6502,7 @@ function clearAllFilters() {
 }
 
 // 5: Seasonal banner filter — shows only parishes with seasonal services, sorted by proximity
-var seasonalBannerFilter = ''; // '' | 'lent' | 'triduum'
+var seasonalBannerFilter = ''; // '' | 'seasonal' | 'triduum'
 function filterSeasonalServices(season) {
   // Toggle off if already active
   if (seasonalBannerFilter === season) {
