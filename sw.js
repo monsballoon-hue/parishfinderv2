@@ -1,5 +1,5 @@
 // WMass Parish Finder — Service Worker
-const CACHE_VERSION = 'pf-v1';
+const CACHE_VERSION = 'pf-v2';
 const STATIC_CACHE = CACHE_VERSION + '-static';
 const DATA_CACHE = CACHE_VERSION + '-data';
 
@@ -7,8 +7,8 @@ const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/icon-192.png',
-  '/icon-512.png',
+  '/icon192.png',
+  '/icon512.png',
 ];
 
 const CDN_ASSETS = [
