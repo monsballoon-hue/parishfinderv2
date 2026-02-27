@@ -58,10 +58,11 @@
   .header-inner {
     max-width: 1280px;
     margin: 0 auto;
-    padding: 8px 20px;
+    padding: 12px 20px;
     display: flex;
     align-items: center;
     gap: 12px;
+    min-height: 44px;
   }
   .header-cross {
     color: var(--gold);
@@ -1011,7 +1012,7 @@
   /* RESPONSIVE */
   @media (max-width: 768px) {
     .parish-grid { grid-template-columns: 1fr; }
-    .header-badge { display: none; }
+    .header-badge { font-size: 0.65rem; padding: 3px 10px; }
     .simple-toggle { margin-left: auto; }
     .header-add-btn { margin-left: 0; }
     .header-inner { gap: 8px; padding: 8px 12px; }
@@ -1024,10 +1025,11 @@
     .simple-filter-btn { min-width: 100px; font-size: 0.95rem; padding: 12px 16px; }
   }
   @media (max-width: 520px) {
-    .header-inner { gap: 6px; padding: 6px 10px; }
+    .header-inner { gap: 6px; padding: 8px 10px; min-height: 40px; flex-wrap: wrap; }
     .header-cross { font-size: 18px; }
     .header-title h1 { font-size: 0.95rem; }
     .header-title p { display: none; }
+    .header-badge { font-size: 0.6rem; padding: 2px 8px; order: 10; margin-left: 0; }
     .simple-toggle { font-size: 0.68rem; padding: 3px 10px; }
     .header-add-btn { font-size: 0.66rem; padding: 3px 9px; }
     .controls-row-1 {
@@ -1808,8 +1810,8 @@
     background: #faf8f4;
     border-radius: 14px;
     width: 100%;
-    max-width: 860px;
-    height: min(96vh, 720px);
+    max-width: 920px;
+    height: min(96vh, 780px);
     display: flex;
     flex-direction: column;
     box-shadow: 0 24px 80px rgba(0,0,0,0.45);
@@ -1819,7 +1821,7 @@
   }
   .info-header {
     background: linear-gradient(135deg, #1a2744 0%, #243260 100%);
-    padding: 18px 24px 14px;
+    padding: 16px 24px 12px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1827,13 +1829,13 @@
   }
   .info-header h2 {
     font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: 700;
     color: #fff;
     margin: 0;
   }
   .info-header .info-sub {
-    font-size: 0.72rem;
+    font-size: 0.78rem;
     color: var(--gold-light);
     margin-top: 2px;
   }
@@ -1845,13 +1847,12 @@
   .info-body {
     flex: 1;
     overflow: hidden;
-    padding: 16px 20px;
+    padding: 16px 20px 12px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto 1fr auto;
-    gap: 12px;
+    grid-template-rows: auto auto 1fr auto;
+    gap: 10px;
   }
-  /* Hero stats row spans full width */
   .info-hero { grid-column: 1 / -1; }
   .info-hero-grid {
     display: grid;
@@ -1862,30 +1863,37 @@
     background: #fff;
     border: 1px solid #eae6df;
     border-radius: 10px;
-    padding: 12px 10px;
+    padding: 14px 10px;
     text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .info-stat-card::before {
+    content: '';
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 32px; height: 3px; border-radius: 0 0 3px 3px;
+    background: var(--gold);
   }
   .info-stat-num {
     font-family: 'Playfair Display', serif;
-    font-size: 1.65rem;
+    font-size: 2rem;
     font-weight: 700;
     line-height: 1;
     color: var(--navy);
   }
   .info-stat-label {
-    font-size: 0.68rem;
+    font-size: 0.82rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--text-light);
-    margin-top: 4px;
+    margin-top: 5px;
   }
   .info-stat-sub {
-    font-size: 0.62rem;
+    font-size: 0.7rem;
     color: var(--mid-gray);
-    margin-top: 1px;
+    margin-top: 2px;
   }
-  /* Donut card */
   .info-card {
     background: #fff;
     border: 1px solid #eae6df;
@@ -1894,73 +1902,84 @@
     overflow: hidden;
   }
   .info-card-title {
-    font-size: 0.62rem;
+    font-size: 0.7rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.12em;
     color: var(--gold);
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
   .info-donut-row {
     display: flex;
     align-items: center;
     gap: 16px;
   }
-  .info-legend { display: flex; flex-direction: column; gap: 5px; flex: 1; }
+  .info-legend { display: flex; flex-direction: column; gap: 6px; flex: 1; }
   .info-legend-row {
-    display: flex; align-items: center; gap: 6px; font-size: 0.78rem;
+    display: flex; align-items: center; gap: 8px; font-size: 0.88rem;
   }
   .info-legend-dot {
-    width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
   }
   .info-legend-label { flex: 1; color: var(--text); font-weight: 500; }
-  .info-legend-num { color: var(--text-light); font-weight: 600; font-size: 0.76rem; }
-  .info-legend-pct { color: var(--mid-gray); font-size: 0.66rem; min-width: 32px; text-align: right; }
-  /* Bar chart for counties */
+  .info-legend-num { color: var(--text-light); font-weight: 700; font-size: 0.88rem; }
+  .info-legend-pct { color: var(--mid-gray); font-size: 0.74rem; min-width: 36px; text-align: right; }
   .info-bar-row {
-    display: flex; align-items: center; gap: 8px; margin-bottom: 6px;
+    display: flex; align-items: center; gap: 8px; margin-bottom: 7px;
   }
   .info-bar-label {
-    font-size: 0.72rem; font-weight: 600; color: var(--text); min-width: 72px;
+    font-size: 0.82rem; font-weight: 600; color: var(--text); min-width: 78px;
   }
   .info-bar-track {
-    flex: 1; height: 8px; background: #f0ece4; border-radius: 4px; overflow: hidden;
+    flex: 1; height: 10px; background: #f0ece4; border-radius: 5px; overflow: hidden;
   }
   .info-bar-fill {
-    height: 100%; border-radius: 4px; transition: width 0.6s ease;
+    height: 100%; border-radius: 5px;
   }
+  @keyframes barGrowIn { from { width: 0; } }
+  .info-bar-fill { animation: barGrowIn 0.8s ease-out both; }
   .info-bar-num {
-    font-size: 0.72rem; color: var(--text-light); font-weight: 600; min-width: 20px; text-align: right;
+    font-size: 0.82rem; color: var(--text-light); font-weight: 700; min-width: 24px; text-align: right;
   }
-  /* Language pills */
-  .info-lang-pills { display: flex; flex-wrap: wrap; gap: 4px; }
+  .info-lang-pills { display: flex; flex-wrap: wrap; gap: 5px; }
   .info-lang-pill {
-    padding: 3px 8px; border-radius: 12px; font-size: 0.68rem; font-weight: 600;
+    padding: 4px 10px; border-radius: 14px; font-size: 0.78rem; font-weight: 600;
   }
   .info-lang-pill.major { background: rgba(26,39,68,0.08); color: var(--navy); }
   .info-lang-pill.minor { background: rgba(0,0,0,0.03); color: var(--mid-gray); }
-  /* Season / schedule cards */
   .info-mini-grid {
     display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
   }
   .info-mini-card {
-    padding: 8px 10px; border-radius: 8px; text-align: center;
+    padding: 10px 10px; border-radius: 8px; text-align: center;
+    border: 1px solid rgba(0,0,0,0.06);
   }
   .info-mini-num {
     font-family: 'Playfair Display', serif;
-    font-size: 1.3rem; font-weight: 700; line-height: 1;
+    font-size: 1.5rem; font-weight: 700; line-height: 1;
   }
   .info-mini-label {
-    font-size: 0.64rem; font-weight: 500; margin-top: 2px;
+    font-size: 0.72rem; font-weight: 600; margin-top: 3px;
   }
-  .info-mini-sub { font-size: 0.58rem; color: var(--mid-gray); margin-top: 1px; }
-  /* Footer row */
+  .info-mini-sub { font-size: 0.64rem; color: var(--mid-gray); margin-top: 1px; }
+  .info-features-row { grid-column: 1 / -1; }
+  .info-features-grid {
+    display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px;
+  }
+  .info-feature {
+    text-align: center; padding: 10px 4px;
+    background: #fff; border: 1px solid #eae6df; border-radius: 8px;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .info-feature:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+  .info-feature-icon { font-size: 1.3rem; margin-bottom: 4px; }
+  .info-feature-label { font-size: 0.68rem; font-weight: 600; color: var(--text); line-height: 1.2; }
   .info-footer {
     grid-column: 1 / -1;
     text-align: center;
-    font-size: 0.68rem;
+    font-size: 0.76rem;
     color: var(--mid-gray);
-    padding: 4px 0 0;
+    padding: 6px 0 0;
     border-top: 1px solid #eae6df;
   }
   .info-footer strong { color: var(--green); }
@@ -1975,6 +1994,8 @@
     .info-hero-grid { grid-template-columns: repeat(2, 1fr); }
     .info-donut-row { flex-direction: column; align-items: flex-start; gap: 10px; }
     .info-box { height: min(96vh, 90vh); }
+    .info-features-grid { grid-template-columns: repeat(3, 1fr); }
+    .info-stat-num { font-size: 1.6rem; }
   }
 
   /* ── DISTANCE BADGE ON CARD ── */
@@ -4826,19 +4847,22 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   const isShowAll = showAllParishes.has(p.id);
   const effDay = isShowAll ? '' : dayFilter;
   const effTime = isShowAll ? '' : timeFilter;
-  const effCat = isShowAll ? '' : categoryFilter;
+  const effCat = isShowAll ? '' : (categoryFilter === '__lenten_only__' ? '' : categoryFilter);
   const effSub = isShowAll ? '' : subtypeFilter;
   const effLang = isShowAll ? '' : langFilter;
 
   const groups = groupServices(p.services || []);
 
-  const hasAny = Object.values(groups).flat().some(s =>
-    isCurrentSeason(s) &&
-    serviceMatchesDay(s, dayFilter) &&
-    serviceMatchesTime(s, timeFilter) &&
-    serviceMatchesType(s, categoryFilter, subtypeFilter) &&
-    (!langFilter || s.language === langFilter)
-  );
+  const isLentenOnly = categoryFilter === '__lenten_only__';
+  const hasAny = isLentenOnly
+    ? (p.services||[]).some(s => s.seasonal && s.seasonal.season === 'lent' && isCurrentSeason(s))
+    : Object.values(groups).flat().some(s =>
+        isCurrentSeason(s) &&
+        serviceMatchesDay(s, dayFilter) &&
+        serviceMatchesTime(s, timeFilter) &&
+        serviceMatchesType(s, categoryFilter, subtypeFilter) &&
+        (!langFilter || s.language === langFilter)
+      );
   if (!hasAny && (dayFilter || timeFilter || categoryFilter || subtypeFilter || langFilter)) return '';
 
   const isLowConf = p.validation && (p.validation.status === 'low_confidence');
@@ -5017,16 +5041,22 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
     ${p.visitation && p.visitation.hours_note ? `<div class="visitation-bar">🕊 Open for prayer: ${p.visitation.hours_note}</div>` : ''}
     <div class="card-meta">${accessBadge}${contactDrawer}${bulletinLink}${directionsBtn}<button class="share-btn" onclick="event.stopPropagation(); shareParish('${p.id}', this);" title="Share this church">📋 Share</button>${multiSite}</div>
     <div class="card-body">
-      ${renderYCLiteralEvents(p)}
-      ${lentWrapped}${massWrapped}${confWrapped}${adorWrapped}${devotWrapped}${commWrapped}${otherWrapped}
-      ${(() => {
-        const evtHtml = renderSpecialEvents(p);
-        if (!evtHtml) return '';
-        const evtCollapsed = isShowAll ? false : true;
-        const evtCount = (p.special_events || []).length;
-        return wrapCollapsible('events', 'Events', 'events', evtHtml, Array(evtCount).fill({}), evtCollapsed);
-      })()}
-      ${showAllBtn}
+      ${categoryFilter === '__lenten_only__' ? (
+        lentWrapped +
+        '<button class="show-all-btn" onclick="event.stopPropagation(); toggleShowAll(this, \'' + p.id + '\');">' + (isShowAll ? 'Show filtered only \u25B4' : 'See all services \u25BE') + '</button>' +
+        (isShowAll ? massWrapped + confWrapped + adorWrapped + devotWrapped + commWrapped + otherWrapped : '')
+      ) : (
+        renderYCLiteralEvents(p) +
+        lentWrapped + massWrapped + confWrapped + adorWrapped + devotWrapped + commWrapped + otherWrapped +
+        (() => {
+          const evtHtml = renderSpecialEvents(p);
+          if (!evtHtml) return '';
+          const evtCollapsed = isShowAll ? false : true;
+          const evtCount = (p.special_events || []).length;
+          return wrapCollapsible('events', 'Events', 'events', evtHtml, Array(evtCount).fill({}), evtCollapsed);
+        })() +
+        showAllBtn
+      )}
     </div>
     <div class="card-footer">
       ${pastorFooter}
@@ -5313,8 +5343,10 @@ function render() {
       // 5A: In simple mode, pass simpleFilter as the category and skip other filters
       if (isSimpleMode && simpleFilter) {
         // For lenten, pass 'devotion' as category so all services show, the seasonal filter handles the rest
-        const cardCat = simpleFilter === 'lenten' ? '' : simpleFilter;
-        return renderParishCard(p, '', '', cardCat, '', '', getDistMiles(p));
+        if (simpleFilter === 'lenten') {
+          return renderParishCard(p, '', '', '__lenten_only__', '', '', getDistMiles(p));
+        }
+        return renderParishCard(p, '', '', simpleFilter, '', '', getDistMiles(p));
       }
       return renderParishCard(p, day, time, cat, subtype, lang, getDistMiles(p));
     } catch(e) {
@@ -7117,35 +7149,31 @@ function renderInfoGraphic() {
   const towns = new Set(ps.map(p => p.town)).size;
   const totalLocs = ps.reduce((n,p) => n + (p.locations||[]).length, 0);
 
-  // Category counts
   const massTypes = ['sunday_mass','daily_mass','communion_service','holy_thursday_mass','good_friday_service','easter_vigil_mass'];
   const adorTypes = ['adoration','holy_hour','perpetual_adoration','benediction'];
   const devTypes = ['rosary','divine_mercy','divine_mercy_chaplet','miraculous_medal','stations_of_cross','stations_of_the_cross','novena','devotion','devotional','vespers','gorzkie_zale','anointing','anointing_of_sick'];
 
-  let massN=0, confN=0, adorN=0, devotN=0, otherN=0;
+  let massN=0, confN=0, adorN=0, devotN=0, otherN=0, sundayN=0, dailyN=0;
   allSvcs.forEach(s => {
     const t = s.type||'';
-    if (massTypes.includes(t)) massN++;
+    if (massTypes.includes(t)) { massN++; if (t==='sunday_mass') sundayN++; if (t==='daily_mass') dailyN++; }
     else if (t === 'confession') confN++;
     else if (adorTypes.includes(t)) adorN++;
     else if (devTypes.includes(t)) devotN++;
     else otherN++;
   });
 
-  // Languages
   const langMap = {};
   allSvcs.forEach(s => { const l = s.language||'en'; langMap[l] = (langMap[l]||0) + 1; });
   const langNames = {en:'English',es:'Spanish',pl:'Polish',la:'Latin',pt:'Portuguese',fr:'French',vi:'Vietnamese',asl:'ASL'};
   const langEntries = Object.entries(langMap).sort((a,b) => b[1]-a[1]);
 
-  // Counties
   const countyMap = {};
   ps.forEach(p => { const c = p.county||'?'; countyMap[c] = (countyMap[c]||0) + 1; });
   const countyColors = {Hampden:'#5B4FC4',Berkshire:'#3B82F6',Hampshire:'#10B981',Franklin:'#E8832A'};
   const countyEntries = Object.entries(countyMap).sort((a,b) => b[1]-a[1]);
   const maxCounty = Math.max(...countyEntries.map(e => e[1]));
 
-  // Seasonal
   let seasonalN=0, lentN=0, holyWeekN=0, academicN=0;
   allSvcs.forEach(s => {
     if (s.seasonal && s.seasonal.is_seasonal) {
@@ -7157,10 +7185,10 @@ function renderInfoGraphic() {
     }
   });
 
+  const distinctTypes = new Set(allSvcs.map(s => s.type)).size;
+
   // Donut SVG
-  const donutSize = 110, thick = 14;
-  const r = (donutSize - thick) / 2;
-  const circ = 2 * Math.PI * r;
+  const ds = 120, tk = 16, rd = (ds - tk) / 2, ci = 2 * Math.PI * rd;
   const cats = [
     {label:'Mass',n:massN,color:'#5B4FC4'},
     {label:'Confession',n:confN,color:'#D946A8'},
@@ -7168,83 +7196,68 @@ function renderInfoGraphic() {
     {label:'Devotions',n:devotN,color:'#2A9D8F'},
     {label:'Other',n:otherN,color:'#b0adb8'},
   ];
-  let offset = 0;
-  const donutArcs = cats.map(c => {
-    const pct = c.n / totalSvcs;
-    const dash = pct * circ;
-    const arc = '<circle cx=\"'+donutSize/2+'\" cy=\"'+donutSize/2+'\" r=\"'+r+'\" fill=\"none\" stroke=\"'+c.color+'\" stroke-width=\"'+thick+'\" stroke-dasharray=\"'+dash+' '+(circ-dash)+'\" stroke-dashoffset=\"'+(-offset)+'\" stroke-linecap=\"round\" style=\"opacity:0.9\"/>';
-    offset += dash;
-    return arc;
+  let off = 0;
+  const arcs = cats.map(c => {
+    const d = (c.n/totalSvcs)*ci;
+    const a = `<circle cx="${ds/2}" cy="${ds/2}" r="${rd}" fill="none" stroke="${c.color}" stroke-width="${tk}" stroke-dasharray="${d} ${ci-d}" stroke-dashoffset="${-off}" stroke-linecap="round" style="opacity:0.85"/>`;
+    off += d; return a;
   }).join('');
+  const donut = `<svg width="${ds}" height="${ds}" style="transform:rotate(-90deg);flex-shrink:0"><circle cx="${ds/2}" cy="${ds/2}" r="${rd}" fill="none" stroke="rgba(0,0,0,0.04)" stroke-width="${tk}"/>${arcs}</svg>`;
 
-  const donutSvg = '<svg width=\"'+donutSize+'\" height=\"'+donutSize+'\" style=\"transform:rotate(-90deg);flex-shrink:0\">' +
-    '<circle cx=\"'+donutSize/2+'\" cy=\"'+donutSize/2+'\" r=\"'+r+'\" fill=\"none\" stroke=\"rgba(0,0,0,0.05)\" stroke-width=\"'+thick+'\"/>' +
-    donutArcs + '</svg>';
-
-  const legendRows = cats.filter(c=>c.n>0).map(c =>
-    '<div class=\"info-legend-row\">' +
-      '<div class=\"info-legend-dot\" style=\"background:'+c.color+'\"></div>' +
-      '<div class=\"info-legend-label\">'+c.label+'</div>' +
-      '<div class=\"info-legend-num\">'+c.n+'</div>' +
-      '<div class=\"info-legend-pct\">'+Math.round(c.n*100/totalSvcs)+'%</div>' +
-    '</div>'
+  const legend = cats.filter(c=>c.n>0).map(c =>
+    `<div class="info-legend-row"><div class="info-legend-dot" style="background:${c.color}"></div><div class="info-legend-label">${c.label}</div><div class="info-legend-num">${c.n}</div><div class="info-legend-pct">${Math.round(c.n*100/totalSvcs)}%</div></div>`
   ).join('');
 
-  const countyBars = countyEntries.map(([name, count]) =>
-    '<div class=\"info-bar-row\">' +
-      '<div class=\"info-bar-label\">'+name+'</div>' +
-      '<div class=\"info-bar-track\"><div class=\"info-bar-fill\" style=\"width:'+Math.round(count*100/maxCounty)+'%;background:'+(countyColors[name]||'#888')+'\"></div></div>' +
-      '<div class=\"info-bar-num\">'+count+'</div>' +
-    '</div>'
+  const bars = countyEntries.map(([nm, ct], i) =>
+    `<div class="info-bar-row"><div class="info-bar-label">${nm}</div><div class="info-bar-track"><div class="info-bar-fill" style="width:${Math.round(ct*100/maxCounty)}%;background:${countyColors[nm]||'#888'};animation-delay:${i*0.15}s"></div></div><div class="info-bar-num">${ct}</div></div>`
   ).join('');
 
-  const langPills = langEntries.map(([code, n]) =>
-    '<span class=\"info-lang-pill '+(n>10?'major':'minor')+'\">'+(langNames[code]||code)+' <span style=\"opacity:0.5\">'+n+'</span></span>'
+  const pills = langEntries.map(([code, n]) =>
+    `<span class="info-lang-pill ${n>10?'major':'minor'}">${langNames[code]||code} <span style="opacity:0.5">${n}</span></span>`
   ).join('');
 
-  const el = document.getElementById('infoBody');
-  el.innerHTML =
-    // ROW 1: Hero stats
-    '<div class=\"info-hero\">' +
-      '<div class=\"info-hero-grid\">' +
-        '<div class=\"info-stat-card\"><div class=\"info-stat-num\">'+totalParishes+'</div><div class=\"info-stat-label\">Parishes</div><div class=\"info-stat-sub\">'+countyEntries.length+' counties</div></div>' +
-        '<div class=\"info-stat-card\"><div class=\"info-stat-num\" style=\"color:#5B4FC4\">'+totalSvcs.toLocaleString()+'</div><div class=\"info-stat-label\">Services</div><div class=\"info-stat-sub\">26 types</div></div>' +
-        '<div class=\"info-stat-card\"><div class=\"info-stat-num\" style=\"color:#E8832A\">'+totalLocs+'</div><div class=\"info-stat-label\">Buildings</div><div class=\"info-stat-sub\">All mapped</div></div>' +
-        '<div class=\"info-stat-card\"><div class=\"info-stat-num\" style=\"color:#2A9D8F\">'+towns+'</div><div class=\"info-stat-label\">Towns</div><div class=\"info-stat-sub\">W. Mass</div></div>' +
-      '</div>' +
-    '</div>' +
+  document.getElementById('infoBody').innerHTML =
+    `<div class="info-hero"><div class="info-hero-grid">` +
+      `<div class="info-stat-card"><div class="info-stat-num">${totalParishes}</div><div class="info-stat-label">Parishes</div><div class="info-stat-sub">${countyEntries.length} counties</div></div>` +
+      `<div class="info-stat-card"><div class="info-stat-num" style="color:#5B4FC4">${totalSvcs.toLocaleString()}</div><div class="info-stat-label">Services</div><div class="info-stat-sub">${distinctTypes} types</div></div>` +
+      `<div class="info-stat-card"><div class="info-stat-num" style="color:#E8832A">${totalLocs}</div><div class="info-stat-label">Buildings</div><div class="info-stat-sub">All mapped</div></div>` +
+      `<div class="info-stat-card"><div class="info-stat-num" style="color:#2A9D8F">${towns}</div><div class="info-stat-label">Towns</div><div class="info-stat-sub">W. Mass</div></div>` +
+    `</div></div>` +
 
-    // LEFT COL: Donut + legend
-    '<div class=\"info-card\">' +
-      '<div class=\"info-card-title\">Services Breakdown</div>' +
-      '<div class=\"info-donut-row\">' +
-        '<div style=\"position:relative\">' + donutSvg +
-          '<div style=\"position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(0deg)\">' +
-            '<div style=\"font-family:Playfair Display,serif;font-size:1.2rem;font-weight:700;color:#1a2744\">'+totalSvcs.toLocaleString()+'</div>' +
-            '<div style=\"font-size:0.55rem;color:#8a8278;text-transform:uppercase;letter-spacing:0.1em\">Total</div>' +
-          '</div>' +
-        '</div>' +
-        '<div class=\"info-legend\">' + legendRows + '</div>' +
-      '</div>' +
-    '</div>' +
+    `<div class="info-card"><div class="info-card-title">Services Breakdown</div>` +
+      `<div class="info-donut-row"><div style="position:relative">${donut}<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center"><div style="font-family:Playfair Display,serif;font-size:1.35rem;font-weight:700;color:#1a2744">${totalSvcs.toLocaleString()}</div><div style="font-size:0.6rem;color:#8a8278;text-transform:uppercase;letter-spacing:0.1em">Total</div></div></div><div class="info-legend">${legend}</div></div>` +
+      `<div style="margin-top:12px;border-top:1px solid #eae6df;padding-top:10px"><div class="info-card-title" style="margin-bottom:6px">Weekly Schedule</div>` +
+        `<div class="info-mini-grid">` +
+          `<div class="info-mini-card" style="background:rgba(91,79,196,0.06)"><div class="info-mini-num" style="color:#5B4FC4">${sundayN}</div><div class="info-mini-label">Sunday Masses</div></div>` +
+          `<div class="info-mini-card" style="background:rgba(91,79,196,0.04)"><div class="info-mini-num" style="color:#6366F1">${dailyN}</div><div class="info-mini-label">Daily Masses</div></div>` +
+          `<div class="info-mini-card" style="background:rgba(217,70,168,0.06)"><div class="info-mini-num" style="color:#D946A8">${confN}</div><div class="info-mini-label">Confession Slots</div></div>` +
+          `<div class="info-mini-card" style="background:rgba(232,131,42,0.06)"><div class="info-mini-num" style="color:#E8832A">${adorN}</div><div class="info-mini-label">Adoration Hours</div></div>` +
+        `</div></div></div>` +
 
-    // RIGHT COL: Counties + Languages
-    '<div style=\"display:flex;flex-direction:column;gap:12px\">' +
-      '<div class=\"info-card\" style=\"flex:1\">' +
-        '<div class=\"info-card-title\">Coverage by County</div>' +
-        countyBars +
-      '</div>' +
-      '<div class=\"info-card\">' +
-        '<div class=\"info-card-title\">Liturgical Languages</div>' +
-        '<div class=\"info-lang-pills\">' + langPills + '</div>' +
-      '</div>' +
-    '</div>' +
+    `<div style="display:flex;flex-direction:column;gap:10px">` +
+      `<div class="info-card"><div class="info-card-title">Coverage by County</div>${bars}</div>` +
+      `<div class="info-card"><div class="info-card-title">${langEntries.length} Liturgical Languages</div><div class="info-lang-pills">${pills}</div></div>` +
+      `<div class="info-card" style="background:linear-gradient(135deg,rgba(124,79,160,0.06),rgba(217,70,168,0.03));border-color:rgba(124,79,160,0.15)">` +
+        `<div class="info-card-title" style="color:#7c4fa0">Liturgical Seasons</div>` +
+        `<div style="display:flex;gap:8px;align-items:baseline"><span style="font-family:Playfair Display,serif;font-size:1.5rem;font-weight:700;color:#7c4fa0">${seasonalN}</span><span style="font-size:0.82rem;color:#8a8278">seasonal services</span></div>` +
+        `<div style="display:flex;gap:5px;margin-top:8px;flex-wrap:wrap">` +
+          `<span class="info-lang-pill" style="background:rgba(124,79,160,0.12);color:#7c4fa0">Lent &middot; ${lentN}</span>` +
+          `<span class="info-lang-pill" style="background:rgba(217,70,168,0.1);color:#D946A8">Holy Week &middot; ${holyWeekN}</span>` +
+          `<span class="info-lang-pill" style="background:rgba(232,131,42,0.1);color:#E8832A">Academic &middot; ${academicN}</span>` +
+        `</div></div></div>` +
 
-    // FOOTER
-    '<div class=\"info-footer\">' +
-      'Verified against parish bulletins & websites. Updated February 2026.' +
-    '</div>';
+    `<div class="info-features-row"><div class="info-features-grid">` +
+      `<div class="info-feature"><div class="info-feature-icon">📍</div><div class="info-feature-label">By Location</div></div>` +
+      `<div class="info-feature"><div class="info-feature-icon">🕐</div><div class="info-feature-label">By Time</div></div>` +
+      `<div class="info-feature"><div class="info-feature-icon">🌐</div><div class="info-feature-label">By Language</div></div>` +
+      `<div class="info-feature"><div class="info-feature-icon">⛪</div><div class="info-feature-label">By Rite</div></div>` +
+      `<div class="info-feature"><div class="info-feature-icon">📅</div><div class="info-feature-label">By Season</div></div>` +
+      `<div class="info-feature"><div class="info-feature-icon">🙏</div><div class="info-feature-label">By Type</div></div>` +
+    `</div></div>` +
+
+    `<div class="info-footer">Verified against parish bulletins &amp; websites &middot; <strong>Updated February 2026</strong></div>`;
 }
+
 </script>
 
 
