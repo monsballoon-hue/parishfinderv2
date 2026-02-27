@@ -3112,7 +3112,7 @@ function renderServiceSection(title, icon, services, dayFilter, timeFilter, cate
       const note    = svc.notes;
       // WP1-1C: Location label for multi-site parishes
       const locLabel = (isMultiSite && svc.location_id && locMap && locMap[svc.location_id])
-        ? `<span class="svc-location-label">&middot; ${locMap[svc.location_id].name}</span>` : '';
+        ? `<span class="svc-location-label">&middot; ${locMap[svc.location_id].short_name || locMap[svc.location_id].name}</span>` : '';
       // WP3: YC badge on linked services
       const ycTag = ycServiceIds.has(svc.id) ? '<span class="svc-yc-tag">YC</span>' : '';
       return { timeStr, timeTitle, lang, rite, season, typeTag, note, locLabel, ycTag };
@@ -3221,7 +3221,7 @@ function renderLentenSection(allServices, dayFilter, timeFilter, categoryFilter,
         ? '<span class="rite-tag" title="Traditional Latin Mass">TLM</span>' : '';
       // WP1-1C: Location label for multi-site parishes
       const locLabel = (isMultiSite && svc.location_id && locMap && locMap[svc.location_id])
-        ? `<span class="svc-location-label">&middot; ${locMap[svc.location_id].name}</span>` : '';
+        ? `<span class="svc-location-label">&middot; ${locMap[svc.location_id].short_name || locMap[svc.location_id].name}</span>` : '';
       const ycTag = ycServiceIds.has(svc.id) ? '<span class="svc-yc-tag">YC</span>' : '';
       return `<span class="svc-stack-row"><span class="svc-t"${timeTitle}>${timeStr}</span>${locLabel}${typeTag}${lang}${rite}${ycTag}${svc.notes ? `<span class="svc-note-line">${svc.notes}</span>` : ''}</span>`;
     };
@@ -3626,7 +3626,8 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
     const siblingLines = siblings.map(s => {
       const cityLabel = (s.city && s.city.toLowerCase() !== (p.town||'').toLowerCase())
         ? `, ${s.city}` : '';
-      return `${s.name}${cityLabel}`;
+      const shortLabel = s.short_name ? ` (${s.short_name})` : '';
+      return `${s.name}${cityLabel}${shortLabel}`;
     }).join('<br>');
     alsoAtHtml = `<div class="also-at">Also at:<br>${siblingLines}</div>`;
   }
