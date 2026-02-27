@@ -2557,10 +2557,8 @@
 <!-- SIMPLE MODE FILTERS -->
 <div class="simple-filters" id="simpleFilters">
   <div class="simple-filters-inner">
-    <button class="simple-filter-btn active" data-simple-cat="" onclick="setSimpleFilter('')">⛪ All</button>
-    <button class="simple-filter-btn" data-simple-cat="mass" onclick="setSimpleFilter('mass')">✝ Mass</button>
-    <button class="simple-filter-btn" data-simple-cat="confession" onclick="setSimpleFilter('confession')">🙏 Confession</button>
-    <button class="simple-filter-btn" data-simple-cat="devotion" onclick="setSimpleFilter('devotion')">📿 Devotions</button>
+    <button class="simple-filter-btn active" data-simple-cat="mass_confession" onclick="setSimpleFilter('mass_confession')">✝ Mass &amp; Confession</button>
+    <button class="simple-filter-btn" data-simple-cat="devotion" onclick="setSimpleFilter('devotion')">🙏 Devotions</button>
   </div>
 </div>
 
@@ -2797,6 +2795,7 @@ const LANG_LABELS = {
 const SERVICE_TYPE_GROUPS = {
   mass:       ['sunday_mass','daily_mass','communion_service','holy_thursday_mass','good_friday_service','easter_vigil_mass'],
   confession: ['confession'],
+  mass_confession: ['sunday_mass','daily_mass','communion_service','holy_thursday_mass','good_friday_service','easter_vigil_mass','confession'],
   devotion:   ['adoration','holy_hour','perpetual_adoration','benediction',
                'rosary','divine_mercy','miraculous_medal','novena',
                'stations_of_cross','stations_of_the_cross','anointing_of_sick',
@@ -2807,7 +2806,7 @@ const SERVICE_TYPE_GROUPS = {
 
 // 5A: Simple Mode state
 let isSimpleMode = false;
-let simpleFilter = '';
+let simpleFilter = 'mass_confession';
 
 function getSimpleModeCookie() {
   return document.cookie.split('; ').some(c => c.startsWith('pf_simple=1'));
