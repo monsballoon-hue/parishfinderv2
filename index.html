@@ -3297,6 +3297,10 @@
   .fav-btn:hover { transform: scale(1.2); filter: none; }
   .fav-btn.favorited { filter: none; }
   /* ── COLLAPSED FAVORITES SECTION ── */
+  .fav-section-wrapper {
+    grid-column: 1 / -1;
+    margin-bottom: 4px;
+  }
   .fav-section-header {
     display: flex;
     align-items: center;
@@ -3306,10 +3310,10 @@
     border: 1px solid var(--border);
     border-radius: 10px 10px 0 0;
     cursor: pointer;
-    margin-bottom: 0;
+    -webkit-tap-highlight-color: transparent;
   }
   .fav-section-header-label {
-    font-size: 0.82rem;
+    font-size: 0.85rem;
     font-weight: 700;
     color: var(--navy);
     display: flex;
@@ -3327,13 +3331,13 @@
   .fav-section-toggle .chevron {
     transition: transform 0.2s;
     display: inline-block;
+    font-size: 0.6rem;
   }
   .fav-collapsed-list {
     border: 1px solid var(--border);
     border-top: none;
     border-radius: 0 0 10px 10px;
     overflow: hidden;
-    margin-bottom: 12px;
   }
   .fav-collapsed-card {
     display: flex;
@@ -3345,9 +3349,10 @@
     transition: background 0.15s;
     border-bottom: 1px solid rgba(255,255,255,0.08);
     min-height: 44px;
+    -webkit-tap-highlight-color: transparent;
   }
   .fav-collapsed-card:last-child { border-bottom: none; }
-  .fav-collapsed-card:hover { background: var(--navy-light); }
+  .fav-collapsed-card:active { background: #2a3f6e; }
   .fav-collapsed-card .fcc-name {
     flex: 1;
     font-family: 'Playfair Display', serif;
@@ -3393,8 +3398,16 @@
     flex-shrink: 0;
   }
   .fav-collapsed-card .fcc-badge { flex-shrink: 0; }
-  .fav-expanded-cards { display: none; margin-bottom: 12px; }
-  .fav-expanded-cards.open { display: block; }
+  .fav-expanded-cards {
+    display: none;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 20px;
+    margin-top: 12px;
+  }
+  .fav-expanded-cards.open { display: grid; }
+  @media (max-width: 768px) {
+    .fav-expanded-cards { grid-template-columns: 1fr; }
+  }
   .fav-chip {
     padding: 5px 12px;
     border-radius: 20px;
@@ -5781,12 +5794,14 @@ function render() {
         </div>`;
       }).join('');
 
-      html += `<div class="fav-section-header" onclick="toggleFavSection()">
-        <span class="fav-section-header-label">❤️ Your Churches (${favCards.length})</span>
-        <span class="fav-section-toggle"><span class="chevron" id="favSectionChevron">▼</span> Expand</span>
-      </div>
-      <div class="fav-collapsed-list" id="favCollapsedList">${collapsedRows}</div>
-      <div class="fav-expanded-cards" id="favExpandedCards">${favCards.map(fc => fc.html).join('')}</div>`;
+      html += `<div class="fav-section-wrapper">
+        <div class="fav-section-header" onclick="toggleFavSection()">
+          <span class="fav-section-header-label">❤️ Your Churches (${favCards.length})</span>
+          <span class="fav-section-toggle"><span class="chevron" id="favSectionChevron">▼</span> <span id="favToggleLabel">Expand</span></span>
+        </div>
+        <div class="fav-collapsed-list" id="favCollapsedList">${collapsedRows}</div>
+        <div class="fav-expanded-cards" id="favExpandedCards">${favCards.map(fc => fc.html).join('')}</div>
+      </div>`;
     }
     html += nonFavCards.join('');
   } else {
@@ -6510,19 +6525,19 @@ function toggleFavSection() {
   const expanded = document.getElementById('favExpandedCards');
   const collapsed = document.getElementById('favCollapsedList');
   const chevron = document.getElementById('favSectionChevron');
-  const toggle = chevron && chevron.parentElement;
+  const toggleSpan = document.getElementById('favToggleLabel');
   if (!expanded) return;
   const isOpen = expanded.classList.contains('open');
   if (isOpen) {
     expanded.classList.remove('open');
     if (collapsed) collapsed.style.display = '';
     if (chevron) chevron.textContent = '▼';
-    if (toggle) toggle.lastChild.textContent = ' Expand';
+    if (toggleSpan) toggleSpan.textContent = 'Expand';
   } else {
     expanded.classList.add('open');
     if (collapsed) collapsed.style.display = 'none';
     if (chevron) chevron.textContent = '▲';
-    if (toggle) toggle.lastChild.textContent = ' Collapse';
+    if (toggleSpan) toggleSpan.textContent = 'Collapse';
   }
 }
 
@@ -6530,12 +6545,12 @@ function expandFavAndScroll(parishId) {
   const expanded = document.getElementById('favExpandedCards');
   const collapsed = document.getElementById('favCollapsedList');
   const chevron = document.getElementById('favSectionChevron');
-  const toggle = chevron && chevron.parentElement;
+  const toggleSpan = document.getElementById('favToggleLabel');
   if (expanded && !expanded.classList.contains('open')) {
     expanded.classList.add('open');
     if (collapsed) collapsed.style.display = 'none';
     if (chevron) chevron.textContent = '▲';
-    if (toggle) toggle.lastChild.textContent = ' Collapse';
+    if (toggleSpan) toggleSpan.textContent = 'Collapse';
   }
   setTimeout(() => {
     const card = document.querySelector(`[data-parish-id="${parishId}"]`);
