@@ -750,15 +750,13 @@
   /* Expanded detail panel */
   .verify-detail {
     display: none;
-    position: absolute;
-    top: calc(100% + 6px);
-    right: 0;
+    position: fixed; /* B4 fix: fixed escapes overflow:hidden ancestors (e.g. fav-section-wrapper) */
     background: #fff;
     border: 1px solid var(--border);
     border-radius: 10px;
     box-shadow: var(--shadow-lg);
     padding: 12px 14px;
-    z-index: 300; /* B4: raised from 200 to break out of fav-section stacking context */
+    z-index: 300;
     min-width: 230px;
     max-width: 290px;
     text-align: left;
@@ -3321,7 +3319,7 @@
     grid-column: 1 / -1;
     display: none;
     border-radius: 10px;
-    /* B4: overflow removed — was clipping verify-detail popovers inside fav section */
+    overflow: hidden;
     border: 1px solid var(--border);
     background: #fff;
   }
@@ -5000,8 +4998,9 @@ function renderSpecialEvents(p) {
     }
 
     // Calendar button for dated events with a standard time
+    // Bug 3 fix: recurring events with a specific date should also get a cal button
     let calHtml = '';
-    if (!isOldRecurring && !isNewRecurring && evt.date && isStandardTime) {
+    if (evt.date && isStandardTime) {
       const loc0 = p.locations && p.locations[0];
       const evtLoc = (loc0 && loc0.name ? loc0.name : p.name) + ', ' + (p.town || '') + ', MA';
       const evtTitle = (evt.title || evt.notes || typeName || 'Event') + ' at ' + (loc0 ? loc0.name : p.name);
@@ -5038,13 +5037,15 @@ function renderSpecialEvents(p) {
 
 // Render YC literal events (no service_id) on parish cards in an Events-style section
 function renderYCLiteralEvents(p) {
-  const evts = ycLiteralEventsByParish[p.id];
-  if (!evts || !evts.length) return '';
+  // Bug 2 fix: use all YC events for this parish, not just service_id-less ones.
+  // service_id events were previously excluded, leaving this section always empty.
+  const allYCForParish = (PARISH_DATA.yc_events || []).filter(evt => evt.parish_id === p.id);
+  if (!allYCForParish.length) return '';
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  const upcoming = evts.filter(evt => {
+  const upcoming = allYCForParish.filter(evt => {
     if (!evt.date) return false;
     const evtDate = new Date(evt.date + 'T00:00:00');
     return evtDate >= today;
@@ -5252,7 +5253,27 @@ function toggleVerifyDetail(el) {
   document.querySelectorAll('.verify-badge.open').forEach(b => {
     if (b !== el) b.classList.remove('open');
   });
+  const isOpening = !el.classList.contains('open');
   el.classList.toggle('open');
+  // B4 fix: position the fixed detail panel below the badge on open
+  if (isOpening) {
+    const detail = el.querySelector('.verify-detail');
+    if (detail) {
+      const rect = el.getBoundingClientRect();
+      const vw = window.innerWidth;
+      detail.style.top = (rect.bottom + 6) + 'px';
+      // Align right edge to badge right, but clamp to viewport
+      const rightFromRight = vw - rect.right;
+      detail.style.right = Math.max(6, rightFromRight) + 'px';
+      detail.style.left = 'auto';
+      // If it would overflow left edge, flip to left-aligned
+      const estLeft = rect.right - 290;
+      if (estLeft < 6) {
+        detail.style.left = Math.max(6, rect.left) + 'px';
+        detail.style.right = 'auto';
+      }
+    }
+  }
 }
 
 // Close verify detail on outside click
