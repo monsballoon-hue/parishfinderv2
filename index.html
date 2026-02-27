@@ -2449,6 +2449,216 @@
   .app-view { display: none; }
   .app-view.active { display: block; }
 
+  /* ── TODAY VIEW V2 ─────────────────────────── */
+  .today-section {
+    margin-bottom: 28px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .today-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .today-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .today-section-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--navy);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .today-section-meta {
+    font-size: 0.75rem;
+    color: var(--mid-gray);
+    font-weight: 500;
+  }
+  .today-pulse {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: todayPulse 2s ease-in-out infinite;
+  }
+  @keyframes todayPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(45,106,79,0.5); }
+    50% { box-shadow: 0 0 0 6px rgba(45,106,79,0); }
+  }
+
+  /* Favorites onboarding nudge */
+  .today-fav-nudge {
+    background: linear-gradient(135deg, var(--gold-pale) 0%, #fff 100%);
+    border: 1.5px dashed var(--gold);
+    border-radius: 10px;
+    padding: 20px 24px;
+    text-align: center;
+  }
+  .today-fav-nudge-icon {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+    opacity: 0.7;
+  }
+  .today-fav-nudge-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.0rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+  .today-fav-nudge-text {
+    font-size: 0.84rem;
+    color: var(--text-light);
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+  .today-fav-nudge-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 20px;
+    border-radius: 8px;
+    border: none;
+    background: var(--navy);
+    color: #fff;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .today-fav-nudge-btn:hover { background: var(--navy-light); }
+
+  /* Hour block grouping */
+  .today-hour-block {
+    margin-bottom: 12px;
+  }
+  .today-hour-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--mid-gray);
+    margin-bottom: 6px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .today-hour-label .hour-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+  .today-hour-items {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  @media (min-width: 769px) {
+    .today-hour-items {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+  }
+  /* Past services dimming */
+  .now-item.past-service {
+    opacity: 0.45;
+    pointer-events: none;
+  }
+  .now-item.past-service .time-big { text-decoration: line-through; }
+
+  /* Tomorrow preview compact style */
+  .tomorrow-compact {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .tomorrow-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: var(--text);
+    transition: border-color 0.15s;
+    cursor: pointer;
+  }
+  .tomorrow-item:hover { border-color: var(--gold-light); }
+  .tomorrow-item-time {
+    font-weight: 700;
+    color: var(--navy);
+    font-size: 0.88rem;
+    min-width: 62px;
+    flex-shrink: 0;
+  }
+  .tomorrow-item-info { flex: 1; min-width: 0; }
+  .tomorrow-item-type {
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--mid-gray);
+  }
+  .tomorrow-item-name {
+    font-weight: 600;
+    color: var(--text);
+    font-size: 0.84rem;
+    line-height: 1.2;
+  }
+  .tomorrow-expand-btn {
+    display: block; width: 100%; padding: 8px; margin-top: 4px;
+    background: var(--warm-gray); border: 1px dashed var(--border); border-radius: 8px;
+    color: var(--navy); font-size: 0.76rem; font-weight: 600; cursor: pointer;
+    text-align: center;
+  }
+  .tomorrow-expand-btn:hover { background: #e8e4dc; }
+
+  /* Parish group header within Today schedule */
+  .today-parish-group {
+    margin-bottom: 16px;
+  }
+  .today-parish-group:last-child { margin-bottom: 0; }
+  .today-parish-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    padding: 6px 12px;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    border-radius: 8px;
+    color: #fff;
+  }
+  .today-parish-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+    flex: 1;
+  }
+  .today-parish-town {
+    font-size: 0.72rem;
+    color: var(--gold-light);
+    font-weight: 400;
+  }
+  .today-parish-items {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding-left: 4px;
+  }
+
   /* ── WHAT'S NOW VIEW (WP8) ── */
   .now-view {
     max-width: 1280px;
@@ -2507,7 +2717,7 @@
   .now-pill.active { background: var(--navy); border-color: var(--navy); color: #fff; }
   .now-pill.seasonal-pill.active { background: #7c4fa0; border-color: #7c4fa0; }
   .now-timeline { display: flex; flex-direction: column; gap: 6px; }
-  /* Desktop grid for What's Now and YC Events */
+  /* Desktop grid for Today and YC Events */
   @media (min-width: 769px) {
     .now-view { max-width: 960px; margin: 0 auto; }
     .now-timeline {
@@ -2830,7 +3040,7 @@
 <!-- TAB BAR (WP8) -->
 <nav class="app-tab-bar" id="appTabBar">
   <button class="app-tab active" data-view="churches" onclick="switchAppView('churches')"><span class="tab-icon">⛪</span>Churches</button>
-  <button class="app-tab" data-view="now" onclick="switchAppView('now')"><span class="tab-icon">⏱</span>What's Now</button>
+  <button class="app-tab" data-view="now" onclick="switchAppView('now')"><span class="tab-icon">☀</span>Today</button>
   <button class="app-tab" data-view="yc" onclick="switchAppView('yc')"><span class="tab-icon">✦</span>YC Events</button>
   <button class="app-tab" data-view="map" onclick="switchAppView('map')"><span class="tab-icon">🗺</span>Map</button>
 </nav>
@@ -2939,21 +3149,43 @@
 
 </div><!-- /viewChurches -->
 
-<!-- ══════ WHAT'S NOW VIEW ══════ -->
+<!-- ══════ TODAY VIEW (V2) ══════ -->
 <div class="app-view" id="viewNow">
   <div class="now-view">
-    <div class="now-header">
-      <h2>What's Happening</h2>
-      <button class="now-location-btn" id="nowLocationBtn" onclick="requestLocation()">📍 Enable Location</button>
+
+    <!-- SECTION 1: Live & Starting Soon (proximity) -->
+    <div class="today-section" id="todayLiveSection">
+      <div class="today-section-header">
+        <div class="today-section-label"><span class="today-pulse"></span> Live &amp; Starting Soon</div>
+        <button class="now-location-btn" id="nowLocationBtn" onclick="requestLocation()">📍 Enable Location</button>
+      </div>
+      <div class="now-filter-pills" id="nowFilterPills">
+        <button class="now-pill active" data-now-mode="all" onclick="setNowMode('all')">All</button>
+        <button class="now-pill" data-now-mode="mass" onclick="setNowMode('mass')">Mass</button>
+        <button class="now-pill" data-now-mode="confession" onclick="setNowMode('confession')">Confession</button>
+        <button class="now-pill" data-now-mode="adoration" onclick="setNowMode('adoration')">Adoration</button>
+        <button class="now-pill seasonal-pill" data-now-mode="seasonal" onclick="setNowMode('seasonal')" id="nowSeasonalPill">Seasonal</button>
+      </div>
+      <div class="now-timeline" id="nowTimeline"></div>
     </div>
-    <div class="now-filter-pills" id="nowFilterPills">
-      <button class="now-pill active" data-now-mode="all" onclick="setNowMode('all')">All</button>
-      <button class="now-pill" data-now-mode="mass" onclick="setNowMode('mass')">Mass</button>
-      <button class="now-pill" data-now-mode="confession" onclick="setNowMode('confession')">Confession</button>
-      <button class="now-pill" data-now-mode="adoration" onclick="setNowMode('adoration')">Adoration</button>
-      <button class="now-pill seasonal-pill" data-now-mode="seasonal" onclick="setNowMode('seasonal')" id="nowSeasonalPill">Seasonal</button>
+
+    <!-- SECTION 2: Your Parishes Today (favorites-driven) -->
+    <div class="today-section" id="todayFavSection">
+      <div class="today-section-header">
+        <div class="today-section-label">📅 Your Parishes Today</div>
+        <span class="today-section-meta" id="todayFavMeta"></span>
+      </div>
+      <div id="todayFavContent"></div>
     </div>
-    <div class="now-timeline" id="nowTimeline"></div>
+
+    <!-- SECTION 3: Tomorrow Preview (favorites-driven) -->
+    <div class="today-section" id="todayTomorrowSection">
+      <div class="today-section-header">
+        <div class="today-section-label">👀 Tomorrow</div>
+        <span class="today-section-meta" id="tomorrowMeta"></span>
+      </div>
+      <div id="todayTomorrowContent"></div>
+    </div>
 
   </div>
 </div>
@@ -5527,6 +5759,8 @@ function toggleFavorite(parishId, btnEl) {
   }
   saveFavorites();
   if (favFilterActive) render();
+  // Re-render Today tab if it's active
+  if (currentView === 'now') { renderTodayFavSection(); renderTomorrowSection(); }
 }
 
 function toggleFavFilter() {
@@ -5545,6 +5779,10 @@ function updateFavChip() {
 }
 
 loadFavorites();
+
+function getFavorites() {
+  return [...favorites];
+}
 
 // ═══════════════════════════════════════════════════
 // TAB NAVIGATION (WP8)
@@ -5584,7 +5822,7 @@ function switchAppView(view) {
 })();
 
 // ═══════════════════════════════════════════════════
-// WHAT'S NOW VIEW (WP8)
+// WHAT'S NOW VIEW — V2 "TODAY"
 // ═══════════════════════════════════════════════════
 
 var nowMode = 'all';
@@ -5596,6 +5834,13 @@ function setNowMode(mode) {
 }
 
 function renderNowView() {
+  renderLiveSection();
+  renderTodayFavSection();
+  renderTomorrowSection();
+}
+
+// ─── SECTION 1: Live & Starting Soon (proximity-based, mostly unchanged) ───
+function renderLiveSection() {
   const now = new Date();
   const todayIdx = now.getDay();
   const todayName = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'][todayIdx];
@@ -5613,14 +5858,13 @@ function renderNowView() {
     }
   }
 
-  // Hide/show Seasonal pill — visible when ANY seasonal services are active
+  // Hide/show Seasonal pill
   const seasonalPill = document.getElementById('nowSeasonalPill');
   if (seasonalPill) {
     const hasActiveSeasonal = parishes.some(p =>
       (p.services || []).some(s => s.seasonal && s.seasonal.is_seasonal && isCurrentSeason(s))
     );
     seasonalPill.style.display = hasActiveSeasonal ? '' : 'none';
-    // Update label to current season name
     if (hasActiveSeasonal) {
       const activeSeasons = new Set();
       for (const p of parishes) {
@@ -5679,7 +5923,6 @@ function renderNowView() {
           if (svcLoc && svcLoc.lat) { svcLat = svcLoc.lat; svcLng = svcLoc.lng; }
         }
         dist = haversine(userLat, userLng, svcLat, svcLng);
-        // With location active: only show within 10 miles
         if (dist > 10) continue;
       }
 
@@ -5694,7 +5937,6 @@ function renderNowView() {
     }
   }
 
-  // Sort: now first, then soon (by minsAway). Within each: by distance if available
   results.sort((a, b) => {
     const statusRank = { now: 0, soon: 1 };
     if (statusRank[a.status] !== statusRank[b.status]) return statusRank[a.status] - statusRank[b.status];
@@ -5702,7 +5944,6 @@ function renderNowView() {
     return a.minsAway - b.minsAway || (a.dist || 999) - (b.dist || 999);
   });
 
-  // Without location: limit to 3 per service type category to keep it tight
   let displayResults = results;
   if (userLat === null) {
     const catCounts = {};
@@ -5720,9 +5961,14 @@ function renderNowView() {
 
   if (!displayResults.length) {
     const noLocNote = userLat === null ? '<br><small style="color:#999;">Enable location for nearby results.</small>' : '';
-    container.innerHTML = `<div class="now-empty"><div class="cross">✝</div><p>No services happening or starting within 60 minutes.${noLocNote}</p></div>`;
+    container.innerHTML = `<div class="now-empty"><div class="cross">✝</div><p>Nothing live or starting within the hour.${noLocNote}</p></div>`;
+    // Hide pulse when nothing live
+    const pulseEl = document.querySelector('.today-pulse');
+    if (pulseEl) pulseEl.style.display = 'none';
   } else {
-    // Group results by status
+    const pulseEl = document.querySelector('.today-pulse');
+    if (pulseEl) pulseEl.style.display = '';
+
     const grouped = { now: [], soon: [] };
     for (const r of displayResults) {
       if (grouped[r.status]) grouped[r.status].push(r);
@@ -5764,11 +6010,9 @@ function renderNowView() {
       const items = grouped[status];
       if (!items.length) continue;
       html += `<div class="now-section-label">${sectionLabels[status]}</div>`;
-      // Show first 3
       for (let i = 0; i < Math.min(items.length, SECTION_LIMIT); i++) {
         html += renderItem(items[i]);
       }
-      // Overflow items collapsed
       if (items.length > SECTION_LIMIT) {
         const overflowCount = items.length - SECTION_LIMIT;
         html += `<div class="now-overflow-wrapper" id="nowOverflow_${status}">`;
@@ -5780,6 +6024,237 @@ function renderNowView() {
       }
     }
     container.innerHTML = html;
+  }
+}
+
+// ─── SECTION 2: Your Parishes Today (favorites-driven) ───
+function renderTodayFavSection() {
+  const container = document.getElementById('todayFavContent');
+  const metaEl = document.getElementById('todayFavMeta');
+  const favIds = getFavorites();
+
+  if (!favIds.length) {
+    if (metaEl) metaEl.textContent = '';
+    container.innerHTML = `<div class="today-fav-nudge">
+      <div class="today-fav-nudge-icon">⛪</div>
+      <div class="today-fav-nudge-title">See your parishes' full schedule</div>
+      <div class="today-fav-nudge-text">Favorite a few churches from the Churches tab and their entire daily schedule will appear here — Mass times, confessions, adoration, everything.</div>
+      <button class="today-fav-nudge-btn" onclick="switchAppView('churches')">⭐ Browse Churches</button>
+    </div>`;
+    return;
+  }
+
+  const now = new Date();
+  const todayIdx = now.getDay();
+  const todayName = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'][todayIdx];
+  const nowMin = now.getHours() * 60 + now.getMinutes();
+  const isWeekday = todayIdx >= 1 && todayIdx <= 5;
+
+  const SVCTYPE_SHORT = { confession:'Confession', sunday_mass:'Mass', daily_mass:'Mass',
+    stations_of_cross:'Stations', adoration:'Adoration', holy_hour:'Holy Hour', rosary:'Rosary',
+    divine_mercy:'Divine Mercy', devotion:'Devotion', communion_service:'Communion', novena:'Novena',
+    holy_thursday_mass:'Holy Thu Mass', good_friday_service:'Good Friday', easter_vigil_mass:'Easter Vigil',
+    divine_mercy_chaplet:'Divine Mercy', devotional:'Devotion', gorzkie_zale:'Gorzkie Żale',
+    bible_study:'Bible Study', mens_group:"Men's Group", social_event:'Social',
+    benediction:'Benediction', perpetual_adoration:'Perp. Adoration', vespers:'Vespers',
+    miraculous_medal:'Miraculous Medal', anointing_of_sick:'Anointing', anointing:'Anointing',
+    prayer_group:'Prayer Group' };
+
+  let totalServices = 0;
+  let html = '';
+
+  const favParishes = parishes.filter(p => favIds.includes(p.id));
+
+  for (const p of favParishes) {
+    const primaryLoc = p.locations && p.locations[0];
+    const displayName = (primaryLoc && (primaryLoc.short_name || primaryLoc.name)) || p.name;
+
+    // Get today's services for this parish
+    const todayServices = [];
+    for (const svc of (p.services || [])) {
+      if (!isServiceActive(svc)) continue;
+      if (!isCurrentSeason(svc)) continue;
+      const svcMin = timeToMinutes(svc.time);
+      if (svcMin === null) continue;
+      const svcDay = svc.day;
+      const matchesToday = svcDay === todayName || svcDay === 'daily' || (svcDay === 'weekday' && isWeekday)
+        || (svcDay === 'monday_friday' && isWeekday) || (svcDay === 'tuesday_friday' && todayIdx >= 2 && todayIdx <= 5);
+      if (!matchesToday) continue;
+      const endMin = svc.end_time ? timeToMinutes(svc.end_time) : svcMin + 60;
+      const isPast = nowMin > endMin;
+      const isLive = nowMin >= svcMin && nowMin <= endMin;
+      todayServices.push({ svc, svcMin, isPast, isLive, p });
+    }
+
+    if (!todayServices.length) continue;
+    todayServices.sort((a, b) => a.svcMin - b.svcMin);
+    totalServices += todayServices.length;
+
+    html += `<div class="today-parish-group">`;
+    html += `<div class="today-parish-header" onclick="switchAppView('churches'); setTimeout(() => scrollToParish('${p.id}'), 400);" style="cursor:pointer;">`;
+    html += `<span class="today-parish-name">${displayName}</span>`;
+    html += `<span class="today-parish-town">${p.town}</span>`;
+    html += `</div>`;
+    html += `<div class="today-parish-items">`;
+
+    for (const item of todayServices) {
+      const { svc, isPast, isLive } = item;
+      const typeLabel = SVCTYPE_SHORT[svc.type] || (svc.type || 'Service').replace(/_/g, ' ');
+      const isLenten = svc.seasonal && svc.seasonal.season === 'lent';
+      let statusClass = '';
+      if (isPast) statusClass = ' past-service';
+      else if (isLive) statusClass = ' happening';
+
+      let statusHtml = '';
+      if (isLive) statusHtml = '<span class="time-status">Now</span>';
+      else if (isPast) statusHtml = '<span class="time-away" style="text-decoration:line-through;">Done</span>';
+
+      const timeStr = fmt12(svc.time);
+      const endStr = svc.end_time ? ` – ${fmt12(svc.end_time)}` : '';
+      const noteStr = svc.notes ? `<span style="font-size:0.72rem;color:var(--mid-gray);font-style:italic;margin-left:6px;">${svc.notes}</span>` : '';
+      const langTag = svc.language && svc.language !== 'en' ? ` <span class="lang-tag">${LANG_LABELS[svc.language] || svc.language}</span>` : '';
+      const riteTag = svc.rite === 'tridentine' ? ' <span class="rite-tag">TLM</span>' : '';
+
+      // Location label for multi-site parishes
+      let locLabel = '';
+      if (p.locations && p.locations.length > 1 && svc.location_id) {
+        const svcLoc = p.locations.find(l => l.id === svc.location_id);
+        if (svcLoc && svcLoc.short_name) {
+          locLabel = `<span class="svc-location-label">@ ${svcLoc.short_name}</span>`;
+        }
+      }
+
+      html += `<div class="now-item${statusClass}" style="padding:8px 12px;" onclick="switchAppView('churches'); setTimeout(() => scrollToParish('${p.id}'), 400);">
+        <div class="now-item-time" style="min-width:68px;"><div class="time-big" style="font-size:0.92rem;">${timeStr}</div>${statusHtml}</div>
+        <div class="now-item-info">
+          <div class="item-type">${typeLabel}${riteTag}${langTag}${locLabel}</div>
+          <div style="font-size:0.82rem;color:var(--text);">${timeStr}${endStr}${noteStr}</div>
+        </div>
+      </div>`;
+    }
+
+    html += `</div></div>`;
+  }
+
+  if (!html) {
+    html = `<div class="now-empty" style="padding:20px;"><p style="font-size:0.88rem;">No services scheduled at your favorited parishes today.</p></div>`;
+  }
+
+  if (metaEl) {
+    const dayLabel = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][todayIdx];
+    metaEl.textContent = `${dayLabel} · ${totalServices} service${totalServices !== 1 ? 's' : ''}`;
+  }
+  container.innerHTML = html;
+}
+
+// ─── SECTION 3: Tomorrow Preview (favorites-driven) ───
+function renderTomorrowSection() {
+  const container = document.getElementById('todayTomorrowContent');
+  const metaEl = document.getElementById('tomorrowMeta');
+  const favIds = getFavorites();
+
+  if (!favIds.length) {
+    container.innerHTML = '';
+    document.getElementById('todayTomorrowSection').style.display = 'none';
+    return;
+  }
+  document.getElementById('todayTomorrowSection').style.display = '';
+
+  const now = new Date();
+  const tomorrowIdx = (now.getDay() + 1) % 7;
+  const tomorrowName = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'][tomorrowIdx];
+  const tomorrowIsWeekday = tomorrowIdx >= 1 && tomorrowIdx <= 5;
+  const tomorrowLabel = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][tomorrowIdx];
+
+  const SVCTYPE_SHORT = { confession:'Confession', sunday_mass:'Mass', daily_mass:'Mass',
+    adoration:'Adoration', holy_hour:'Holy Hour', rosary:'Rosary',
+    divine_mercy:'Divine Mercy', novena:'Novena', stations_of_cross:'Stations',
+    communion_service:'Communion', devotion:'Devotion', benediction:'Benediction',
+    vespers:'Vespers', perpetual_adoration:'Perp. Adoration',
+    miraculous_medal:'Miraculous Medal', devotional:'Devotion',
+    holy_thursday_mass:'Holy Thu Mass', good_friday_service:'Good Friday', easter_vigil_mass:'Easter Vigil' };
+
+  const results = [];
+  const favParishes = parishes.filter(p => favIds.includes(p.id));
+
+  for (const p of favParishes) {
+    const primaryLoc = p.locations && p.locations[0];
+    const displayName = (primaryLoc && (primaryLoc.short_name || primaryLoc.name)) || p.name;
+
+    for (const svc of (p.services || [])) {
+      if (!isServiceActive(svc)) continue;
+      if (!isCurrentSeason(svc)) continue;
+      const svcMin = timeToMinutes(svc.time);
+      if (svcMin === null) continue;
+      const svcDay = svc.day;
+      const matchesTomorrow = svcDay === tomorrowName || svcDay === 'daily' || (svcDay === 'weekday' && tomorrowIsWeekday)
+        || (svcDay === 'monday_friday' && tomorrowIsWeekday) || (svcDay === 'tuesday_friday' && tomorrowIdx >= 2 && tomorrowIdx <= 5);
+      if (!matchesTomorrow) continue;
+      results.push({ svc, svcMin, displayName, p });
+    }
+  }
+
+  results.sort((a, b) => a.svcMin - b.svcMin);
+
+  if (metaEl) metaEl.textContent = `${tomorrowLabel} · ${results.length} service${results.length !== 1 ? 's' : ''}`;
+
+  if (!results.length) {
+    container.innerHTML = `<div class="now-empty" style="padding:16px;"><p style="font-size:0.85rem;">No services at your parishes tomorrow.</p></div>`;
+    return;
+  }
+
+  const PREVIEW_LIMIT = 5;
+  let html = '<div class="tomorrow-compact">';
+  const showAll = results.length <= PREVIEW_LIMIT + 2; // avoid "show 1 more" silliness
+  const toShow = showAll ? results.length : PREVIEW_LIMIT;
+
+  for (let i = 0; i < toShow; i++) {
+    const r = results[i];
+    const typeLabel = SVCTYPE_SHORT[r.svc.type] || (r.svc.type || 'Service').replace(/_/g, ' ');
+    html += `<div class="tomorrow-item" onclick="switchAppView('churches'); setTimeout(() => scrollToParish('${r.p.id}'), 400);">
+      <span class="tomorrow-item-time">${fmt12(r.svc.time)}</span>
+      <div class="tomorrow-item-info">
+        <div class="tomorrow-item-type">${typeLabel}</div>
+        <div class="tomorrow-item-name">${r.displayName}</div>
+      </div>
+    </div>`;
+  }
+
+  if (!showAll && results.length > PREVIEW_LIMIT) {
+    const remaining = results.length - PREVIEW_LIMIT;
+    html += `<div class="tomorrow-overflow" id="tomorrowOverflow" style="display:none;">`;
+    for (let i = PREVIEW_LIMIT; i < results.length; i++) {
+      const r = results[i];
+      const typeLabel = SVCTYPE_SHORT[r.svc.type] || (r.svc.type || 'Service').replace(/_/g, ' ');
+      html += `<div class="tomorrow-item" onclick="switchAppView('churches'); setTimeout(() => scrollToParish('${r.p.id}'), 400);">
+        <span class="tomorrow-item-time">${fmt12(r.svc.time)}</span>
+        <div class="tomorrow-item-info">
+          <div class="tomorrow-item-type">${typeLabel}</div>
+          <div class="tomorrow-item-name">${r.displayName}</div>
+        </div>
+      </div>`;
+    }
+    html += `</div>`;
+    html += `<button class="tomorrow-expand-btn" onclick="toggleTomorrowOverflow()">Show ${remaining} more ▾</button>`;
+  }
+
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+function toggleTomorrowOverflow() {
+  const wrapper = document.getElementById('tomorrowOverflow');
+  const btn = wrapper && wrapper.nextElementSibling;
+  if (!wrapper || !btn) return;
+  const isOpen = wrapper.style.display !== 'none';
+  wrapper.style.display = isOpen ? 'none' : 'flex';
+  wrapper.style.flexDirection = 'column';
+  wrapper.style.gap = '6px';
+  if (isOpen) {
+    const count = wrapper.children.length;
+    btn.textContent = `Show ${count} more ▾`;
+  } else {
+    btn.textContent = 'Show less ▴';
   }
 }
 
