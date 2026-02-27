@@ -1995,7 +1995,24 @@
     .info-donut-row { flex-direction: column; align-items: flex-start; gap: 10px; }
     .info-box { height: min(96vh, 90vh); }
     .info-features-grid { grid-template-columns: repeat(3, 1fr); }
-    .info-stat-num { font-size: 1.6rem; }
+    .info-stat-num { font-size: 1.8rem; }
+    .info-stat-label { font-size: 0.92rem; }
+    .info-stat-sub { font-size: 0.78rem; }
+    .info-card-title { font-size: 0.8rem; }
+    .info-legend-row { font-size: 0.95rem; }
+    .info-legend-num { font-size: 0.95rem; }
+    .info-legend-pct { font-size: 0.82rem; }
+    .info-bar-label { font-size: 0.9rem; }
+    .info-bar-num { font-size: 0.9rem; }
+    .info-lang-pill { font-size: 0.85rem; }
+    .info-mini-num { font-size: 1.6rem; }
+    .info-mini-label { font-size: 0.82rem; }
+    .info-mini-sub { font-size: 0.72rem; }
+    .info-feature-label { font-size: 0.78rem; }
+    .info-feature-icon { font-size: 1.5rem; }
+    .info-footer { font-size: 0.84rem; }
+    .info-header h2 { font-size: 1.15rem; }
+    .info-header .info-sub { font-size: 0.82rem; }
   }
 
   /* ── DISTANCE BADGE ON CARD ── */
@@ -2647,7 +2664,7 @@
     max-width: 180px;
     padding: 12px 14px;
     font-family: 'Source Sans 3', sans-serif;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -3227,8 +3244,8 @@
   /* ── RESPONSIVE OVERRIDES ── */
   @media (max-width: 520px) {
     .app-tab-bar { top: 38px; }
-    .app-tab { font-size: 0.72rem; padding: 10px 6px; letter-spacing: 0.03em; }
-    .app-tab .tab-icon { margin-right: 3px; font-size: 0.8rem; }
+    .app-tab { font-size: 0.8rem; padding: 10px 6px; letter-spacing: 0.03em; }
+    .app-tab .tab-icon { margin-right: 3px; font-size: 0.85rem; }
     .now-view { padding: 12px 14px 40px; }
     .now-item { padding: 8px 10px; gap: 8px; }
     .now-item-time .time-big { font-size: 0.9rem; }
@@ -3328,12 +3345,12 @@
     align-items: center;
     gap: 12px;
     width: 100%;
-    padding: 12px 20px;
+    padding: 14px 22px;
     background: none;
     border: none;
     color: rgba(255,255,255,0.85);
     font-family: 'Source Sans 3', sans-serif;
-    font-size: 0.9rem;
+    font-size: 1.05rem;
     font-weight: 500;
     cursor: pointer;
     text-align: left;
@@ -3342,7 +3359,7 @@
   }
   .hamburger-menu-panel .hm-item:active { background: rgba(255,255,255,0.12); }
   .hamburger-menu-panel .hm-item .hm-icon {
-    width: 22px; text-align: center; font-size: 1rem; flex-shrink: 0; opacity: 0.7;
+    width: 24px; text-align: center; font-size: 1.1rem; flex-shrink: 0; opacity: 0.7;
   }
   .hamburger-menu-panel .hm-item .hm-label { flex: 1; }
   .hamburger-menu-panel .hm-divider {
@@ -3356,35 +3373,6 @@
     .header-badge.desktop-hide { display: none !important; }
     .simple-toggle.desktop-hide { display: none !important; }
     .header-add-btn.desktop-hide { display: none !important; }
-  }
-
-  /* ── INFOGRAPHIC TABS (Metrics / How-To) ── */
-  .info-tab-bar {
-    display: flex;
-    gap: 0;
-    background: rgba(255,255,255,0.08);
-    border-radius: 8px;
-    padding: 3px;
-    margin-left: auto;
-    flex-shrink: 0;
-  }
-  .info-tab-btn {
-    padding: 5px 16px;
-    border: none;
-    border-radius: 6px;
-    background: transparent;
-    color: rgba(255,255,255,0.5);
-    font-family: 'Source Sans 3', sans-serif;
-    font-size: 0.78rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.15s;
-    white-space: nowrap;
-  }
-  .info-tab-btn:hover { color: rgba(255,255,255,0.8); }
-  .info-tab-btn.active {
-    background: var(--gold);
-    color: var(--navy);
   }
 
   /* How-To panel */
@@ -3449,6 +3437,13 @@
   @media (max-width: 640px) {
     .howto-steps { grid-template-columns: 1fr; }
     .howto-body { padding: 14px 16px; }
+    .howto-intro h3 { font-size: 1.3rem; }
+    .howto-intro p { font-size: 0.95rem; }
+    .howto-step-title { font-size: 1rem; }
+    .howto-step-desc { font-size: 0.88rem; }
+    .howto-step-icon { font-size: 1.6rem; }
+    .howto-tip-text { font-size: 0.92rem; }
+    .howto-tip-icon { font-size: 1.4rem; }
   }
 
 </style>
@@ -3463,9 +3458,10 @@
       <h1>Mass Finder</h1>
       <p>Catholic Services Directory</p>
     </div>
+    <button class="header-add-btn desktop-hide" id="headerAddBtn" onclick="event.stopPropagation(); openNewParish();" title="Add a church">+ Add A Church</button>
+    <button class="header-add-btn desktop-hide" onclick="event.stopPropagation(); openInfoModal('howto');" title="How to use Mass Finder" style="background:transparent;color:var(--gold-light);border:1px solid rgba(201,168,76,0.3);">? How To</button>
     <div class="header-badge desktop-hide" id="headerBadge" onclick="event.stopPropagation(); openInfoModal('metrics');" style="cursor:pointer" title="View directory stats">Loading…</div>
     <button class="simple-toggle desktop-hide" id="simpleModeToggle" onclick="event.stopPropagation(); toggleSimpleMode();" title="Switch between Simple and Full view">☰ Simple</button>
-    <button class="header-add-btn desktop-hide" id="headerAddBtn" onclick="event.stopPropagation(); openNewParish();" title="Add a church">+ Add A Church</button>
     <div class="header-hamburger" id="headerHamburger" onclick="event.stopPropagation(); openHamburgerMenu();" aria-label="Menu">☰</div>
   </div>
 </header>
@@ -7314,12 +7310,8 @@ window.filterSeasonalServices = filterSeasonalServices;
 <div class="info-box">
   <div class="info-header">
     <div>
-      <h2>✝ Directory at a Glance</h2>
+      <h2 id="infoModalTitle">✝ Directory at a Glance</h2>
       <div class="info-sub">Diocese of Springfield — Western Massachusetts</div>
-    </div>
-    <div class="info-tab-bar">
-      <button class="info-tab-btn active" id="infoTabMetrics" onclick="switchInfoTab('metrics')">Metrics</button>
-      <button class="info-tab-btn" id="infoTabHowto" onclick="switchInfoTab('howto')">How To</button>
     </div>
     <button class="info-close" onclick="closeInfoModal()">×</button>
   </div>
@@ -7362,20 +7354,17 @@ document.getElementById('infoBackdrop').addEventListener('click', function(e) {
 });
 
 function switchInfoTab(tab) {
-  var metricsBtn  = document.getElementById('infoTabMetrics');
-  var howtoBtn    = document.getElementById('infoTabHowto');
   var metricsBody = document.getElementById('infoBody');
   var howtoBody   = document.getElementById('howtoBody');
+  var title       = document.getElementById('infoModalTitle');
 
   if (tab === 'metrics') {
-    metricsBtn.classList.add('active');
-    howtoBtn.classList.remove('active');
+    if (title) title.textContent = '\u271D Directory at a Glance';
     metricsBody.style.display = '';
     howtoBody.style.display = 'none';
     renderInfoGraphic();
   } else {
-    howtoBtn.classList.add('active');
-    metricsBtn.classList.remove('active');
+    if (title) title.textContent = '\u271D How To Use Mass Finder';
     metricsBody.style.display = 'none';
     howtoBody.style.display = '';
     renderHowTo();
