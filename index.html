@@ -159,6 +159,34 @@
   }
   .search-wrap input::placeholder { color: rgba(255,255,255,0.45); }
   .search-wrap input:focus { background: rgba(255,255,255,0.18); border-color: var(--gold); }
+  .search-autocomplete {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 500;
+    background: #fff;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    max-height: 260px;
+    overflow-y: auto;
+    display: none;
+  }
+  .search-autocomplete.open { display: block; }
+  .search-ac-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background 0.12s;
+  }
+  .search-ac-item:last-child { border-bottom: none; }
+  .search-ac-item:hover, .search-ac-item.ac-active { background: #f5f0e6; }
+  .search-ac-name { font-weight: 600; color: var(--navy); font-size: 0.88rem; }
+  .search-ac-town { color: #888; font-size: 0.78rem; margin-left: auto; white-space: nowrap; }
+  .search-ac-match { color: var(--gold-dark, #b8942e); font-weight: 700; }
   select {
     padding: 9px 28px 9px 12px;
     border-radius: 6px;
@@ -289,8 +317,10 @@
     gap: 10px;
   }
   .card-header-text {
-    flex: 1;
+    flex: 1 1 0%;
     min-width: 0;
+    overflow: hidden;
+    word-break: break-word;
   }
   .card-header h2 {
     font-family: 'Playfair Display', serif;
@@ -305,6 +335,9 @@
     color: var(--gold-light);
     font-weight: 400;
     letter-spacing: 0.04em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   /* WP1-1B: Multi-site sibling locations */
   .also-at {
@@ -324,12 +357,12 @@
     white-space: nowrap;
   }
   .county-badge {
-    flex-shrink: 0;
+    flex: 0 0 auto;
     font-size: 0.72rem;
     font-weight: 600;
     line-height: 1;
     z-index: 10;
-    display: inline-flex;
+    display: flex;
     align-items: center;
     gap: 8px;
     flex-wrap: nowrap;
@@ -3367,6 +3400,17 @@
     display: inline-block;
     font-size: 0.6rem;
   }
+  .fav-share-btn {
+    background: none;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 0.72rem;
+    cursor: pointer;
+    line-height: 1;
+    transition: background 0.15s;
+  }
+  .fav-share-btn:hover { background: rgba(0,0,0,0.06); }
   .fav-collapsed-row {
     display: flex;
     align-items: center;
@@ -3680,9 +3724,53 @@
     .howto-tip-icon { font-size: 1.4rem; }
   }
 
+  /* ── G4: PRINT STYLESHEET ── */
+  @media print {
+    body { background: #fff; color: #000; font-size: 11pt; }
+    header, .app-tab-bar, .controls-row-1, .controls-row-2, .subfilter-bar,
+    .featured-banner, .fav-section-wrapper, .install-banner, .results-count,
+    .clear-filters-btn, .share-view-btn, .sort-toggle, .fav-chip,
+    .card-footer, .card-meta, .show-all-btn, .svc-collapse-header,
+    .print-btn, .fav-share-btn, #happeningSoon, .live-indicator,
+    .cal-dropdown, .special-event-cal, .hamburger-menu { display: none !important; }
+    .app-view { display: block !important; }
+    .parish-card { break-inside: avoid; page-break-inside: avoid; box-shadow: none; border: 1px solid #ccc; margin-bottom: 12px; }
+    .parish-card[data-fav-card="true"] { display: block !important; }
+    .card-header { background: #1a2744 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .card-header h2 { color: #fff !important; font-size: 14pt; }
+    .card-location { color: #c9a84c !important; }
+    .county-badge .verified-badge, .county-badge .fav-btn, .county-badge .dist-badge { display: none; }
+    .card-body { padding: 8px 16px; }
+    .svc-collapse-body { display: block !important; max-height: none !important; }
+    .service-section { margin-bottom: 8px; }
+    .service-section-title { font-size: 10pt; font-weight: 700; border-bottom: 1px solid #ccc; margin-bottom: 4px; padding-bottom: 2px; }
+    .svc-times { font-size: 10pt; }
+    .confidence-warn { color: #c00 !important; }
+    #grid { display: block !important; }
+    .parish-card + .parish-card { margin-top: 8px; }
+  }
+  .print-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 2px 7px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: #fff;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .print-btn:hover { background: var(--warm-gray); }
+  @media print { .print-btn { display: none !important; } }
+
 </style>
 </head>
 <body>
+<a href="#parishGrid" class="skip-link" style="position:absolute;left:-9999px;top:0;z-index:10000;background:var(--navy);color:#fff;padding:8px 16px;font-weight:700;text-decoration:none;">Skip to content</a>
+<style>.skip-link:focus{left:0;}</style>
 
 
 <header onclick="window.scrollTo({top:0,behavior:'smooth'})">
@@ -3725,11 +3813,11 @@
 </div>
 
 <!-- TAB BAR (WP8) -->
-<nav class="app-tab-bar" id="appTabBar">
-  <button class="app-tab active" data-view="churches" onclick="switchAppView('churches')">Churches</button>
-  <button class="app-tab" data-view="now" onclick="switchAppView('now')">Today</button>
-  <button class="app-tab" data-view="yc" onclick="switchAppView('yc')">YC Events</button>
-  <button class="app-tab" data-view="map" onclick="switchAppView('map')">Map</button>
+<nav class="app-tab-bar" id="appTabBar" role="tablist" aria-label="App navigation">
+  <button class="app-tab active" data-view="churches" role="tab" aria-selected="true" aria-controls="viewChurches" id="tabChurches" onclick="switchAppView('churches')">Churches</button>
+  <button class="app-tab" data-view="now" role="tab" aria-selected="false" aria-controls="viewNow" id="tabNow" onclick="switchAppView('now')">Today</button>
+  <button class="app-tab" data-view="yc" role="tab" aria-selected="false" aria-controls="viewYc" id="tabYc" onclick="switchAppView('yc')">YC Events</button>
+  <button class="app-tab" data-view="map" role="tab" aria-selected="false" aria-controls="viewMap" id="tabMap" onclick="switchAppView('map')">Map</button>
 </nav>
 <div id="installBannerSlot"></div>
 
@@ -3743,7 +3831,7 @@
 </div>
 
 <!-- ══════ CHURCHES VIEW ══════ -->
-<div class="app-view active" id="viewChurches">
+<div class="app-view active" id="viewChurches" role="tabpanel" aria-labelledby="tabChurches">
 
 <!-- Hidden data containers — JS needs these elements for data population -->
 <div id="happeningSoon" style="display:none!important">
@@ -3762,8 +3850,9 @@
 
 <div class="controls-bar">
   <div class="controls-inner controls-row-1">
-    <div class="search-wrap">
-      <input type="text" id="searchInput" placeholder="Search by name, town, or pastor…" autocomplete="off">
+    <div class="search-wrap" role="search">
+      <input type="text" id="searchInput" placeholder="Search by name, town, or pastor…" autocomplete="off" aria-label="Search parishes by name, town, pastor, language, or service type">
+      <div class="search-autocomplete" id="searchAutocomplete" role="listbox" aria-label="Search suggestions"></div>
     </div>
     <select id="countyFilter" style="display:none">
       <option value="">All Counties</option>
@@ -3772,7 +3861,7 @@
       <option value="Hampshire">Hampshire</option>
       <option value="Hampden">Hampden</option>
     </select>
-    <select id="dayFilter">
+    <select id="dayFilter" aria-label="Filter by day">
       <option value="">Any Day</option>
       <option value="monday">Monday</option>
       <option value="tuesday">Tuesday</option>
@@ -3782,14 +3871,14 @@
       <option value="saturday">Saturday</option>
       <option value="sunday">Sunday</option>
     </select>
-    <select id="timeFilter">
+    <select id="timeFilter" aria-label="Filter by time">
       <option value="">Any Time</option>
       <option value="early">Early · before 8a</option>
       <option value="morning">Morning · 8a–12p</option>
       <option value="afternoon">Afternoon · 12–4p</option>
       <option value="evening">Evening · 4p+</option>
     </select>
-    <select id="langFilter">
+    <select id="langFilter" aria-label="Filter by language">
       <option value="">Any Language</option>
       <option value="la">Latin (Traditional)</option>
       <option value="es">Spanish</option>
@@ -3807,10 +3896,10 @@
       <button class="chip" data-cat="confession">Confession</button>
       <button class="chip" data-cat="devotion">Devotions</button>
     </div>
-    <button class="fav-chip" id="favFilterChip" onclick="toggleFavFilter()">❤️ Favorites</button>
-    <div class="sort-toggle" id="sortToggle">
-      <button class="sort-btn active" data-sort="proximity" id="sortProximity" title="Sort by distance" onclick="setSortMode('proximity')">Near</button>
-      <button class="sort-btn" data-sort="alpha" id="sortAlpha" title="Sort A→Z" onclick="setSortMode('alpha')">A→Z</button>
+    <button class="fav-chip" id="favFilterChip" onclick="toggleFavFilter()" aria-label="Filter by favorites" aria-pressed="false">❤️ Favorites</button>
+    <div class="sort-toggle" id="sortToggle" role="group" aria-label="Sort order">
+      <button class="sort-btn active" data-sort="proximity" id="sortProximity" title="Sort by distance" aria-label="Sort by distance" onclick="setSortMode('proximity')">Near</button>
+      <button class="sort-btn" data-sort="alpha" id="sortAlpha" title="Sort A→Z" aria-label="Sort alphabetically" onclick="setSortMode('alpha')">A→Z</button>
     </div>
     <button class="clear-filters-btn" id="clearFiltersBtn" style="display:none;">&#10005; Clear Filters</button>
     <button class="share-view-btn" id="shareViewBtn" style="display:none;" onclick="shareCurrentView(this)">🔗 Share View</button>
@@ -3830,7 +3919,7 @@
 
 <main>
   <div id="featuredBanners"></div>
-  <div class="parish-grid" id="parishGrid">
+  <div class="parish-grid" id="parishGrid" role="main" aria-label="Parish listings">
     <div class="loading">Loading churches…</div>
   </div>
 </main>
@@ -3838,7 +3927,7 @@
 </div><!-- /viewChurches -->
 
 <!-- ══════ TODAY VIEW (V2) ══════ -->
-<div class="app-view" id="viewNow">
+<div class="app-view" id="viewNow" role="tabpanel" aria-labelledby="tabNow">>
   <div class="now-view">
 
     <!-- SECTION 1: Live & Starting Soon (proximity) -->
@@ -3879,7 +3968,7 @@
 </div>
 
 <!-- ══════ YC EVENTS VIEW ══════ -->
-<div class="app-view" id="viewYc">
+<div class="app-view" id="viewYc" role="tabpanel" aria-labelledby="tabYc">
   <div class="now-view">
     <div class="yc-hero-header">
       <div class="yc-hero-top">
@@ -3900,7 +3989,7 @@
 </div>
 
 <!-- ══════ MAP VIEW ══════ -->
-<div class="app-view" id="viewMap">
+<div class="app-view" id="viewMap" role="tabpanel" aria-labelledby="tabMap">
   <div class="map-view-wrapper">
     <div class="map-filter-bar" id="mapFilterBar">
       <button class="map-chip active" data-map-cat="" onclick="setMapFilter('')">All</button>
@@ -4177,6 +4266,9 @@ const SEARCH_ABBREVIATIONS = {
   'sfa': 'st francis assisi',
   'stm': 'st michael',
   'cathedral': 'st michael cathedral',
+  'tlm': 'latin traditional',
+  'asl': 'asl sign language',
+  'sotc': 'stations cross',
 };
 
 function parishMatchesSearch(p, q) {
@@ -4186,11 +4278,16 @@ function parishMatchesSearch(p, q) {
     const label = SERVICE_LABELS[s.type] || (s.type || 'Service').replace(/_/g, ' ');
     return label;
   }).join(' ');
+  // H2: Include language names and codes in search
+  const svcLangs = [...new Set((p.services || []).map(s => {
+    const code = s.language || 'en';
+    return (LANG_NAMES[code] || '') + ' ' + code;
+  }))].join(' ');
   // WP1: Include location/church names in search index
   const locNames = (p.locations || []).map(l => l.name || '').join(' ');
   const locAddresses = (p.locations || []).map(l => l.address || '').join(' ');
   const clergyStr = (p.clergy || []).map(cl => cl.name || '').join(' ');
-  const haystack = `${p.name} ${locNames} ${locAddresses} ${p.town} ${p.county} ${svcNotes} ${svcTypes} ${clergyStr}`.toLowerCase();
+  const haystack = `${p.name} ${locNames} ${locAddresses} ${p.town} ${p.county} ${svcNotes} ${svcTypes} ${svcLangs} ${clergyStr}`.toLowerCase();
 
   // Normalize query: expand abbreviations, handle "st"/"saint" equivalence
   const words = q.toLowerCase().split(/\s+/).filter(Boolean);
@@ -5590,12 +5687,12 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
         <h2>${churchName}</h2>
         ${alsoAtHtml}
         <div class="card-location">${p.town}, MA &middot; ${p.county} County</div>
+        ${confWarn}
       </div>
       <span class="county-badge">${distHtml}<button class="fav-btn${isFav ? ' favorited' : ''}" onclick="event.stopPropagation(); toggleFavorite('${p.id}', this);" title="${isFav ? 'Remove from favorites' : 'Add to favorites'}">${isFav ? '❤️' : '🤍'}</button> ${confBadge}</span>
-      ${confWarn}
     </div>
     ${p.visitation && p.visitation.hours_note ? `<div class="visitation-bar">🕊 Open for prayer: ${p.visitation.hours_note}</div>` : ''}
-    <div class="card-meta">${accessBadge}${contactDrawer}${bulletinLink}${directionsBtn}<button class="share-btn" onclick="event.stopPropagation(); shareParish('${p.id}', this);" title="Share this church">📋 Share</button>${multiSite}</div>
+    <div class="card-meta">${accessBadge}${contactDrawer}${bulletinLink}${directionsBtn}<button class="share-btn" onclick="event.stopPropagation(); shareParish('${p.id}', this);" title="Share this church">📋 Share</button><button class="print-btn" onclick="event.stopPropagation(); printParish('${p.id}');" title="Print this parish">🖨</button>${multiSite}</div>
     <div class="card-body">
       ${categoryFilter === '__lenten_only__' ? (
         lentWrapped +
@@ -5965,7 +6062,10 @@ function render() {
       html += '<div class="fav-section-wrapper" id="favSectionWrapper">' +
         '<div class="fav-section-header" data-fav-toggle="header">' +
           '<span class="fav-section-header-label">\u2764\uFE0F Your Churches (' + favParishes.length + ')</span>' +
-          '<span class="fav-section-toggle"><span class="chevron" id="favSectionChevron">\u25BC</span> <span id="favToggleLabel">Expand</span></span>' +
+          '<span style="display:flex;align-items:center;gap:8px;">' +
+            '<button class="fav-share-btn" onclick="event.stopPropagation(); shareFavorites(this);" title="Share your favorites as a link">🔗</button>' +
+            '<span class="fav-section-toggle"><span class="chevron" id="favSectionChevron">\u25BC</span> <span id="favToggleLabel">Expand</span></span>' +
+          '</span>' +
         '</div>' +
         '<div class="fav-collapsed-body" id="favCollapsedBody">' + favRowsHtml + '</div>' +
       '</div>';
@@ -6123,7 +6223,60 @@ subtypeChips.addEventListener('click', e => {
 });
 
 // Other controls
-searchInput.addEventListener('input', render);
+searchInput.addEventListener('input', function() {
+  render();
+  updateAutocomplete();
+});
+// G5: Autocomplete dropdown
+const acDropdown = document.getElementById('searchAutocomplete');
+let acIndex = -1;
+function updateAutocomplete() {
+  const q = searchInput.value.trim().toLowerCase();
+  if (q.length < 2) { acDropdown.classList.remove('open'); acDropdown.innerHTML = ''; acIndex = -1; return; }
+  const matches = [];
+  for (const p of parishes) {
+    if (matches.length >= 7) break;
+    const loc = p.locations && p.locations[0];
+    const name = (loc && loc.name) ? loc.name : p.name;
+    const town = p.town || '';
+    const haystack = (name + ' ' + p.name + ' ' + town).toLowerCase();
+    if (haystack.includes(q)) {
+      matches.push({ id: p.id, name: name.replace(/\s+Church$/i, ''), town: town, parish: p.name });
+    }
+  }
+  if (matches.length === 0) { acDropdown.classList.remove('open'); acDropdown.innerHTML = ''; acIndex = -1; return; }
+  acIndex = -1;
+  acDropdown.innerHTML = matches.map((m, i) =>
+    `<div class="search-ac-item" role="option" data-ac-id="${m.id}" data-ac-idx="${i}"><span class="search-ac-name">${escHtml(m.name)}</span><span class="search-ac-town">${escHtml(m.town)}, MA</span></div>`
+  ).join('');
+  acDropdown.classList.add('open');
+}
+function escHtml(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+function selectAcItem(id) {
+  acDropdown.classList.remove('open');
+  acDropdown.innerHTML = '';
+  acIndex = -1;
+  searchInput.value = '';
+  render();
+  scrollToParish(id);
+}
+acDropdown.addEventListener('mousedown', function(e) {
+  e.preventDefault(); // keep focus on input
+  const item = e.target.closest('.search-ac-item');
+  if (item) selectAcItem(item.dataset.acId);
+});
+searchInput.addEventListener('keydown', function(e) {
+  if (!acDropdown.classList.contains('open')) return;
+  const items = acDropdown.querySelectorAll('.search-ac-item');
+  if (e.key === 'ArrowDown') { e.preventDefault(); acIndex = Math.min(acIndex + 1, items.length - 1); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); acIndex = Math.max(acIndex - 1, -1); }
+  else if (e.key === 'Enter' && acIndex >= 0) { e.preventDefault(); selectAcItem(items[acIndex].dataset.acId); return; }
+  else if (e.key === 'Escape') { acDropdown.classList.remove('open'); acIndex = -1; return; }
+  else return;
+  items.forEach((it, i) => it.classList.toggle('ac-active', i === acIndex));
+  if (acIndex >= 0) items[acIndex].scrollIntoView({ block: 'nearest' });
+});
+searchInput.addEventListener('blur', function() { setTimeout(() => { acDropdown.classList.remove('open'); acIndex = -1; }, 150); });
 countyFilter.addEventListener('change', render);
 dayFilterEl.addEventListener('change', render);
 timeFilterEl.addEventListener('change', render);
@@ -6679,6 +6832,25 @@ function shareParish(parishId, btnEl) {
   }
 }
 
+// G4: Print a single parish card
+function printParish(parishId) {
+  const card = document.querySelector(`[data-parish-id="${parishId}"]`);
+  if (!card) return;
+  // @media print stylesheet handles expanding collapsed sections
+  // Add a class for print targeting
+  card.classList.add('print-target');
+  // Inject a print-only style that hides everything except this card
+  const style = document.createElement('style');
+  style.id = 'printSingleCard';
+  style.textContent = `@media print { .parish-card:not(.print-target) { display: none !important; } }`;
+  document.head.appendChild(style);
+  window.print();
+  // Clean up
+  card.classList.remove('print-target');
+  const s = document.getElementById('printSingleCard');
+  if (s) s.remove();
+}
+
 // Handle ?parish=xxx deep link on load
 (function handleParishDeepLink() {
   if (!_deepLinkParishId) return;
@@ -6712,7 +6884,40 @@ function loadFavorites() {
       ids.forEach(id => favorites.add(id));
     }
   } catch(e) {}
+  // G3: Import favorites from URL param
+  try {
+    const urlFavs = new URLSearchParams(location.search).get('favs');
+    if (urlFavs) {
+      const imported = urlFavs.split(',').filter(Boolean);
+      let added = 0;
+      imported.forEach(id => {
+        if (!favorites.has(id)) { favorites.add(id); added++; }
+      });
+      if (added > 0) {
+        saveFavorites(); // persist imported favorites
+        // Clean the favs param from URL
+        const p = new URLSearchParams(location.search);
+        p.delete('favs');
+        const str = p.toString();
+        history.replaceState(null, '', str ? '?' + str : location.pathname);
+      }
+    }
+  } catch(e) {}
   updateFavChip();
+}
+
+// G3: Share favorites as URL
+function shareFavorites(btnEl) {
+  if (favorites.size === 0) return;
+  const ids = [...favorites].join(',');
+  const url = location.origin + location.pathname + '?favs=' + encodeURIComponent(ids);
+  if (navigator.share) {
+    navigator.share({ title: 'My Mass Finder Churches', url: url }).catch(() => {});
+  } else if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(() => {
+      if (btnEl) { const orig = btnEl.textContent; btnEl.textContent = 'Copied!'; setTimeout(() => btnEl.textContent = orig, 1500); }
+    });
+  }
 }
 
 function saveFavorites() {
@@ -6825,11 +7030,19 @@ var mapInitialized = false;
 function switchAppView(view) {
   currentView = view;
   document.querySelectorAll('.app-view').forEach(v => v.classList.remove('active'));
-  document.querySelectorAll('.app-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.app-tab').forEach(t => {
+    t.classList.remove('active');
+    t.setAttribute('aria-selected', 'false');
+    t.setAttribute('tabindex', '-1');
+  });
   const viewEl = document.getElementById('view' + view.charAt(0).toUpperCase() + view.slice(1));
   if (viewEl) viewEl.classList.add('active');
   const tabEl = document.querySelector(`.app-tab[data-view="${view}"]`);
-  if (tabEl) tabEl.classList.add('active');
+  if (tabEl) {
+    tabEl.classList.add('active');
+    tabEl.setAttribute('aria-selected', 'true');
+    tabEl.setAttribute('tabindex', '0');
+  }
   // Show/hide controls bar based on view
   document.querySelector('.controls-bar').style.display = (view === 'churches') ? '' : 'none';
 
@@ -6843,6 +7056,23 @@ function switchAppView(view) {
   const hash = view === 'churches' ? '' : '#' + view;
   history.replaceState(null, '', (location.search || location.pathname) + hash);
 }
+
+// H5: Arrow key navigation for tab bar
+document.getElementById('appTabBar').addEventListener('keydown', function(e) {
+  const tabs = [...this.querySelectorAll('.app-tab')];
+  const idx = tabs.indexOf(document.activeElement);
+  if (idx === -1) return;
+  let next = -1;
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = (idx + 1) % tabs.length;
+  else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = (idx - 1 + tabs.length) % tabs.length;
+  else if (e.key === 'Home') next = 0;
+  else if (e.key === 'End') next = tabs.length - 1;
+  if (next >= 0) {
+    e.preventDefault();
+    tabs[next].focus();
+    switchAppView(tabs[next].dataset.view);
+  }
+});
 
 // Handle hash on load
 (function checkHash() {
@@ -7818,6 +8048,8 @@ window.clearLocationSort = clearLocationSort;
 window.setSortMode       = setSortMode;
 window.toggleContact     = toggleContact;
 window.shareParish       = shareParish;
+window.printParish       = printParish;
+window.shareFavorites    = shareFavorites;
 window.scrollToParish   = scrollToParish;
 window.switchAppView    = switchAppView;
 window.setNowMode       = setNowMode;
@@ -8732,6 +8964,38 @@ function dismissInstall() {
   document.cookie = 'pf_install_dismissed=1;expires=' + d.toUTCString() + ';path=/;SameSite=Lax';
 }
 window.dismissInstall = dismissInstall;
+</script>
+
+<!-- H6: Service Worker registration + update toast -->
+<style>
+.sw-toast {
+  position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+  background: var(--navy); color: #fff; padding: 10px 20px; border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3); z-index: 9999;
+  display: none; align-items: center; gap: 12px; font-size: 0.85rem;
+  font-family: 'Source Sans 3', sans-serif;
+}
+.sw-toast.show { display: flex; }
+.sw-toast button { background: var(--gold); color: var(--navy); border: none; padding: 4px 14px;
+  border-radius: 4px; font-weight: 700; cursor: pointer; font-size: 0.82rem; }
+</style>
+<div class="sw-toast" id="swToast">New data available <button onclick="location.reload()">Refresh</button></div>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').then(reg => {
+      // Check for updates periodically
+      setInterval(() => {
+        if (reg.active) reg.active.postMessage('checkUpdate');
+      }, 5 * 60 * 1000); // every 5 min
+    }).catch(() => {});
+    navigator.serviceWorker.addEventListener('message', e => {
+      if (e.data === 'updateAvailable') {
+        document.getElementById('swToast').classList.add('show');
+      }
+    });
+  });
+}
 </script>
 
 </body>
