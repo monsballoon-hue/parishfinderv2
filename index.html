@@ -3892,6 +3892,19 @@ window.addEventListener('scroll', function() {
   if (portal) portal.remove();
 }, true);
 
+// 3C: Show All Services toggle — Set at global scope so renderParishCard can access it
+const showAllParishes = new Set();
+function toggleShowAll(btn, parishId) {
+  if (showAllParishes.has(parishId)) {
+    showAllParishes.delete(parishId);
+  } else {
+    showAllParishes.add(parishId);
+  }
+  // render() is inside the IIFE; we call it via the scheduled re-render
+  if (window._renderFn) window._renderFn();
+  setTimeout(() => scrollToParish(parishId), 50);
+}
+
 (async function() {
   try {
     const resp = await fetch(PARISH_DATA_URL);
@@ -3957,19 +3970,6 @@ function syncUrlParams() {
   if (_deepLinkParishId) params.set('parish', _deepLinkParishId);
   const str = params.toString();
   history.replaceState(null, '', str ? '?' + str : location.pathname);
-}
-
-// 3C: Show All Services toggle
-const showAllParishes = new Set();
-function toggleShowAll(btn, parishId) {
-  if (showAllParishes.has(parishId)) {
-    showAllParishes.delete(parishId);
-  } else {
-    showAllParishes.add(parishId);
-  }
-  render();
-  // Scroll back to the parish card after re-render
-  setTimeout(() => scrollToParish(parishId), 50);
 }
 
 function render() {
@@ -4199,6 +4199,7 @@ function haversine(lat1, lng1, lat2, lng2) {
 renderYCEvents();
 render();
 applyDeepLinkParams();
+window._renderFn = render;
 
 // 3A: Sticky controls bar — compute dynamic top and compact on scroll
 (function() {
