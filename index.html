@@ -36,6 +36,8 @@
     --green: #2d6a4f;
     --shadow: 0 2px 12px rgba(26,39,68,0.10);
     --shadow-lg: 0 8px 32px rgba(26,39,68,0.15);
+    --header-height: 46px;
+    --tab-bar-height: 46px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -281,7 +283,14 @@
   .card-header {
     padding: 14px 16px 12px;
     background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
-    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .card-header-text {
+    flex: 1;
+    min-width: 0;
   }
   .card-header h2 {
     font-family: 'Playfair Display', serif;
@@ -290,14 +299,12 @@
     color: #fff;
     line-height: 1.25;
     margin-bottom: 4px;
-    padding-right: 100px;
   }
   .card-location {
     font-size: 0.94rem;
     color: var(--gold-light);
     font-weight: 400;
     letter-spacing: 0.04em;
-    padding-right: 100px;
   }
   /* WP1-1B: Multi-site sibling locations */
   .also-at {
@@ -306,7 +313,6 @@
     margin-top: 2px;
     margin-bottom: 2px;
     font-style: italic;
-    padding-right: 100px;
     line-height: 1.3;
   }
   /* WP1-1C: Location label on service lines for multi-site parishes */
@@ -318,9 +324,7 @@
     white-space: nowrap;
   }
   .county-badge {
-    position: absolute;
-    top: 12px;
-    right: 14px;
+    flex-shrink: 0;
     font-size: 0.72rem;
     font-weight: 600;
     line-height: 1;
@@ -328,8 +332,8 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    max-width: 45%;
     flex-wrap: nowrap;
+    margin-top: 2px;
   }
   /* Override verified-badge when it lives inside .county-badge (card header) */
   .county-badge .verified-badge {
@@ -1095,6 +1099,7 @@
     .card-header h2 { font-size: 1.13rem; }
   }
   @media (max-width: 520px) {
+    :root { --header-height: 40px; --tab-bar-height: 42px; }
     .header-inner { gap: 6px; padding: 8px 10px; min-height: 40px; flex-wrap: wrap; }
     .header-cross { font-size: 18px; }
     .header-title h1 { font-size: 0.95rem; }
@@ -2129,11 +2134,10 @@
   .access-badge {
     display: inline-flex;
     align-items: center;
-    gap: 3px;
-    font-size: 0.72rem;
-    color: var(--text);
-    font-weight: 600;
+    font-size: 22px;
+    line-height: 1;
     white-space: nowrap;
+    cursor: default;
   }
 
   /* ── CALENDAR BUTTON ── */
@@ -2671,19 +2675,19 @@
     display: flex;
     align-items: baseline;
     gap: 8px;
-    padding: 4px 0;
+    padding: 5px 0;
     border-bottom: 1px solid #f0ead6;
   }
   .yc-event-row:last-child { border-bottom: none; }
   .yc-event-date-col {
     flex-shrink: 0;
-    font-size: 0.78rem;
+    font-size: 0.82rem;
     font-weight: 700;
     color: #b8860b;
     min-width: 54px;
   }
   .yc-event-detail-col {
-    font-size: 0.82rem;
+    font-size: 0.88rem;
     color: #333;
     line-height: 1.35;
   }
@@ -2691,16 +2695,20 @@
     font-weight: 600;
   }
   .yc-event-social-tag {
-    font-size: 0.68rem;
+    font-size: 0.72rem;
     color: #b8860b;
     font-weight: 600;
     margin-left: 4px;
   }
   .yc-recurrence-note {
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     color: #999;
     font-style: italic;
     margin-top: 1px;
+  }
+  @media (max-width: 768px) {
+    .yc-event-detail-col { font-size: max(0.88rem, 13px); }
+    .yc-event-date-col { font-size: max(0.82rem, 13px); }
   }
 
   /* Special event text truncation with tap-to-expand */
@@ -3229,7 +3237,7 @@
 
   /* ── MAP VIEW (WP-Map) ── */
   #mapContainer {
-    height: calc(100vh - 90px);
+    height: calc(100vh - var(--header-height) - var(--tab-bar-height));
     width: 100%;
     background: var(--cream);
   }
@@ -3482,7 +3490,7 @@
     .now-item { padding: 8px 10px; gap: 8px; }
     .now-item-time .time-big { font-size: 0.9rem; }
     .now-item-info .item-name { font-size: 0.82rem; }
-    #mapContainer { height: calc(100vh - 82px); }
+    #mapContainer { height: calc(100vh - var(--header-height) - var(--tab-bar-height)); }
     .map-filter-bar { padding: 3px 4px; gap: 3px; }
     .map-chip { padding: 4px 8px; font-size: 0.68rem; }
   }
@@ -4047,11 +4055,18 @@ function setSimpleFilter(cat) {
 
 function applySimpleMode() {
   document.body.classList.toggle('simple-mode', isSimpleMode);
-  const btn = document.getElementById('simpleModeToggle');
-  if (btn) {
-    btn.classList.toggle('active', isSimpleMode);
-    btn.innerHTML = isSimpleMode ? '☰ Full' : '☰ Simple';
-  }
+  // E4: Synchronize both toggle instances before any DOM paint
+  requestAnimationFrame(function() {
+    const btn = document.getElementById('simpleModeToggle');
+    if (btn) {
+      btn.classList.toggle('active', isSimpleMode);
+      btn.innerHTML = isSimpleMode ? '☰ Full' : '☰ Simple';
+    }
+    const hmBtn = document.getElementById('hmSimple');
+    const hmLabel = document.getElementById('hmSimpleLabel');
+    if (hmBtn) hmBtn.classList.toggle('active', isSimpleMode);
+    if (hmLabel) hmLabel.textContent = isSimpleMode ? 'Full Mode' : 'Simple Mode';
+  });
   // When entering simple mode, lock to churches view, request location, sort by proximity
   if (isSimpleMode) {
     if (typeof switchAppView === 'function') switchAppView('churches');
@@ -5045,8 +5060,15 @@ function renderSpecialEvents(p) {
       const loc0 = p.locations && p.locations[0];
       const evtLoc = (loc0 && loc0.name ? loc0.name : p.name) + ', ' + (p.town || '') + ', MA';
       const evtTitle = (evt.title || evt.notes || typeName || 'Event') + ' at ' + (loc0 ? loc0.name : p.name);
-      const icsUrl = generateICS(evtTitle, evt.date, evt.time, evt.end_time, evtLoc, '');
-      const gcalUrl = generateGCalURL(evtTitle, evt.date, evt.time, evt.end_time, evtLoc, '');
+      const evtDesc = buildCalDescription({
+        type: typeName || evt.type,
+        notes: evt.notes || '',
+        language: evt.language,
+        verification: p.validation ? (p.validation.status || '') : '',
+        url: (p.contact && p.contact.website) || ''
+      });
+      const icsUrl = generateICS(evtTitle, evt.date, evt.time, evt.end_time, evtLoc, evtDesc);
+      const gcalUrl = generateGCalURL(evtTitle, evt.date, evt.time, evt.end_time, evtLoc, evtDesc);
       calHtml = `<span class="cal-dropdown"><button class="special-event-cal" onclick="event.stopPropagation(); toggleCalDropdown(this);">📅</button><div class="cal-dropdown-menu"><a href="${gcalUrl}" target="_blank" rel="noopener">Google Calendar</a><a href="${icsUrl}" download="event.ics">Download .ics</a></div></span>`;
     }
 
@@ -5113,7 +5135,7 @@ function renderYCLiteralEvents(p) {
     const timeStr = next.time ? fmt12(next.time) : '';
     const endStr = next.end_time ? ` – ${fmt12(next.end_time)}` : '';
     const socialTag = next.social ? '<span class="yc-event-social-tag">✦ Social after</span>' : '';
-    const noteTag = next.notes ? ` <span style="opacity:0.65;font-size:0.62rem;">— ${next.notes}</span>` : '';
+    const noteTag = next.notes ? ` <span style="opacity:0.65;font-size:0.75rem;">— ${next.notes}</span>` : '';
 
     // Recurrence note for series with 2+ dates
     let recurrenceNote = '';
@@ -5130,8 +5152,14 @@ function renderYCLiteralEvents(p) {
     if (next.date && next.time) {
       const loc0 = p.locations && p.locations[0];
       const evtLoc = (loc0 ? loc0.name : p.name) + ', ' + (p.town || '') + ', MA';
-      const icsUrl = generateICS(next.title, next.date, next.time, next.end_time, evtLoc, next.notes || '');
-      const gcalUrl = generateGCalURL(next.title, next.date, next.time, next.end_time, evtLoc, next.notes || '');
+      const ycDesc = buildCalDescription({
+        type: 'Young Catholic Event',
+        notes: next.notes || '',
+        verification: p.validation ? (p.validation.status || '') : '',
+        url: (p.contact && p.contact.website) || ''
+      });
+      const icsUrl = generateICS(next.title, next.date, next.time, next.end_time, evtLoc, ycDesc);
+      const gcalUrl = generateGCalURL(next.title, next.date, next.time, next.end_time, evtLoc, ycDesc);
       ycCalHtml = ` <span class="cal-dropdown"><button class="special-event-cal" onclick="event.stopPropagation(); toggleCalDropdown(this);">📅</button><div class="cal-dropdown-menu"><a href="${gcalUrl}" target="_blank" rel="noopener">Google Calendar</a><a href="${icsUrl}" download="${next.id || 'yc-event'}.ics">Download .ics</a></div></span>`;
     }
 
@@ -5296,13 +5324,28 @@ function toggleVerifyDetail(el) {
   });
   const isOpening = !el.classList.contains('open');
   el.classList.toggle('open');
-  // B4 fix: position the fixed detail panel below the badge on open
+  // B4 fix: position the fixed detail panel relative to the badge on open
+  // E6 fix: clamp to bottom viewport; flip above badge if needed
   if (isOpening) {
     const detail = el.querySelector('.verify-detail');
     if (detail) {
       const rect = el.getBoundingClientRect();
       const vw = window.innerWidth;
-      detail.style.top = (rect.bottom + 6) + 'px';
+      const vh = window.innerHeight;
+      // Temporarily show to measure height
+      detail.style.visibility = 'hidden';
+      detail.style.display = 'block';
+      const detailH = detail.offsetHeight;
+      detail.style.visibility = '';
+      // Check if there's room below the badge
+      const spaceBelow = vh - rect.bottom - 6;
+      if (spaceBelow >= detailH || spaceBelow > rect.top) {
+        // Place below, clamped to not overflow viewport bottom
+        detail.style.top = Math.min(rect.bottom + 6, vh - detailH - 6) + 'px';
+      } else {
+        // Flip above the badge
+        detail.style.top = Math.max(6, rect.top - detailH - 6) + 'px';
+      }
       // Align right edge to badge right, but clamp to viewport
       const rightFromRight = vw - rect.right;
       detail.style.right = Math.max(6, rightFromRight) + 'px';
@@ -5486,7 +5529,7 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
 
   // Accessibility badge
   const accessBadge = (loc && loc.is_accessible)
-    ? '<span class="access-badge" title="Wheelchair accessible">♿ Accessible</span>' : '';
+    ? '<span class="access-badge" title="Wheelchair accessible">♿</span>' : '';
 
   const confBadge = getVerifiedBadge(p);
 
@@ -5543,9 +5586,11 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
     ${ycBannerHtml}
     ${liveIndicatorHtml}
     <div class="card-header">
-      <h2>${churchName}</h2>
-      ${alsoAtHtml}
-      <div class="card-location">${p.town}, MA &middot; ${p.county} County</div>
+      <div class="card-header-text">
+        <h2>${churchName}</h2>
+        ${alsoAtHtml}
+        <div class="card-location">${p.town}, MA &middot; ${p.county} County</div>
+      </div>
       <span class="county-badge">${distHtml}<button class="fav-btn${isFav ? ' favorited' : ''}" onclick="event.stopPropagation(); toggleFavorite('${p.id}', this);" title="${isFav ? 'Remove from favorites' : 'Add to favorites'}">${isFav ? '❤️' : '🤍'}</button> ${confBadge}</span>
       ${confWarn}
     </div>
@@ -5585,6 +5630,20 @@ function formatICSDate(dateStr, timeStr) {
   const d = dateStr.replace(/-/g, '');
   const t = timeStr ? timeStr.replace(/:/g, '') + '00' : '000000';
   return d + 'T' + t;
+}
+
+// D3: Build a rich calendar event description with service metadata
+function buildCalDescription(opts) {
+  const lines = [];
+  if (opts.type) lines.push('Service: ' + opts.type);
+  if (opts.notes) lines.push('Notes: ' + opts.notes);
+  if (opts.language && opts.language !== 'en') {
+    const langName = LANG_NAMES[opts.language] || opts.language;
+    lines.push('Language: ' + langName);
+  }
+  if (opts.verification) lines.push('Verification: ' + opts.verification);
+  if (opts.url) lines.push(opts.url);
+  return lines.join('\n');
 }
 
 function generateICS(title, dateStr, timeStr, endTimeStr, location, description) {
@@ -5936,6 +5995,16 @@ function render() {
     }
   }).join('');
   grid.innerHTML = html || '<div class="no-results"><div class="cross">\u271D</div><p>No churches found matching your filters.</p></div>';
+
+  // E3: Guard — if a fav card was tagged for hiding but doesn't exist in the favorites section, unhide it
+  if (!favFilterActive) {
+    grid.querySelectorAll('[data-fav-card="true"]').forEach(function(card) {
+      const pid = card.getAttribute('data-parish-id');
+      if (pid && !document.querySelector('[data-fav-inline="' + pid + '"]')) {
+        card.removeAttribute('data-fav-card');
+      }
+    });
+  }
 
   var shown = filtered.length;
   resultsCount.textContent = shown + ' of ' + parishes.length + ' shown';
@@ -6330,7 +6399,13 @@ function renderYCEvents() {
 
     // Calendar button
     const evtLocation = evt.venue_address || (placeName ? placeName + ', MA' : '');
-    const evtDesc = evt.title + (evt.social ? ' (Social after)' : '') + (evt.notes ? ' — ' + evt.notes : '');
+    const ycTopParish = evt.parish_id ? parishes.find(x => x.id === evt.parish_id) : null;
+    const evtDesc = buildCalDescription({
+      type: 'Young Catholic Event' + (evt.social ? ' (Social after)' : ''),
+      notes: evt.notes || '',
+      verification: ycTopParish && ycTopParish.validation ? (ycTopParish.validation.status || '') : '',
+      url: (ycTopParish && ycTopParish.contact && ycTopParish.contact.website) || ''
+    });
     const icsUrl = generateICS(evt.title, evt.date, evt.time, evt.end_time, evtLocation, evtDesc);
     const gcalUrl = generateGCalURL(evt.title, evt.date, evt.time, evt.end_time, evtLocation, evtDesc);
     const calBtnHtml = evt.date && evt.time
@@ -7495,7 +7570,14 @@ function renderYCView() {
     const calLoc = placeName + (loc ? ', ' + (loc.address || '') : '');
     let calBtn = '';
     if (next.date && next.time) {
-      const icsUrl = generateICS(next.title, next.date, next.time, next.end_time || null, calLoc, next.notes || '');
+      const ep2 = parishId ? parishes.find(x => x.id === parishId) : null;
+      const ycSeriesDesc = buildCalDescription({
+        type: 'Young Catholic Event',
+        notes: next.notes || '',
+        verification: ep2 && ep2.validation ? (ep2.validation.status || '') : '',
+        url: (ep2 && ep2.contact && ep2.contact.website) || ''
+      });
+      const icsUrl = generateICS(next.title, next.date, next.time, next.end_time || null, calLoc, ycSeriesDesc);
       calBtn = `<a class="yc-series-btn primary" href="${icsUrl}" download="${(next.title||'event').replace(/[^a-zA-Z0-9]/g,'_')}.ics" onclick="event.stopPropagation();">📅 Add to Calendar</a>`;
     }
 
@@ -7513,7 +7595,7 @@ function renderYCView() {
       <div class="yc-series-header">
         <div class="yc-series-header-info">
           <div class="yc-series-title">${next.title}</div>
-          <div class="yc-series-parish">${placeName}${parishName && placeName !== parishName ? ' · ' + parishName : ''}</div>
+          <div class="yc-series-parish">${placeName}</div>
         </div>
         ${distHtml}
       </div>
