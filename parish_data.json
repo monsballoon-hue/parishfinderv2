@@ -124,7 +124,6 @@
           "office@acparishes.org"
         ],
         "website": "https://www.acparishes.org",
-        "website_validated": false,
         "office_hours": "Mon - Wed, 9:00 a.m. - 1:00 p.m. (St. Mary the Assumption, Cheshire)"
       },
       "staff": [
@@ -572,7 +571,6 @@
           "sje.information@gmail.com"
         ],
         "website": "https://stjohnagawam.com",
-        "website_validated": false,
         "office_hours": "Monday–Thursday 9:00am–3:00pm"
       },
       "staff": [
@@ -869,7 +867,6 @@
           "newmansecretary@diospringfield.org"
         ],
         "website": "https://www.newmanumass.org",
-        "website_validated": false,
         "office_hours": "See building hours"
       },
       "staff": [
@@ -1289,7 +1286,6 @@
           "saintbrigidsamherst@gmail.com"
         ],
         "website": "https://www.saintbrigidsamherst.org",
-        "website_validated": false,
         "office_hours": "Monday–Friday 9:00am–2:00pm"
       },
       "staff": [
@@ -1858,7 +1854,6 @@
           "francisatbtown@gmail.com"
         ],
         "website": "https://www.stfrancisbelchertown.com",
-        "website_validated": false,
         "office_hours": "Mon. - Fri. 9:00 AM - Noon"
       },
       "staff": [
@@ -2452,7 +2447,6 @@
           "stchrisbrimfield@gmail.com"
         ],
         "website": "https://www.stpatstchris.org",
-        "website_validated": false,
         "office_hours": "Mon. - Thu. 8:30 AM - 2:30 PM"
       },
       "staff": [
@@ -2687,7 +2681,6 @@
           "www.saintanneparish@gmail.com"
         ],
         "website": "https://www.saintanne.us",
-        "website_validated": false,
         "office_hours": "Mon. - Fri. 8:00 a.m. - 2:00 p.m."
       },
       "staff": [
@@ -3110,7 +3103,6 @@
           "info@stanthonychicopee.com"
         ],
         "website": "https://stanthonyma.org",
-        "website_validated": true,
         "office_hours": "Tues. - Fri. 10:00 a.m. - 2:00 p.m."
       },
       "staff": [
@@ -3298,7 +3290,6 @@
           "frbob@sterose.org"
         ],
         "website": "https://sterose.org",
-        "website_validated": false,
         "office_hours": "Mon–Thu 9:00am–5:00pm, Fri 9:00am–3:00pm"
       },
       "staff": [
@@ -3722,7 +3713,6 @@
           "contact@ststansbasilica.org"
         ],
         "website": "https://www.ststansbasilica.org",
-        "website_validated": false,
         "office_hours": "Mon. - Fri. 9:00 a.m. - 5:00 p.m."
       },
       "staff": [
@@ -4322,7 +4312,6 @@
           "info@saintagnescc.com"
         ],
         "website": "https://www.saintagnescc.com",
-        "website_validated": false,
         "office_hours": "Monday–Friday 10:30am–4:30pm"
       },
       "staff": [
@@ -4764,7 +4753,6 @@
           "fr.sliwa.olv@gmail.com"
         ],
         "website": "https://www.olveasthampton.org",
-        "website_validated": true,
         "office_hours": "Monday - Thursday 8:00 AM - 3:00 PM"
       },
       "staff": [
@@ -5295,7 +5283,6 @@
           "stmichaelsparishel@gmail.com"
         ],
         "website": "https://www.stmichaelsel.org",
-        "website_validated": true,
         "office_hours": "Monday - Friday 8:00 AM - 3:00 PM"
       },
       "staff": [
@@ -5595,7 +5582,6 @@
           "office@sacredheartfeedinghills.org"
         ],
         "website": "https://sacredheartfeedinghills.org",
-        "website_validated": true,
         "office_hours": "Monday - Thursday 8:30 AM - 4:30 PM; Friday closed",
         "bulletin_url_note": "Prior URL church-bulletin.org/?id=987 flagged as suspect — needs re-verification"
       },
@@ -5842,7 +5828,6 @@
           "parishIHMgranby@gmail.com"
         ],
         "website": "https://www.ihmparishgranby.org",
-        "website_validated": true,
         "office_hours": "Monday - Thursday 9:00 AM - 2:00 PM"
       },
       "staff": [
@@ -6205,7 +6190,6 @@
         "emails": [
           "st.petergb12@gmail.com"
         ],
-        "website_validated": false,
         "office_hours": "Mon. - Fri. 9:00 a.m. - 2:00 p.m."
       },
       "staff": [
@@ -6397,7 +6381,6 @@
           "office@blessedtrinitygreenfield.org"
         ],
         "website": "https://www.blessedtrinitygreenfield.org",
-        "website_validated": true,
         "office_hours": "Monday - Friday 9:00 AM - 3:00 PM"
       },
       "staff": [
@@ -6820,7 +6803,6 @@
           "mhrhadleychurch@gmail.com"
         ],
         "website": "https://www.mhrhadley.org",
-        "website_validated": true,
         "office_hours": "Monday, Tuesday, Thursday, Friday 9:00 AM - 3:00 PM; closed Wednesday"
       },
       "staff": [
@@ -7143,7 +7125,6 @@
           "stmaryhampden@gmail.com"
         ],
         "website": "https://www.stmaryshampden.org",
-        "website_validated": true,
         "office_hours": "Mon. - Thurs. 9:00 a.m. - 12:00 p.m."
       },
       "staff": [
@@ -7358,7 +7339,6 @@
           "ourladyofgracehatfield@yahoo.com"
         ],
         "website": "https://www.ourladyofgrace.faith",
-        "website_validated": true,
         "office_hours": "Monday, Tuesday, Thursday, Friday 9:00 AM - 2:00 PM; closed Wednesday"
       },
       "staff": [
@@ -7542,7 +7522,6 @@
           "olothparish@gmail.com"
         ],
         "website": "https://www.olothhaydenville.org",
-        "website_validated": false,
         "office_hours": "Mon. - Thu. 9:00 AM - Noon"
       },
       "staff": [
@@ -7710,7 +7689,6 @@
           "blsachol@comcast.net"
         ],
         "website": "https://www.blessedsacramentholyoke.org",
-        "website_validated": false,
         "office_hours": "Mon. - Thu. 8:30 AM - 4:00 PM; Fri. 8:30 AM - 2:00 PM"
       },
       "staff": [
@@ -7941,7 +7919,6 @@
           "thedeaconrjt@gmail.com"
         ],
         "website": "https://www.ourladyofthecross.com",
-        "website_validated": false,
         "office_hours": "Mon. - Fri. 8:30 a.m. - 12:30 p.m."
       },
       "staff": [
@@ -8293,7 +8270,6 @@
           "st-jerome@comcast.net"
         ],
         "website": "https://www.stjeromeholyoke.org",
-        "website_validated": false,
         "office_hours": "Mon. - Fri. 10:00 a.m. - 2:00 p.m."
       },
       "staff": [
@@ -8599,7 +8575,6 @@
         "emails": [
           "st.teresa9@gmail.com"
         ],
-        "website_validated": false,
         "office_hours": "Mon. - Fri. 9:00 a.m. - 3:00 p.m."
       },
       "staff": [
@@ -8717,7 +8692,6 @@
           "iccmaoffice@gmail.com"
         ],
         "website": "https://www.indian-orchard-immaculate-conception.org",
-        "website_validated": false,
         "office_hours": "Mon., Tue., and Wed. 3:00 p.m. - 6:00 p.m."
       },
       "staff": [
@@ -9022,7 +8996,6 @@
           "lcsmchurch@gmail.com"
         ],
         "website": "https://www.StMaryLOS.com",
-        "website_validated": false,
         "office_hours": "Mon. - Thurs. 9:00 a.m. - 12:00 p.m.",
         "notes": "Oratory located behind St. Mary's Church, Lee. Open Mon–Fri 8 AM–11 PM, Sat–Sun 9 AM–11 PM for private prayer and adoration."
       },
@@ -9253,7 +9226,6 @@
           "parishoffice@avptriparish.org"
         ],
         "website": "https://www.avptriparish.org",
-        "website_validated": false,
         "office_hours": "Tues., Wed., Thurs., 9:00 a.m. - 3:00 p.m., Fri. 9:00 a.m. - 1:00 p.m.",
         "notes": "Triparish Community: St. Ann (Lenox), St. Vincent de Paul (Lenox Dale), St. Patrick (West Stockbridge). St. Patrick office: (413) 232-4427 M & TH"
       },
@@ -9468,7 +9440,6 @@
           "parishoffice@stmarylong.org"
         ],
         "website": "https://www.stmarylong.org",
-        "website_validated": false,
         "office_hours": "Mon. - Thurs. 9:00 a.m. - 3:00 p.m."
       },
       "staff": [
@@ -9869,8 +9840,7 @@
         "phone": "413-583-2630",
         "emails": [
           "ctkludlow@gmail.com"
-        ],
-        "website_validated": false
+        ]
       },
       "staff": [
         "pastor",
@@ -10254,7 +10224,6 @@
           "fatima7987@charter.net"
         ],
         "website": "https://www.ourladyoffatimaparish.org",
-        "website_validated": false,
         "office_hours": "Mon. - Thurs. 9:00 a.m. - 5:00 p.m."
       },
       "staff": [
@@ -10495,7 +10464,6 @@
           "info@stelizabethludlow.org"
         ],
         "website": "https://www.stelizabethludlow.org",
-        "website_validated": false,
         "office_hours": "Mon. - Fri. 8:00 a.m. - 4:00 p.m."
       },
       "staff": [
@@ -10757,7 +10725,6 @@
           "STPATMON@aol.com"
         ],
         "website": "https://www.stpatstchris.org",
-        "website_validated": true,
         "office_hours": "Monday–Friday 8:30am–5:00pm"
       },
       "staff": [
@@ -11009,7 +10976,6 @@
           "stelizabethofhungaryna@gmail.com"
         ],
         "website": "https://www.stelizabethofhungaryparish.org",
-        "website_validated": true,
         "office_hours": "Mon. - Thurs. 9:00 a.m. - 12:30 p.m."
       },
       "staff": [
@@ -11293,7 +11259,6 @@
       "contact": {
         "phone": "413-584-7310",
         "website": "https://www.saintelizabethannseton.net",
-        "website_validated": false,
         "office_hours": "Mon. - Fri. 9:00 AM - 3:30 PM",
         "office_address": "87 Beacon Street, Florence, MA 01062"
       },
@@ -11583,8 +11548,7 @@
         "phone": "413-498-5039",
         "emails": [
           "stpatrickschurch0317@gmail.com"
-        ],
-        "website_validated": false
+        ]
       },
       "staff": [
         "pastor",
@@ -11752,7 +11716,6 @@
           "office@stmaryolr.org"
         ],
         "website": "https://www.stmaryorange.online",
-        "website_validated": true,
         "office_hours": "Mon. and Thurs. 9:00 AM – Noon",
         "instagram": "stmary.orange.ma"
       },
@@ -12066,7 +12029,6 @@
         "emails": [
           "sttompal@comcast.net"
         ],
-        "website_validated": false,
         "office_hours": "Mon.–Fri. 9:00 AM–2:00 PM"
       },
       "staff": [
@@ -12316,7 +12278,6 @@
           "pinkchurch@aol.com"
         ],
         "website": "https://www.thepinkchurch.com",
-        "website_validated": true,
         "office_hours": "Mon.–Thu. 9:00 AM–1:00 PM",
         "office_address": "56 Newell Street, Pittsfield, MA 01201"
       },
@@ -12569,7 +12530,6 @@
           "stcharlespittsfield@gmail.com"
         ],
         "website": "https://www.stcharlespittsfield.org",
-        "website_validated": false,
         "office_hours": "Mon. - Thurs. 9:30 a.m. - 2:00 p.m."
       },
       "staff": [
@@ -12943,7 +12903,6 @@
           "msgrmike@stjoepittsfield.com"
         ],
         "website": "https://www.stjoepittsfield.com",
-        "website_validated": true,
         "office_hours": "Mon.–Wed. 10:00 AM–3:00 PM"
       },
       "staff": [
@@ -13252,7 +13211,6 @@
       "contact": {
         "phone": "413-447-7510",
         "website": "https://www.saintmarkspittsfield.org",
-        "website_validated": false,
         "office_hours": "Mon. - Thurs. 8:30 a.m. - 2:30 p.m."
       },
       "staff": [
@@ -13605,8 +13563,7 @@
         "emails": [
           "parish@holyfamilyrussell.org"
         ],
-        "website": "https://www.holyfamilyrussell.org",
-        "website_validated": false
+        "website": "https://www.holyfamilyrussell.org"
       },
       "staff": [
         "pastor",
@@ -13782,7 +13739,6 @@
           "our.lady.valley@gmail.com"
         ],
         "website": "https://www.ourolv.org",
-        "website_validated": false,
         "office_hours": "Thursday is Fr. Robert's private day — real emergencies only",
         "mailing_address": "P.O. Box 515, Sheffield MA 01257-0515",
         "facebook": "https://facebook.com/olv.sheffield"
@@ -14027,7 +13983,6 @@
           "stjosephccsf@gmail.com"
         ],
         "website": "https://www.stjosephparishma.com",
-        "website_validated": false,
         "office_hours": "Mon. - Fri. 8:00 a.m. - Noon"
       },
       "staff": [
@@ -14309,7 +14264,6 @@
           "Holyfamilysd29@gmail.com"
         ],
         "website": "https://www.holyfamilysd.org",
-        "website_validated": false,
         "office_hours": "Mon.–Thu. 8:30 AM–3:00 PM; Fri. closed"
       },
       "staff": [
@@ -14579,7 +14533,6 @@
           "stpatrickssh@outlook.com"
         ],
         "website": "https://saintpatrick.cc",
-        "website_validated": false,
         "office_hours": "Mon. - Thurs. 9:00 a.m. - 3:00 p.m., Fri. 9:00 a.m. - 12:00 p.m."
       },
       "staff": [
@@ -14878,7 +14831,6 @@
           "sttfaithformation@gmail.com"
         ],
         "website": "https://www.sttheresaparish.org",
-        "website_validated": false,
         "office_hours": "Mon. - Thu. 9:00 AM - 4:00 PM"
       },
       "staff": [
@@ -15142,7 +15094,6 @@
           "ParishOffice@ollsouthwick.org"
         ],
         "website": "https://www.ollsouthwick.org",
-        "website_validated": false,
         "office_hours": "Mon. - Wed. 9:00 a.m. - 3:00 p.m., Thurs. 9:00 a.m. - 12:00 p.m."
       },
       "staff": [
@@ -15331,8 +15282,7 @@
         "phone": "413-736-0076",
         "emails": [
           "Blessedsacramentchurch@comcast.net"
-        ],
-        "website_validated": false
+        ]
       },
       "staff": [
         "pastor",
@@ -15549,8 +15499,7 @@
         "phone": "413-736-0076",
         "emails": [
           "Blessedsacramentchurch@comcast.net"
-        ],
-        "website_validated": false
+        ]
       },
       "staff": [
         "pastor",
@@ -15749,7 +15698,6 @@
       "contact": {
         "phone": "413-783-4111",
         "website": "https://www.holycrossparish.org",
-        "website_validated": false,
         "office_hours": "Mon. - Fri. 8:00 a.m. - 2:00 p.m."
       },
       "staff": [
@@ -16070,7 +16018,6 @@
       "contact": {
         "phone": "413-733-5823",
         "website": "https://www.holynamespringfieldma.org",
-        "website_validated": false,
         "office_hours": "Mon. - Fri. 8:30 a.m. - 4:00 p.m."
       },
       "staff": [
@@ -16400,7 +16347,6 @@
           "office@mmohspringfield.org"
         ],
         "website": "https://www.mmohspringfield.org",
-        "website_validated": false,
         "office_hours": "Mon., Tues.,Wed., 9:00 a.m. - 3:00 p.m."
       },
       "staff": [
@@ -16665,7 +16611,6 @@
           "mountcarmelrectoryoffice@gmail.com"
         ],
         "website": "https://www.olmcspringfield.org",
-        "website_validated": false,
         "office_hours": "Mon. - Fri. 8:00 a.m. - 4:00 p.m., Sat. 9:00 a.m. - 3:30 p.m."
       },
       "staff": [
@@ -16910,7 +16855,6 @@
           "olshspringfield@gmail.com"
         ],
         "website": "https://www.olshspringfield.org",
-        "website_validated": true,
         "office_hours": "Mon. - Thurs. 9:00 a.m. - 1:00 p.m."
       },
       "staff": [
@@ -17180,8 +17124,7 @@
         "emails": [
           "shc395@aol.com"
         ],
-        "website": "https://www.sacredheartspringfield.org",
-        "website_validated": true
+        "website": "https://www.sacredheartspringfield.org"
       },
       "staff": [
         "pastor",
@@ -17414,7 +17357,6 @@
           "parishoffice@stcatherinespringfield.org"
         ],
         "website": "https://stcatherinespringfield.org",
-        "website_validated": true,
         "office_hours": "Mon–Thu 9:00 AM–2:00 PM; Fri closed"
       },
       "staff": [
@@ -17720,7 +17662,6 @@
           "stmichaelscathedral@diospringfield.org"
         ],
         "website": "https://www.stmichaelscathedralspfld.org",
-        "website_validated": false,
         "office_hours": "Mon. - Fri. 9:30 a.m. - 3:30 p.m."
       },
       "staff": [
@@ -18023,7 +17964,6 @@
           "stpatspringfield@gmail.com"
         ],
         "website": "https://www.saintpatricks-springfield.org",
-        "website_validated": false,
         "office_hours": "Mon. - Fri. 8:30 a.m. - 1:30 p.m."
       },
       "staff": [
@@ -18200,7 +18140,6 @@
         "emails": [
           "stpaulchurch235@gmail.com"
         ],
-        "website_validated": false,
         "office_hours": "Mon.–Fri. 9:00 AM – 2:00 PM"
       },
       "staff": [
@@ -18420,7 +18359,6 @@
           "petruspaulus1905@gmail.com"
         ],
         "website": "https://www.churchofdivinemercy.org",
-        "website_validated": false,
         "office_hours": "Mon., Fri., 9:00 a.m. - 3:00 p.m."
       },
       "staff": [
@@ -18744,7 +18682,6 @@
       "contact": {
         "phone": "413-863-4748",
         "website": "https://www.chroniclesofczestochowa.wordpress.com",
-        "website_validated": true,
         "office_hours": "Tues. - Fri. 9:30 a.m. - 3:30 p.m."
       },
       "staff": [
@@ -19120,7 +19057,6 @@
           "church@ourladyofpeacetf.com"
         ],
         "website": "https://www.ourladyofpeacetf.org",
-        "website_validated": true,
         "office_hours": "Tues. - Thurs. 8:30 a.m. - Noon"
       },
       "staff": [
@@ -19322,7 +19258,6 @@
           "allsaintschurch17@gmail.com"
         ],
         "website": "https://www.warecatholic.org",
-        "website_validated": false,
         "office_hours": "Mon & Wed 9am–12pm; Fri closed"
       },
       "staff": [
@@ -19504,7 +19439,6 @@
           "stmaryschurch60@gmail.com"
         ],
         "website": "https://www.warecatholic.org",
-        "website_validated": false,
         "office_hours": "Mon & Wed 9am–12pm; Fri closed"
       },
       "staff": [
@@ -19699,7 +19633,6 @@
           "stthomassecretary@comcast.net"
         ],
         "website": "https://www.stthomaswestspringfield.org",
-        "website_validated": false,
         "office_hours": "Mon.–Fri. 9:30 a.m. – 4:30 p.m."
       },
       "staff": [
@@ -20046,7 +19979,6 @@
           "htoffice@holytrinitywestfield.com"
         ],
         "website": "https://www.holytrinitywestfield.com",
-        "website_validated": false,
         "office_hours": "Mon.–Thu. 8:00 a.m.–3:00 p.m., closed Friday",
         "phone_secondary": "413-568-5421"
       },
@@ -20304,7 +20236,6 @@
           "olbsoffice@aol.com"
         ],
         "website": "https://www.olbswestfield.org",
-        "website_validated": true,
         "office_hours": "Mon.–Thu. 9:00 a.m.–2:00 p.m."
       },
       "staff": [
@@ -20658,8 +20589,7 @@
         "emails": [
           "eramos@stmsaints.org"
         ],
-        "website": "https://www.stmarysofwestfield.com",
-        "website_validated": false
+        "website": "https://www.stmarysofwestfield.com"
       },
       "staff": [
         "pastor",
@@ -20905,7 +20835,6 @@
           "htoffice@holytrinitywestfield.com"
         ],
         "website": "https://www.holytrinitywestfield.com",
-        "website_validated": false,
         "office_hours": "Mon.–Thu. 8:00 a.m.–3:00 p.m., closed Friday"
       },
       "staff": [
@@ -21154,7 +21083,6 @@
           "administrator@saintceciliawilbraham.org"
         ],
         "website": "https://www.saintceciliawilbraham.org",
-        "website_validated": false,
         "office_hours": "Mon. - Fri. 8:00 a.m. - 3:00 p.m."
       },
       "staff": [
@@ -21322,8 +21250,7 @@
         "emails": [
           "saintspatrickandraphael@gmail.com"
         ],
-        "website": "https://www.williamstowncatholics.org",
-        "website_validated": false
+        "website": "https://www.williamstowncatholics.org"
       },
       "staff": [
         "pastor",
@@ -21884,7 +21811,6 @@
           "office@stcatherinewestfield.org"
         ],
         "website": "https://www.stcatherinewestfield.org",
-        "website_validated": false,
         "office_hours": "Mon-Fri 9:00 AM - 3:00 PM"
       },
       "staff": [
@@ -22185,7 +22111,6 @@
           "parish@ihmwestfield.org"
         ],
         "website": "https://www.ihmwestfield.org",
-        "website_validated": false,
         "office_hours": "Mon-Thu 9:00 AM - 4:00 PM"
       },
       "staff": [
@@ -22398,7 +22323,6 @@
           "info@stbrendanparish.org"
         ],
         "website": "https://www.stbrendanparish.org",
-        "website_validated": false,
         "office_hours": "Tue-Fri 9:00 AM - 1:00 PM"
       },
       "staff": [
@@ -22567,7 +22491,6 @@
           "olmc@mtcarmelparish.org"
         ],
         "website": "https://www.mtcarmelparish.org",
-        "website_validated": false,
         "office_hours": "Mon-Fri 9:00 AM - 2:00 PM"
       },
       "staff": [
@@ -22780,7 +22703,6 @@
           "sacredheart@granvillecatholic.org"
         ],
         "website": null,
-        "website_validated": false,
         "office_hours": "By appointment"
       },
       "staff": [
