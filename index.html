@@ -3423,6 +3423,22 @@
     border: none;
     box-shadow: none;
   }
+  .fav-inline-collapse {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 14px;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    color: rgba(255,255,255,0.7);
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .fav-inline-collapse:active { background: #2a3f6e; }
   .fav-chip {
     padding: 5px 12px;
     border-radius: 20px;
@@ -5795,7 +5811,10 @@ function render() {
           '</span>' +
           '<span class="fcc-chevron">\u25B6</span>' +
         '</div>' +
-        '<div class="fav-inline-card" data-fav-inline="' + p.id + '">' + (fullCard || '') + '</div>';
+        '<div class="fav-inline-card" data-fav-inline="' + p.id + '">' +
+          (fullCard || '') +
+          '<div class="fav-inline-collapse" data-fav-collapse="' + p.id + '">\u25B2 Collapse</div>' +
+        '</div>';
       });
 
       html += '<div class="fav-section-wrapper" id="favSectionWrapper">' +
@@ -6569,6 +6588,22 @@ grid.addEventListener('click', function(e) {
       row.classList.add('row-open');
       setTimeout(function() {
         inlineCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 50);
+    }
+    return;
+  }
+  // Collapse bar: close the expanded inline card
+  var collapseBar = e.target.closest('[data-fav-collapse]');
+  if (collapseBar) {
+    e.stopPropagation();
+    var cpid = collapseBar.getAttribute('data-fav-collapse');
+    var cInline = document.querySelector('[data-fav-inline="' + cpid + '"]');
+    var cRow = document.querySelector('[data-fav-row="' + cpid + '"]');
+    if (cInline) cInline.classList.remove('open');
+    if (cRow) cRow.classList.remove('row-open');
+    if (cRow) {
+      setTimeout(function() {
+        cRow.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }, 50);
     }
     return;
