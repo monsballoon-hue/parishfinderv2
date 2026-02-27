@@ -2015,103 +2015,204 @@
   .yc-view-filters {
     display: flex;
     gap: 6px;
-    padding: 0 0 8px;
+    padding: 0 0 12px;
   }
   .yc-filter-btn {
-    background: transparent;
-    border: 1px solid var(--mid-gray);
+    background: #fff;
+    border: 1.5px solid var(--border);
     color: var(--text-light);
-    padding: 6px 14px;
+    padding: 7px 16px;
     border-radius: 20px;
     font-size: 0.82rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.15s;
+    transition: all 0.18s;
+  }
+  .yc-filter-btn:hover {
+    border-color: var(--gold);
+    background: var(--gold-pale);
+    color: var(--text);
   }
   .yc-filter-btn.active {
-    background: linear-gradient(135deg, #e8a838 0%, #d4831a 100%);
-    color: #1a1a2e;
-    border-color: #e8a838;
+    background: var(--navy);
+    color: #fff;
+    border-color: var(--navy);
+  }
+
+  /* YC Hero Header */
+  .yc-hero-header {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    margin: -16px -24px 20px;
+    padding: 20px 24px 16px;
+    border-radius: 0 0 14px 14px;
+    box-shadow: 0 3px 16px rgba(26,39,68,0.15);
+  }
+  .yc-hero-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .yc-hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+    line-height: 1.2;
+  }
+  .yc-hero-subtitle {
+    font-size: 0.8rem;
+    color: var(--gold-light);
+    display: block;
+    margin-top: 4px;
+    font-weight: 500;
+  }
+  .yc-hero-header .yc-view-filters {
+    margin-top: 14px;
+    padding: 0;
+  }
+  .yc-hero-header .yc-filter-btn {
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.7);
+    border-color: rgba(255,255,255,0.2);
+  }
+  .yc-hero-header .yc-filter-btn:hover {
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    border-color: rgba(255,255,255,0.4);
+  }
+  .yc-hero-header .yc-filter-btn.active {
+    background: var(--gold);
+    color: var(--navy);
+    border-color: var(--gold);
+    font-weight: 700;
+  }
+  @media (max-width: 520px) {
+    .yc-hero-header {
+      margin: -12px -14px 16px;
+      padding: 16px 14px 14px;
+      border-radius: 0 0 10px 10px;
+    }
+    .yc-hero-title { font-size: 1.1rem; }
   }
   .yc-series-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  @media (min-width: 769px) {
+    .yc-series-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
   }
   .yc-series-card {
     background: #fff;
-    border: 1px solid #e8dcc8;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--gold);
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    box-shadow: 0 1px 6px rgba(26,39,68,0.07);
+    transition: box-shadow 0.2s, transform 0.15s;
+    display: flex;
+    flex-direction: column;
+    animation: fadeUp 0.3s ease both;
+  }
+  .yc-series-card:hover {
+    box-shadow: 0 6px 24px rgba(26,39,68,0.13);
+    transform: translateY(-1px);
   }
   .yc-series-header {
-    background: linear-gradient(135deg, #e8a838 0%, #d4831a 100%);
-    color: #1a1a2e;
-    padding: 12px 16px;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    color: #fff;
+    padding: 14px 16px 12px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 12px;
   }
   .yc-series-header-info { flex: 1; min-width: 0; }
   .yc-series-title {
-    font-size: 1.08rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
     font-weight: 700;
-    line-height: 1.2;
-    margin-bottom: 2px;
+    line-height: 1.25;
+    margin-bottom: 3px;
+    color: #fff;
   }
   .yc-series-parish {
     font-size: 0.84rem;
-    opacity: 0.75;
-    font-weight: 500;
+    color: var(--gold-light);
+    font-weight: 400;
+    letter-spacing: 0.02em;
   }
   .yc-series-dist {
     font-size: 0.78rem;
     font-weight: 700;
-    opacity: 0.7;
+    color: var(--gold-light);
     white-space: nowrap;
+    background: rgba(201,168,76,0.18);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 12px;
+    padding: 3px 10px;
+    flex-shrink: 0;
+    margin-top: 2px;
   }
   .yc-series-body {
-    padding: 14px 16px;
+    padding: 14px 16px 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
   }
   .yc-series-next {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: 10px;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
   }
   .yc-series-next-label {
-    font-size: 0.72rem;
+    font-size: 0.65rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: #b8860b;
+    letter-spacing: 0.08em;
+    color: #fff;
+    background: var(--gold);
+    padding: 2px 8px;
+    border-radius: 3px;
     flex-shrink: 0;
   }
   .yc-series-next-detail {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--text);
+    font-size: 1.0rem;
+    font-weight: 700;
+    color: var(--navy);
   }
   .yc-series-time {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: var(--text);
-    margin-bottom: 4px;
+    font-weight: 600;
+    margin-bottom: 6px;
   }
   .yc-series-social {
-    display: inline-block;
-    background: rgba(232,168,56,0.15);
-    color: #b8860b;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(45,106,79,0.08);
+    color: var(--green);
     font-size: 0.72rem;
     font-weight: 700;
-    padding: 2px 8px;
+    padding: 3px 10px;
     border-radius: 10px;
     margin: 4px 0;
+    border: 1px solid rgba(45,106,79,0.18);
+    width: fit-content;
   }
   .yc-series-desc {
     font-size: 0.84rem;
     color: var(--text-light);
-    line-height: 1.4;
+    line-height: 1.5;
     margin: 6px 0;
   }
   .yc-series-note {
@@ -2119,19 +2220,26 @@
     color: var(--mid-gray);
     font-style: italic;
     margin: 4px 0;
+    padding: 6px 10px;
+    background: rgba(0,0,0,0.02);
+    border-radius: 4px;
+    border-left: 2px solid var(--border);
   }
   .yc-series-future {
     font-size: 0.78rem;
     color: var(--text-light);
-    margin-top: 6px;
-    padding-top: 6px;
-    border-top: 1px solid #f0ead6;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed var(--border);
+    line-height: 1.5;
   }
-  .yc-series-future strong { color: var(--text); font-weight: 600; }
+  .yc-series-future strong { color: var(--navy); font-weight: 700; }
   .yc-series-actions {
     display: flex;
     gap: 8px;
-    margin-top: 10px;
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
     flex-wrap: wrap;
   }
   .yc-series-btn {
@@ -2140,29 +2248,34 @@
     gap: 4px;
     padding: 7px 14px;
     border-radius: 6px;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     font-weight: 600;
     cursor: pointer;
-    border: 1px solid #e8dcc8;
-    background: #faf8f4;
+    border: 1.5px solid var(--border);
+    background: #fff;
     color: var(--text);
     text-decoration: none;
-    transition: background 0.15s;
+    transition: all 0.18s;
+    font-family: 'Source Sans 3', sans-serif;
   }
-  .yc-series-btn:hover { background: #f0ead6; }
+  .yc-series-btn:hover { background: var(--warm-gray); border-color: var(--navy-light); color: var(--navy); }
   .yc-series-btn.primary {
-    background: linear-gradient(135deg, #e8a838 0%, #d4831a 100%);
-    color: #1a1a2e;
-    border: none;
+    background: var(--navy);
+    color: #fff;
+    border-color: var(--navy);
     font-weight: 700;
+  }
+  .yc-series-btn.primary:hover {
+    background: var(--navy-light);
   }
   .yc-series-flyer {
     margin: 10px 0 6px;
   }
   .yc-series-flyer img {
     max-width: 100%;
-    border-radius: 6px;
-    border: 1px solid #e8dcc8;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
   }
   .yc-series-flyer a {
     display: inline-flex;
@@ -2848,16 +2961,20 @@
 <!-- ══════ YC EVENTS VIEW ══════ -->
 <div class="app-view" id="viewYc">
   <div class="now-view">
-    <div class="now-header">
-      <h2><span class="yc-badge" style="font-size:0.7rem;margin-right:6px;">YC</span> Young &amp; Catholic</h2>
-      <span style="font-size:0.78rem;color:var(--text-light);" id="ycViewSubtitle"></span>
+    <div class="yc-hero-header">
+      <div class="yc-hero-top">
+        <div>
+          <h2 class="yc-hero-title"><span class="yc-badge" style="font-size:0.65rem;margin-right:8px;vertical-align:middle;">YC</span>Young &amp; Catholic</h2>
+          <span class="yc-hero-subtitle" id="ycViewSubtitle"></span>
+        </div>
+      </div>
+      <div class="yc-view-filters" id="ycViewFilters">
+        <button class="yc-filter-btn active" data-yc-range="upcoming" onclick="setYcRange('upcoming')">All Upcoming</button>
+        <button class="yc-filter-btn" data-yc-range="week" onclick="setYcRange('week')">This Week</button>
+        <button class="yc-filter-btn" data-yc-range="month" onclick="setYcRange('month')">This Month</button>
+      </div>
     </div>
-    <div class="yc-view-filters" id="ycViewFilters">
-      <button class="yc-filter-btn active" data-yc-range="upcoming" onclick="setYcRange('upcoming')">All Upcoming</button>
-      <button class="yc-filter-btn" data-yc-range="week" onclick="setYcRange('week')">This Week</button>
-      <button class="yc-filter-btn" data-yc-range="month" onclick="setYcRange('month')">This Month</button>
-    </div>
-    <div id="ycViewMap" style="height:180px;border-radius:8px;margin:12px 0;display:none;"></div>
+    <div id="ycViewMap" style="height:220px;border-radius:12px;margin:12px 0;display:none;position:relative;z-index:1;box-shadow:0 2px 12px rgba(26,39,68,0.10);border:1px solid var(--border);"></div>
     <div class="yc-series-grid" id="ycViewTimeline"></div>
   </div>
 </div>
@@ -5847,7 +5964,9 @@ function renderYCView() {
 
   const container = document.getElementById('ycViewTimeline');
   if (!seriesMap.size) {
-    container.innerHTML = '<div class="now-empty"><div class="cross">✝</div><p>No ' + (ycRange === 'upcoming' ? 'upcoming' : ycRange === 'week' ? 'events this week' : 'events this month') + ' YC events.</p></div>';
+    const mapEl = document.getElementById('ycViewMap');
+    if (mapEl) mapEl.style.display = 'none';
+    container.innerHTML = '<div class="now-empty" style="grid-column:1/-1;"><div class="cross">✝</div><p>No ' + (ycRange === 'upcoming' ? 'upcoming' : ycRange === 'week' ? 'events this week' : 'events this month') + ' YC events found.</p></div>';
     return;
   }
 
@@ -5986,6 +6105,11 @@ function renderYCView() {
 
   container.innerHTML = html;
 
+  // Stagger card entrance animation
+  container.querySelectorAll('.yc-series-card').forEach((card, i) => {
+    card.style.animationDelay = `${i * 0.06}s`;
+  });
+
   // Initialize or update YC mini map
   initYcMap(seriesArr);
 }
@@ -6003,7 +6127,7 @@ function initYcMap(seriesArr) {
       zoomControl: true,
       attributionControl: false,
     }).setView([42.1, -72.6], 9);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
       maxZoom: 18,
     }).addTo(ycMap);
     ycMapInitialized = true;
@@ -6026,13 +6150,13 @@ function initYcMap(seriesArr) {
     seen.add(locKey);
 
     const marker = L.circleMarker([loc.lat, loc.lng], {
-      radius: 9,
-      fillColor: '#e8a838',
-      fillOpacity: 0.9,
-      color: '#1a1a2e',
-      weight: 2,
+      radius: 10,
+      fillColor: '#c9a84c',
+      fillOpacity: 0.95,
+      color: '#1a2744',
+      weight: 2.5,
     }).addTo(ycMap);
-    marker.bindPopup(`<strong>${loc.name || ep.name}</strong><br>${first.title}`);
+    marker.bindPopup(`<strong style="font-family:'Playfair Display',serif;color:#1a2744;">${loc.name || ep.name}</strong><br><span style="color:#5c5650;font-size:0.8rem;">${first.title}</span>`);
     bounds.push([loc.lat, loc.lng]);
   }
 
@@ -6045,7 +6169,7 @@ function initYcMap(seriesArr) {
   }
 
   if (bounds.length > 1) {
-    ycMap.fitBounds(bounds, { padding: [30, 30] });
+    ycMap.fitBounds(bounds, { padding: [40, 40] });
   } else if (bounds.length === 1) {
     ycMap.setView(bounds[0], 12);
   }
