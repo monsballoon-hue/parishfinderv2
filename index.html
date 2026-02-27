@@ -279,7 +279,7 @@
   }
 
   .card-header {
-    padding: 12px 16px 10px;
+    padding: 14px 16px 12px;
     background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
     position: relative;
   }
@@ -289,15 +289,15 @@
     font-weight: 600;
     color: #fff;
     line-height: 1.25;
-    margin-bottom: 2px;
-    padding-right: 130px;
+    margin-bottom: 4px;
+    padding-right: 100px;
   }
   .card-location {
     font-size: 0.94rem;
     color: var(--gold-light);
     font-weight: 400;
     letter-spacing: 0.04em;
-    padding-right: 130px;
+    padding-right: 100px;
   }
   /* WP1-1B: Multi-site sibling locations */
   .also-at {
@@ -306,7 +306,7 @@
     margin-top: 2px;
     margin-bottom: 2px;
     font-style: italic;
-    padding-right: 130px;
+    padding-right: 100px;
     line-height: 1.3;
   }
   /* WP1-1C: Location label on service lines for multi-site parishes */
@@ -319,7 +319,7 @@
   }
   .county-badge {
     position: absolute;
-    top: 14px;
+    top: 12px;
     right: 14px;
     font-size: 0.72rem;
     font-weight: 600;
@@ -327,7 +327,7 @@
     z-index: 10;
     display: inline-flex;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
     max-width: 45%;
     flex-wrap: nowrap;
   }
@@ -549,11 +549,63 @@
     border-radius: 0 4px 4px 0;
   }
   .svc-now-label {
-    font-size: 0.65rem;
-    font-weight: 700;
-    color: var(--green);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.6rem;
+    font-weight: 800;
+    color: #fff;
     text-transform: uppercase;
+    letter-spacing: 0.06em;
     margin-left: 6px;
+    background: var(--green);
+    padding: 2px 7px 2px 5px;
+    border-radius: 3px;
+    animation: nowPulse 2s ease-in-out infinite;
+    vertical-align: middle;
+  }
+  .svc-now-label::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4ade80;
+    animation: nowDot 1.5s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  @keyframes nowPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.75; }
+  }
+  @keyframes nowDot {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.6); }
+    50% { opacity: 0.6; box-shadow: 0 0 0 3px rgba(74, 222, 128, 0); }
+  }
+  /* Live indicator strip at top of card when any service is happening now */
+  .card-live-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 14px;
+    background: linear-gradient(90deg, #1a5c38, #2d6a4f);
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .card-live-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #4ade80;
+    animation: liveDotPulse 1.5s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  @keyframes liveDotPulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7); }
+    50% { opacity: 0.7; box-shadow: 0 0 0 4px rgba(74, 222, 128, 0); }
   }
   .svc-soon-label {
     font-size: 0.65rem;
@@ -3029,13 +3081,29 @@
     line-height: 1.1;
   }
   .now-item-time .time-status {
-    font-size: 0.7rem;
-    font-weight: 600;
+    font-size: 0.65rem;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--green);
-    margin-top: 2px;
-    display: block;
+    letter-spacing: 0.05em;
+    color: #fff;
+    margin-top: 3px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--green);
+    padding: 2px 7px 2px 5px;
+    border-radius: 3px;
+    animation: nowPulse 2s ease-in-out infinite;
+  }
+  .now-item-time .time-status::before {
+    content: '';
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #4ade80;
+    animation: nowDot 1.5s ease-in-out infinite;
+    flex-shrink: 0;
   }
   .now-item-time .time-away {
     font-size: 0.7rem;
@@ -3214,15 +3282,119 @@
   .fav-btn {
     background: none;
     border: none;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     cursor: pointer;
-    padding: 0 2px;
+    padding: 4px 6px;
     line-height: 1;
     transition: transform 0.15s;
     filter: grayscale(1) opacity(0.35);
+    min-width: 36px;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .fav-btn:hover { transform: scale(1.2); filter: none; }
   .fav-btn.favorited { filter: none; }
+  /* ── COLLAPSED FAVORITES SECTION ── */
+  .fav-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: var(--warm-gray);
+    border: 1px solid var(--border);
+    border-radius: 10px 10px 0 0;
+    cursor: pointer;
+    margin-bottom: 0;
+  }
+  .fav-section-header-label {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--navy);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .fav-section-toggle {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--mid-gray);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .fav-section-toggle .chevron {
+    transition: transform 0.2s;
+    display: inline-block;
+  }
+  .fav-collapsed-list {
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+  .fav-collapsed-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    cursor: pointer;
+    transition: background 0.15s;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    min-height: 44px;
+  }
+  .fav-collapsed-card:last-child { border-bottom: none; }
+  .fav-collapsed-card:hover { background: var(--navy-light); }
+  .fav-collapsed-card .fcc-name {
+    flex: 1;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.2;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .fav-collapsed-card .fcc-town {
+    font-size: 0.72rem;
+    color: var(--gold-light);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .fav-collapsed-card .fcc-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.6rem;
+    font-weight: 800;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: var(--green);
+    padding: 2px 6px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    animation: nowPulse 2s ease-in-out infinite;
+  }
+  .fav-collapsed-card .fcc-live::before {
+    content: '';
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: #4ade80;
+    animation: nowDot 1.5s ease-in-out infinite;
+  }
+  .fav-collapsed-card .fcc-heart {
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+  .fav-collapsed-card .fcc-badge { flex-shrink: 0; }
+  .fav-expanded-cards { display: none; margin-bottom: 12px; }
+  .fav-expanded-cards.open { display: block; }
   .fav-chip {
     padding: 5px 12px;
     border-radius: 20px;
@@ -3313,7 +3485,7 @@
     display: none;
     position: fixed;
     top: 0; right: 0; bottom: 0; left: 0;
-    z-index: 500;
+    z-index: 1100;
   }
   .hamburger-menu.open { display: block; }
   .hamburger-menu-scrim {
@@ -3410,13 +3582,7 @@
   }
   .howto-step:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
   .howto-step-num {
-    position: absolute;
-    top: -8px; left: 14px;
-    background: var(--gold); color: var(--navy);
-    font-family: 'Playfair Display', serif;
-    font-size: 0.72rem; font-weight: 700;
-    width: 22px; height: 22px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
+    display: none;
   }
   .howto-step-icon { font-size: 1.4rem; margin-bottom: 6px; }
   .howto-step-title { font-size: 0.88rem; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
@@ -5065,10 +5231,8 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
 
   // WP1-1A: Derive church display name from primary location
   let churchName = (loc && loc.name) ? loc.name : p.name;
-  // Edge case: strip trailing "Church" if name already contains Cathedral/Basilica
-  if (/Cathedral|Basilica/i.test(churchName)) {
-    churchName = churchName.replace(/\s+Church$/i, '');
-  }
+  // Strip trailing "Church" from all names for cleaner card display
+  churchName = churchName.replace(/\s+Church$/i, '');
 
   // WP1-1B: Multi-site detection & sibling churches
   const worshipSites = (p.locations || []).filter(l =>
@@ -5217,6 +5381,29 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
 
   const isFav = favorites.has(p.id);
 
+  // Detect if any service is happening right now for live indicator
+  const now = new Date();
+  const todayDayName = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'][now.getDay()];
+  const nowMinsCard = now.getHours() * 60 + now.getMinutes();
+  let hasLiveService = false;
+  let liveServiceName = '';
+  (p.services || []).forEach(s => {
+    if (!s.time || !isCurrentSeason(s)) return;
+    const days = getDays(s);
+    if (!days.includes(todayDayName)) return;
+    const [h, m] = s.time.split(':').map(Number);
+    const svcMins = h * 60 + m;
+    let endMins = svcMins + 60;
+    if (s.end_time) { const [eh, em] = s.end_time.split(':').map(Number); endMins = eh * 60 + em; }
+    if (nowMinsCard >= svcMins && nowMinsCard < endMins) {
+      hasLiveService = true;
+      if (!liveServiceName) liveServiceName = SERVICE_LABELS[s.type] || (s.type || 'Service').replace(/_/g,' ');
+    }
+  });
+  const liveIndicatorHtml = hasLiveService
+    ? `<div class="card-live-indicator"><span class="card-live-dot"></span> Live Now — ${liveServiceName}</div>`
+    : '';
+
   // 3C: Show All Services button when filters active
   const anyFilterActive = dayFilter || timeFilter || categoryFilter || subtypeFilter || langFilter;
   const showAllBtn = anyFilterActive
@@ -5225,6 +5412,7 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
 
   return `<article class="parish-card${isLowConf ? ' low-confidence' : ''}${ycActiveThisWeek.has(p.id) ? ' yc-active-week' : ''}" data-parish-id="${p.id}">
     ${ycBannerHtml}
+    ${liveIndicatorHtml}
     <div class="card-header">
       <h2>${churchName}</h2>
       ${alsoAtHtml}
@@ -5532,22 +5720,91 @@ function render() {
     });
   }
 
-  var html = filtered.map(function(p) {
-    try {
-      // 5A: In simple mode, pass simpleFilter as the category and skip other filters
-      if (isSimpleMode && simpleFilter) {
-        // For lenten, pass 'devotion' as category so all services show, the seasonal filter handles the rest
-        if (simpleFilter === 'lenten') {
-          return renderParishCard(p, '', '', '__lenten_only__', '', '', getDistMiles(p));
+  var html = '';
+  // Separate favorites from non-favorites for collapsed section
+  if (favorites.size > 0 && !favFilterActive) {
+    const favCards = [];
+    const nonFavCards = [];
+    filtered.forEach(function(p) {
+      try {
+        let cardHtml;
+        if (isSimpleMode && simpleFilter) {
+          if (simpleFilter === 'lenten') {
+            cardHtml = renderParishCard(p, '', '', '__lenten_only__', '', '', getDistMiles(p));
+          } else {
+            cardHtml = renderParishCard(p, '', '', simpleFilter, '', '', getDistMiles(p));
+          }
+        } else {
+          cardHtml = renderParishCard(p, day, time, cat, subtype, lang, getDistMiles(p));
         }
-        return renderParishCard(p, '', '', simpleFilter, '', '', getDistMiles(p));
+        if (cardHtml) {
+          if (favorites.has(p.id)) {
+            favCards.push({ parish: p, html: cardHtml });
+          } else {
+            nonFavCards.push(cardHtml);
+          }
+        }
+      } catch(e) {
+        console.error('Error rendering parish', p.id, e);
       }
-      return renderParishCard(p, day, time, cat, subtype, lang, getDistMiles(p));
-    } catch(e) {
-      console.error('Error rendering parish', p.id, e);
-      return '';
+    });
+
+    if (favCards.length > 0) {
+      // Build collapsed summary rows
+      const collapsedRows = favCards.map(fc => {
+        const p = fc.parish;
+        const loc = p.locations && p.locations[0];
+        let dispName = (loc && loc.name) ? loc.name : p.name;
+        dispName = dispName.replace(/\s+Church$/i, '');
+        const badge = getVerifiedBadge(p);
+        // Check if live
+        const nowD = new Date();
+        const dayN = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'][nowD.getDay()];
+        const nowM = nowD.getHours() * 60 + nowD.getMinutes();
+        let isLive = false;
+        (p.services || []).forEach(s => {
+          if (!s.time || !isCurrentSeason(s)) return;
+          if (!getDays(s).includes(dayN)) return;
+          const [hh, mm] = s.time.split(':').map(Number);
+          const sm = hh * 60 + mm;
+          let em = sm + 60;
+          if (s.end_time) { const [eh, emm] = s.end_time.split(':').map(Number); em = eh * 60 + emm; }
+          if (nowM >= sm && nowM < em) isLive = true;
+        });
+        const liveHtml = isLive ? '<span class="fcc-live">Live</span>' : '';
+        return `<div class="fav-collapsed-card" onclick="expandFavAndScroll('${p.id}')">
+          <span class="fcc-heart">❤️</span>
+          <span class="fcc-name">${dispName}</span>
+          ${liveHtml}
+          <span class="fcc-town">${p.town}</span>
+          <span class="fcc-badge">${badge}</span>
+        </div>`;
+      }).join('');
+
+      html += `<div class="fav-section-header" onclick="toggleFavSection()">
+        <span class="fav-section-header-label">❤️ Your Churches (${favCards.length})</span>
+        <span class="fav-section-toggle"><span class="chevron" id="favSectionChevron">▼</span> Expand</span>
+      </div>
+      <div class="fav-collapsed-list" id="favCollapsedList">${collapsedRows}</div>
+      <div class="fav-expanded-cards" id="favExpandedCards">${favCards.map(fc => fc.html).join('')}</div>`;
     }
-  }).join('');
+    html += nonFavCards.join('');
+  } else {
+    html = filtered.map(function(p) {
+      try {
+        if (isSimpleMode && simpleFilter) {
+          if (simpleFilter === 'lenten') {
+            return renderParishCard(p, '', '', '__lenten_only__', '', '', getDistMiles(p));
+          }
+          return renderParishCard(p, '', '', simpleFilter, '', '', getDistMiles(p));
+        }
+        return renderParishCard(p, day, time, cat, subtype, lang, getDistMiles(p));
+      } catch(e) {
+        console.error('Error rendering parish', p.id, e);
+        return '';
+      }
+    }).join('');
+  }
   grid.innerHTML = html || '<div class="no-results"><div class="cross">✝</div><p>No churches found matching your filters.</p></div>';
 
   const shown = filtered.length;
@@ -6246,6 +6503,44 @@ function saveFavorites() {
   const d = new Date(); d.setFullYear(d.getFullYear() + 2);
   document.cookie = 'pf_favs=' + encodeURIComponent(val) + ';expires=' + d.toUTCString() + ';path=/;SameSite=Lax';
   updateFavChip();
+}
+
+// ── Collapsible favorites section ──
+function toggleFavSection() {
+  const expanded = document.getElementById('favExpandedCards');
+  const collapsed = document.getElementById('favCollapsedList');
+  const chevron = document.getElementById('favSectionChevron');
+  const toggle = chevron && chevron.parentElement;
+  if (!expanded) return;
+  const isOpen = expanded.classList.contains('open');
+  if (isOpen) {
+    expanded.classList.remove('open');
+    if (collapsed) collapsed.style.display = '';
+    if (chevron) chevron.textContent = '▼';
+    if (toggle) toggle.lastChild.textContent = ' Expand';
+  } else {
+    expanded.classList.add('open');
+    if (collapsed) collapsed.style.display = 'none';
+    if (chevron) chevron.textContent = '▲';
+    if (toggle) toggle.lastChild.textContent = ' Collapse';
+  }
+}
+
+function expandFavAndScroll(parishId) {
+  const expanded = document.getElementById('favExpandedCards');
+  const collapsed = document.getElementById('favCollapsedList');
+  const chevron = document.getElementById('favSectionChevron');
+  const toggle = chevron && chevron.parentElement;
+  if (expanded && !expanded.classList.contains('open')) {
+    expanded.classList.add('open');
+    if (collapsed) collapsed.style.display = 'none';
+    if (chevron) chevron.textContent = '▲';
+    if (toggle) toggle.lastChild.textContent = ' Collapse';
+  }
+  setTimeout(() => {
+    const card = document.querySelector(`[data-parish-id="${parishId}"]`);
+    if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 50);
 }
 
 function toggleFavorite(parishId, btnEl) {
@@ -7409,7 +7704,7 @@ function renderHowTo() {
         '<div class="howto-step-num">5</div>' +
         '<div class="howto-step-icon">\u2630</div>' +
         '<div class="howto-step-title">Simple Mode</div>' +
-        '<div class="howto-step-desc">Too many options? Toggle <strong>Simple Mode</strong> for a cleaner view with just Mass &amp; Confession, Devotions, and Lenten services.</div>' +
+        '<div class="howto-step-desc">Too many options? Toggle <strong>Simple Mode</strong> for a cleaner view with just Mass &amp; Confession, Devotions, and seasonal services.</div>' +
       '</div>' +
 
       '<div class="howto-step">' +
@@ -7536,7 +7831,6 @@ function renderInfoGraphic() {
         `<div style="display:flex;gap:5px;margin-top:8px;flex-wrap:wrap">` +
           `<span class="info-lang-pill" style="background:rgba(124,79,160,0.12);color:#7c4fa0">Lent &middot; ${lentN}</span>` +
           `<span class="info-lang-pill" style="background:rgba(217,70,168,0.1);color:#D946A8">Holy Week &middot; ${holyWeekN}</span>` +
-          `<span class="info-lang-pill" style="background:rgba(232,131,42,0.1);color:#E8832A">Academic &middot; ${academicN}</span>` +
         `</div></div></div>` +
 
     `<div class="info-features-row"><div class="info-features-grid">` +
