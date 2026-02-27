@@ -6005,6 +6005,9 @@ function haversine(lat1, lng1, lat2, lng2) {
 isSimpleMode = getSimpleModeCookie();
 applySimpleMode();
 
+// Load favorites before initial render so collapsed section appears immediately
+loadFavorites();
+
 // Initial render
 renderYCEvents();
 render();
@@ -6598,7 +6601,7 @@ function updateFavChip() {
   }
 }
 
-loadFavorites();
+// loadFavorites() is called earlier, before initial render()
 
 function getFavorites() {
   return [...favorites];
