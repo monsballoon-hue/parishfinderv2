@@ -1006,17 +1006,24 @@
   @media (max-width: 768px) {
     .parish-grid { grid-template-columns: 1fr; }
     .header-badge { display: none; }
-    .header-add-btn { margin-left: auto; }
     .simple-toggle { margin-left: auto; }
+    .header-add-btn { margin-left: 0; }
+    .header-inner { gap: 8px; padding: 8px 12px; }
     .controls-inner { padding: 8px 14px; }
     .controls-row-1 { padding-bottom: 2px; }
     .controls-row-2 { padding-top: 2px; }
     .search-wrap { min-width: 140px; }
     main { padding: 16px 14px 40px; }
     .simple-filters { padding: 10px 14px; }
-    .simple-filter-btn { min-width: 120px; font-size: 0.95rem; padding: 12px 16px; }
+    .simple-filter-btn { min-width: 100px; font-size: 0.95rem; padding: 12px 16px; }
   }
   @media (max-width: 520px) {
+    .header-inner { gap: 6px; padding: 6px 10px; }
+    .header-cross { font-size: 18px; }
+    .header-title h1 { font-size: 0.95rem; }
+    .header-title p { display: none; }
+    .simple-toggle { font-size: 0.68rem; padding: 3px 10px; }
+    .header-add-btn { font-size: 0.66rem; padding: 3px 9px; }
     .controls-row-1 {
       flex-wrap: wrap;
       gap: 5px;
@@ -1040,6 +1047,9 @@
       background-size: 10px;
     }
     .controls-row-2 { padding: 2px 10px 6px; gap: 5px; }
+    .simple-filters { padding: 8px 10px; }
+    .simple-filters-inner { gap: 6px; }
+    .simple-filter-btn { min-width: 0; flex: 1; font-size: 0.85rem; padding: 10px 8px; }
   }
 
   /* EMPTY STATE HELPERS */
@@ -2547,9 +2557,10 @@
 <!-- SIMPLE MODE FILTERS -->
 <div class="simple-filters" id="simpleFilters">
   <div class="simple-filters-inner">
-    <button class="simple-filter-btn active" data-simple-cat="" onclick="setSimpleFilter('')">⛪ All Services</button>
-    <button class="simple-filter-btn" data-simple-cat="mass_confession" onclick="setSimpleFilter('mass_confession')">✝ Mass &amp; Confession</button>
-    <button class="simple-filter-btn" data-simple-cat="devotion_adoration" onclick="setSimpleFilter('devotion_adoration')">🙏 Devotions &amp; Adoration</button>
+    <button class="simple-filter-btn active" data-simple-cat="" onclick="setSimpleFilter('')">⛪ All</button>
+    <button class="simple-filter-btn" data-simple-cat="mass" onclick="setSimpleFilter('mass')">✝ Mass</button>
+    <button class="simple-filter-btn" data-simple-cat="confession" onclick="setSimpleFilter('confession')">🙏 Confession</button>
+    <button class="simple-filter-btn" data-simple-cat="devotion" onclick="setSimpleFilter('devotion')">📿 Devotions</button>
   </div>
 </div>
 
@@ -2794,16 +2805,6 @@ const SERVICE_TYPE_GROUPS = {
   community:  ['bible_study','mens_group','social_event'],
 };
 
-// 5A: Simple Mode type groups
-const SIMPLE_TYPE_GROUPS = {
-  mass_confession: ['sunday_mass','daily_mass','communion_service','holy_thursday_mass','good_friday_service','easter_vigil_mass','confession'],
-  devotion_adoration: ['adoration','holy_hour','perpetual_adoration','benediction',
-               'rosary','divine_mercy','miraculous_medal','novena',
-               'stations_of_cross','stations_of_the_cross','anointing_of_sick',
-               'anointing','devotion','vespers','prayer_group',
-               'divine_mercy_chaplet','devotional','gorzkie_zale'],
-};
-
 // 5A: Simple Mode state
 let isSimpleMode = false;
 let simpleFilter = '';
@@ -2906,9 +2907,6 @@ function serviceMatchesType(svc, categoryFilter, subtypeFilter) {
   // If subtype active, use subtype matching (more specific)
   if (subtypeFilter) return serviceMatchesSubtype(svc, subtypeFilter);
   if (!categoryFilter) return true;
-  // 5A: Check simple mode groups first
-  const simpleGroup = SIMPLE_TYPE_GROUPS[categoryFilter];
-  if (simpleGroup) return simpleGroup.includes(svc.type);
   const group = SERVICE_TYPE_GROUPS[categoryFilter];
   return group ? group.includes(svc.type) : true;
 }
@@ -4373,10 +4371,10 @@ function render() {
     if (county && p.county !== county) return false;
     // 5A: Simple mode filtering
     if (isSimpleMode && simpleFilter) {
-      const simpleGroup = SIMPLE_TYPE_GROUPS[simpleFilter];
-      if (simpleGroup) {
+      const sGroup = SERVICE_TYPE_GROUPS[simpleFilter];
+      if (sGroup) {
         const hasMatch = (p.services||[]).some(s =>
-          isServiceActive(s) && isCurrentSeason(s) && simpleGroup.includes(s.type)
+          isServiceActive(s) && isCurrentSeason(s) && sGroup.includes(s.type)
         );
         if (!hasMatch) return false;
       }
