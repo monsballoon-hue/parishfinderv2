@@ -3296,24 +3296,29 @@
   }
   .fav-btn:hover { transform: scale(1.2); filter: none; }
   .fav-btn.favorited { filter: none; }
-  /* ── COLLAPSED FAVORITES SECTION ── */
+  /* ── COLLAPSED FAVORITES SECTION (MOBILE ONLY) ── */
   .fav-section-wrapper {
     grid-column: 1 / -1;
-    margin-bottom: 4px;
+    display: none;
+  }
+  @media (max-width: 768px) {
+    .fav-section-wrapper { display: block; margin-bottom: 8px; }
   }
   .fav-section-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 16px;
+    padding: 12px 16px;
     background: var(--warm-gray);
     border: 1px solid var(--border);
     border-radius: 10px 10px 0 0;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
+    user-select: none;
   }
+  .fav-section-header:active { background: #e4e0d8; }
   .fav-section-header-label {
-    font-size: 0.85rem;
+    font-size: 0.88rem;
     font-weight: 700;
     color: var(--navy);
     display: flex;
@@ -3321,7 +3326,7 @@
     gap: 6px;
   }
   .fav-section-toggle {
-    font-size: 0.75rem;
+    font-size: 0.78rem;
     font-weight: 600;
     color: var(--mid-gray);
     display: flex;
@@ -3329,7 +3334,7 @@
     gap: 4px;
   }
   .fav-section-toggle .chevron {
-    transition: transform 0.2s;
+    transition: transform 0.25s;
     display: inline-block;
     font-size: 0.6rem;
   }
@@ -3343,20 +3348,20 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 10px 14px;
+    padding: 12px 14px;
     background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
     cursor: pointer;
-    transition: background 0.15s;
     border-bottom: 1px solid rgba(255,255,255,0.08);
-    min-height: 44px;
+    min-height: 48px;
     -webkit-tap-highlight-color: transparent;
+    user-select: none;
   }
   .fav-collapsed-card:last-child { border-bottom: none; }
   .fav-collapsed-card:active { background: #2a3f6e; }
   .fav-collapsed-card .fcc-name {
     flex: 1;
     font-family: 'Playfair Display', serif;
-    font-size: 0.95rem;
+    font-size: 1rem;
     font-weight: 600;
     color: #fff;
     line-height: 1.2;
@@ -3366,7 +3371,7 @@
     text-overflow: ellipsis;
   }
   .fav-collapsed-card .fcc-town {
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     color: var(--gold-light);
     white-space: nowrap;
     flex-shrink: 0;
@@ -3394,19 +3399,18 @@
     animation: nowDot 1.5s ease-in-out infinite;
   }
   .fav-collapsed-card .fcc-heart {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     flex-shrink: 0;
   }
   .fav-collapsed-card .fcc-badge { flex-shrink: 0; }
-  .fav-expanded-cards {
-    display: none;
-    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-    gap: 20px;
-    margin-top: 12px;
-  }
-  .fav-expanded-cards.open { display: grid; }
+  /* On mobile, hide the full fav cards when collapsed section is visible */
   @media (max-width: 768px) {
-    .fav-expanded-cards { grid-template-columns: 1fr; }
+    .fav-section-wrapper ~ .parish-card[data-fav-card="true"] {
+      display: none;
+    }
+    .fav-section-wrapper.fav-expanded ~ .parish-card[data-fav-card="true"] {
+      display: block;
+    }
   }
   .fav-chip {
     padding: 5px 12px;
@@ -5734,43 +5738,16 @@ function render() {
   }
 
   var html = '';
-  // Separate favorites from non-favorites for collapsed section
+  // Mobile collapsed favorites section
   if (favorites.size > 0 && !favFilterActive) {
-    const favCards = [];
-    const nonFavCards = [];
-    filtered.forEach(function(p) {
-      try {
-        let cardHtml;
-        if (isSimpleMode && simpleFilter) {
-          if (simpleFilter === 'lenten') {
-            cardHtml = renderParishCard(p, '', '', '__lenten_only__', '', '', getDistMiles(p));
-          } else {
-            cardHtml = renderParishCard(p, '', '', simpleFilter, '', '', getDistMiles(p));
-          }
-        } else {
-          cardHtml = renderParishCard(p, day, time, cat, subtype, lang, getDistMiles(p));
-        }
-        if (cardHtml) {
-          if (favorites.has(p.id)) {
-            favCards.push({ parish: p, html: cardHtml });
-          } else {
-            nonFavCards.push(cardHtml);
-          }
-        }
-      } catch(e) {
-        console.error('Error rendering parish', p.id, e);
-      }
-    });
-
-    if (favCards.length > 0) {
-      // Build collapsed summary rows
-      const collapsedRows = favCards.map(fc => {
-        const p = fc.parish;
+    // Build the collapsed summary (only visible on mobile via CSS)
+    const favParishes = filtered.filter(p => favorites.has(p.id));
+    if (favParishes.length > 0) {
+      const collapsedRows = favParishes.map(p => {
         const loc = p.locations && p.locations[0];
         let dispName = (loc && loc.name) ? loc.name : p.name;
         dispName = dispName.replace(/\s+Church$/i, '');
         const badge = getVerifiedBadge(p);
-        // Check if live
         const nowD = new Date();
         const dayN = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'][nowD.getDay()];
         const nowM = nowD.getHours() * 60 + nowD.getMinutes();
@@ -5794,32 +5771,39 @@ function render() {
         </div>`;
       }).join('');
 
-      html += `<div class="fav-section-wrapper">
+      html += `<div class="fav-section-wrapper" id="favSectionWrapper">
         <div class="fav-section-header" onclick="toggleFavSection()">
-          <span class="fav-section-header-label">❤️ Your Churches (${favCards.length})</span>
+          <span class="fav-section-header-label">❤️ Your Churches (${favParishes.length})</span>
           <span class="fav-section-toggle"><span class="chevron" id="favSectionChevron">▼</span> <span id="favToggleLabel">Expand</span></span>
         </div>
         <div class="fav-collapsed-list" id="favCollapsedList">${collapsedRows}</div>
-        <div class="fav-expanded-cards" id="favExpandedCards">${favCards.map(fc => fc.html).join('')}</div>
       </div>`;
     }
-    html += nonFavCards.join('');
-  } else {
-    html = filtered.map(function(p) {
-      try {
-        if (isSimpleMode && simpleFilter) {
-          if (simpleFilter === 'lenten') {
-            return renderParishCard(p, '', '', '__lenten_only__', '', '', getDistMiles(p));
-          }
-          return renderParishCard(p, '', '', simpleFilter, '', '', getDistMiles(p));
-        }
-        return renderParishCard(p, day, time, cat, subtype, lang, getDistMiles(p));
-      } catch(e) {
-        console.error('Error rendering parish', p.id, e);
-        return '';
-      }
-    }).join('');
   }
+
+  // Render all cards (favorites get a data attribute for mobile CSS toggling)
+  html += filtered.map(function(p) {
+    try {
+      let cardHtml;
+      if (isSimpleMode && simpleFilter) {
+        if (simpleFilter === 'lenten') {
+          cardHtml = renderParishCard(p, '', '', '__lenten_only__', '', '', getDistMiles(p));
+        } else {
+          cardHtml = renderParishCard(p, '', '', simpleFilter, '', '', getDistMiles(p));
+        }
+      } else {
+        cardHtml = renderParishCard(p, day, time, cat, subtype, lang, getDistMiles(p));
+      }
+      // Tag favorite cards with data attribute for mobile CSS hiding
+      if (cardHtml && favorites.has(p.id) && !favFilterActive) {
+        cardHtml = cardHtml.replace('<article class="parish-card', '<article data-fav-card="true" class="parish-card');
+      }
+      return cardHtml || '';
+    } catch(e) {
+      console.error('Error rendering parish', p.id, e);
+      return '';
+    }
+  }).join('');
   grid.innerHTML = html || '<div class="no-results"><div class="cross">✝</div><p>No churches found matching your filters.</p></div>';
 
   const shown = filtered.length;
@@ -6520,40 +6504,40 @@ function saveFavorites() {
   updateFavChip();
 }
 
-// ── Collapsible favorites section ──
+// ── Collapsible favorites section (mobile only) ──
 function toggleFavSection() {
-  const expanded = document.getElementById('favExpandedCards');
-  const collapsed = document.getElementById('favCollapsedList');
-  const chevron = document.getElementById('favSectionChevron');
-  const toggleSpan = document.getElementById('favToggleLabel');
-  if (!expanded) return;
-  const isOpen = expanded.classList.contains('open');
-  if (isOpen) {
-    expanded.classList.remove('open');
+  var wrapper = document.getElementById('favSectionWrapper');
+  var collapsed = document.getElementById('favCollapsedList');
+  var chevron = document.getElementById('favSectionChevron');
+  var label = document.getElementById('favToggleLabel');
+  if (!wrapper) return;
+  var isExpanded = wrapper.classList.contains('fav-expanded');
+  if (isExpanded) {
+    wrapper.classList.remove('fav-expanded');
     if (collapsed) collapsed.style.display = '';
     if (chevron) chevron.textContent = '▼';
-    if (toggleSpan) toggleSpan.textContent = 'Expand';
+    if (label) label.textContent = 'Expand';
   } else {
-    expanded.classList.add('open');
+    wrapper.classList.add('fav-expanded');
     if (collapsed) collapsed.style.display = 'none';
     if (chevron) chevron.textContent = '▲';
-    if (toggleSpan) toggleSpan.textContent = 'Collapse';
+    if (label) label.textContent = 'Collapse';
   }
 }
 
 function expandFavAndScroll(parishId) {
-  const expanded = document.getElementById('favExpandedCards');
-  const collapsed = document.getElementById('favCollapsedList');
-  const chevron = document.getElementById('favSectionChevron');
-  const toggleSpan = document.getElementById('favToggleLabel');
-  if (expanded && !expanded.classList.contains('open')) {
-    expanded.classList.add('open');
+  var wrapper = document.getElementById('favSectionWrapper');
+  var collapsed = document.getElementById('favCollapsedList');
+  var chevron = document.getElementById('favSectionChevron');
+  var label = document.getElementById('favToggleLabel');
+  if (wrapper && !wrapper.classList.contains('fav-expanded')) {
+    wrapper.classList.add('fav-expanded');
     if (collapsed) collapsed.style.display = 'none';
     if (chevron) chevron.textContent = '▲';
-    if (toggleSpan) toggleSpan.textContent = 'Collapse';
+    if (label) label.textContent = 'Collapse';
   }
-  setTimeout(() => {
-    const card = document.querySelector(`[data-parish-id="${parishId}"]`);
+  setTimeout(function() {
+    var card = document.querySelector('[data-parish-id="' + parishId + '"]');
     if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }, 50);
 }
