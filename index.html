@@ -971,6 +971,12 @@
   }
   .simple-filter-btn:hover { background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.35); }
   .simple-filter-btn.active { background: var(--gold); border-color: var(--gold); color: var(--navy); font-weight: 700; }
+  .simple-lent-btn {
+    border-color: rgba(196,160,224,0.5);
+    color: #dcc8ed;
+  }
+  .simple-lent-btn:hover { background: rgba(124,79,160,0.25); border-color: rgba(196,160,224,0.7); color: #f0e0ff; }
+  .simple-lent-btn.active { background: #7c4fa0; border-color: #7c4fa0; color: #fff; }
 
   /* When simple mode is active, hide full controls, tab bar; bump fonts */
   body.simple-mode .controls-bar { display: none !important; }
@@ -3088,6 +3094,7 @@
   <div class="simple-filters-inner">
     <button class="simple-filter-btn active" data-simple-cat="mass_confession" onclick="setSimpleFilter('mass_confession')">✝ Mass &amp; Confession</button>
     <button class="simple-filter-btn" data-simple-cat="devotion" onclick="setSimpleFilter('devotion')">🙏 Devotions</button>
+    <button class="simple-filter-btn simple-lent-btn" data-simple-cat="lenten" id="simpleLentBtn" onclick="setSimpleFilter('lenten')" style="display:none">✟ Lenten Services</button>
   </div>
 </div>
 
@@ -3390,6 +3397,12 @@ function toggleSimpleMode() {
 
 function setSimpleFilter(cat) {
   simpleFilter = cat;
+  // Tie 'lenten' simple button into the seasonal banner filter
+  if (cat === 'lenten') {
+    seasonalBannerFilter = 'lent';
+  } else {
+    seasonalBannerFilter = '';
+  }
   document.querySelectorAll('[data-simple-cat]').forEach(b =>
     b.classList.toggle('active', b.dataset.simpleCat === cat)
   );
@@ -5035,6 +5048,14 @@ function render() {
     }
     // 5A: Simple mode filtering
     if (isSimpleMode && simpleFilter) {
+      if (simpleFilter === 'lenten') {
+        // Show parishes with active Lenten services
+        const hasLenten = (p.services||[]).some(s =>
+          isServiceActive(s) && s.seasonal && s.seasonal.season === 'lent' && isCurrentSeason(s)
+        );
+        if (!hasLenten) return false;
+        return true;
+      }
       const sGroup = SERVICE_TYPE_GROUPS[simpleFilter];
       if (sGroup) {
         const hasMatch = (p.services||[]).some(s =>
@@ -5098,7 +5119,9 @@ function render() {
     try {
       // 5A: In simple mode, pass simpleFilter as the category and skip other filters
       if (isSimpleMode && simpleFilter) {
-        return renderParishCard(p, '', '', simpleFilter, '', '', getDistMiles(p));
+        // For lenten, pass 'devotion' as category so all services show, the seasonal filter handles the rest
+        const cardCat = simpleFilter === 'lenten' ? '' : simpleFilter;
+        return renderParishCard(p, '', '', cardCat, '', '', getDistMiles(p));
       }
       return renderParishCard(p, day, time, cat, subtype, lang, getDistMiles(p));
     } catch(e) {
@@ -5131,6 +5154,24 @@ function render() {
     const palmSunday = new Date(easter); palmSunday.setDate(easter.getDate() - 7);
     const holySaturday = new Date(easter); holySaturday.setDate(easter.getDate() - 1);
     const isHolyWeek = todayDate >= palmSunday && todayDate <= holySaturday;
+
+    // Show/hide the Lenten simple-mode button based on season
+    const simpleLentBtn = document.getElementById('simpleLentBtn');
+    if (simpleLentBtn) {
+      const showLentBtn = isLentNow || isHolyWeek;
+      simpleLentBtn.style.display = showLentBtn ? '' : 'none';
+      // If Lent ended while lenten filter was active, reset to default
+      if (!showLentBtn && simpleFilter === 'lenten') {
+        simpleFilter = 'mass_confession';
+        seasonalBannerFilter = '';
+        document.querySelectorAll('[data-simple-cat]').forEach(b =>
+          b.classList.toggle('active', b.dataset.simpleCat === 'mass_confession')
+        );
+      }
+    }
+
+    // In simple mode, skip the big featured banners (the button replaces them)
+    if (!isSimpleMode) {
 
     // Triduum banner (Holy Week)
     if (isHolyWeek) {
@@ -5167,6 +5208,8 @@ function render() {
         <span class="banner-action">View YC Events →</span>
       </div>`;
     }
+
+    } // end !isSimpleMode
 
     bannersEl.innerHTML = bannerHtml;
   }
@@ -6840,12 +6883,12 @@ window.filterSeasonalServices = filterSeasonalServices;
      RECONCILIATION MODAL
 ══════════════════════════════════════════════════ -->
 <div class="modal-backdrop" id="reconcileBackdrop">
-<div class="modal-box">
+<div class="modal-box" style="max-width:560px">
 
   <!-- HEADER -->
   <div class="mhdr">
     <div class="mhdr-left">
-      <h2>Report an Update</h2>
+      <h2>Report a Problem</h2>
       <div class="mhdr-parish" id="mParishName"></div>
     </div>
     <button class="mhdr-close" onclick="closeReconcile()">×</button>
@@ -6853,8 +6896,7 @@ window.filterSeasonalServices = filterSeasonalServices;
 
   <!-- MODE TABS -->
   <div class="mode-tabs">
-    <button class="mode-tab active" id="tab-flag"    onclick="switchTab('flag')">Correct Existing Service</button>
-    <button class="mode-tab"        id="tab-add"     onclick="switchTab('add')">+ Report Missing Service</button>
+    <button class="mode-tab active" id="tab-flag"    onclick="switchTab('flag')">Flag a Service</button>
     <button class="mode-tab"        id="tab-general" onclick="switchTab('general')">General Note</button>
   </div>
 
@@ -6862,136 +6904,53 @@ window.filterSeasonalServices = filterSeasonalServices;
   <div class="tab-panel active mbody" id="panel-flag">
 
     <div class="fsection">
-      <div class="fsection-title">① Select the service that needs updating</div>
+      <div class="fsection-title">Which service is wrong?</div>
       <div class="fsection-body">
         <div class="svc-list" id="svcList">
           <div style="padding:14px;color:#aaa;font-size:0.85rem">Loading…</div>
         </div>
-        <div class="selected-svc-detail" id="svcDetail">
-          <div class="detail-label">Current recorded data (prefilled below — edit what's wrong)</div>
-          <div class="fgrid cols3" style="margin-top:10px">
-            <div class="fg">
-              <label>Type</label>
-              <select id="fd_type"></select>
-            </div>
-            <div class="fg">
-              <label>Day(s)</label>
-              <div class="day-chips" id="fd_days"></div>
-            </div>
-            <div class="fg">
-              <label>Special recurrence</label>
-              <select id="fd_special">
-                <option value="">None (regular weekly)</option>
-                <option value="first_friday">First Friday</option>
-                <option value="first_saturday">First Saturday</option>
-                <option value="first_sunday">First Sunday</option>
-                <option value="first_tuesday">First Tuesday</option>
-                <option value="second_sunday">2nd Sunday</option>
-                <option value="third_sunday">3rd Sunday</option>
-                <option value="fourth_friday">4th Friday</option>
-                <option value="fourth_sunday">4th Sunday</option>
-                <option value="last_sunday">Last Sunday</option>
-                <option value="holyday">Holy Day of Obligation</option>
-                <option value="holyday_eve">Holy Day Eve</option>
-                <option value="daily">Every day</option>
-                <option value="weekday">Any weekday</option>
-              </select>
-            </div>
-            <div class="fg">
-              <label>Start time</label>
-              <input type="time" id="fd_time">
-            </div>
-            <div class="fg">
-              <label>End time</label>
-              <input type="time" id="fd_endtime">
-            </div>
-            <div class="fg">
-              <label>Language</label>
-              <select id="fd_language">
-                <option value="en">English</option>
-                <option value="es">Spanish</option>
-                <option value="pl">Polish</option>
-                <option value="pt">Portuguese</option>
-                <option value="vi">Vietnamese</option>
-                <option value="la">Latin (Traditional)</option>
-                <option value="asl">ASL</option>
-              </select>
-            </div>
-            <div class="fg check-row">
-              <input type="checkbox" id="fd_times_vary">
-              <label for="fd_times_vary">Times vary / by appointment</label>
-            </div>
-            <div class="fg check-row">
-              <input type="checkbox" id="fd_seasonal" onchange="document.getElementById('fd_season_row').style.display=this.checked?'':'none'">
-              <label for="fd_seasonal">Seasonal service</label>
-            </div>
-            <div class="fg" id="fd_season_row" style="display:none">
-              <label>Season</label>
-              <select id="fd_season">
-                <option value="lent">Lent</option>
-                <option value="advent">Advent</option>
-                <option value="summer">Summer</option>
-                <option value="school_year">School Year</option>
-                <option value="academic_year">Academic Year</option>
-              </select>
-            </div>
-            <div class="fg span2">
-              <label>Location / church building</label>
-              <select id="fd_location"></select>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
 
     <div class="fsection">
-      <div class="fsection-title">② Describe what's wrong and what it should say</div>
+      <div class="fsection-title">What's the problem?</div>
       <div class="fsection-body fgrid cols1">
         <div class="fg">
-          <label>What is incorrect or outdated? <span class="req">*</span></label>
-          <textarea id="fd_wrong" rows="3"
-            ></textarea>
+          <label>Issue type <span class="req">*</span></label>
+          <select id="fd_issue_type">
+            <option value="">— Select —</option>
+            <option value="wrong_time">Wrong time listed</option>
+            <option value="wrong_day">Wrong day listed</option>
+            <option value="no_longer_exists">Service no longer exists</option>
+            <option value="seasonal_ended">Seasonal service has ended</option>
+            <option value="new_time">Time has changed</option>
+            <option value="missing_service">There's a service missing</option>
+            <option value="wrong_info">Other info is incorrect</option>
+          </select>
         </div>
         <div class="fg">
-          <label>What should it say? (corrected version)</label>
-          <textarea id="fd_correct" rows="2"
-            ></textarea>
+          <label>Brief description <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:0.78rem;color:#888">(what's wrong, what it should be)</span></label>
+          <textarea id="fd_wrong" rows="3" placeholder="e.g. 'Saturday confession is now 3-4 PM, not 3:30-4:30'"></textarea>
         </div>
       </div>
     </div>
 
     <div class="fsection">
-      <div class="fsection-title">③ How do you know this?</div>
-      <div class="fsection-body fgrid cols3">
+      <div class="fsection-title">How do you know? (optional)</div>
+      <div class="fsection-body fgrid cols1">
         <div class="fg">
-          <label>Source <span class="req">*</span></label>
+          <label>Source</label>
           <select id="fd_source">
-            <option value="bulletin">Bulletin</option>
-            <option value="website">Church website</option>
-            <option value="attended">I attended this service</option>
-            <option value="phone">Called the church office</option>
+            <option value="bulletin">Saw it in the bulletin</option>
+            <option value="website">Saw it on the website</option>
+            <option value="attended">I go to this church</option>
+            <option value="phone">Called the office</option>
             <option value="other">Other</option>
           </select>
         </div>
         <div class="fg">
-          <label>Date / bulletin month</label>
-          <input type="month" id="fd_source_date">
-        </div>
-        <div class="fg">
-          <label>Confidence</label>
-          <select id="fd_confidence">
-            <option value="certain">Certain — confirmed from primary source</option>
-            <option value="likely">Likely — strong indication</option>
-            <option value="uncertain">Uncertain — needs verification</option>
-          </select>
-        </div>
-        <div class="fg span2">
-          <label>Source URL (bulletin link, website page, etc.)</label>
-          <input type="url" id="fd_source_url" placeholder="https://www.parishname.org/bulletin">
-        </div>
-        <div class="fg">
-          <label>Your name (optional)</label>
-          <input type="text" id="fd_name" >
+          <label>Link to bulletin or website <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:0.78rem;color:#888">(if you have it)</span></label>
+          <input type="url" id="fd_source_url" placeholder="https://...">
         </div>
       </div>
     </div>
@@ -6999,175 +6958,19 @@ window.filterSeasonalServices = filterSeasonalServices;
   </div><!-- /panel-flag -->
 
 
-  <!-- ── TAB: ADD MISSING SERVICE ── -->
-  <div class="tab-panel mbody" id="panel-add">
-
-    <div class="fsection">
-      <div class="fsection-title">① Describe the missing service</div>
-      <div class="fsection-body fgrid">
-        <div class="fg">
-          <label>Service type <span class="req">*</span></label>
-          <select id="fa_type">
-            <optgroup label="Mass">
-              <option value="sunday_mass">Sunday / Vigil Mass</option>
-              <option value="daily_mass">Daily Mass</option>
-            </optgroup>
-            <optgroup label="Sacraments">
-              <option value="confession">Confession / Reconciliation</option>
-              <option value="anointing">Anointing of the Sick</option>
-              <option value="communion_service">Communion Service (no priest)</option>
-            </optgroup>
-            <optgroup label="Adoration">
-              <option value="adoration">Eucharistic Adoration</option>
-              <option value="holy_hour">Holy Hour</option>
-            </optgroup>
-            <optgroup label="Devotions">
-              <option value="rosary">Rosary</option>
-              <option value="divine_mercy">Divine Mercy Chaplet</option>
-              <option value="miraculous_medal">Miraculous Medal Novena</option>
-              <option value="stations_of_cross">Stations of the Cross</option>
-              <option value="novena">Novena (other)</option>
-              <option value="devotion">Other Devotion</option>
-            </optgroup>
-          </select>
-        </div>
-        <div class="fg">
-          <label>Language</label>
-          <select id="fa_language">
-            <option value="en">English</option>
-            <option value="es">Spanish</option>
-            <option value="pl">Polish</option>
-            <option value="pt">Portuguese</option>
-            <option value="vi">Vietnamese</option>
-            <option value="la">Latin (Traditional)</option>
-            <option value="asl">ASL</option>
-          </select>
-        </div>
-
-        <div class="fg span2">
-          <label>Day(s) of the week</label>
-          <div class="day-chips" id="fa_days"></div>
-          <div class="hint">Click to toggle. Select all that apply.</div>
-        </div>
-
-        <div class="fg">
-          <label>Special recurrence</label>
-          <select id="fa_special">
-            <option value="">None (regular weekly)</option>
-            <option value="first_friday">First Friday</option>
-            <option value="first_saturday">First Saturday</option>
-            <option value="first_sunday">First Sunday</option>
-            <option value="first_tuesday">First Tuesday</option>
-            <option value="second_sunday">2nd Sunday</option>
-            <option value="third_sunday">3rd Sunday</option>
-            <option value="fourth_friday">4th Friday</option>
-            <option value="fourth_sunday">4th Sunday</option>
-            <option value="last_sunday">Last Sunday</option>
-            <option value="holyday">Holy Day of Obligation</option>
-            <option value="holyday_eve">Holy Day Eve</option>
-            <option value="daily">Every day</option>
-            <option value="weekday">Any weekday</option>
-          </select>
-        </div>
-        <div class="fg">
-          <label>Start time</label>
-          <input type="time" id="fa_time">
-        </div>
-        <div class="fg">
-          <label>End time (if known)</label>
-          <input type="time" id="fa_endtime">
-        </div>
-        <div class="fg check-row">
-          <input type="checkbox" id="fa_times_vary">
-          <label for="fa_times_vary">Times vary / by appointment</label>
-        </div>
-        <div class="fg check-row">
-          <input type="checkbox" id="fa_seasonal" onchange="document.getElementById('fa_season_row').style.display=this.checked?'':'none'">
-          <label for="fa_seasonal">This is a seasonal service</label>
-        </div>
-        <div class="fg" id="fa_season_row" style="display:none">
-          <label>Season</label>
-          <select id="fa_season">
-            <option value="lent">Lent</option>
-            <option value="advent">Advent</option>
-            <option value="summer">Summer</option>
-            <option value="school_year">School Year</option>
-            <option value="academic_year">Academic Year</option>
-          </select>
-        </div>
-        <div class="fg span2">
-          <label>Location / church building (if multiple sites)</label>
-          <select id="fa_location"></select>
-        </div>
-        <div class="fg span2">
-          <label>Additional notes</label>
-          <textarea id="fa_notes" rows="2"
-            ></textarea>
-        </div>
-      </div>
-    </div>
-
-    <div class="fsection">
-      <div class="fsection-title">② How do you know this service exists?</div>
-      <div class="fsection-body fgrid cols3">
-        <div class="fg">
-          <label>Source <span class="req">*</span></label>
-          <select id="fa_source">
-            <option value="bulletin">Bulletin</option>
-            <option value="website">Church website</option>
-            <option value="attended">I attended this service</option>
-            <option value="phone">Called the church office</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-        <div class="fg">
-          <label>Date / bulletin month</label>
-          <input type="month" id="fa_source_date">
-        </div>
-        <div class="fg">
-          <label>Confidence</label>
-          <select id="fa_confidence">
-            <option value="certain">Certain</option>
-            <option value="likely">Likely</option>
-            <option value="uncertain">Uncertain</option>
-          </select>
-        </div>
-        <div class="fg span2">
-          <label>Source URL</label>
-          <input type="url" id="fa_source_url" placeholder="https://www.parishname.org/bulletin">
-        </div>
-        <div class="fg">
-          <label>Your name (optional)</label>
-          <input type="text" id="fa_name" >
-        </div>
-      </div>
-    </div>
-
-  </div><!-- /panel-add -->
-
-
   <!-- ── TAB: GENERAL NOTE ── -->
   <div class="tab-panel mbody" id="panel-general">
 
     <div class="fsection">
-      <div class="fsection-title">General feedback or note about this parish</div>
+      <div class="fsection-title">What would you like us to know?</div>
       <div class="fsection-body fgrid cols1">
         <div class="fg">
-          <label>What would you like to report? <span class="req">*</span></label>
-          <textarea id="fg_notes" rows="5"
-            ></textarea>
+          <label>Your note <span class="req">*</span></label>
+          <textarea id="fg_notes" rows="4" placeholder="Anything — a new service, a correction, a question, whatever you've got."></textarea>
         </div>
         <div class="fg">
-          <label>Source / how you know</label>
-          <input type="text" id="fg_source" >
-        </div>
-        <div class="fg">
-          <label>Source URL (if applicable)</label>
-          <input type="url" id="fg_url" placeholder="https://">
-        </div>
-        <div class="fg">
-          <label>Your name (optional)</label>
-          <input type="text" id="fg_name" >
+          <label>Link <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:0.78rem;color:#888">(bulletin, website, anything helpful)</span></label>
+          <input type="url" id="fg_url" placeholder="https://...">
         </div>
       </div>
     </div>
@@ -7178,9 +6981,8 @@ window.filterSeasonalServices = filterSeasonalServices;
   <!-- SUCCESS SCREEN (hidden until submit) -->
   <div class="msuccess" id="mSuccess">
     <div class="sicon">✓</div>
-    <h3>Submission received — thank you!</h3>
-    <p>Your report has been logged for review by the diocese data team.<br>
-       No change is made to the directory until the update is verified.</p>
+    <h3>Got it — thank you!</h3>
+    <p>We'll review this and update the listing if needed. You're helping keep things accurate for everyone.</p>
     <div class="ref-id" id="mRefId"></div>
     <br>
     <button class="mbtn-submit" onclick="closeReconcile()">Close</button>
@@ -7189,9 +6991,9 @@ window.filterSeasonalServices = filterSeasonalServices;
 
   <!-- MODAL FOOTER -->
   <div class="mftr" id="mFtr">
-    <div class="mftr-note">Submissions are reviewed before any data is updated. Thank you for helping keep this directory accurate.</div>
+    <div class="mftr-note">Reviewed before any changes go live.</div>
     <button class="mbtn-cancel" onclick="closeReconcile()">Cancel</button>
-    <button class="mbtn-submit" onclick="submitReconcile()">Submit Report →</button>
+    <button class="mbtn-submit" onclick="submitReconcile()">Submit →</button>
   </div>
 
 </div><!-- /modal-box -->
@@ -7200,7 +7002,7 @@ window.filterSeasonalServices = filterSeasonalServices;
 
 <script>
 // ════════════════════════════════════════════════════════════
-//  RECONCILIATION MODAL  — full logic
+//  RECONCILIATION MODAL  — simplified v2
 // ════════════════════════════════════════════════════════════
 
 const SVC_TYPE_LABELS = {
@@ -7215,7 +7017,6 @@ const SVC_TYPE_LABELS = {
   stations_of_the_cross:'Stations of the Cross',
   novena:'Novena', devotion:'Devotion',
 };
-const SVC_TYPE_OPTIONS = Object.entries(SVC_TYPE_LABELS);
 
 const DAY_FULL = {
   monday:'Monday', tuesday:'Tuesday', wednesday:'Wednesday',
@@ -7229,13 +7030,9 @@ const DAY_FULL = {
   daily:'Daily', weekday:'Weekday', last_sunday:'Last Sun', '':'Varies',
 };
 
-const WEEKDAYS = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
-
 let _currentParish = null;
 let _activeTab     = 'flag';
 let _selectedSvcId = null;
-let _flagDays      = new Set();
-let _addDays       = new Set();
 
 // ── helpers ─────────────────────────────────────────────────
 
@@ -7255,38 +7052,14 @@ function svcMeta(s) {
   return [dayStr, timeStr+endStr, langStr].filter(Boolean).join(' · ');
 }
 
-// ── day chip builders ────────────────────────────────────────
-
-function buildDayChips(containerId, stateSet) {
-  const el = document.getElementById(containerId);
-  el.innerHTML = WEEKDAYS.map(d =>
-    `<span class="dc${stateSet.has(d)?' on':''}" onclick="toggleDayChip('${containerId}','${d}')">${DAY_FULL[d].slice(0,3)}</span>`
-  ).join('');
-}
-
-function toggleDayChip(containerId, day) {
-  const stateSet = containerId.startsWith('fd_') ? _flagDays : _addDays;
-  stateSet.has(day) ? stateSet.delete(day) : stateSet.add(day);
-  buildDayChips(containerId, stateSet);
-}
-
-// ── populate type select (shared) ───────────────────────────
-
-function populateTypeSelect(elId) {
-  const el = document.getElementById(elId);
-  el.innerHTML = SVC_TYPE_OPTIONS.map(([v,l])=>`<option value="${v}">${l}</option>`).join('');
-}
-
 // ── open / close ─────────────────────────────────────────────
 
 function openReconcile(parishId) {
   _currentParish  = PARISH_DATA.parishes.find(p=>p.id===parishId);
   if (!_currentParish) return;
   _selectedSvcId  = null;
-  _flagDays       = new Set();
-  _addDays        = new Set();
 
-  // WP1: Display church name in reconcile header
+  // Display church name
   const recLoc = _currentParish.locations && _currentParish.locations[0];
   let recChurchName = (recLoc && recLoc.name) ? recLoc.name : _currentParish.name;
   if (/Cathedral|Basilica/i.test(recChurchName)) {
@@ -7298,37 +7071,17 @@ function openReconcile(parishId) {
   // reset tabs
   switchTab('flag');
 
-  // populate type selects
-  populateTypeSelect('fd_type');
-  populateTypeSelect('fa_type');
-
-  // build day chips
-  buildDayChips('fd_days', _flagDays);
-  buildDayChips('fa_days', _addDays);
-
-  // service list
+  // build service list
   buildSvcList();
 
-  // location selects
-  const locs = (_currentParish.locations||[]);
-  const locOpts = '<option value="">— Main church —</option>' +
-    locs.map(l=>`<option value="${l.id}">${l.name}</option>`).join('');
-  document.getElementById('fd_location').innerHTML = locOpts;
-  document.getElementById('fa_location').innerHTML = locOpts;
-
-  // hide selected detail
-  document.getElementById('svcDetail').classList.remove('visible');
-
-  // clear description fields
-  ['fd_wrong','fd_correct','fa_notes','fg_notes','fg_source','fg_url'].forEach(id=>{
+  // clear fields
+  ['fd_wrong','fd_source_url','fg_notes','fg_url'].forEach(id=>{
     const el=document.getElementById(id); if(el) el.value='';
   });
-
-  // default source dates
-  const ym = new Date().toISOString().slice(0,7);
-  ['fd_source_date','fa_source_date'].forEach(id=>{
-    document.getElementById(id).value = ym;
-  });
+  const issueEl = document.getElementById('fd_issue_type');
+  if (issueEl) issueEl.value = '';
+  const srcEl = document.getElementById('fd_source');
+  if (srcEl) srcEl.value = 'bulletin';
 
   // hide success, show footer
   document.getElementById('mSuccess').style.display = 'none';
@@ -7366,7 +7119,7 @@ function buildSvcList() {
   const el = document.getElementById('svcList');
   const svcs = _currentParish.services || [];
   if (!svcs.length) {
-    el.innerHTML = '<div style="padding:14px;color:#aaa;font-size:0.85rem">No services recorded yet — use "Report Missing Service" to add one.</div>';
+    el.innerHTML = '<div style="padding:14px;color:#aaa;font-size:0.85rem">No services recorded yet — use the General Note tab instead.</div>';
     return;
   }
   el.innerHTML = svcs.map((s,i) => {
@@ -7384,58 +7137,11 @@ function buildSvcList() {
   }).join('');
 }
 
-// ── prefill fields when a service is selected ─────────────────
-
 function selectService(svcId) {
   _selectedSvcId = svcId;
-  const s = (_currentParish.services||[]).find(x=>x.id===svcId);
-  if (!s) return;
-
-  // show detail panel
-  document.getElementById('svcDetail').classList.add('visible');
-
-  // prefill type
-  document.getElementById('fd_type').value = s.type || '';
-
-  // prefill days
-  _flagDays = new Set();
-  const SPECIAL = ['first_friday','first_saturday','first_sunday','first_tuesday',
-    'second_sunday','third_sunday','fourth_friday','fourth_sunday','last_sunday',
-    'holyday','holyday_eve','daily','weekday'];
-  const isSpecialDay = SPECIAL.includes(s.day);
-  const dayList = s.days ? [...s.days] : (!isSpecialDay && s.day ? [s.day] : []);
-  dayList.forEach(d => _flagDays.add(d));
-  buildDayChips('fd_days', _flagDays);
-
-  // prefill special recurrence
-  document.getElementById('fd_special').value = (isSpecialDay ? s.day : '') || '';
-
-  // prefill time
-  document.getElementById('fd_time').value    = s.time     || '';
-  document.getElementById('fd_endtime').value = s.end_time || '';
-
-  // prefill times_vary
-  document.getElementById('fd_times_vary').checked = !!s.times_vary;
-
-  // prefill language
-  document.getElementById('fd_language').value = s.language || 'en';
-
-  // prefill location
-  document.getElementById('fd_location').value = s.location_id || '';
-
-  // prefill seasonal
-  const isSeasonal = s.seasonal?.is_seasonal;
-  document.getElementById('fd_seasonal').checked = !!isSeasonal;
-  document.getElementById('fd_season_row').style.display = isSeasonal ? '' : 'none';
-  if (isSeasonal) document.getElementById('fd_season').value = s.seasonal.season || 'lent';
-
-  // helpful placeholder for the "what's wrong" field
-  document.getElementById('fd_wrong').placeholder =
-    `Currently listed as: ${SVC_TYPE_LABELS[s.type]||s.type}, ${svcMeta(s)} — describe what's incorrect.`;
 }
 
 // ── email via Web3Forms ──────────────────────────────────────
-// Get your access key at https://web3forms.com (free, 250/mo)
 const W3F_KEY = 'bf7958f8-3eda-4ed3-8b61-9843af03fd5a';
 const W3F_URL = 'https://api.web3forms.com/submit';
 
@@ -7472,54 +7178,14 @@ function formatReconcileEmail(payload) {
 
   if (payload.mode === 'flag') {
     if (payload.service_id) lines.push(`Service ID: ${payload.service_id}`);
-    if (payload.report) {
-      lines.push(`What's wrong: ${payload.report.what_is_wrong}`);
-      if (payload.report.what_it_should_say) lines.push(`Should say: ${payload.report.what_it_should_say}`);
-    }
-    if (payload.proposed_fields) {
-      const pf = payload.proposed_fields;
-      lines.push('');
-      lines.push('Proposed fields:');
-      if (pf.type) lines.push(`  Type: ${pf.type}`);
-      if (pf.days && pf.days.length) lines.push(`  Days: ${pf.days.join(', ')}`);
-      if (pf.special_day) lines.push(`  Special day: ${pf.special_day}`);
-      if (pf.time) lines.push(`  Time: ${pf.time}${pf.end_time ? ' – ' + pf.end_time : ''}`);
-      if (pf.language) lines.push(`  Language: ${pf.language}`);
-      if (pf.is_seasonal) lines.push(`  Season: ${pf.season}`);
-    }
-    if (payload.source) {
-      lines.push('');
-      lines.push(`Source: ${payload.source.type}${payload.source.date ? ' (' + payload.source.date + ')' : ''}`);
-      if (payload.source.url) lines.push(`Source URL: ${payload.source.url}`);
-      lines.push(`Confidence: ${payload.source.confidence}`);
-    }
-  } else if (payload.mode === 'add') {
-    if (payload.new_service) {
-      const ns = payload.new_service;
-      lines.push('New service:');
-      lines.push(`  Type: ${ns.type}`);
-      if (ns.language && ns.language !== 'en') lines.push(`  Language: ${ns.language}`);
-      if (ns.days && ns.days.length) lines.push(`  Days: ${ns.days.join(', ')}`);
-      if (ns.special_day) lines.push(`  Special day: ${ns.special_day}`);
-      if (ns.time) lines.push(`  Time: ${ns.time}${ns.end_time ? ' – ' + ns.end_time : ''}`);
-      if (ns.is_seasonal) lines.push(`  Season: ${ns.season}`);
-      if (ns.notes) lines.push(`  Notes: ${ns.notes}`);
-    }
-    if (payload.source) {
-      lines.push('');
-      lines.push(`Source: ${payload.source.type}${payload.source.date ? ' (' + payload.source.date + ')' : ''}`);
-      if (payload.source.url) lines.push(`Source URL: ${payload.source.url}`);
-      lines.push(`Confidence: ${payload.source.confidence}`);
-    }
+    if (payload.selected_service_label) lines.push(`Service: ${payload.selected_service_label}`);
+    lines.push(`Issue type: ${payload.issue_type || '(not specified)'}`);
+    if (payload.description) lines.push(`Description: ${payload.description}`);
+    if (payload.source) lines.push(`Source: ${payload.source}`);
+    if (payload.source_url) lines.push(`Source URL: ${payload.source_url}`);
   } else {
     if (payload.notes) lines.push(`Notes: ${payload.notes}`);
-    if (payload.source) lines.push(`Source: ${payload.source}`);
     if (payload.source_url) lines.push(`URL: ${payload.source_url}`);
-  }
-
-  if (payload.submitter && payload.submitter.name) {
-    lines.push('');
-    lines.push(`Submitter: ${payload.submitter.name}`);
   }
 
   return lines.join('\n');
@@ -7531,31 +7197,25 @@ function formatNewParishEmail(payload) {
   lines.push(`Ref: ${payload.ref_id}`);
   lines.push(`Submitted: ${payload.submitted_at}`);
   lines.push('');
+  if (payload.state) lines.push(`State: ${payload.state}`);
+  if (payload.link) lines.push(`Link provided: ${payload.link}`);
   if (payload.website) lines.push(`Website: ${payload.website}`);
   if (payload.bulletin_url) lines.push(`Bulletin: ${payload.bulletin_url}`);
   if (payload.notes) lines.push(`Notes: ${payload.notes}`);
-  if (payload.submitter) {
-    if (payload.submitter.name) lines.push(`Submitter: ${payload.submitter.name}`);
-    if (payload.submitter.email) lines.push(`Email: ${payload.submitter.email}`);
-  }
   return lines.join('\n');
 }
 
 // ── submit ───────────────────────────────────────────────────
 
 function submitReconcile() {
-  // Validate required field per tab
   let valid = true;
   if (_activeTab === 'flag') {
-    const wrongEl = document.getElementById('fd_wrong');
-    if (!wrongEl.value.trim()) {
-      wrongEl.style.borderColor = '#c0392b';
-      wrongEl.focus();
-      wrongEl.placeholder = 'Please describe what is incorrect before submitting.';
+    const issueEl = document.getElementById('fd_issue_type');
+    if (!issueEl.value) {
+      issueEl.style.borderColor = '#c0392b';
+      issueEl.focus();
       valid = false;
-    } else wrongEl.style.borderColor = '';
-  } else if (_activeTab === 'add') {
-    // nothing mandatory beyond type (already defaulted)
+    } else issueEl.style.borderColor = '';
   } else if (_activeTab === 'general') {
     const notesEl = document.getElementById('fg_notes');
     if (!notesEl.value.trim()) {
@@ -7566,7 +7226,6 @@ function submitReconcile() {
   }
   if (!valid) return;
 
-  // Collect payload
   const now  = new Date();
   const refId = 'REC-' + now.getFullYear() + String(now.getMonth()+1).padStart(2,'0') +
                 String(now.getDate()).padStart(2,'0') + '-' +
@@ -7581,62 +7240,24 @@ function submitReconcile() {
   };
 
   if (_activeTab === 'flag') {
-    payload.service_id     = _selectedSvcId;
-    payload.proposed_fields = {
-      type:        document.getElementById('fd_type').value,
-      days:        [..._flagDays],
-      special_day: document.getElementById('fd_special').value,
-      time:        document.getElementById('fd_time').value,
-      end_time:    document.getElementById('fd_endtime').value,
-      times_vary:  document.getElementById('fd_times_vary').checked,
-      language:    document.getElementById('fd_language').value,
-      location_id: document.getElementById('fd_location').value,
-      is_seasonal: document.getElementById('fd_seasonal').checked,
-      season:      document.getElementById('fd_season').value,
-    };
-    payload.report = {
-      what_is_wrong:  document.getElementById('fd_wrong').value,
-      what_it_should_say: document.getElementById('fd_correct').value,
-    };
-    payload.source = {
-      type:       document.getElementById('fd_source').value,
-      date:       document.getElementById('fd_source_date').value,
-      confidence: document.getElementById('fd_confidence').value,
-      url:        document.getElementById('fd_source_url').value,
-    };
-    payload.submitter = { name: document.getElementById('fd_name').value };
-
-  } else if (_activeTab === 'add') {
-    payload.new_service = {
-      type:        document.getElementById('fa_type').value,
-      language:    document.getElementById('fa_language').value,
-      days:        [..._addDays],
-      special_day: document.getElementById('fa_special').value,
-      time:        document.getElementById('fa_time').value,
-      end_time:    document.getElementById('fa_endtime').value,
-      times_vary:  document.getElementById('fa_times_vary').checked,
-      is_seasonal: document.getElementById('fa_seasonal').checked,
-      season:      document.getElementById('fa_season').value,
-      location_id: document.getElementById('fa_location').value,
-      notes:       document.getElementById('fa_notes').value,
-    };
-    payload.source = {
-      type:       document.getElementById('fa_source').value,
-      date:       document.getElementById('fa_source_date').value,
-      confidence: document.getElementById('fa_confidence').value,
-      url:        document.getElementById('fa_source_url').value,
-    };
-    payload.submitter = { name: document.getElementById('fa_name').value };
+    payload.service_id  = _selectedSvcId;
+    // Get the label of the selected service for the email
+    if (_selectedSvcId) {
+      const svc = (_currentParish.services||[]).find(x=>x.id===_selectedSvcId);
+      if (svc) payload.selected_service_label = (SVC_TYPE_LABELS[svc.type]||svc.type) + ' — ' + svcMeta(svc);
+    }
+    payload.issue_type  = document.getElementById('fd_issue_type').value;
+    payload.description = document.getElementById('fd_wrong').value;
+    payload.source      = document.getElementById('fd_source').value;
+    payload.source_url  = document.getElementById('fd_source_url').value;
 
   } else {
-    payload.notes  = document.getElementById('fg_notes').value;
-    payload.source = document.getElementById('fg_source').value;
+    payload.notes      = document.getElementById('fg_notes').value;
     payload.source_url = document.getElementById('fg_url').value;
-    payload.submitter  = { name: document.getElementById('fg_name').value };
   }
 
   // Send email
-  const modeLabels = { flag: 'Flag Incorrect Data', add: 'Add Missing Service', general: 'General Note' };
+  const modeLabels = { flag: 'Flag Service Issue', general: 'General Note' };
   const subject = `[Parish Finder] ${modeLabels[_activeTab] || _activeTab} — ${_currentParish.name} (${refId})`;
   const body = formatReconcileEmail(payload);
   sendFormEmail(subject, body, refId);
@@ -7652,58 +7273,51 @@ function submitReconcile() {
 
 
 <!-- ══════════════════════════════════════════════════
-     NEW PARISH REQUEST MODAL  (simplified)
+     NEW PARISH REQUEST MODAL  (simplified v2)
 ══════════════════════════════════════════════════ -->
 <div class="np-backdrop" id="npBackdrop">
-<div class="np-box" style="max-width:560px">
+<div class="np-box" style="max-width:520px">
 
   <div class="mhdr">
     <div class="mhdr-left">
-      <h2>Request a Church Listing</h2>
-      <div class="mhdr-parish">Diocese of Springfield, Massachusetts</div>
+      <h2>Add a Church</h2>
+      <div class="mhdr-parish">Know one that's missing? We'll look it up.</div>
     </div>
     <button class="mhdr-close" onclick="closeNewParish()">×</button>
   </div>
 
   <div class="np-intro">
-    Know of a church that's missing? Share what you have — even just a name and a bulletin link is enough. The data team handles the rest.
+    Just give us a name and a link — the data team handles the rest. The more you share the faster we can add it.
   </div>
 
   <div class="mbody" id="npFormBody">
 
     <div class="fsection">
-      <div class="fsection-title">Parish info</div>
+      <div class="fsection-title">Church info</div>
       <div class="fsection-body fgrid cols1">
         <div class="fg">
           <label>Church name <span class="req">*</span></label>
-          <input type="text" id="np_name" >
+          <input type="text" id="np_name" placeholder="e.g. St. Mary's Parish">
         </div>
         <div class="fg">
-          <label>Church website</label>
-          <input type="url" id="np_website" placeholder="https://www.churchname.org">
+          <label>State</label>
+          <select id="np_state">
+            <option value="MA" selected>Massachusetts</option>
+            <option value="CT">Connecticut</option>
+            <option value="VT">Vermont</option>
+            <option value="NH">New Hampshire</option>
+            <option value="NY">New York</option>
+            <option value="RI">Rhode Island</option>
+            <option value="other">Other</option>
+          </select>
         </div>
         <div class="fg">
-          <label>Bulletin link <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:0.78rem;color:#888">(parishesonline.com, church-bulletin.org, or church site — most helpful)</span></label>
-          <input type="url" id="np_bulletin_url" placeholder="https://church-bulletin.org/?id=XXXX">
+          <label>Website or bulletin link <span class="req">*</span> <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:0.78rem;color:#888">(either one works)</span></label>
+          <input type="url" id="np_link" placeholder="https://www.churchname.org or bulletin link">
         </div>
         <div class="fg">
-          <label>Anything else you know <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:0.78rem;color:#888">(services, schedule notes, location — whatever you have)</span></label>
-          <textarea id="np_notes" rows="4"
-            ></textarea>
-        </div>
-      </div>
-    </div>
-
-    <div class="fsection">
-      <div class="fsection-title">Your info (optional)</div>
-      <div class="fsection-body fgrid">
-        <div class="fg">
-          <label>Your name</label>
-          <input type="text" id="np_sub_name" >
-        </div>
-        <div class="fg">
-          <label>Email (for follow-up)</label>
-          <input type="email" id="np_sub_email" >
+          <label>Anything else? <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:0.78rem;color:#888">(town, schedule, whatever you know)</span></label>
+          <textarea id="np_notes" rows="3" placeholder="Optional — anything helps"></textarea>
         </div>
       </div>
     </div>
@@ -7714,7 +7328,7 @@ function submitReconcile() {
   <div class="msuccess" id="npSuccess" style="display:none">
     <div class="sicon">+</div>
     <h3>Got it — thank you!</h3>
-    <p>The data team will look this up, verify it against the bulletin, and add it to the directory if confirmed.</p>
+    <p>We'll look this up and add it to the directory once we've verified the schedule.</p>
     <div class="ref-id" id="npRefId"></div>
     <br>
     <button class="mbtn-submit" onclick="closeNewParish()">Close</button>
@@ -7731,8 +7345,10 @@ function submitReconcile() {
 
 <script>
 function openNewParish() {
-  ['np_name','np_website','np_bulletin_url','np_notes','np_sub_name','np_sub_email']
+  ['np_name','np_link','np_notes']
     .forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+  const stateEl = document.getElementById('np_state');
+  if (stateEl) stateEl.value = 'MA';
   document.getElementById('npFormBody').style.display = 'block';
   document.getElementById('npSuccess').style.display  = 'none';
   document.getElementById('npFtr').style.display      = 'flex';
@@ -7751,12 +7367,19 @@ document.getElementById('npBackdrop').addEventListener('click', function(e) {
 
 function submitNewParish() {
   const nameEl = document.getElementById('np_name');
+  const linkEl = document.getElementById('np_link');
   if (!nameEl.value.trim()) {
     nameEl.style.borderColor = '#c0392b';
     nameEl.focus();
     return;
   }
   nameEl.style.borderColor = '';
+  if (!linkEl.value.trim()) {
+    linkEl.style.borderColor = '#c0392b';
+    linkEl.focus();
+    return;
+  }
+  linkEl.style.borderColor = '';
 
   const now = new Date();
   const refId = 'NP-' + now.getFullYear() +
@@ -7764,22 +7387,24 @@ function submitNewParish() {
     String(now.getDate()).padStart(2,'0') + '-' +
     Math.random().toString(36).slice(2,7).toUpperCase();
 
+  const link = document.getElementById('np_link').value;
+  // Auto-detect if it's a bulletin link or website
+  const isBulletin = /bulletin|parishesonline|church-bulletin|ecatholic/i.test(link);
+
   const payload = {
     ref_id:       refId,
     submitted_at: now.toISOString(),
     type:         'new_parish_request',
     name:         document.getElementById('np_name').value,
-    website:      document.getElementById('np_website').value,
-    bulletin_url: document.getElementById('np_bulletin_url').value,
+    state:        document.getElementById('np_state').value,
+    website:      isBulletin ? '' : link,
+    bulletin_url: isBulletin ? link : '',
+    link:         link,
     notes:        document.getElementById('np_notes').value,
-    submitter: {
-      name:  document.getElementById('np_sub_name').value,
-      email: document.getElementById('np_sub_email').value,
-    },
   };
 
   // Send email
-  const subject = `[Parish Finder] New Parish Request — ${payload.name} (${refId})`;
+  const subject = `[Parish Finder] New Church Request — ${payload.name} (${refId})`;
   const body = formatNewParishEmail(payload);
   sendFormEmail(subject, body, refId);
 
