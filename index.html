@@ -124,6 +124,15 @@
   .controls-bar {
     background: var(--navy-light);
     border-bottom: 2px solid var(--gold);
+    position: sticky;
+    top: 84px;
+    z-index: 98;
+    transition: box-shadow 0.15s;
+  }
+  .controls-bar.compact { box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+  .controls-bar.compact .controls-inner {
+    padding-top: 6px;
+    padding-bottom: 6px;
   }
   .controls-inner {
     max-width: 1280px;
@@ -933,6 +942,66 @@
     to   { opacity: 1; transform: translateY(0); }
   }
 
+  /* ─── FEATURED BANNERS ────────────────────────────────────── */
+  .featured-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 8px 20px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .featured-banner:hover { filter: brightness(1.05); }
+  .featured-banner .banner-action {
+    font-size: 0.74rem;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .banner-triduum {
+    background: linear-gradient(135deg, #3d1f4e, #522466);
+    color: #e8d5f5;
+    border-bottom: 1px solid rgba(201,168,76,0.3);
+  }
+  .banner-triduum .banner-action { color: var(--gold-light); }
+  .banner-lent {
+    background: linear-gradient(135deg, #4a2264, #5c2d82);
+    color: #dcc8ed;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+  .banner-lent .banner-action { color: var(--gold-light); }
+  .banner-yc {
+    background: linear-gradient(135deg, #7a5c00, #9a7200);
+    color: #fff5d6;
+    border-bottom: 1px solid rgba(201,168,76,0.3);
+  }
+  .banner-yc .banner-action { color: #fff; }
+
+  /* ─── SHOW ALL SERVICES BUTTON ─────────────────────────────── */
+  .show-all-btn {
+    display: block;
+    width: 100%;
+    padding: 8px 0;
+    margin-top: 6px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--navy);
+    background: rgba(26,54,93,0.04);
+    border: 1px dashed rgba(26,54,93,0.2);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .show-all-btn:hover {
+    background: rgba(26,54,93,0.08);
+    border-color: rgba(26,54,93,0.35);
+  }
+
   /* ─── REPORT BUTTON ─────────────────────────────────────── */
   .reconcile-btn {
     padding: 3px 10px;
@@ -1592,6 +1661,16 @@
     gap: 3px;
   }
   .dist-badge.near { color: var(--green); font-weight: 600; }
+  /* 3B: Distance badge in card header */
+  .county-badge .dist-badge {
+    color: rgba(255,255,255,0.6);
+    font-weight: 500;
+    font-size: 0.68rem;
+  }
+  .county-badge .dist-badge.near {
+    color: rgba(80,200,120,0.9);
+    font-weight: 600;
+  }
 
   /* ── SHARE BUTTON ── */
   .share-btn {
@@ -2279,6 +2358,7 @@
   /* ── RESPONSIVE OVERRIDES ── */
   @media (max-width: 520px) {
     .app-tab-bar { top: 38px; }
+    .controls-bar { top: 72px; }
     .app-tab { font-size: 0.72rem; padding: 10px 6px; letter-spacing: 0.03em; }
     .app-tab .tab-icon { margin-right: 3px; font-size: 0.8rem; }
     .now-view { padding: 12px 14px 40px; }
@@ -2441,6 +2521,7 @@
 
 
 <main>
+  <div id="featuredBanners"></div>
   <div class="parish-grid" id="parishGrid">
     <div class="loading">Loading churches…</div>
   </div>
@@ -2809,7 +2890,7 @@ function isCurrentSeason(svc) {
     const today = new Date(year, now.getMonth(), now.getDate());
     return today >= adventStart && today <= adventEnd;
   }
-  if (season === 'school_year') {
+  if (season === 'school_year' || season === 'academic_year') {
     const month = now.getMonth(); // 0-indexed: 0=Jan, 8=Sep
     // Sep 1 through May 15
     return month >= 8 || month <= 3 || (month === 4 && now.getDate() <= 15);
@@ -3513,6 +3594,13 @@ var favorites = new Set(); // WP-Favorites: parish IDs the user has favorited
 var favFilterActive = false;
 
 function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, distMiles) {
+  const isShowAll = showAllParishes.has(p.id);
+  const effDay = isShowAll ? '' : dayFilter;
+  const effTime = isShowAll ? '' : timeFilter;
+  const effCat = isShowAll ? '' : categoryFilter;
+  const effSub = isShowAll ? '' : subtypeFilter;
+  const effLang = isShowAll ? '' : langFilter;
+
   const groups = groupServices(p.services || []);
 
   const hasAny = Object.values(groups).flat().some(s =>
@@ -3555,41 +3643,42 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
   const locMap = {};
   (p.locations || []).forEach(l => { locMap[l.id] = l; });
 
-  const massSect  = renderMassSectionWithHolyDays(groups.mass, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite);
-  const confSect  = renderServiceSection('Confession', 'confession', groups.confession, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite);
-  const adorSect  = renderServiceSection('Adoration & Prayer', 'adoration', groups.adoration, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite);
-  const devotSect = renderServiceSection('Devotions', 'devotion', groups.devotion, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite);
-  const commSect  = renderServiceSection('Community', 'community', groups.community, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite);
-  const otherSect = renderServiceSection('Other Services', 'other', groups.other, dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite);
+  const massSect  = renderMassSectionWithHolyDays(groups.mass, effDay, effTime, effCat, effSub, effLang, locMap, isMultiSite);
+  const confSect  = renderServiceSection('Confession', 'confession', groups.confession, effDay, effTime, effCat, effSub, effLang, locMap, isMultiSite);
+  const adorSect  = renderServiceSection('Adoration & Prayer', 'adoration', groups.adoration, effDay, effTime, effCat, effSub, effLang, locMap, isMultiSite);
+  const devotSect = renderServiceSection('Devotions', 'devotion', groups.devotion, effDay, effTime, effCat, effSub, effLang, locMap, isMultiSite);
+  const commSect  = renderServiceSection('Community', 'community', groups.community, effDay, effTime, effCat, effSub, effLang, locMap, isMultiSite);
+  const otherSect = renderServiceSection('Other Services', 'other', groups.other, effDay, effTime, effCat, effSub, effLang, locMap, isMultiSite);
   // Lenten section always renders if lent services exist (independent of any filter)
-  const lentSect  = renderLentenSection(p.services || [], dayFilter, timeFilter, categoryFilter, subtypeFilter, langFilter, locMap, isMultiSite);
+  const lentSect  = renderLentenSection(p.services || [], effDay, effTime, effCat, effSub, effLang, locMap, isMultiSite);
 
   // Pre-filter services for summaries (mirrors renderServiceSection's internal filter)
   const svcFilter = (s) =>
     isCurrentSeason(s) &&
-    serviceMatchesDay(s, dayFilter) &&
-    serviceMatchesTime(s, timeFilter) &&
-    serviceMatchesType(s, categoryFilter, subtypeFilter) &&
-    (!langFilter || s.language === langFilter);
+    serviceMatchesDay(s, effDay) &&
+    serviceMatchesTime(s, effTime) &&
+    serviceMatchesType(s, effCat, effSub) &&
+    (!effLang || s.language === effLang);
   const massFiltered  = groups.mass.filter(svcFilter);
   const confFiltered  = groups.confession.filter(svcFilter);
   const adorFiltered  = groups.adoration.filter(svcFilter);
   const devotFiltered = groups.devotion.filter(svcFilter);
   const commFiltered  = groups.community.filter(svcFilter);
   const otherFiltered = groups.other.filter(svcFilter);
-  const lentFiltered  = (p.services || []).filter(s => s.seasonal && s.seasonal.season === 'lent' && isCurrentSeason(s) && serviceMatchesDay(s, dayFilter) && serviceMatchesTime(s, timeFilter) && serviceMatchesType(s, categoryFilter, subtypeFilter) && (!langFilter || s.language === langFilter));
+  const lentFiltered  = (p.services || []).filter(s => s.seasonal && s.seasonal.season === 'lent' && isCurrentSeason(s) && serviceMatchesDay(s, effDay) && serviceMatchesTime(s, effTime) && serviceMatchesType(s, effCat, effSub) && (!effLang || s.language === effLang));
 
   // Determine collapse state: expanded (false) vs collapsed (true)
   // Defaults: Mass + Confession expanded; rest collapsed
   // Auto-expand: if a category filter targets this section, or search is active
+  // 3C: When showAll is active, force all sections open
   const hasSearch = !!(document.getElementById('searchInput') && document.getElementById('searchInput').value.trim());
   const massCollapsed  = false; // always open
   const confCollapsed  = false; // always open
-  const adorCollapsed  = !(categoryFilter === 'devotion' || hasSearch);
-  const devotCollapsed = !(categoryFilter === 'devotion' || hasSearch);
+  const adorCollapsed  = isShowAll ? false : !(effCat === 'devotion' || hasSearch);
+  const devotCollapsed = isShowAll ? false : !(effCat === 'devotion' || hasSearch);
   const lentCollapsed  = false; // WP9: expanded by default when pinned to top
-  const otherCollapsed = !hasSearch;
-  const commCollapsed  = !hasSearch;
+  const otherCollapsed = isShowAll ? false : !hasSearch;
+  const commCollapsed  = isShowAll ? false : !hasSearch;
 
   // Wrap each in collapsible
   const massWrapped  = wrapCollapsible('mass',      'Mass',              'mass',       massSect,  massFiltered,  massCollapsed);
@@ -3676,21 +3765,28 @@ function renderParishCard(p, dayFilter, timeFilter, categoryFilter, subtypeFilte
 
   const isFav = favorites.has(p.id);
 
+  // 3C: Show All Services button when filters active
+  const anyFilterActive = dayFilter || timeFilter || categoryFilter || subtypeFilter || langFilter;
+  const showAllBtn = anyFilterActive
+    ? `<button class="show-all-btn" onclick="event.stopPropagation(); toggleShowAll(this, '${p.id}');">${isShowAll ? 'Show filtered only \u25B4' : 'Show all services \u25BE'}</button>`
+    : '';
+
   return `<article class="parish-card${isLowConf ? ' low-confidence' : ''}${ycActiveThisWeek.has(p.id) ? ' yc-active-week' : ''}" data-parish-id="${p.id}">
     ${ycBannerHtml}
     <div class="card-header">
       <h2>${churchName}</h2>
       ${alsoAtHtml}
       <div class="card-location">${p.town}, MA &middot; ${p.county} County</div>
-      <span class="county-badge"><button class="fav-btn${isFav ? ' favorited' : ''}" onclick="event.stopPropagation(); toggleFavorite('${p.id}', this);" title="${isFav ? 'Remove from favorites' : 'Add to favorites'}">${isFav ? '❤️' : '🤍'}</button> ${confBadge}</span>
+      <span class="county-badge">${distHtml}<button class="fav-btn${isFav ? ' favorited' : ''}" onclick="event.stopPropagation(); toggleFavorite('${p.id}', this);" title="${isFav ? 'Remove from favorites' : 'Add to favorites'}">${isFav ? '❤️' : '🤍'}</button> ${confBadge}</span>
       ${confWarn}
     </div>
     ${p.visitation && p.visitation.hours_note ? `<div class="visitation-bar">🕊 Open for prayer: ${p.visitation.hours_note}</div>` : ''}
-    <div class="card-meta">${accessBadge}${contactDrawer}${bulletinLink}${distHtml}${directionsBtn}<button class="share-btn" onclick="event.stopPropagation(); shareParish('${p.id}', this);" title="Share this church">📋 Share</button>${multiSite}</div>
+    <div class="card-meta">${accessBadge}${contactDrawer}${bulletinLink}${directionsBtn}<button class="share-btn" onclick="event.stopPropagation(); shareParish('${p.id}', this);" title="Share this church">📋 Share</button>${multiSite}</div>
     <div class="card-body">
       ${renderYCLiteralEvents(p)}
       ${lentWrapped}${massWrapped}${confWrapped}${adorWrapped}${devotWrapped}${commWrapped}${otherWrapped}
       ${renderSpecialEvents(p)}
+      ${showAllBtn}
     </div>
     <div class="card-footer">
       ${pastorFooter}
@@ -3863,6 +3959,19 @@ function syncUrlParams() {
   history.replaceState(null, '', str ? '?' + str : location.pathname);
 }
 
+// 3C: Show All Services toggle
+const showAllParishes = new Set();
+function toggleShowAll(btn, parishId) {
+  if (showAllParishes.has(parishId)) {
+    showAllParishes.delete(parishId);
+  } else {
+    showAllParishes.add(parishId);
+  }
+  render();
+  // Scroll back to the parish card after re-render
+  setTimeout(() => scrollToParish(parishId), 50);
+}
+
 function render() {
   const q        = searchInput.value.trim();
   const county   = countyFilter.value;
@@ -3941,6 +4050,61 @@ function render() {
 
   updateClearFiltersBtn();
   syncUrlParams();
+
+  // 3D: Featured banners (Triduum > Lent > YC)
+  const bannersEl = document.getElementById('featuredBanners');
+  if (bannersEl) {
+    let bannerHtml = '';
+    const now = new Date();
+    const year = now.getFullYear();
+
+    // Check if we're in Lent
+    const lentRange = getLentRange(year);
+    const todayDate = new Date(year, now.getMonth(), now.getDate());
+    const isLentNow = todayDate >= lentRange.start && todayDate <= lentRange.end;
+
+    // Check if we're in Holy Week
+    const easter = computeEaster(year);
+    const palmSunday = new Date(easter); palmSunday.setDate(easter.getDate() - 7);
+    const holySaturday = new Date(easter); holySaturday.setDate(easter.getDate() - 1);
+    const isHolyWeek = todayDate >= palmSunday && todayDate <= holySaturday;
+
+    // Triduum banner (Holy Week)
+    if (isHolyWeek) {
+      const hasTriduum = parishes.some(p => (p.services||[]).some(s =>
+        isServiceActive(s) && ['holy_thursday_mass','good_friday_service','easter_vigil_mass'].includes(s.type)
+      ));
+      if (hasTriduum) {
+        bannerHtml += `<div class="featured-banner banner-triduum" onclick="document.querySelector('[data-cat=mass]').click(); document.querySelector('[data-sub=holy_thursday_mass],[data-sub=good_friday_service],[data-sub=easter_vigil_mass]')?.click();">
+          ✟ Holy Week Services — Holy Thursday · Good Friday · Easter Vigil
+          <span class="banner-action">View Triduum Services →</span>
+        </div>`;
+      }
+    }
+
+    // Lent banner (during Lent, unless Holy Week banner is already showing)
+    if (isLentNow && !isHolyWeek) {
+      const hasLenten = parishes.some(p => (p.services||[]).some(s =>
+        isServiceActive(s) && s.seasonal && s.seasonal.season === 'lent' && isCurrentSeason(s)
+      ));
+      if (hasLenten) {
+        bannerHtml += `<div class="featured-banner banner-lent" onclick="document.querySelector('[data-cat=devotion]').click();">
+          ✟ Lenten Services Available — Stations, Confessions & More
+          <span class="banner-action">View Lenten Services →</span>
+        </div>`;
+      }
+    }
+
+    // YC banner
+    if (ycActiveThisWeek.size > 0) {
+      bannerHtml += `<div class="featured-banner banner-yc" onclick="switchAppView('yc');">
+        ✦ Young Catholic Events This Week
+        <span class="banner-action">View YC Events →</span>
+      </div>`;
+    }
+
+    bannersEl.innerHTML = bannerHtml;
+  }
 }
 
 // Category chips
@@ -4035,6 +4199,32 @@ function haversine(lat1, lng1, lat2, lng2) {
 renderYCEvents();
 render();
 applyDeepLinkParams();
+
+// 3A: Sticky controls bar — compute dynamic top and compact on scroll
+(function() {
+  const controlsBar = document.querySelector('.controls-bar');
+  const tabBar = document.getElementById('appTabBar');
+  if (controlsBar && tabBar) {
+    function updateStickyTop() {
+      const headerH = document.querySelector('header').offsetHeight;
+      const tabH = tabBar.offsetHeight;
+      controlsBar.style.top = (headerH + tabH) + 'px';
+    }
+    updateStickyTop();
+    window.addEventListener('resize', updateStickyTop);
+
+    let lastScroll = 0;
+    window.addEventListener('scroll', function() {
+      const y = window.scrollY;
+      if (y > 120 && !controlsBar.classList.contains('compact')) {
+        controlsBar.classList.add('compact');
+      } else if (y <= 120 && controlsBar.classList.contains('compact')) {
+        controlsBar.classList.remove('compact');
+      }
+      lastScroll = y;
+    }, { passive: true });
+  }
+})();
 
 // ═══════════════════════════════════════════════════
 // LOCATION & PROXIMITY
@@ -5115,6 +5305,7 @@ window.toggleFavorite   = toggleFavorite;
 window.toggleFavFilter  = toggleFavFilter;
 window.shareCurrentView  = shareCurrentView;
 window.toggleVerifyDetail = toggleVerifyDetail;
+window.toggleShowAll     = toggleShowAll;
 
 })();
 </script>
