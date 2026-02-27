@@ -3300,9 +3300,15 @@
   .fav-section-wrapper {
     grid-column: 1 / -1;
     display: none;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: #fff;
   }
   @media (max-width: 768px) {
-    .fav-section-wrapper { display: block; margin-bottom: 8px; }
+    .fav-section-wrapper { display: block; }
+    /* Hide the full stand-alone fav cards on mobile when collapsed section exists */
+    .parish-card[data-fav-card="true"] { display: none !important; }
   }
   .fav-section-header {
     display: flex;
@@ -3310,8 +3316,6 @@
     justify-content: space-between;
     padding: 12px 16px;
     background: var(--warm-gray);
-    border: 1px solid var(--border);
-    border-radius: 10px 10px 0 0;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     user-select: none;
@@ -3334,31 +3338,23 @@
     gap: 4px;
   }
   .fav-section-toggle .chevron {
-    transition: transform 0.25s;
     display: inline-block;
     font-size: 0.6rem;
   }
-  .fav-collapsed-list {
-    border: 1px solid var(--border);
-    border-top: none;
-    border-radius: 0 0 10px 10px;
-    overflow: hidden;
-  }
-  .fav-collapsed-card {
+  .fav-collapsed-row {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 12px 14px;
+    padding: 11px 14px;
     background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
     cursor: pointer;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    border-top: 1px solid rgba(255,255,255,0.08);
     min-height: 48px;
     -webkit-tap-highlight-color: transparent;
     user-select: none;
   }
-  .fav-collapsed-card:last-child { border-bottom: none; }
-  .fav-collapsed-card:active { background: #2a3f6e; }
-  .fav-collapsed-card .fcc-name {
+  .fav-collapsed-row:active { background: #2a3f6e; }
+  .fav-collapsed-row .fcc-name {
     flex: 1;
     font-family: 'Playfair Display', serif;
     font-size: 1rem;
@@ -3370,17 +3366,22 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  .fav-collapsed-card .fcc-town {
-    font-size: 0.75rem;
-    color: var(--gold-light);
-    white-space: nowrap;
+  .fav-collapsed-row .fcc-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
     flex-shrink: 0;
   }
-  .fav-collapsed-card .fcc-live {
+  .fav-collapsed-row .fcc-town {
+    font-size: 0.72rem;
+    color: var(--gold-light);
+    white-space: nowrap;
+  }
+  .fav-collapsed-row .fcc-live {
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    font-size: 0.6rem;
+    font-size: 0.58rem;
     font-weight: 800;
     color: #fff;
     text-transform: uppercase;
@@ -3388,29 +3389,36 @@
     background: var(--green);
     padding: 2px 6px;
     border-radius: 3px;
-    flex-shrink: 0;
     animation: nowPulse 2s ease-in-out infinite;
   }
-  .fav-collapsed-card .fcc-live::before {
+  .fav-collapsed-row .fcc-live::before {
     content: '';
     width: 5px; height: 5px;
     border-radius: 50%;
     background: #4ade80;
     animation: nowDot 1.5s ease-in-out infinite;
   }
-  .fav-collapsed-card .fcc-heart {
+  .fav-collapsed-row .fcc-heart {
     font-size: 0.95rem;
     flex-shrink: 0;
   }
-  .fav-collapsed-card .fcc-badge { flex-shrink: 0; }
-  /* On mobile, hide the full fav cards when collapsed section is visible */
-  @media (max-width: 768px) {
-    .fav-section-wrapper ~ .parish-card[data-fav-card="true"] {
-      display: none;
-    }
-    .fav-section-wrapper.fav-expanded ~ .parish-card[data-fav-card="true"] {
-      display: block;
-    }
+  .fav-collapsed-row .fcc-chevron {
+    color: rgba(255,255,255,0.4);
+    font-size: 0.7rem;
+    flex-shrink: 0;
+    transition: transform 0.2s;
+  }
+  .fav-collapsed-row.row-open .fcc-chevron { transform: rotate(90deg); }
+  /* Inline expanded card within the fav section */
+  .fav-inline-card {
+    display: none;
+    border-top: 1px solid var(--border);
+  }
+  .fav-inline-card.open { display: block; }
+  .fav-inline-card .parish-card {
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
   }
   .fav-chip {
     padding: 5px 12px;
@@ -5738,53 +5746,69 @@ function render() {
   }
 
   var html = '';
-  // Mobile collapsed favorites section
+  // Mobile collapsed favorites section — cards rendered inline within the wrapper
   if (favorites.size > 0 && !favFilterActive) {
-    // Build the collapsed summary (only visible on mobile via CSS)
-    const favParishes = filtered.filter(p => favorites.has(p.id));
+    var favParishes = filtered.filter(function(p) { return favorites.has(p.id); });
     if (favParishes.length > 0) {
-      const collapsedRows = favParishes.map(p => {
-        const loc = p.locations && p.locations[0];
-        let dispName = (loc && loc.name) ? loc.name : p.name;
+      var favRowsHtml = '';
+      favParishes.forEach(function(p) {
+        var loc = p.locations && p.locations[0];
+        var dispName = (loc && loc.name) ? loc.name : p.name;
         dispName = dispName.replace(/\s+Church$/i, '');
-        const badge = getVerifiedBadge(p);
-        const nowD = new Date();
-        const dayN = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'][nowD.getDay()];
-        const nowM = nowD.getHours() * 60 + nowD.getMinutes();
-        let isLive = false;
-        (p.services || []).forEach(s => {
+        var nowD = new Date();
+        var dayN = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'][nowD.getDay()];
+        var nowM = nowD.getHours() * 60 + nowD.getMinutes();
+        var isLive = false;
+        (p.services || []).forEach(function(s) {
           if (!s.time || !isCurrentSeason(s)) return;
           if (!getDays(s).includes(dayN)) return;
-          const [hh, mm] = s.time.split(':').map(Number);
-          const sm = hh * 60 + mm;
-          let em = sm + 60;
-          if (s.end_time) { const [eh, emm] = s.end_time.split(':').map(Number); em = eh * 60 + emm; }
+          var parts = s.time.split(':');
+          var sm = parseInt(parts[0]) * 60 + parseInt(parts[1]);
+          var em = sm + 60;
+          if (s.end_time) { var ep = s.end_time.split(':'); em = parseInt(ep[0]) * 60 + parseInt(ep[1]); }
           if (nowM >= sm && nowM < em) isLive = true;
         });
-        const liveHtml = isLive ? '<span class="fcc-live">Live</span>' : '';
-        return `<div class="fav-collapsed-card" onclick="expandFavAndScroll('${p.id}')">
-          <span class="fcc-heart">❤️</span>
-          <span class="fcc-name">${dispName}</span>
-          ${liveHtml}
-          <span class="fcc-town">${p.town}</span>
-          <span class="fcc-badge">${badge}</span>
-        </div>`;
-      }).join('');
+        var liveHtml = isLive ? '<span class="fcc-live">Live</span>' : '';
+        var badge = getVerifiedBadge(p);
+        // Render full card inline
+        var fullCard = '';
+        try {
+          if (isSimpleMode && simpleFilter) {
+            fullCard = simpleFilter === 'lenten'
+              ? renderParishCard(p, '', '', '__lenten_only__', '', '', getDistMiles(p))
+              : renderParishCard(p, '', '', simpleFilter, '', '', getDistMiles(p));
+          } else {
+            fullCard = renderParishCard(p, day, time, cat, subtype, lang, getDistMiles(p));
+          }
+        } catch(e) { fullCard = ''; }
 
-      html += `<div class="fav-section-wrapper" id="favSectionWrapper">
-        <div class="fav-section-header" onclick="toggleFavSection()">
-          <span class="fav-section-header-label">❤️ Your Churches (${favParishes.length})</span>
-          <span class="fav-section-toggle"><span class="chevron" id="favSectionChevron">▼</span> <span id="favToggleLabel">Expand</span></span>
-        </div>
-        <div class="fav-collapsed-list" id="favCollapsedList">${collapsedRows}</div>
-      </div>`;
+        favRowsHtml += '<div class="fav-collapsed-row" data-fav-row="' + p.id + '">' +
+          '<span class="fcc-heart">\u2764\uFE0F</span>' +
+          '<span class="fcc-name">' + dispName + '</span>' +
+          liveHtml +
+          '<span class="fcc-meta">' +
+            '<span class="fcc-town">' + p.town + '</span>' +
+            badge +
+          '</span>' +
+          '<span class="fcc-chevron">\u25B6</span>' +
+        '</div>' +
+        '<div class="fav-inline-card" data-fav-inline="' + p.id + '">' + (fullCard || '') + '</div>';
+      });
+
+      html += '<div class="fav-section-wrapper" id="favSectionWrapper">' +
+        '<div class="fav-section-header" data-fav-toggle="header">' +
+          '<span class="fav-section-header-label">\u2764\uFE0F Your Churches (' + favParishes.length + ')</span>' +
+          '<span class="fav-section-toggle"><span class="chevron" id="favSectionChevron">\u25BC</span> <span id="favToggleLabel">Expand</span></span>' +
+        '</div>' +
+        '<div class="fav-collapsed-body" id="favCollapsedBody">' + favRowsHtml + '</div>' +
+      '</div>';
     }
   }
 
-  // Render all cards (favorites get a data attribute for mobile CSS toggling)
+  // Render all cards (fav cards tagged for mobile CSS hiding)
   html += filtered.map(function(p) {
     try {
-      let cardHtml;
+      var cardHtml;
       if (isSimpleMode && simpleFilter) {
         if (simpleFilter === 'lenten') {
           cardHtml = renderParishCard(p, '', '', '__lenten_only__', '', '', getDistMiles(p));
@@ -5794,7 +5818,6 @@ function render() {
       } else {
         cardHtml = renderParishCard(p, day, time, cat, subtype, lang, getDistMiles(p));
       }
-      // Tag favorite cards with data attribute for mobile CSS hiding
       if (cardHtml && favorites.has(p.id) && !favFilterActive) {
         cardHtml = cardHtml.replace('<article class="parish-card', '<article data-fav-card="true" class="parish-card');
       }
@@ -5804,9 +5827,9 @@ function render() {
       return '';
     }
   }).join('');
-  grid.innerHTML = html || '<div class="no-results"><div class="cross">✝</div><p>No churches found matching your filters.</p></div>';
+  grid.innerHTML = html || '<div class="no-results"><div class="cross">\u271D</div><p>No churches found matching your filters.</p></div>';
 
-  const shown = filtered.length;
+  var shown = filtered.length;
   resultsCount.textContent = shown + ' of ' + parishes.length + ' shown';
 
   updateClearFiltersBtn();
@@ -6504,43 +6527,47 @@ function saveFavorites() {
   updateFavChip();
 }
 
-// ── Collapsible favorites section (mobile only) ──
-function toggleFavSection() {
-  var wrapper = document.getElementById('favSectionWrapper');
-  var collapsed = document.getElementById('favCollapsedList');
-  var chevron = document.getElementById('favSectionChevron');
-  var label = document.getElementById('favToggleLabel');
-  if (!wrapper) return;
-  var isExpanded = wrapper.classList.contains('fav-expanded');
-  if (isExpanded) {
-    wrapper.classList.remove('fav-expanded');
-    if (collapsed) collapsed.style.display = '';
-    if (chevron) chevron.textContent = '▼';
-    if (label) label.textContent = 'Expand';
-  } else {
-    wrapper.classList.add('fav-expanded');
-    if (collapsed) collapsed.style.display = 'none';
-    if (chevron) chevron.textContent = '▲';
-    if (label) label.textContent = 'Collapse';
+// ── Collapsible favorites section (mobile only, event delegation) ──
+grid.addEventListener('click', function(e) {
+  // Header toggle: expand/collapse ALL rows
+  var header = e.target.closest('[data-fav-toggle="header"]');
+  if (header) {
+    e.stopPropagation();
+    var body = document.getElementById('favCollapsedBody');
+    var chevron = document.getElementById('favSectionChevron');
+    var label = document.getElementById('favToggleLabel');
+    if (!body) return;
+    var isOpen = body.style.display !== 'none';
+    body.style.display = isOpen ? 'none' : '';
+    if (chevron) chevron.textContent = isOpen ? '\u25B6' : '\u25BC';
+    if (label) label.textContent = isOpen ? 'Expand' : 'Collapse';
+    return;
   }
-}
-
-function expandFavAndScroll(parishId) {
-  var wrapper = document.getElementById('favSectionWrapper');
-  var collapsed = document.getElementById('favCollapsedList');
-  var chevron = document.getElementById('favSectionChevron');
-  var label = document.getElementById('favToggleLabel');
-  if (wrapper && !wrapper.classList.contains('fav-expanded')) {
-    wrapper.classList.add('fav-expanded');
-    if (collapsed) collapsed.style.display = 'none';
-    if (chevron) chevron.textContent = '▲';
-    if (label) label.textContent = 'Collapse';
+  // Row toggle: expand/collapse individual church card
+  var row = e.target.closest('[data-fav-row]');
+  if (row) {
+    e.stopPropagation();
+    var pid = row.getAttribute('data-fav-row');
+    var inlineCard = document.querySelector('[data-fav-inline="' + pid + '"]');
+    if (!inlineCard) return;
+    var wasOpen = inlineCard.classList.contains('open');
+    // Close all other open inline cards
+    document.querySelectorAll('.fav-inline-card.open').forEach(function(el) {
+      el.classList.remove('open');
+    });
+    document.querySelectorAll('.fav-collapsed-row.row-open').forEach(function(el) {
+      el.classList.remove('row-open');
+    });
+    if (!wasOpen) {
+      inlineCard.classList.add('open');
+      row.classList.add('row-open');
+      setTimeout(function() {
+        inlineCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 50);
+    }
+    return;
   }
-  setTimeout(function() {
-    var card = document.querySelector('[data-parish-id="' + parishId + '"]');
-    if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }, 50);
-}
+});
 
 function toggleFavorite(parishId, btnEl) {
   if (favorites.has(parishId)) {
